@@ -1,0 +1,1 @@
+cmd_drivers/lwdrv/ksal/flash/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o drivers/lwdrv/ksal/flash/built-in.o drivers/lwdrv/ksal/flash/drv_flash.o drivers/lwdrv/ksal/flash/drv_manufacture.o drivers/lwdrv/ksal/flash/lw_proc_flash.o 

@@ -1,0 +1,9 @@
+menu "zbl snmp configuration"
+
+
+config CONFIG_ZBL_SNMP
+	bool "zbl snmp surpport"
+	default y
+	help
+		none
+endmenu

@@ -1,0 +1,81 @@
+# Copyright (C) 2012 Realtek Semiconductor Corp.
+#
+# Makefile for SDK Linux Kernel Modules
+#
+
+include $(APOLLODIR)/Compiler_Flag
+
+SDK_INCLUDE   = $(SDKDIR)/include
+SYS_INCLUDE   = $(SDKDIR)/system/include
+DRV_INCLUDE   = $(SDKDIR)/system/linux
+PR_INCLUDE    = $(SDKDIR)/src/module/pkt_redirect
+
+EXTRA_CFLAGS=$(PON_CFLAGS)
+
+#FLAGS+="-I$(SDK_INCLUDE) -I$(SYS_INCLUDE) -I$(DRV_INCLUDE) -I$(PR_INCLUDE) -I$(SDK_INCLUDE)/hal/chipdef/apollo -I$(KERNEL_DIR)/drivers/net"
+FLAGS+="-I$(SDK_INCLUDE) -I$(SYS_INCLUDE) -I$(DRV_INCLUDE) -I$(PR_INCLUDE) -I$(SDK_INCLUDE)/hal/chipdef/apollo -I$(LINUXDIR)/drivers/net"
+
+ifeq ($(CONFIG_MODULE_BUILD_IN),y)
+BUILD_MODE=y
+else
+BUILD_MODE=m
+endif
+
+
+MODULES:=
+
+ifeq ($(CONFIG_GPON_FEATURE),y)
+ifeq ($(CONFIG_GPON_VERSION),2)
+MODULES+= gpon
+obj-$(BUILD_MODE)+=gpon/
+endif
+endif
+
+#MODULES+= europa
+
+ifeq ($(CONFIG_RTK_L34_DEMO),y)
+MODULES += netvd
+obj-$(BUILD_MODE)+=netvd/
+endif
+
+ifeq ($(CONFIG_RTK_L34_DEMO),m)
+MODULES +=netvd
+obj-$(BUILD_MODE)+=netvd/
+endif
+
+# Add for redirect packet from kernal <-> user space
+ifeq ($(CONFIG_SDK_MODULES),y)
+MODULES += pkt_redirect
+obj-$(BUILD_MODE)+=pkt_redirect/
+endif
+
+# EPON polling support
+ifeq ($(CONFIG_EPON_FEATURE),y)
+MODULES += epon_polling
+obj-$(BUILD_MODE)+= epon_polling/
+endif
+
+
+#Factory Test
+ifeq ($(CONFIG_RTK_FT2_MODULE),y)
+MODULES += ft2
+obj-$(BUILD_MODE)+= ft2/
+endif
+
+
+ifeq ($(CONFIG_MODULE_BUILD_IN),y)
+
+all:
+install:
+clean:
+
+else
+all:
+	for dir in $(MODULES) ; do $(MAKE) -C $$dir FLAGS=$(FLAGS) all || exit 1; done
+
+install:
+	for dir in $(MODULES) ; do $(MAKE) -C $$dir install || exit 1; done
+
+clean:
+	for dir in $(MODULES) ; do $(MAKE) -C $$dir clean || exit 1; done
+endif

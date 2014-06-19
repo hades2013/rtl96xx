@@ -1,0 +1,60 @@
+# contents below built automatically by configure; do not edit by hand
+mib_module_list_lo= \
+	mibII/at.lo \
+	mibII/icmp.lo \
+	mibII/ip.lo \
+	mibII/snmp_mib.lo \
+	mibII/sysORTable.lo \
+	mibII/system_mib.lo \
+	mibII/tcp.lo \
+	mibII/udp.lo \
+	snmpv3/snmpEngine.lo \
+	snmpv3/snmpMPDStats.lo \
+	snmpv3/usmStats.lo \
+	snmpv3/usmUser.lo \
+	hexicom/hexicom.lo \
+	hexicom/eocCLTSystemInfo.lo \
+	hexicom/eocCLTConfigSystem.lo \
+	hexicom/cltConfigNetworking.lo \
+	hexicom/cltDeviceModelTable.lo \
+	hexicom/eocCLTDebug.lo \
+	hexicom/cltConfigCableTable.lo \
+	hexicom/cltConfigCableScalar.lo \
+	hexicom/cltConfigAdministratorTable.lo \
+	hexicom/cltConfigRemoteUpgrade.lo \
+	hexicom/cltConfigRTC.lo \
+	hexicom/cltConfigService.lo \
+	hexicom/eocCLTConfigInterface.lo \
+	hexicom/cltConfigInterfaceTable.lo \
+	hexicom/eocCLTNetworkUnitGroup.lo \
+	hexicom/eocCLTNetworkUnitScalarGroup.lo \
+	hexicom/cltNetworkUnitTopologyTable.lo \
+	hexicom/cltNetworkUnitInterfaceTable.lo \
+	hexicom/cltNetworkUnitStatisticsTable.lo \
+	hexicom/cltTemplateTable.lo \
+	hexicom/cltTemplateInterfaceTable.lo \
+	hexicom/cltNetworkUnitUserListTable.lo \
+	hexicom/eocCLTConfigVLAN.lo \
+	hexicom/cltConfigVLANTable.lo \
+	hexicom/cltConfigVLANTrunkTable.lo \
+	hexicom/cltConfigVLANHybridTable.lo \
+	mibII/kernel_linux.lo \
+	mibII/ipAddr.lo \
+	mibII/var_route.lo \
+	mibII/route_write.lo \
+	util_funcs.lo \
+	mibII/tcpTable.lo \
+	mibII/udpTable.lo \
+	mibII/vacm_vars.lo \
+	if-mib/ifTable/ifTable.lo \
+	mibII/vacm_context.lo \
+	if-mib/data_access/interface.lo \
+	if-mib/ifTable/ifTable_interface.lo \
+	if-mib/ifTable/ifTable_data_access.lo \
+	if-mib/data_access/interface_linux.lo \
+	if-mib/data_access/interface_ioctl.lo \
+	ip-mib/data_access/ipaddress_common.lo \
+	ip-mib/data_access/ipaddress_linux.lo \
+	ip-mib/data_access/ipaddress_ioctl.lo
+
+# end configure generated code

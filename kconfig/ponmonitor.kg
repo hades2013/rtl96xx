@@ -1,0 +1,7 @@
+menu "ponmonitor configuration"
+config CONFIG_PONMONITOR
+        bool "ponmonitor communication surpport"
+        default y
+        help
+                none
+endmenu

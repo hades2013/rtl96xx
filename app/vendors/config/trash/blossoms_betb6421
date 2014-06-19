@@ -1,0 +1,13 @@
+
+VENDOR_MODEL="BETB6421"
+VENDOR_LOGOPATH="blossoms.gif"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="Blossoms Digital Technology Co.,Ltd."
+VENDOR_SHORT="Blossoms Digital Technology"
+VENDOR_NAME="Blossoms"
+VENDOR_LOCATION="Shenzhen, China"
+VENDOR_YEAR="2010"
+
+
+DEV_CNU101="BEC6401"
+DEV_CNU104="BEC6404"

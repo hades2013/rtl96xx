@@ -1,0 +1,133 @@
+#
+# Apollo RomeDriver configuration
+#
+
+#choice
+#	prompt "Realtek RG Environment Selection"
+
+#config RG_API_RLE0371
+#	bool "RTK RG APIs for Chip A1"
+#	select APOLLO
+#	select APOLLO_DRIVER_TESTCHIP
+#	select APOLLO_RLE0371
+
+config RG_API_RLE0601
+        bool #"RTK RG APIs for Chip B0"
+	default y
+	select APOLLO
+	select APOLLO_RLE0601
+
+#endchoice
+
+
+choice
+        prompt "Realtek RG API Type Selection"
+
+config APOLLO_ROMEDRIVER
+        bool "RomeDriver APIs"
+	select RG_LAYER2_SOFTWARE_LEARN
+
+config APOLLO_LITEROMEDRIVER
+        bool "Lite RomeDriver APIs"
+
+endchoice
+
+config RG_DEBUG
+	bool "Realtek RG debug tools"
+	default y
+
+config RG_NAPT_TCP_AUTO_LEARN
+	bool "Realtek RG NAPT TCP auto learning by Forwarding Engine"
+	depends on APOLLO_ROMEDRIVER
+	default y
+
+config RG_NAPT_UPNP_SUPPORT
+	bool "Realtek RG NAPT UPNP support by Forwarding Engine"
+	depends on RG_NAPT_TCP_AUTO_LEARN
+	select RG_NAPT_INBOUND_TRACKING
+	default y
+
+config RG_NAPT_VIRTUAL_SERVER_SUPPORT
+	bool "Realtek RG NAPT Virtual Server support by Forwarding Engine"
+	depends on RG_NAPT_TCP_AUTO_LEARN
+	select RG_NAPT_INBOUND_TRACKING
+	default y
+
+config RG_NAPT_DMZ_SUPPORT
+	bool "Realtek RG NAPT DMZ support by Forwarding Engine"
+	depends on RG_NAPT_TCP_AUTO_LEARN
+	select RG_NAPT_INBOUND_TRACKING
+	default y
+
+config RG_NAPT_ARP_AUTO_LEARN
+	bool "Realtek RG ARP auto learning by Forwarding Engine"
+	depends on APOLLO_ROMEDRIVER
+	default y
+
+config RG_IPV6_NEIGHBOR_AUTO_LEARN
+        bool "Realtek RG Neighbor auto learning by Forwarding Engine"
+        depends on APOLLO_ROMEDRIVER
+        default y
+
+config RG_WLAN_HWNAT_ACCELERATION
+	bool "Realtek RG Master CPU WLAN HWNAT acceleration"
+	depends on APOLLO_ROMEDRIVER
+	default y
+
+config RG_LAYER2_ARP_NEIGHBOR_AUTO_AGENT
+	bool "Realtek RG Layer 2, ARP, Neighbor auto learning"
+	depends on APOLLO_LITEROMEDRIVER
+	default n
+	---help---
+          This option will turn off hardware auto-learning, then
+	  the agent will sync layer 2 table between software and
+	  hardware, and handling ARP and IPv6 Neighbor protocol.
+
+config RG_NAPT_AUTO_AGEOUT
+	bool "Realtek RG NAPT auto age out by Forwarding Engine"
+	default y
+
+config RG_ARP_AUTO_AGEOUT
+	bool "Realtek RG ARP auto age out by Forwarding Engine"
+	default y
+
+config RG_CALLBACK
+        bool "Realtek RG callback function Enable"
+        default y
+
+config RG_PPPOE_PASSTHROUGHT
+        bool "Realtek RG PPPoE Passthrought Enable"
+        default y
+
+
+if !RTL_MULTI_ETH_WAN
+config RG_SIMPLE_PROTOCOL_STACK
+	bool "Realtek RG Simple Protocol Stack settings"
+	default n
+	---help---
+	  This option will set NIC driver as simple mode, let
+	  fwdEngine do all the work for it, either rx or tx.
+	  
+	  NOTICE:if this option is used, please rebuild user
+	  space application "spppd" for supporting simple protocol
+	  stack.
+endif
+
+config APOLLO
+	bool
+
+config APOLLO_DRIVER_TESTCHIP
+	bool
+
+config APOLLO_RLE0371
+	bool
+
+config APOLLO_RLE0601
+	bool
+
+config RG_NAPT_INBOUND_TRACKING
+	bool
+
+config RG_LAYER2_SOFTWARE_LEARN
+	bool
+

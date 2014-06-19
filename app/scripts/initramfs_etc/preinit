@@ -1,0 +1,22 @@
+#!/bin/sh
+# Copyright (C) 2011 Allwins Technology
+
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+echo "Enter 'fs' to enter fail safe mode!"
+
+read -t 3 keyin
+
+if [ "$keyin" = "fs" ]; then
+	echo "Enter fail safe mode..."
+	mount -t proc proc /proc
+	mount -t sysfs sys /sys
+	mount -t tmpfs /dev/shm /tmp
+	ifconfig eth0 192.168.0.1
+	ifconfig lo 127.0.0.1
+	exec /bin/busybox init
+fi
+
+echo "Normal boot..."
+
+

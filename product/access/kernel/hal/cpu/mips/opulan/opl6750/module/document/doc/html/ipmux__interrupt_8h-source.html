@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: ipmux_interrupt.h源文件</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>ipmux_interrupt.h</h1><a href="ipmux__interrupt_8h.html">浏览该文件的文档。</a><div class="fragment"><pre class="fragment">00001 <span class="preprocessor">#ifndef _IPMUX_INTERRUPT_H_</span>
+00002 <span class="preprocessor"></span><span class="preprocessor">#define _IPMUX_INTERRUPT_H_</span>
+00003 <span class="preprocessor"></span>
+00020 <span class="comment">/*--------------------------Macro definition------------------------- */</span>
+<a name="l00021"></a><a class="code" href="group___i_p_m_u_x.html#ga5">00021</a> <span class="preprocessor">#define REG_INT_EN_POS_UPT    0x10204</span>
+<a name="l00022"></a><a class="code" href="group___i_p_m_u_x.html#ga6">00022</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_POS_UPT   0x10200</span>
+00023 <span class="preprocessor"></span>
+<a name="l00024"></a><a class="code" href="group___i_p_m_u_x.html#ga7">00024</a> <span class="preprocessor">#define REG_INT_EN_ATB        0x11404</span>
+<a name="l00025"></a><a class="code" href="group___i_p_m_u_x.html#ga8">00025</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_ATB       0x11400</span>
+00026 <span class="preprocessor"></span>
+<a name="l00027"></a><a class="code" href="group___i_p_m_u_x.html#ga9">00027</a> <span class="preprocessor">#define REG_INT_EN_IWF        0x13E00</span>
+<a name="l00028"></a><a class="code" href="group___i_p_m_u_x.html#ga10">00028</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_IWF       0x13E04</span>
+00029 <span class="preprocessor"></span>
+<a name="l00030"></a><a class="code" href="group___i_p_m_u_x.html#ga11">00030</a> <span class="preprocessor">#define REG_INT_EN_BRG        0x21000</span>
+<a name="l00031"></a><a class="code" href="group___i_p_m_u_x.html#ga12">00031</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_BRG       0x21004</span>
+00032 <span class="preprocessor"></span>
+<a name="l00033"></a><a class="code" href="group___i_p_m_u_x.html#ga13">00033</a> <span class="preprocessor">#define REG_INT_EN_PPE        0x18180</span>
+<a name="l00034"></a><a class="code" href="group___i_p_m_u_x.html#ga14">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_PPE       0x18184</span>
+00035 <span class="preprocessor"></span>
+<a name="l00036"></a><a class="code" href="group___i_p_m_u_x.html#ga15">00036</a> <span class="preprocessor">#define REG_INT_EN_UPTM       0x14404</span>
+<a name="l00037"></a><a class="code" href="group___i_p_m_u_x.html#ga16">00037</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_UPTM      0x14400</span>
+00038 <span class="preprocessor"></span>
+<a name="l00039"></a><a class="code" href="group___i_p_m_u_x.html#ga17">00039</a> <span class="preprocessor">#define REG_INT_EN_DNTM       0x14F04</span>
+<a name="l00040"></a><a class="code" href="group___i_p_m_u_x.html#ga18">00040</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_DNTM      0x14F00</span>
+00041 <span class="preprocessor"></span>
+<a name="l00042"></a><a class="code" href="group___i_p_m_u_x.html#ga19">00042</a> <span class="preprocessor">#define REG_INT_EN_MC         0x21404</span>
+<a name="l00043"></a><a class="code" href="group___i_p_m_u_x.html#ga20">00043</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_MC        0x21400</span>
+00044 <span class="preprocessor"></span>
+<a name="l00045"></a><a class="code" href="group___i_p_m_u_x.html#ga21">00045</a> <span class="preprocessor">#define REG_INT_EN_DMA0       0x2B58</span>
+<a name="l00046"></a><a class="code" href="group___i_p_m_u_x.html#ga22">00046</a> <span class="preprocessor"></span><span class="preprocessor">#define REG_INT_PEN_DMA0      0x2B54</span>
+00047 <span class="preprocessor"></span>
+00048 
+<a name="l00049"></a><a class="code" href="group___i_p_m_u_x.html#ga23">00049</a> <span class="preprocessor">#define OPL_UART0_IRQ   3</span>
+<a name="l00050"></a><a class="code" href="group___i_p_m_u_x.html#ga24">00050</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_UART1_IRQ   4</span>
+<a name="l00051"></a><a class="code" href="group___i_p_m_u_x.html#ga25">00051</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_HOSTDMA0_IRQ  5</span>
+<a name="l00052"></a><a class="code" href="group___i_p_m_u_x.html#ga26">00052</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_FEDMA1_IRQ    6</span>
+<a name="l00053"></a><a class="code" href="group___i_p_m_u_x.html#ga27">00053</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_IPMUX_IRQ     9</span>
+00054 <span class="preprocessor"></span>
+00055 
+00056 <span class="comment">/*</span>
+00057 <span class="comment">#define IPMUX_REG_BASE  0xbf000000</span>
+00058 <span class="comment">#define IPMUX_REG_ID2ADDR(regId)   ((u32)IPMUX_REG_BASE + (u32)(regId))</span>
+00059 <span class="comment">#define IPMUX_REG_ADDR2ID(addr)    ((u32)(addr) - (u32)IPMUX_REG_BASE)</span>
+00060 <span class="comment">*/</span>
+00066 <span class="comment">/*--------------------------type definition------------------------- */</span>
+00067 
+00073 <span class="comment">/*-----------------global varible/function declaration--------------- */</span>
+00074 
+00080 <span class="comment">/*--------------local  varible declaration and definition------------- */</span>
+00081 
+00088 <span class="comment">/*------------inline  function declaration and definition-------------- */</span>
+00089 <span class="keyword">extern</span> <span class="keywordtype">int</span> <a class="code" href="group__ipmux.html#ga1">ipmux_hw0_irqinit</a>(<span class="keywordtype">void</span>);
+00090 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group__ipmux.html#ga2">ipmux_hw0_irqexit</a>(<span class="keywordtype">void</span>);
+00091 
+00092 
+00093 <span class="comment">/*</span>
+00094 <span class="comment">inline void ipMuxRegRead(u32 regId,u32 *val)</span>
+00095 <span class="comment">{</span>
+00096 <span class="comment">  *val = *(volatile u32 *)IPMUX_REG_ID2ADDR(regId);</span>
+00097 <span class="comment">} </span>
+00098 <span class="comment"></span>
+00099 <span class="comment">inline void ipMuxRegWrite(u32 regId,u32 val)</span>
+00100 <span class="comment">{</span>
+00101 <span class="comment">  *((volatile u32 *)IPMUX_REG_ID2ADDR(regId)) = (u32)(val);</span>
+00102 <span class="comment">}</span>
+00103 <span class="comment">*/</span>
+00104 
+00107 <span class="preprocessor">#endif </span><span class="comment">/* _IPMUX_INTERRUPT_H_ */</span>
+</pre></div><hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

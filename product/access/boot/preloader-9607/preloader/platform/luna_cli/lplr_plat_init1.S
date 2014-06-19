@@ -1,0 +1,1 @@
+../luna_nor_spi/lplr_plat_init1.S

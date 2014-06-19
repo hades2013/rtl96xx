@@ -1,0 +1,6 @@
+ashrdi3.o: ashrdi3.c libgcc.h \
+ /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/asm/byteorder.h \
+ /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/asm/types.h \
+ /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/byteorder/big_endian.h \
+ /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/byteorder/swab.h \
+ /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/byteorder/generic.h

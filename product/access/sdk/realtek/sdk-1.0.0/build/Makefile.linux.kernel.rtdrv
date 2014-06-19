@@ -1,0 +1,42 @@
+#
+# Copyright (C) 2009 Realtek Semiconductor Corp.
+#
+# Makefile for SDK Linux Rtdrv Kernel Module
+#
+
+include $(APOLLODIR)/Compiler_Flag
+
+EXTRA_CFLAGS += $(PON_CFLAGS)
+EXTRA_CFLAGS += -I$(SDK_INCLUDE) -I$(SYS_INCLUDE) -I$(DRV_INCLUDE)
+#EXTRA_CFLAGS += -I$(SDKDIR)/../..
+EXTRA_CFLAGS += -I$(APOLLODIR)/../
+
+ifneq ($(CONFIG_SDK_DRIVER_TEST),)
+EXTRA_CFLAGS += -I$(UT_INCLUDE)
+endif
+
+ifeq ($(CONFIG_RTK_L34_ENABLE),y)
+EXTRA_CFLAGS += -I$(APOLLODIR)/romeDriver
+endif
+
+ifeq ($(CONFIG_SDK_DRIVER_RTDRV),m)
+CFLAGS += -mlong-calls -fno-pic -mno-abicalls
+CFLAGS += -D__RTDRV_MODULE__
+endif
+
+TARGET = rtdrv
+
+
+ifneq ($(CONFIG_MODULE_BUILD_IN),y)
+obj-m := $(TARGET).o
+else
+obj-y += $(TARGET).o
+endif
+
+$(TARGET)-objs := rtdrv_netfilter.o
+
+
+ifneq ($(CONFIG_MODULE_BUILD_IN),y)
+all:
+	$(MAKE) -C $(LINUXDIR) M=$(SRC_DIR) ARCH=rlx CROSS_COMPILE=$(CROSS_COMPILE)	
+endif

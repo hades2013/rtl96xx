@@ -1,0 +1,1 @@
+cmd_/home/wanghuanyu/opulan/v3.2.1/os/modules/opl_reg/opl_reg_mmap.ko := mips-linux-uclibc-ld  -m elf32btsmip -r -o /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_reg/opl_reg_mmap.ko /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_reg/opl_reg_mmap.o /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_reg/opl_reg_mmap.mod.o

@@ -1,0 +1,834 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: cpuif module</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>cpuif module</h1><hr><a name="_details"></a><h2>详细描述</h2>
+THE FORMAT is FOR DOXYGEN to Generate the document automatically  opulan.com. 
+<p>
+<dl compact><dt><b>作者:</b></dt><dd><a href="mailto:stephanxu@sina.com">stephanxu@sina.com</a> </dd></dl>
+<dl compact><dt><b>版本:</b></dt><dd>v0.1 </dd></dl>
+<dl compact><dt><b>日期:</b></dt><dd>July-30-2007   date description <br>
+-------------------------------------------------------------------  July-30-2007 initial version for cpuif module.begin data July-15-2007. </dd></dl>
+
+<p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td></td></tr>
+<tr><td colspan="2"><br><h2>模块</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">组 &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html">function-description(opl_cpuif.c)</a></td></tr>
+
+<tr><td colspan="2"><br><h2>Macro definition</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga16">OPL_HOST_MAJOR</a>&nbsp;&nbsp;&nbsp;130</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga17">OPL_HOST_NAME</a>&nbsp;&nbsp;&nbsp;"opl_cpuif"</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga18">IPMUX_DMA_NUMS</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga19">OPL_DMA_VAL_MAX</a>&nbsp;&nbsp;&nbsp;2048</td></tr>
+
+<tr><td colspan="2"><br><h2>global variable and function imported</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga10">ipmux_irq_enable</a> (unsigned int irq)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga11">ipmux_irq_disable</a> (unsigned int irq)</td></tr>
+
+<tr><td colspan="2"><br><h2>local variable declaration and definition</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga12">opl_host_open</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga13">opl_host_read</a> (struct file *filp, char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga14">opl_host_write</a> (struct file *filp, const char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga15">opl_host_release</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga8">opl_host_ioctl</a> (struct inode *inode, struct file *filp, unsigned int cmd, <a class="el" href="opl__typedef_8h.html#a0">u32</a> arg)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: it is used for api to do something associated with ioctl command.  <a href="#ga8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga7">host_dma0_isr</a> (int irq, void *dev_id, struct pt_regs *regs)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: the host dma0 interrupt handler, when the interrupt generated, it will wake up the process,which is waiting for the host dma0 interrupt.  <a href="#ga7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga0">tx_phys_addr</a> [IPMUX_DMA_NUMS] = {0}</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga1">rx_phys_addr</a> [IPMUX_DMA_NUMS] = {0}</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga2">dma0_rx_buf</a> = NULL</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga3">dma0_tx_buf</a> = NULL</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga4">order</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga5">opl_host_is_open</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga6">opl_host_open_count</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga7">opl_host_dma0_irq_event</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">wait_queue_head_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga8">opl_host_dma0_waitq</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">file_operations&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga9">opl_host_fops</a></td></tr>
+
+</table>
+<hr><h2>宏定义文档</h2>
+<a class="anchor" name="ga18" doxytag="opl_cpuif.c::IPMUX_DMA_NUMS"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">#define IPMUX_DMA_NUMS&nbsp;&nbsp;&nbsp;4          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00036">36</a>行定义。    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga19" doxytag="opl_cpuif.c::OPL_DMA_VAL_MAX"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">#define OPL_DMA_VAL_MAX&nbsp;&nbsp;&nbsp;2048          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00037">37</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00194">opl_host_ioctl()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga16" doxytag="opl_cpuif.c::OPL_HOST_MAJOR"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">#define OPL_HOST_MAJOR&nbsp;&nbsp;&nbsp;130          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00033">33</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00333">opl_host_dma_exit()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga17" doxytag="opl_cpuif.c::OPL_HOST_NAME"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">#define OPL_HOST_NAME&nbsp;&nbsp;&nbsp;"opl_cpuif"          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00034">34</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00333">opl_host_dma_exit()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<hr><h2>函数文档</h2>
+<a class="anchor" name="ga7" doxytag="opl_cpuif.c::host_dma0_isr"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void host_dma0_isr           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">int&nbsp;</td>
+          <td class="mdname" nowrap> <em>irq</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>void *&nbsp;</td>
+          <td class="mdname" nowrap> <em>dev_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct pt_regs *&nbsp;</td>
+          <td class="mdname" nowrap> <em>regs</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+description: the host dma0 interrupt handler, when the interrupt generated, it will wake up the process,which is waiting for the host dma0 interrupt. 
+<p>
+<dl compact><dt><b>参数:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>int</em>&nbsp;</td><td>irq: </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>void</em>&nbsp;</td><td>*dev_id: </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td>pt_regs *regs: </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>返回:</b></dt><dd>NULL</dd></dl>
+<dl compact><dt><b>参见:</b></dt><dd></dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd></dd></dl>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00134">134</a>行定义。
+<p>
+参考 <a class="el" href="opl__cpuif_8c-source.html#l00094">opl_host_dma0_irq_event</a>及<a class="el" href="opl__cpuif_8c-source.html#l00095">opl_host_dma0_waitq</a>.
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga11" doxytag="opl_cpuif.c::ipmux_irq_disable"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void ipmux_irq_disable           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">unsigned int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>irq</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga10" doxytag="opl_cpuif.c::ipmux_irq_enable"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">void ipmux_irq_enable           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">unsigned int&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>irq</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga8" doxytag="opl_cpuif.c::opl_host_ioctl"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">int opl_host_ioctl           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct inode *&nbsp;</td>
+          <td class="mdname" nowrap> <em>inode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>unsigned int&nbsp;</td>
+          <td class="mdname" nowrap> <em>cmd</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td>
+          <td class="mdname" nowrap> <em>arg</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+description: it is used for api to do something associated with ioctl command. 
+<p>
+<dl compact><dt><b>参数:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td>inode *inode: </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td>file *filp: </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unsigned</em>&nbsp;</td><td>int cmd: $:GET_IPMUX_DMA_RX_PHYS_ADDR:return the dma buffer physical address to user(set in dma's base address register) $:GET_IPMUX_DMA_TX_PHYS_ADDR:now,it is not used.all merge in rx buffer. $:GET_IPMUX_DMA_RX_BUF_DATA: receive the data to user,by dma_request_data_t struct. $:SET_IPMUX_DMA_TX_BUF_DATA: send the data to tx buffer, by dma_request_data_t struct. $:ENABLE_IPMUX_HOST_DMA0_INTERRUPT: enable the dma0 interrupt. $:DISABLE_IPMUX_HOST_DMA0_INTERRUPT: disable the dma0 interrupt. $:WAIT_FOR_IPMUX_HOST_DMA0_INTERRUPT: wait for dma0 interrupt generated. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>u32</em>&nbsp;</td><td>arg: $for PHY_ADDR: it is dma_request_phys_addr_t $for BUF_DATA: it is dma_request_data_t $for INTERRUPT: NULL </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>返回值:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>0</em>&nbsp;</td><td>is success </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>!0</em>&nbsp;</td><td>is fail</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>参见:</b></dt><dd></dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000007">Deprecated:</a></b></dt><dd></dd></dl>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00194">194</a>行定义。
+<p>
+参考 <a class="el" href="opl__cpuif_8h-source.html#l00047">dma_request_data_s::bd</a>、<a class="el" href="opl__cpuif_8h-source.html#l00049">dma_request_data_s::buf</a>、<a class="el" href="opl__cpuif_8h-source.html#l00026">DISABLE_IPMUX_HOST_DMA0_INTERRUPT</a>、<a class="el" href="opl__cpuif_8h.html#a8">dma_request_data_t</a>、<a class="el" href="opl__cpuif_8h.html#a7">dma_request_phys_addr_t</a>、<a class="el" href="opl__cpuif_8h-source.html#l00046">dma_request_data_s::dmas</a>、<a class="el" href="opl__cpuif_8h-source.html#l00041">dma_request_phys_addr_s::dmas</a>、<a class="el" href="opl__cpuif_8h-source.html#l00025">ENABLE_IPMUX_HOST_DMA0_INTERRUPT</a>、<a class="el" href="opl__cpuif_8h-source.html#l00022">GET_IPMUX_DMA_RX_BUF_DATA</a>、<a class="el" href="opl__cpuif_8h-source.html#l00020">GET_IPMUX_DMA_RX_PHYS_ADDR</a>、<a class="el" href="opl__cpuif_8h-source.html#l00019">GET_IPMUX_DMA_TX_PHYS_ADDR</a>、<a class="el" href="group___m_i_n_t_e.html#ga8">ipmux_irq_disable()</a>、<a class="el" href="group___m_i_n_t_e.html#ga7">ipmux_irq_enable()</a>、<a class="el" href="opl__cpuif_8h-source.html#l00048">dma_request_data_s::len</a>、<a class="el" href="opl__cpuif_8c-source.html#l00037">OPL_DMA_VAL_MAX</a>、<a class="el" href="opl__cpuif_8c-source.html#l00094">opl_host_dma0_irq_event</a>、<a class="el" href="opl__cpuif_8c-source.html#l00095">opl_host_dma0_waitq</a>、<a class="el" href="opl__cpuif_8c-source.html#l00092">opl_host_is_open</a>、<a class="el" href="ipmux__interrupt_8h-source.html#l00051">OPL_HOSTDMA0_IRQ</a>、<a class="el" href="opl__cpuif_8h-source.html#l00042">dma_request_phys_addr_s::phys_addr</a>、<a class="el" href="opl__cpuif_8c-source.html#l00086">rx_phys_addr</a>、<a class="el" href="opl__cpuif_8h-source.html#l00023">SET_IPMUX_DMA_TX_BUF_DATA</a>、<a class="el" href="opl__cpuif_8c-source.html#l00085">tx_phys_addr</a>及<a class="el" href="opl__cpuif_8h-source.html#l00027">WAIT_FOR_IPMUX_HOST_DMA0_INTERRUPT</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga12" doxytag="opl_cpuif.c::opl_host_open"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">int opl_host_open           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct inode *&nbsp;</td>
+          <td class="mdname" nowrap> <em>inode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00143">143</a>行定义。
+<p>
+参考 <a class="el" href="opl__cpuif_8c-source.html#l00092">opl_host_is_open</a>及<a class="el" href="opl__cpuif_8c-source.html#l00093">opl_host_open_count</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga13" doxytag="opl_cpuif.c::opl_host_read"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">ssize_t opl_host_read           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>size_t&nbsp;</td>
+          <td class="mdname" nowrap> <em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>loff_t *&nbsp;</td>
+          <td class="mdname" nowrap> <em>offset</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00163">163</a>行定义。    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga15" doxytag="opl_cpuif.c::opl_host_release"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">int opl_host_release           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct inode *&nbsp;</td>
+          <td class="mdname" nowrap> <em>inode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00153">153</a>行定义。
+<p>
+参考 <a class="el" href="opl__cpuif_8c-source.html#l00092">opl_host_is_open</a>及<a class="el" href="opl__cpuif_8c-source.html#l00093">opl_host_open_count</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga14" doxytag="opl_cpuif.c::opl_host_write"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">ssize_t opl_host_write           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>size_t&nbsp;</td>
+          <td class="mdname" nowrap> <em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>loff_t *&nbsp;</td>
+          <td class="mdname" nowrap> <em>offset</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00168">168</a>行定义。    </td>
+  </tr>
+</table>
+<hr><h2>变量文档</h2>
+<a class="anchor" name="ga2" doxytag="opl_cpuif.c::dma0_rx_buf"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">char* <a class="el" href="group___c_p_u_i_f.html#ga2">dma0_rx_buf</a> = NULL<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00088">88</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00333">opl_host_dma_exit()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga3" doxytag="opl_cpuif.c::dma0_tx_buf"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">char* <a class="el" href="group___c_p_u_i_f.html#ga3">dma0_tx_buf</a> = NULL<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00089">89</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga7" doxytag="opl_cpuif.c::opl_host_dma0_irq_event"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___c_p_u_i_f.html#ga7">opl_host_dma0_irq_event</a> = 0<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00094">94</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00134">host_dma0_isr()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00194">opl_host_ioctl()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga8" doxytag="opl_cpuif.c::opl_host_dma0_waitq"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">wait_queue_head_t <a class="el" href="group___c_p_u_i_f.html#ga8">opl_host_dma0_waitq</a><code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00095">95</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00134">host_dma0_isr()</a>、<a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00194">opl_host_ioctl()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga9" doxytag="opl_cpuif.c::opl_host_fops"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">struct file_operations <a class="el" href="group___c_p_u_i_f.html#ga9">opl_host_fops</a>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<b>初始化序列：</b><div class="fragment"><pre class="fragment"> {
+  .open = opl_host_open,
+  .read = opl_host_read,
+  .write = opl_host_write,
+  .release = opl_host_release,
+  .ioctl = opl_host_ioctl,
+}
+</pre></div>
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00096">96</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga5" doxytag="opl_cpuif.c::opl_host_is_open"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___c_p_u_i_f.html#ga5">opl_host_is_open</a> = 0<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00092">92</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00194">opl_host_ioctl()</a>、<a class="el" href="opl__cpuif_8c-source.html#l00143">opl_host_open()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00153">opl_host_release()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga6" doxytag="opl_cpuif.c::opl_host_open_count"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___c_p_u_i_f.html#ga6">opl_host_open_count</a> = 0<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00093">93</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00143">opl_host_open()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00153">opl_host_release()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga4" doxytag="opl_cpuif.c::order"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___c_p_u_i_f.html#ga4">order</a> = 0<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00091">91</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00333">opl_host_dma_exit()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga1" doxytag="opl_cpuif.c::rx_phys_addr"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___c_p_u_i_f.html#ga1">rx_phys_addr</a>[IPMUX_DMA_NUMS] = {0}<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00086">86</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00194">opl_host_ioctl()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga0" doxytag="opl_cpuif.c::tx_phys_addr"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___c_p_u_i_f.html#ga0">tx_phys_addr</a>[IPMUX_DMA_NUMS] = {0}<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__cpuif_8c-source.html">opl_cpuif.c</a>第<a class="el" href="opl__cpuif_8c-source.html#l00085">85</a>行定义。
+<p>
+参考自 <a class="el" href="opl__cpuif_8c-source.html#l00289">opl_host_dma_init()</a>及<a class="el" href="opl__cpuif_8c-source.html#l00194">opl_host_ioctl()</a>.    </td>
+  </tr>
+</table>
+<hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

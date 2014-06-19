@@ -1,0 +1,7 @@
+menu "Realtek diag shell configuration"
+config CONFIG_DIAG_DEBUG
+	bool "Realtek diag shell debug surpport"
+	default y
+	help
+		none
+endmenu

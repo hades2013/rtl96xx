@@ -1,0 +1,14 @@
+Package: nvram
+Version: 9
+Depends: 
+Provides: 
+Source: package/nvram
+Section: utils
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Jo-Philipp Wich <xm@subsignal.org>
+Architecture: brcm47xx
+Installed-Size: 45517
+Description:  This package contains an utility to manipulate NVRAM on Broadcom based devices.
+ It works on bcm47xx (Linux 2.6) without using the kernel api.

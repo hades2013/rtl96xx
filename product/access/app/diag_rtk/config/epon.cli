@@ -1,0 +1,455 @@
+//
+// Copyright (C) 2012 Realtek Semiconductor Corp.
+// All Rights Reserved.
+//
+// This program is the proprietary software of Realtek Semiconductor
+// Corporation and/or its licensors, and only be used, duplicated,
+// modified or distributed under the authorized license from Realtek.
+//
+// ANY USE OF THE SOFTWARE OTHER THAN AS AUTHORIZED UNDER
+// THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+//
+// $Revision: 39101 $
+// $Date: 2013-05-03 17:35:27 +0800 (Fri, 03 May 2013) $
+//
+// Purpose : Define diag shell commands for EPON.
+//
+// Feature : The file have include the following module and sub-modules
+//           1) epon commands.
+//
+
+//epon configuration
+//init epon
+epon init
+
+//epon configuration
+//get configuration
+//bypass fec function
+//state configuration
+epon get bypass-fec state
+
+//epon configuration
+//set configuration
+//bypass fec function
+//state configuration
+//disable function
+//enable function
+epon set bypass-fec state ( disable | enable )
+
+//epon configuration
+//get configuration
+//LLID table
+//table index, <0~7>
+epon get llid-table <UINT:index>
+
+//epon configuration
+//get configuration
+//LLID table
+//table index, <0~7>
+epon get llid-table
+
+//epon configuration
+//set configuration
+//LLID table
+//table index, <0~7>
+//state configuration
+//disable function
+//enable function
+epon set llid-table <UINT:index> state ( disable | enable )
+
+//epon configuration
+//set configuration
+//LLID table
+//table index, <0~7>
+//LLID value
+//LLID, <0~7FFF>
+epon set llid-table <UINT:index> llid <UINT:llid>
+
+//epon configuration
+//set configuration
+//LLID table
+//table index, <0~7>
+//report timer
+//report timer, <0~64>
+epon set llid-table <UINT:index> report-timer <UINT:timer>
+
+//epon configuration
+//get configuration
+//mpcp gate rx function
+//mpcp action configuration
+epon get mpcp-gate action
+
+//epon configuration
+//set configuration
+//mpcp gate rx function
+//mpcp action configuration
+//gate packet handle by asic
+//gate packet handle by asic and trap to CPU
+epon set mpcp-gate action ( asic-only | trap-and-asic ) 
+
+//epon configuration
+//get configuration
+//mpcp invalid length rx function
+//mpcp action configuration
+epon get mpcp-invalid-len action
+
+//epon configuration
+//set configuration
+//mpcp invalid length rx function
+//mpcp action configuration
+//gate packet handle by asic
+//gate packet handle by asic and trap to CPU
+epon set mpcp-invalid-len action ( drop | pass ) 
+ 
+//epon configuration
+//get configuration
+//registration seting
+//mode configuration
+epon get register mode
+ 
+//epon configuration
+//set configuration
+//registration seting
+//mode configuration
+//registration is handle by asic
+//registration is handle by SW
+epon set register mode ( asic | sw ) 
+
+//epon configuration
+//get configuration
+//registration seting
+//llid table index to for register
+epon get register llid-idx
+
+//epon configuration
+//set configuration
+//registration seting
+//llid table index to for register
+//llid table index, <0~7>
+epon set register llid-idx <UINT:index> 
+
+//epon configuration
+//get configuration
+//registration seting
+//state configuration
+epon get register state
+
+//epon configuration
+//set configuration
+//registration seting
+//state configuration
+//disable function
+//enable function
+epon set register state ( disable | enable )
+
+//epon configuration
+//get configuration
+//registration seting
+//MAC address for this registration
+epon get register mac-address
+
+//epon configuration
+//set configuration
+//registration seting
+//MAC address for this registration
+//MAC address, A:B:C:D:E:F
+epon set register mac-address <MACADDR:mac> 
+
+//epon configuration
+//get configuration
+//registration seting
+//pendding grant number for this llid register
+epon get register pendding-grant
+
+//epon configuration
+//set configuration
+//registration seting
+//llid table index to for register
+//pendding grant number for this llid register
+//pending grand numbet, <1~32>
+epon set register pendding-grant <UINT:number> 
+
+//epon configuration
+//set configuration
+//force laser-on seting
+//state configuration
+//disable function
+//enable function
+epon set force-laser-on state ( disable | enable )
+
+//epon configuration
+//get configuration
+//force laser-on seting
+//state configuration
+epon get force-laser-on state
+
+//epon configuration
+//get configuration
+//local time
+epon get local-time
+
+
+//epon configuration
+//get configuration
+//grant start shift time
+epon get grant-shift
+
+//epon configuration
+//set configuration
+//grant start shift time
+//tx start shift time unit time qantum, <0~0xFFFF>
+epon set grant-shift <UINT:number> 
+
+
+
+//epon configuration
+//get configuration
+//grant start shift time
+epon get discovery-shift
+
+//epon configuration
+//set configuration
+//grant start shift time
+//tx start shift time unit time qantum, <0~0xFFFF>
+epon set discovery-shift <UINT:number> 
+
+//epon configuration
+//get configuration
+//discovery random delay stae
+//state configuration
+epon get discovery-random-delay state 
+
+//epon configuration
+//set configuration
+//discovery random delay stae
+//state configuration
+//disable function
+//enable function
+epon set discovery-random-delay state ( disable | enable )
+
+//epon configuration
+//get configuration
+//mpcp gate configuration 
+//rx gate type
+epon get mpcp-gate-trap type
+
+//epon configuration
+//set configuration
+//mpcp gate configuration 
+//rx gate type
+//all gate
+//discovery gate
+//normal gate
+epon set mpcp-gate-trap type ( all | discovery | normal )
+
+
+
+//epon configuration
+//get configuration
+//register ack setting 
+//flag setting
+epon get reg-ack flag
+
+//epon configuration
+//set configuration
+//register ack setting 
+//flag setting
+//flag value, <0~0xFF> 
+epon set reg-ack flag <UINT:value> 
+
+
+//epon configuration
+//get configuration
+//register ack setting 
+//llid index setting
+epon get reg-ack llid-idx
+
+//epon configuration
+//set configuration
+//register ack setting 
+//llid index setting
+//llid index value, <0~7> 
+epon set reg-ack llid-idx <UINT:value> 
+
+
+//epon configuration
+//set configuration
+//register ack setting 
+//trigger register_ack packet tx
+epon set reg-ack trigger
+
+ 
+
+//epon configuration
+//get configuration
+//laser on time setting 
+//OE module laser on time
+epon get laser-on time
+
+//epon configuration
+//set configuration
+//laser on time setting 
+//OE module laser on time
+//TQ for laser on time, <0~63> 
+epon set laser-on time <UINT:value>
+ 
+//epon configuration
+//get configuration
+//laser on time setting 
+//OE module laser off time
+epon get laser-off time 
+
+//epon configuration
+//set configuration
+//laser off time setting 
+//OE module laser on time
+//TQ for laser off time, <0~63> 
+epon set laser-off time <UINT:value>
+ 
+
+
+//epon configuration
+//get configuration
+//laser on time setting 
+//shift time for laser on
+epon get laser-on shift-time
+
+//epon configuration
+//set configuration
+//laser on time setting 
+//shift time for laser on
+//TQ for laser on time, <0~63> 
+epon set laser-on shift-time <UINT:value>
+ 
+//epon configuration
+//get configuration
+//laser off time setting 
+//shift time for laser off
+epon get laser-off shift-time
+
+//epon configuration
+//set configuration
+//laser off time setting 
+//shift time for laser off
+//TQ for laser off time, <0~31> 
+epon set laser-off shift-time <UINT:value>
+ 
+
+//epon configuration
+//get configuration
+//sync time setting 
+epon get sync-time
+
+//epon configuration
+//set configuration
+//sync time setting 
+//sync time, <0~0xFFFF> 
+epon set sync-time <UINT:value>
+
+//epon configuration
+//active epon trigger register
+//llid index setting
+//llid index value, <0~7> 
+epon active llid-idx <UINT:value>
+
+//epon configuration
+//de-active epon
+//llid index setting
+//llid index value, <0~7> 
+epon de-active llid-idx <UINT:value>
+
+//epon configuration
+//set configuration
+//mpcp report mode 
+//normal mode
+//report 0x0 or 0xFFFF
+//force report 0
+//force report 0xFFFF 
+epon set report-mode ( normal | report-0-f | force-0 | force-f )
+
+//epon configuration
+//get configuration
+//mpcp report mode 
+epon get report-mode
+
+//epon configuration
+//dump 
+//mib counter 
+epon dump mib-counter
+
+//epon configuration
+//reset 
+//mib counter 
+epon reset mib-counter
+
+//epon configuration
+//set configuration
+//upstream FEC
+//state configuration
+//disable function
+//enable function
+epon set us-fec state ( disable | enable )
+
+//epon configuration
+//get configuration
+//upstream FEC
+//state configuration
+epon get us-fec state
+
+//epon configuration
+//set configuration
+//downstream FEC
+//state configuration
+//disable function
+//enable function
+epon set ds-fec state ( disable | enable )
+
+//epon configuration
+//get configuration
+//downstream FEC
+//state configuration
+epon get ds-fec state
+
+//epon configuration
+//set configuration
+//global FEC setting
+//state configuration
+//disable function
+//enable function
+epon set fec-global state ( disable | enable )
+
+//epon configuration
+//get configuration
+//global FEC setting
+//state configuration
+epon get fec-global state
+
+
+//epon configuration
+//set configuration
+//laser polarity
+//laser polarity mode
+//low active
+//high active
+epon set laser-polarity mode ( low | high )
+
+//epon configuration
+//get configuration
+//laser polarity 
+//laser polarity mode
+epon get laser-polarity mode
+
+//epon configuration
+//set configuration
+//laser status
+//laser mode
+//normal operation
+//always on
+//always off
+epon set laser-state mode ( normal | force-on | force-off )
+
+//epon configuration
+//set configuration
+//laser status
+//laser mode
+epon get laser-state mode

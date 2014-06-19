@@ -1,0 +1,13 @@
+
+VENDOR_MODEL="YTHP-01"
+VENDOR_LOGOPATH="3geasy.jpg"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="3G Easy Technology Co., Ltd."
+VENDOR_SHORT="3G Easy Technology"
+VENDOR_NAME="3G_Easy"
+VENDOR_LOCATION="Guangzhou, China"
+VENDOR_YEAR="2011"
+
+
+DEV_NAME_PLC=YTWP-01
+SYS_MACROS="__plc"

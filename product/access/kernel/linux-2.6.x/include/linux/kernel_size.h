@@ -1,0 +1,1 @@
+#define KERNEL_DYNAMIC_SIZE 0

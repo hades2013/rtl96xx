@@ -1,0 +1,41 @@
+$(SOC_H): $(SOC_IN_H) $(ARCH_H) $(PROJ_H)
+	@echo -n "[MISC] Creating soc.h... "
+	@cat $(ARCH_H) $(PROJ_H) > $(RELEASE_DIR)/arch_proj.h
+	@sed -e '/^\/\/OTTO_ARCH_H_ANCHOR/r $(RELEASE_DIR)/arch_proj.h' -e '/OTTO_ARCH_H_ANCHOR/d' -e '/CAUTION: Do/d' $< > $@
+	@rm -f $(RELEASE_DIR)/arch_proj.h
+	@echo "OK"
+
+$(PRE_CFG_LIST): clean preconfig_clean
+	@echo -n "[MISC] Preparing $(@:preconfig_%=%) environment... "
+	@mkdir -p ../release
+	@if ! grep "^variable preloader_platform" ../vendors/$(@:preconfig_%=%)/soc.tcl  > /dev/null 2>&1;	then \
+		echo "*** ERROR: preloader_platform not setting in vendors/$(@:preconfig_%=%)/soc.tcl **\n"; exit 1;\
+	fi
+	@cp ../vendors/$(@:preconfig_%=%)/soc.tcl ../release/soc.tcl
+	@echo -n "platform_name := " > $(PLATFORM_NAME)
+	@grep "^variable preloader_platform" ../release/soc.tcl | tr -s "[\t]" " " | cut -d " " -f3  >> $(PLATFORM_NAME)
+	@echo -n "project_name := " >> $(PLATFORM_NAME)
+	@echo "$(@:preconfig_%=%)" >> $(PLATFORM_NAME)
+	@ln -s `grep "^variable preloader_platform" ../release/soc.tcl | tr -s "[\t]" " " | cut -d " " -f3` ./platform/current
+	@ln -s ../vendors/$(@:preconfig_%=%) vendor_swp;
+	@cp ./include/pblr.h ../release
+	@echo "OK"
+
+preconfig_clean:
+	@rm -rf ./vendor_swp
+	@rm -rf ./platform/current
+	@rm -f ../release/soc.tcl ../release/pblr.h ../release/soc.h
+	@rm -f $(PLATFORM_NAME)
+
+clean:
+	@find . -name \*.o -exec rm \{\} \;
+	@rm -f *.out *.img fake_uboot.* *.code
+	@rm -rf images
+	@rm -f ../release/plr.img ../release/lplr.img
+
+distclean: preconfig_clean clean
+# Left zlib.h alone to prevent re-built zlib every time. Just for a reference.
+#	@echo "*** WARNING: RUNNING distclean CAUSES zlib-1.2.7 REBUILD AND MAY GENERATE BAD zlib.h. ***"
+#	@echo "*** WARNING: MODIFY distclean IN Makefile IF YOU STILL WANT TO distclean. ***"
+#	@rm -f ./include/zlib/zlib.h
+#	@cd ./lib/zlib-1.2.7 && make distclean

@@ -1,0 +1,1 @@
+../../soc/flash/lplr_nor_spi_flash.S

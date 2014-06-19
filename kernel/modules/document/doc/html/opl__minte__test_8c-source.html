@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_minte_test.c源文件</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_minte_test.c</h1><a href="opl__minte__test_8c.html">浏览该文件的文档。</a><div class="fragment"><pre class="fragment">00001 
+00014 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+00015 <span class="preprocessor">#include &lt;fcntl.h&gt;</span>
+00016 <span class="preprocessor">#include &lt;unistd.h&gt;</span>
+00017 <span class="preprocessor">#include "../include/opl_typedef.h"</span>
+00021 <span class="comment">/*--------------------------Macro definition------------------------- */</span>
+<a name="l00022"></a><a class="code" href="group___m_i_n_t_e___t_e_s_t.html#ga1">00022</a> <span class="preprocessor">#define OPL_MINTE_DEVICE  "/dev/opl_minte"</span>
+00023 <span class="preprocessor"></span>
+00024 
+00030 <span class="comment">/*--------------------------type definition------------------------- */</span>
+00031 
+00032 
+00033 
+00034 
+00035 
+00041 <span class="comment">/*-----------------global varible/function declaration--------------- */</span>
+00042 
+00043 
+00044 
+00050 <span class="comment">/*-------------------local  function declaration---------------------- */</span>
+00051 
+<a name="l00053"></a><a class="code" href="group___m_i_n_t_e___t_e_s_t.html#ga0">00053</a> <span class="keywordtype">int</span> opl_minte_fd;
+00054 
+00055 
+00056 
+00057 
+00064 <span class="comment">/*--------------local  variable declaration and definition------------- */</span>
+00065 
+00066 <span class="keywordtype">int</span> <a class="code" href="group__minte.html#ga0">opl_minte_init</a>(<span class="keywordtype">int</span> *initialized);
+00067 <span class="keywordtype">void</span> <a class="code" href="group__minte__test.html#ga3">opl_minte_main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv);
+00068 <span class="keywordtype">int</span> <a class="code" href="group__minte.html#ga1">opl_minte_exit</a>(<span class="keywordtype">int</span> *initialized);
+00069 
+00076 <span class="comment">/*------------------global variable and function exported-------------- */</span>
+00077 
+00078 
+00079 
+00080 
+00081 
+00089 <span class="comment">/*----------------------local  function definition--------------------- */</span>
+00090 
+<a name="l00101"></a><a class="code" href="group__minte__test.html#ga1">00101</a> <span class="keywordtype">int</span> <a class="code" href="group__minte.html#ga0">opl_minte_init</a>(<span class="keywordtype">int</span> *initialized)
+00102 {
+00103   <a class="code" href="group___m_i_n_t_e___t_e_s_t.html#ga0">opl_minte_fd</a> = open(<a class="code" href="group___m_i_n_t_e.html#ga14">OPL_MINTE_DEVICE</a>,O_RDWR|O_SYNC);
+00104   <span class="keywordflow">if</span>(<a class="code" href="group___m_i_n_t_e___t_e_s_t.html#ga0">opl_minte_fd</a>&lt;0){
+00105     printf(<span class="stringliteral">"open the %s device failed\n"</span>,<a class="code" href="group___m_i_n_t_e.html#ga14">OPL_MINTE_DEVICE</a>);
+00106     <span class="keywordflow">return</span> -1;
+00107   }
+00108   *initialized = 1;
+00109   <span class="keywordflow">return</span> 0;
+00110 }
+00111 
+<a name="l00120"></a><a class="code" href="group__minte__test.html#ga2">00120</a> <span class="keywordtype">int</span> <a class="code" href="group__minte.html#ga1">opl_minte_exit</a>(<span class="keywordtype">int</span> *initialized)
+00121 {
+00122   <span class="keywordtype">int</span> ret = 0;
+00123   <span class="keywordflow">if</span>(*initialized){
+00124     ret = close(<a class="code" href="group___m_i_n_t_e___t_e_s_t.html#ga0">opl_minte_fd</a>);
+00125     *initialized = 0;
+00126   }
+00127   <span class="keywordflow">return</span> ret;
+00128 }
+00129 
+<a name="l00139"></a><a class="code" href="group__minte__test.html#ga3">00139</a> <span class="keywordtype">void</span> <a class="code" href="group__minte__test.html#ga3">opl_minte_main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv)
+00140 {
+00141   <span class="keywordtype">int</span> len = 0;
+00142   <a class="code" href="opl__typedef_8h.html#a0">u32</a> irq_pending = 0;
+00143   len = read(<a class="code" href="group___m_i_n_t_e___t_e_s_t.html#ga0">opl_minte_fd</a>,&amp;irq_pending,4);
+00144   <span class="keywordflow">if</span>(len == 4){
+00145     printf(<span class="stringliteral">"read the irq pending is correct. pending = 0x%x"</span>,irq_pending);
+00146     <span class="keywordflow">return</span>;
+00147   }<span class="keywordflow">else</span>{
+00148     printf(<span class="stringliteral">"read the irq pending error\n"</span>);
+00149   }
+00150 }
+<a name="l00162"></a><a class="code" href="group__minte__test.html#ga0">00162</a> <span class="keywordtype">int</span> <a class="code" href="group__opl__regmmap.html#ga0">main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv)
+00163 {
+00164   <span class="keywordtype">int</span> initialized = 0;
+00165   <a class="code" href="group__minte.html#ga0">opl_minte_init</a>(&amp;initialized);
+00166   <span class="keywordflow">if</span>(initialized){
+00167     <a class="code" href="group__minte__test.html#ga3">opl_minte_main</a>(argc,argv);
+00168   }
+00169   <a class="code" href="group__minte.html#ga1">opl_minte_exit</a>(&amp;initialized);
+00170   <span class="keywordflow">return</span> 0;
+00171 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

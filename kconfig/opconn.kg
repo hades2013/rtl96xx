@@ -1,0 +1,9 @@
+menu "opconn configuration"
+
+
+config CONFIG_OPCONN
+	bool "opconn surpport"
+	default n
+	help
+		none
+endmenu

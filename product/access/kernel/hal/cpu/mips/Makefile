@@ -1,0 +1,7 @@
+
+
+
+obj-y += $(CPUVENDOR)/
+
+
+

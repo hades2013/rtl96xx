@@ -1,0 +1,11 @@
+  SNMP Versions Supported:    1 2c 3
+  Net-SNMP Version:           5.4.2.1
+  Building for:               linux
+  Network transport support:  Callback UDP
+  SNMPv3 Security Modules:     usm
+  Agent MIB code:             mibII/at mibII/icmp mibII/ifTable mibII/ip mibII/snmp_mib mibII/sysORTable mibII/system_mib mibII/tcp mibII/udp snmpv3/snmpEngine snmpv3/snmpMPDStats snmpv3/usmConf snmpv3/usmStats snmpv3/usmUser hexicom/hexicom hexicom/eocCLTSystemInfo hexicom/eocCLTConfigSystem hexicom/cltConfigNetworking hexicom/cltDeviceModelTable hexicom/eocCLTDebug hexicom/cltConfigCableTable hexicom/cltConfigCableScalar hexicom/cltConfigAdministratorTable hexicom/cltConfigRemoteUpgrade hexicom/cltConfigRTC hexicom/cltConfigService hexicom/eocCLTConfigInterface hexicom/cltConfigInterfaceTable hexicom/eocCLTNetworkUnitGroup hexicom/eocCLTNetworkUnitScalarGroup hexicom/cltNetworkUnitTopologyTable hexicom/cltNetworkUnitInterfaceTable hexicom/cltNetworkUnitStatisticsTable hexicom/cltTemplateTable hexicom/cltTemplateInterfaceTable hexicom/cltNetworkUnitUserListTable hexicom/eocCLTConfigVLAN hexicom/cltConfigVLANTable hexicom/cltConfigVLANTrunkTable hexicom/cltConfigVLANHybridTable default_modules =>  mibII/kernel_linux if-mib/ifTable mibII/kernel_linux mibII/ifTable mibII/ipAddr mibII/at mibII/var_route mibII/route_write mibII/ip util_funcs mibII/ip util_funcs mibII/system_mib util_funcs mibII/kernel_linux mibII/tcpTable util_funcs mibII/kernel_linux mibII/udpTable util_funcs util_funcs util_funcs util_funcs util_funcs mibII/snmp_mib mibII/system_mib mibII/sysORTable mibII/vacm_vars mibII/vacm_conf utilities/execute
+  Embedded Perl support:      disabled
+  SNMP Perl modules:          disabled
+  SNMP Python modules:        disabled
+  Authentication support:     MD5
+  Encryption support:         

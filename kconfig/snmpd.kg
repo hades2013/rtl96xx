@@ -1,0 +1,9 @@
+menu "snmpd configuration"
+
+
+config CONFIG_SNMPD
+	bool "snmpd"
+	default y
+	help
+		none
+endmenu

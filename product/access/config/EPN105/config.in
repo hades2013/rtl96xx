@@ -1,0 +1,154 @@
+#
+# For a description of the syntax of this configuration file,
+# see scripts/kbuild/config-language.txt.
+#
+
+mainmenu "Configuration"
+
+config HAVE_DOT_CONFIG
+	bool
+	default n
+menu "Product Configuration"
+#-----------------------------------------------------------
+menu "Product Select"
+choice
+	prompt "Product Name"
+	default CONFIG_PRODUCT_EPN105
+	help
+	  no help yet.
+
+config CONFIG_PRODUCT_EPN105
+	bool "EPN105"
+
+
+
+
+
+
+endchoice
+endmenu
+menu "SDK Configuration"
+config CONFIG_DEFAULTS_REALTEK
+	bool "Select Realtek Vendor"
+config CONFIG_VENDOR
+	string 'realtek'
+	default 'realtek'
+		depends on CONFIG_DEFAULTS_REALTEK
+	help
+		no help yet
+		
+config CONFIG_DEFAULTS_REALTEK_SDK
+	bool "Select Realtek SDK"
+config CONFIG_SDK
+	string 'sdk dir'
+	default 'sdk-1.0.0'
+		depends on CONFIG_DEFAULTS_REALTEK_SDK
+	help
+		no help yet
+endmenu
+
+
+
+
+
+
+
+
+
+
+menu "libc select"
+config CONFIG_DEFAULTS_LIBC_UCLIBC_0_9_30
+	bool "Select Uclibc 0.9.30"
+config CONFIG_LIBCDIR
+	string 'uClibc dir'
+	default 'uClibc-0.9.28'
+		depends on CONFIG_DEFAULTS_LIBC_UCLIBC_0_9_30
+	help
+		no help yet
+endmenu
+
+
+
+
+
+
+
+#------------------------------------------------------------
+menu "System Configuration"
+config CONFIG_PRODUCT_NAME
+	string 'Product Name'
+	default 'EPN105'
+config CONFIG_COPYRIGHT_TIME
+	string 'CopyRight Time'
+	default '2014'
+config CONFIG_COPYRIGHT_STRING
+	string 'CopyRight String'
+	default 'Copyright (c) 2014 Huanshun Network Co., Ltd.'
+config CONFIG_RELEASE_VER
+	string 'Release Version'
+	default 'EPN105V100R006'
+config CONFIG_DEVELOP_VER
+	string 'Develop Version'
+	default 'EPN105V100D011'
+config CONFIG_DEVELOP_HARDWARE_VER
+	string 'Develop hardware Version'
+	default 'VER.B'
+config CONFIG_DEFAULT_HOSTNAME
+	string "default system host name"
+	default "EPN105"
+config DEFAULT_MANAGEIP
+	string "default system management interface ip"
+	default "192.168.1.98"
+config DEFAULT_MANAGEMASK
+	string "default system management interface mask"
+	default "255.255.255.0"
+config DEFAULT_MANAGEGW
+	string "default system management interface gateway"
+	default "192.168.1.1"
+config CONFIG_PRODUCT_SERIES_AND_FACTORY_CODE
+	string "product series and factory code"
+	default "EP001C"
+config CONFIG_PRODUCT_NAME_PRIV
+	string 'Prvi Product Name'
+	default 'EPN105'
+config CONFIG_RELEASE_VER_PRIV
+	string 'Prvi Release Version'
+	default 'EPN105V100R006'
+config CONFIG_DEVELOP_VER_PRIV
+	string 'Prvi Develop Version'
+	default 'EPN105V100D011'
+menu "load manufactory"
+config CONFIG_BOOT_RESTORE_APP
+	bool "bootrestoreapp"
+	default y
+config CONFIG_BOOT_MULTI_APP
+	bool "bootmultiapp"
+	default n
+endmenu
+endmenu
+endmenu
+
+#------------------------------------------------------------
+menu "Platform Configuration"
+
+
+source	 "../../kconfig/master.kg"
+source 	"../../kconfig/cli.kg"
+source 	"../../kconfig/common.kg"
+source  "../../kconfig/webs.kg"
+source  "../../kconfig/diag.kg"
+source  "../../kconfig/catvcom.kg"
+source  "../../kconfig/ponmonitor.kg"
+source  "../../kconfig/loopd.kg"
+source  "../../kconfig/onu_compatible.kg"
+source  "../../kconfig/priv_product_name.kg"
+
+
+
+
+
+
+
+
+
+endmenu

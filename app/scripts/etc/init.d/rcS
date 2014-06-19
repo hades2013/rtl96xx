@@ -1,0 +1,34 @@
+#!/bin/sh
+
+if [ "$1" = "S" ];then
+mount -t proc proc /proc
+mount -t sysfs sys /sys
+mount -t tmpfs /dev/shm /tmp
+mount -t jffs2 /dev/mtdblock2 /flash
+mkdir /tmp/var
+mkdir /var/log
+syslogd
+#insmod diag --built in kernel
+echo 1 > /proc/diag/eoc_reset
+export PATH=/tmp:/bin:/sbin:/usr/bin:/usr/sbin:$PATH
+
+echo "Wait..."
+read -t 3 keyin
+if [ "$keyin" = "hc" ]; then
+  /usr/sbin/mctrl 
+fi
+
+echo "Preparing WEB Pages..."
+
+mkdir -p /tmp/www
+tar xf /www/www.tar -C /tmp/www
+cp /bin/busybox /tmp
+
+/usr/sbin/master &
+
+else
+echo "System is going to shutdown..."
+#rmmod diag
+#umount -a
+
+fi

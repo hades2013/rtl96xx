@@ -1,0 +1,1018 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AfterConfigParamThread	vendor/zte.c	/^void * AfterConfigParamThread(void *pszParm)$/;"	f
+BDCOMDBG	vendor/bdcom.c	71;"	d	file:
+BDCOM_GET_MAC_MAX_ENTRY	vendor/bdcom.c	1117;"	d	file:
+BootFlagGet	user/ctc_oam_upgrade.c	/^int BootFlagGet(u8_t *upgradeflag)$/;"	f
+CFG_HG_CFG	vendor/zte.c	169;"	d	file:
+CFG_HG_IN_NET_PORT	vendor/zte.c	68;"	d	file:
+CFG_HG_IN_NET_PORT_DEFAULT	vendor/zte.c	69;"	d	file:
+CFG_HG_IN_NET_STATE	vendor/zte.c	65;"	d	file:
+CFG_HG_IN_NET_STATE_DEFAULT	vendor/zte.c	66;"	d	file:
+CFG_HG_SECTION	vendor/zte.c	64;"	d	file:
+CLOSE_MODULE_ACTION	vendor/zte.c	/^	CLOSE_MODULE_ACTION,$/;"	e	enum:__anon5	file:
+CLOSE_TX_ACTION	vendor/zte.c	/^	CLOSE_TX_ACTION,$/;"	e	enum:__anon5	file:
+CPU_HEAD_LEN	vendor/raisecom.c	4581;"	d	file:
+CTC_DRV_GetVlanIdAndPri	user/drv_lw.c	/^INT32 CTC_DRV_GetVlanIdAndPri(UINT32 uiVlanTag, UINT32 *puiVlanId, UINT32 *puiPri)$/;"	f
+CTC_DRV_ResetTransparentVlan	user/drv_lw.c	/^INT32 CTC_DRV_ResetTransparentVlan(UINT32 uiLPortId)$/;"	f
+CTC_DRV_SetTagVlan	user/drv_lw.c	/^INT32 CTC_DRV_SetTagVlan(UINT32 uiLPortId, UINT32 uiPvid, UINT32 uiPriority)$/;"	f
+CTC_DRV_SetTranslationVlan	user/drv_lw.c	/^INT32 CTC_DRV_SetTranslationVlan(UINT32 uiLPortId, UINT32 uiVlanTag,$/;"	f
+CTC_DRV_SetTransparentVlan	user/drv_lw.c	/^INT32 CTC_DRV_SetTransparentVlan(UINT32 uiLPortId)$/;"	f
+CTC_HEADER_PROCESS	user/ctc_oam_upgrade.c	52;"	d	file:
+CTC_STACK_alarm_get_state	user/oam_alarm.c	/^int CTC_STACK_alarm_get_state(INT16U alarm_id, int port_num, char *enabled)$/;"	f
+CTC_STACK_alarm_get_thr	user/oam_alarm.c	/^int CTC_STACK_alarm_get_thr(INT16U alarm_id, int port_num, INT32U *rising_thr, INT32U *falling_thr)$/;"	f
+CTC_STACK_alarm_set_state	user/oam_alarm.c	/^int CTC_STACK_alarm_set_state(INT16U alarm_id, int port_num, char enabled)$/;"	f
+CTC_STACK_alarm_set_thr	user/oam_alarm.c	/^int CTC_STACK_alarm_set_thr(INT16U alarm_id, int port_num, INT32U rising_thr, INT32U falling_thr)$/;"	f
+CanReadOpticsPower	user/drv_lw.c	/^static BOOL_T CanReadOpticsPower(void)$/;"	f	file:
+Ctc_AddClfRmk2Local	user/drv_lw.c	/^void Ctc_AddClfRmk2Local(UINT32 lport,$/;"	f
+Ctc_ClearClfRmk2LocalByPort	user/drv_lw.c	/^void Ctc_ClearClfRmk2LocalByPort(UINT32 lport)$/;"	f
+Ctc_ClearClfRmk2LocalByPrec	user/drv_lw.c	/^void Ctc_ClearClfRmk2LocalByPrec(UINT32 lport, UINT32  precedenceOfRule)$/;"	f
+Ctc_GetClfRmk2Local	user/drv_lw.c	/^void Ctc_GetClfRmk2Local(UINT32 lport,$/;"	f
+DOWNSTREAM_BUFFER_DEFAULT	vendor/zte.c	57;"	d	file:
+DOWNSTREAM_BUFFER_MAX	vendor/zte.c	60;"	d	file:
+DRV_AddMirror	user/drv_lw.c	/^INT32 DRV_AddMirror(UINT8 lport, UCHAR ucMirrorDirect)$/;"	f
+DRV_CFGLOCK	user/drv_lw.c	54;"	d	file:
+DRV_CFGUNLOCK	user/drv_lw.c	55;"	d	file:
+DRV_CheckMonitorConflict	user/drv_lw.c	/^INT32 DRV_CheckMonitorConflict(UINT8 lport)$/;"	f
+DRV_CheckQinqCfg	user/drv_lw.c	/^STATIC BOOL DRV_CheckQinqCfg(UINT32 uiLPortId, QINQ_CTAG_STAG_ENTRY_S *pstQinqCfg)$/;"	f
+DRV_CheckVlanForQinqMode	user/drv_lw.c	/^STATIC INT32 DRV_CheckVlanForQinqMode(UINT32 uiLPortId, UINT32 uiVlanId)$/;"	f
+DRV_CtcAddClfRmkByPrec	user/drv_lw.c	/^INT32 DRV_CtcAddClfRmkByPrec(UINT32 lport,$/;"	f
+DRV_CtcClearClfRmkByPort	user/drv_lw.c	/^INT32 DRV_CtcClearClfRmkByPort(UINT32 lport)$/;"	f
+DRV_CtcDelClfRmkByPrec	user/drv_lw.c	/^INT32 DRV_CtcDelClfRmkByPrec(UINT32 lport, UINT32 precedenceOfRule)$/;"	f
+DRV_DelMirror	user/drv_lw.c	/^INT32 DRV_DelMirror(UINT8 lport, UCHAR ucMirrorDirect)$/;"	f
+DRV_GetFecMode	user/drv_lw.c	/^INT32 DRV_GetFecMode(BOOL *bEnable)$/;"	f
+DRV_GetPortAutoNegAdmin	user/drv_lw.c	/^INT32 DRV_GetPortAutoNegAdmin(UINT32 lport,  BOOL *bEnable)$/;"	f
+DRV_GetPortDuplex	user/drv_lw.c	/^INT32 DRV_GetPortDuplex(UINT32 lport, PORT_DUPLEX_E* pDuplexMode)$/;"	f
+DRV_GetPortFlowCtrl	user/drv_lw.c	/^INT32 DRV_GetPortFlowCtrl(UINT32 lport,  BOOL *bEnable)$/;"	f
+DRV_GetPortLinkState	user/drv_lw.c	/^INT32 DRV_GetPortLinkState(UINT32 uiLPortId, BOOL *bPortStatus)$/;"	f
+DRV_GetPortLinkStatus	user/drv_lw.c	/^INT32 DRV_GetPortLinkStatus(UINT32 lport, BOOL* pStatus)$/;"	f
+DRV_GetPortMdiStatus	user/drv_lw.c	/^INT32 DRV_GetPortMdiStatus(UINT32 lport,  PORT_MDI_E* pMdiMode)$/;"	f
+DRV_GetPortMibCounter	user/drv_lw.c	/^INT32 DRV_GetPortMibCounter(UINT32 lport, UNI_COUNTER_S*  pMibCtrs)$/;"	f
+DRV_GetPortQinqCfg	user/drv_lw.c	/^INT32 DRV_GetPortQinqCfg(UINT32 uiLPortId, PORT_QINQ_S *pstQinqCfg)$/;"	f
+DRV_GetPortSpeed	user/drv_lw.c	/^INT32 DRV_GetPortSpeed(UINT32 lport, PORT_SPEED_E* pSpeedMode)$/;"	f
+DRV_GetPortVct	user/drv_lw.c	/^INT32 DRV_GetPortVct(ULONG ulLPort, VCT_CABLE_DIAG_S *pstCableDiag )$/;"	f
+DRV_GetPortVlanCfg	user/drv_lw.c	/^INT32 DRV_GetPortVlanCfg(UINT32 uiLPortId, UINT8 *pucMode, UINT8 *pucVlanCfg, UINT16 *pusLength)$/;"	f
+DRV_InitQinqCfg	user/drv_lw.c	/^VOID DRV_InitQinqCfg(VOID)$/;"	f
+DRV_LwInit	user/drv_lw.c	/^INT32 DRV_LwInit(void)$/;"	f
+DRV_PortRestartNeg	user/drv_lw.c	/^INT32 DRV_PortRestartNeg(UINT32 uiLPortId)$/;"	f
+DRV_ResetPortStatistic	user/drv_lw.c	/^INT32 DRV_ResetPortStatistic(UINT32 lport)$/;"	f
+DRV_SetCos2QidMap	user/drv_lw.c	/^INT32 DRV_SetCos2QidMap(UINT32* auiCos2QidMap)$/;"	f
+DRV_SetFecMode	user/drv_lw.c	/^INT32 DRV_SetFecMode(BOOL bEnable)$/;"	f
+DRV_SetMonitor	user/drv_lw.c	/^INT32 DRV_SetMonitor(UINT8 lport, UINT8 lenable)$/;"	f
+DRV_SetPortAutoNeg	user/drv_lw.c	/^INT32 DRV_SetPortAutoNeg(UINT32 uiLPortId, UINT8 ucAction)$/;"	f
+DRV_SetPortAutoNegAdmin	user/drv_lw.c	/^INT32 DRV_SetPortAutoNegAdmin(UINT32 lport,  BOOL bEnable)$/;"	f
+DRV_SetPortDuplex	user/drv_lw.c	/^INT32 DRV_SetPortDuplex(UINT32 lport, PORT_DUPLEX_E enPortDuplex)$/;"	f
+DRV_SetPortFlowCtrl	user/drv_lw.c	/^INT32 DRV_SetPortFlowCtrl(UINT32 lport,  BOOL bEnable)$/;"	f
+DRV_SetPortIsolation	user/drv_lw.c	/^INT32 DRV_SetPortIsolation(UINT32 lport,  BOOL bEnable)$/;"	f
+DRV_SetPortLineRate	user/drv_lw.c	/^INT32 DRV_SetPortLineRate(UINT32 lport,  PORT_DIRECT_E enDirect, UINT32 uiLineRate)$/;"	f
+DRV_SetPortLinkState	user/drv_lw.c	/^INT32 DRV_SetPortLinkState(UINT32 uiLPortId, BOOL bPortStatus)$/;"	f
+DRV_SetPortQinqCfg	user/drv_lw.c	/^INT32 DRV_SetPortQinqCfg(UINT32 uiLPortId, PORT_QINQ_S *pstQinqCfg)$/;"	f
+DRV_SetPortSpeed	user/drv_lw.c	/^INT32 DRV_SetPortSpeed(UINT32 lport, PORT_SPEED_E enPortSpeed)$/;"	f
+DRV_SetPriSchedMode	user/drv_lw.c	/^INT32 DRV_SetPriSchedMode(QOS_QUEUE_SCHEDULER_MODE_E enPriSchedMode)$/;"	f
+DRV_SetPriTrustMode	user/drv_lw.c	/^INT32 DRV_SetPriTrustMode(QOS_PRI_TRUST_MODE_E enTrustMode)$/;"	f
+DRV_SetStpEnable	user/drv_lw.c	/^INT32 DRV_SetStpEnable(BOOL ulEnable)$/;"	f
+DRY1_ALARMID	user/oam_alarm.c	88;"	d	file:
+DRY2_ALARMID	user/oam_alarm.c	89;"	d	file:
+Drv_ParseRtctResult	user/drv_lw.c	/^static INT32 Drv_ParseRtctResult(VCT_CABLE_DIAG_S *pstCableDiag, cable_diag_t *pstDiag)$/;"	f	file:
+EOPL_BDCOM_HEADER_PROCESS	vendor/bdcom.c	53;"	d	file:
+EOPL_YOTC_HEADER_PROCESS	vendor/yotc.c	50;"	d	file:
+EOPL_ZTE_HEADER_PROCESS	vendor/zte.c	171;"	d	file:
+EPON_OAM_CLI_BRANCH	epon_oam_cli.c	42;"	d	file:
+EPON_OAM_CLI_END	epon_oam_cli.c	44;"	d	file:
+EPON_OAM_CLI_LEAF	epon_oam_cli.c	43;"	d	file:
+EPON_OAM_FSM_STATE_COMPLETE	epon_oam_state.c	47;"	d	file:
+EPON_OAM_FSM_STATE_WAIT_REMOTE	epon_oam_state.c	45;"	d	file:
+EPON_OAM_FSM_STATE_WAIT_REMOTE_OK	epon_oam_state.c	46;"	d	file:
+EPON_OAM_KEEPALIVE_TIME	epon_oam_main.c	76;"	d	file:
+EPON_OAM_LOCALPDU_ANY	epon_oam_state.c	52;"	d	file:
+EPON_OAM_LOCALPDU_INFO	epon_oam_state.c	51;"	d	file:
+EPON_OAM_LOCALPDU_LF_INFO	epon_oam_state.c	49;"	d	file:
+EPON_OAM_LOCALPDU_RX_INFO	epon_oam_state.c	50;"	d	file:
+EPON_OAM_STATEKEEPER_SIG_START	epon_oam_main.c	75;"	d	file:
+EPON_TIMER_SET	epon_oam_main.c	95;"	d	file:
+ERROR	user/oam_alarm.c	34;"	d	file:
+FIBERHOME_DBG	vendor/fiberhome.c	66;"	d	file:
+FIBERHOME_DBG	vendor/fiberhome.c	68;"	d	file:
+GPIO11	user/oam_alarm.c	87;"	d	file:
+GPIO9	user/oam_alarm.c	86;"	d	file:
+GetOptics	user/drv_lw.c	/^double GetOptics(unsigned short usPowerData)$/;"	f
+H3C_DBG	vendor/h3c.c	76;"	d	file:
+H3C_DBG	vendor/h3c.c	78;"	d	file:
+HW_DBG	vendor/huawei.c	63;"	d	file:
+INVALID_16	vendor/zte.c	62;"	d	file:
+INVALID_8	vendor/fiberhome.c	53;"	d	file:
+INVALID_8	vendor/h3c.c	51;"	d	file:
+IS_BROADCAST_MACADDR	vendor/zte.c	2676;"	d	file:
+IS_MULTICAST_MACADDR	vendor/zte.c	2673;"	d	file:
+InitPortCfg	user/drv_lw.c	/^VOID InitPortCfg(PORT_CFG_S *psPortCfg)$/;"	f
+LOSLedInit	epon_oam_main.c	/^void LOSLedInit(void)$/;"	f
+LOSLedTimerCb	epon_oam_main.c	/^void LOSLedTimerCb()$/;"	f
+MACPRINT	vendor/zte.c	168;"	d	file:
+MAC_ASC_F	vendor/zte.c	167;"	d	file:
+MAX_ACL_FILTER_NUM	user/drv_lw.c	66;"	d	file:
+MAX_ENTITY	vendor/zte.c	2646;"	d	file:
+MAX_FILTER_NUM	vendor/fiberhome.c	52;"	d	file:
+MAX_FILTER_NUM	vendor/h3c.c	50;"	d	file:
+MAX_FILTER_NUM	vendor/raisecom.c	44;"	d	file:
+MAX_NUM_OF_PORTS	vendor/fiberhome.c	39;"	d	file:
+MAX_NUM_OF_PORTS	vendor/yotc.c	36;"	d	file:
+MAX_PAYLOAD	epon_oam_rx.c	46;"	d	file:
+MAX_UMAC_NUM	vendor/zte.c	72;"	d	file:
+MODULE	user/oam_alarm.c	35;"	d	file:
+MODULE	vendor/bdcom.c	41;"	d	file:
+MODULE	vendor/fiberhome.c	51;"	d	file:
+MODULE	vendor/h3c.c	49;"	d	file:
+MODULE	vendor/huawei.c	54;"	d	file:
+MODULE	vendor/yotc.c	34;"	d	file:
+MutexCreate	user/drv_lw.c	/^int MutexCreate(pthread_mutex_t *mutex)$/;"	f
+NEED_MATCH	vendor/zte.c	145;"	d	file:
+NO_ERROR	user/oam_alarm.c	33;"	d	file:
+NO_NEED_MATCH	vendor/zte.c	146;"	d	file:
+OAM_MAX_MAC_NUM	vendor/zte.c	2645;"	d	file:
+OAM_SUPPORT_FIBERHOME_EXT	vendor/fiberhome.c	41;"	d	file:
+OAM_SUPPORT_H3C_EXT	vendor/h3c.c	39;"	d	file:
+OAM_SUPPORT_ZTE_EXT	vendor/zte.c	51;"	d	file:
+ODM_NUM_OF_PORTS	vendor/zte.c	75;"	d	file:
+ONE_PORT_HG	vendor/zte.c	4748;"	d	file:
+OPEN_TX_ACTION	vendor/zte.c	/^	OPEN_TX_ACTION,$/;"	e	enum:__anon5	file:
+OPL_STATUS	epon_oam_main.c	/^typedef int OPL_STATUS;$/;"	t	file:
+OamGetOltFlag	epon_oam_state.c	/^OLT_FLAG_E OamGetOltFlag(void)$/;"	f
+OamSetOltFlag	epon_oam_state.c	/^static void OamSetOltFlag(OLT_FLAG_E enOltFlag)$/;"	f	file:
+RAISECOM_HEADER_PROCESS	vendor/raisecom.c	81;"	d	file:
+RC_DBG	vendor/raisecom.c	55;"	d	file:
+RC_DBG	vendor/raisecom.c	61;"	d	file:
+STREAM_BUFFER_MAX	vendor/zte.c	61;"	d	file:
+UINT32	vendor/zte.c	73;"	d	file:
+UPSTREAM_BUFFER_DEFAULT	vendor/zte.c	56;"	d	file:
+UPSTREAM_BUFFER_MAX	vendor/zte.c	59;"	d	file:
+YOTC_DBG	vendor/yotc.c	47;"	d	file:
+ZTE_CONFIG_MANAGE_ERASE	vendor/zte.c	/^	ZTE_CONFIG_MANAGE_ERASE = 0x02,$/;"	e	enum:__anon6	file:
+ZTE_CONFIG_MANAGE_INVALID	vendor/zte.c	/^	ZTE_CONFIG_MANAGE_INVALID  = 0x00,$/;"	e	enum:__anon6	file:
+ZTE_CONFIG_MANAGE_RESTOR_FACTORY	vendor/zte.c	/^	ZTE_CONFIG_MANAGE_RESTOR_FACTORY = 0x03,$/;"	e	enum:__anon6	file:
+ZTE_CONFIG_MANAGE_SAVE	vendor/zte.c	/^	ZTE_CONFIG_MANAGE_SAVE  = 0x01,$/;"	e	enum:__anon6	file:
+ZTE_CONFIG_MANAGE_TYPE_t	vendor/zte.c	/^}ZTE_CONFIG_MANAGE_TYPE_t;$/;"	t	typeref:enum:__anon6	file:
+ZTE_PORT_MODE_1000M	vendor/zte.c	/^	ZTE_PORT_MODE_1000M     = 0x05,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_100M_FULL	vendor/zte.c	/^	ZTE_PORT_MODE_100M_FULL = 0x04,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_100M_HALF	vendor/zte.c	/^	ZTE_PORT_MODE_100M_HALF = 0x03,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_10G	vendor/zte.c	/^	ZTE_PORT_MODE_10G       = 0x06,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_10M_FULL	vendor/zte.c	/^	ZTE_PORT_MODE_10M_FULL  = 0x02,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_10M_HALF	vendor/zte.c	/^	ZTE_PORT_MODE_10M_HALF  = 0x01,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_AUTO	vendor/zte.c	/^	ZTE_PORT_MODE_AUTO      = 0x00,$/;"	e	enum:__anon2	file:
+ZTE_PORT_MODE_t	vendor/zte.c	/^}ZTE_PORT_MODE_t;$/;"	t	typeref:enum:__anon2	file:
+_CTC_AddReservedVlanMem	user/drv_lw.c	/^static INT32 _CTC_AddReservedVlanMem(UINT32 uiLPortId)$/;"	f	file:
+_CTC_AddVtuPortMem	user/drv_lw.c	/^static INT32 _CTC_AddVtuPortMem(UINT32 uiLPort, UINT32 uiVlanId, CTC_VLAN_MEM_E enTagMode)$/;"	f	file:
+_CTC_AddVtuPortMemForCtcVlan	user/drv_lw.c	/^static INT32 _CTC_AddVtuPortMemForCtcVlan(UINT32 uiLPortId, UINT32 uiVlanId, UINT32 uiPri, CTC_VLAN_MEM_E enMemship)$/;"	f	file:
+_CTC_CheckAclForCtcTranslVlan	user/drv_lw.c	/^static BOOL _CTC_CheckAclForCtcTranslVlan(UINT32 uiLPortId, UINT32 uiPvid, UINT32 *puiVlanList, UINT32 uiVlanListEntry)$/;"	f	file:
+_CTC_CheckVidForTagMode	user/drv_lw.c	/^static BOOL _CTC_CheckVidForTagMode(UINT32 uiLPortId, UINT32 uiVlanId)$/;"	f	file:
+_CTC_CheckVlanForTranslationMode	user/drv_lw.c	/^static BOOL _CTC_CheckVlanForTranslationMode(UINT32 uiLPortId, UINT32 uiDefVlan, UINT32 uiVlanEntryNum, UINT32 *pVlanList)$/;"	f	file:
+_CTC_DelReservedVlanMem	user/drv_lw.c	/^static INT32 _CTC_DelReservedVlanMem(UINT32 uiLPortId)$/;"	f	file:
+_CTC_DelVtuMemForTranspPort	user/drv_lw.c	/^static INT32 _CTC_DelVtuMemForTranspPort(UINT32 uiLPortId)$/;"	f	file:
+_CTC_DelVtuPortMem	user/drv_lw.c	/^static INT32 _CTC_DelVtuPortMem(UINT32 uiLPort, UINT32 uiVlanId)$/;"	f	file:
+_CTC_DelVtuPortMemForCtcVlan	user/drv_lw.c	/^static INT32 _CTC_DelVtuPortMemForCtcVlan(UINT32 uiLPortId, UINT32 uiVlanId)$/;"	f	file:
+_CTC_GetPortVlanModeCfg	user/drv_lw.c	/^static INT32 _CTC_GetPortVlanModeCfg(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode)$/;"	f	file:
+_CTC_GetPortVlanModeCfg	vendor/yotc.c	/^static INT32 _CTC_GetPortVlanModeCfg(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode)$/;"	f	file:
+_CTC_GetUniAutoNegModeCfg	user/drv_lw.c	/^INT32 _CTC_GetUniAutoNegModeCfg( ULONG ulLPort, BOOL *pbAutoNegMode )$/;"	f
+_CTC_GetUniConfiguration	user/drv_lw.c	/^INT32 _CTC_GetUniConfiguration( UCHAR ucUniPortId, PORT_CFG_S *pstUniConf )$/;"	f
+_CTC_GetUniDuplexCfg	user/drv_lw.c	/^INT32 _CTC_GetUniDuplexCfg( ULONG ulLPort, UCHAR *pucDuplex )$/;"	f
+_CTC_GetUniFlowCtrlCfg	user/drv_lw.c	/^INT32  _CTC_GetUniFlowCtrlCfg( ULONG ulLPort, BOOL *pbEnable )$/;"	f
+_CTC_GetUniIsolateEnableCfg	user/drv_lw.c	/^INT32 _CTC_GetUniIsolateEnableCfg( ULONG ulLPort, BOOL *pbEnable )$/;"	f
+_CTC_GetUniLineRateInCfg	user/drv_lw.c	/^INT32 _CTC_GetUniLineRateInCfg( ULONG ulLPort, ULONG *pulLineRateIn )$/;"	f
+_CTC_GetUniLineRateOutCfg	user/drv_lw.c	/^INT32 _CTC_GetUniLineRateOutCfg( ULONG ulLPort, ULONG *pulLineRateOut )$/;"	f
+_CTC_GetUniMdiCfg	user/drv_lw.c	/^INT32 _CTC_GetUniMdiCfg( ULONG ulLPort, UCHAR *pucMdi )$/;"	f
+_CTC_GetUniPortEnableCfg	user/drv_lw.c	/^INT32 _CTC_GetUniPortEnableCfg( ULONG ulLPort, BOOL *pbEnable )$/;"	f
+_CTC_GetUniQosTrustModeCfg	user/drv_lw.c	/^INT32 _CTC_GetUniQosTrustModeCfg(ULONG ulLPort, ULONG *pulQosTrustMode)$/;"	f
+_CTC_GetUniSpeedCfg	user/drv_lw.c	/^INT32 _CTC_GetUniSpeedCfg( ULONG ulLPort, UCHAR *pucSpeed )$/;"	f
+_CTC_HaveEnoughEmptyRules	user/drv_lw.c	/^static BOOL _CTC_HaveEnoughEmptyRules(UINT32 uiIdNum)$/;"	f	file:
+_CTC_RenewVtuMemForTranspPort	user/drv_lw.c	/^static INT32 _CTC_RenewVtuMemForTranspPort(UINT32 uiLPortId)$/;"	f	file:
+_CTC_ResetTagVlan	user/drv_lw.c	/^static INT32 _CTC_ResetTagVlan(UINT32 uiLPortId)$/;"	f	file:
+_CTC_ResetTranslationVlan	user/drv_lw.c	/^static INT32 _CTC_ResetTranslationVlan(UINT32 uiLPortId)$/;"	f	file:
+_CTC_SetPortVlanModeCfg	user/drv_lw.c	/^static INT32 _CTC_SetPortVlanModeCfg(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode)$/;"	f	file:
+_CTC_SetUniAutoNegModeCfg	user/drv_lw.c	/^INT32 _CTC_SetUniAutoNegModeCfg( ULONG ulLPort, BOOL bAutoNegMode )$/;"	f
+_CTC_SetUniDuplexCfg	user/drv_lw.c	/^INT32 _CTC_SetUniDuplexCfg( ULONG ulLPort, UCHAR ucDuplex )$/;"	f
+_CTC_SetUniFlowCtrlCfg	user/drv_lw.c	/^INT32 _CTC_SetUniFlowCtrlCfg( ULONG ulLPort, BOOL bEnable )$/;"	f
+_CTC_SetUniIsolateEnableCfg	user/drv_lw.c	/^INT32 _CTC_SetUniIsolateEnableCfg( ULONG ulLPort, BOOL bEnable )$/;"	f
+_CTC_SetUniLineRateInCfg	user/drv_lw.c	/^INT32 _CTC_SetUniLineRateInCfg( ULONG ulLPort, ULONG ulLineRateIn )$/;"	f
+_CTC_SetUniLineRateOutCfg	user/drv_lw.c	/^INT32 _CTC_SetUniLineRateOutCfg( ULONG ulLPort, ULONG ulLineRateOut )$/;"	f
+_CTC_SetUniMdiCfg	user/drv_lw.c	/^INT32 _CTC_SetUniMdiCfg( ULONG ulLPort, UCHAR ucMdi )$/;"	f
+_CTC_SetUniPortEnableCfg	user/drv_lw.c	/^INT32 _CTC_SetUniPortEnableCfg( ULONG ulLPort, BOOL bEnable )$/;"	f
+_CTC_SetUniQosTrustModeCfg	user/drv_lw.c	/^INT32 _CTC_SetUniQosTrustModeCfg(ULONG ulLPort, ULONG ulQosTrustMode)$/;"	f
+_CTC_SetUniSpeedCfg	user/drv_lw.c	/^INT32 _CTC_SetUniSpeedCfg( ULONG ulLPort, UCHAR ucSpeed )$/;"	f
+_DRV_IsUniCastIp	user/drv_lw.c	/^BOOL_T _DRV_IsUniCastIp(ULONG ulIp)$/;"	f
+_Drv_CheckFilterRule	user/drv_lw.c	/^static BOOL_T _Drv_CheckFilterRule(ACL_FILTER_RULE_S *pstRule)$/;"	f	file:
+aFiltAcl_list	vendor/h3c.c	/^filter_acl_t aFiltAcl_list[MAX_FILTER_NUM] = $/;"	v
+add_mac_block_entity	vendor/zte.c	/^int add_mac_block_entity(oam_zte_uni_mac_query_block_t  *mac_block, mac_table_t *pMacPoolValue, int have_copyed_num)$/;"	f
+add_mac_entity	vendor/zte.c	/^int add_mac_entity(mac_dump_ucast_tab_t *pmacEntry, mac_table_value_t *pMacPoolValue)$/;"	f
+alarm_out_data	user/oam_alarm.c	/^u8_t    alarm_out_data[OAM_MAXIMUM_PDU_SIZE+1];$/;"	v
+backoffTime	epon_oam_main.c	/^static unsigned int backoffTime;$/;"	v	file:
+backoffTimeSpec	epon_oam_main.c	/^static struct timespec backoffTimeSpec;$/;"	v	typeref:struct:timespec	file:
+bdcom_get_onu_mac_table	vendor/bdcom.c	/^void bdcom_get_onu_mac_table(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+bdcom_get_onu_port_duplex	vendor/bdcom.c	/^void bdcom_get_onu_port_duplex(u8_t*replybuf, u16_t* genlen)$/;"	f
+bdcom_get_onu_port_speed	vendor/bdcom.c	/^void bdcom_get_onu_port_speed(u8_t*replybuf, u16_t* genlen)$/;"	f
+bdcom_get_onu_port_stats	vendor/bdcom.c	/^void bdcom_get_onu_port_stats(u8_t*replybuf, u16_t* genlen)$/;"	f
+bdcom_oam_init	vendor/bdcom.c	/^int bdcom_oam_init(void)$/;"	f
+bdcom_oui	epon_oam_db.c	/^unsigned char 	bdcom_oui[3] = {0x00, 0xe0, 0x0f};$/;"	v
+bdcom_port_instance	vendor/bdcom.c	/^static oam_instance_tlv_t	bdcom_port_instance;$/;"	v	file:
+bdcom_port_mac_del	vendor/bdcom.c	/^static int bdcom_port_mac_del(bdcom_mac_bind_static_t *p_static, u8_t mac_mode)$/;"	f	file:
+bdcom_port_mac_dynamic_clear	vendor/bdcom.c	/^static u32_t bdcom_port_mac_dynamic_clear(u8_t port_id)$/;"	f	file:
+bdcom_port_static_mac_add	vendor/bdcom.c	/^static int bdcom_port_static_mac_add(bdcom_mac_bind_static_t* p_bind_static)$/;"	f	file:
+check_image	user/ctc_oam_upgrade.c	/^int check_image(const char *imagefile)$/;"	f
+clear_mac_filter	vendor/zte.c	/^void clear_mac_filter()$/;"	f
+clear_mac_static	vendor/zte.c	/^void clear_mac_static(u8_t port_id)$/;"	f
+cliRoot	epon_oam_cli.c	/^static oam_cli_tree_t cliRoot[] = {$/;"	v	file:
+cliRootClear	epon_oam_cli.c	/^static oam_cli_tree_t cliRootClear[] = {$/;"	v	file:
+cliRootGet	epon_oam_cli.c	/^static oam_cli_tree_t cliRootGet[] = {$/;"	v	file:
+cliRootGetCtc	epon_oam_cli.c	/^static oam_cli_tree_t cliRootGetCtc[] = {$/;"	v	file:
+cliRootSet	epon_oam_cli.c	/^static oam_cli_tree_t cliRootSet[] = {$/;"	v	file:
+cliRootSetConfig	epon_oam_cli.c	/^static oam_cli_tree_t cliRootSetConfig[] = {$/;"	v	file:
+cliRootSetCtc	epon_oam_cli.c	/^static oam_cli_tree_t cliRootSetCtc[] = {$/;"	v	file:
+cliRootSetOamInfo	epon_oam_cli.c	/^static oam_cli_tree_t cliRootSetOamInfo[] = {$/;"	v	file:
+cliRootTrigger	epon_oam_cli.c	/^static oam_cli_tree_t cliRootTrigger[] = {$/;"	v	file:
+cli_proc	epon_oam_cli.c	/^        int (*cli_proc)(int argc, char *argv[], oam_cli_t *pCli);$/;"	m	union:oam_cli_tree_s::__anon1	file:
+cmd	epon_oam_cli.c	/^    unsigned char cmd[16];$/;"	m	struct:oam_cli_tree_s	file:
+ctcExtInfoCheck	user/ctc_oam.c	/^unsigned char ctcExtInfoCheck = 0;$/;"	v
+ctcExtInfoCnt	user/ctc_oam.c	/^unsigned char ctcExtInfoCnt = 0;$/;"	v
+ctc_alarmCode	user/ctc_oam_alarmtbl.c	/^static ctc_eventAlarmCode_t ctc_alarmCode[] = {$/;"	v	file:
+ctc_discovery_state	user/ctc_oam.c	/^static unsigned char ctc_discovery_state[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+ctc_extActCb	user/ctc_oam_vartbl.c	/^static ctc_varCb_t ctc_extActCb[] = {$/;"	v	file:
+ctc_extAttrCb	user/ctc_oam_vartbl.c	/^static ctc_varCb_t ctc_extAttrCb[] = {$/;"	v	file:
+ctc_oam_Info_gen	user/ctc_oam.c	/^static void ctc_oam_Info_gen($/;"	f	file:
+ctc_oam_add_tlv	user/ctc_oam_var.c	/^static int ctc_oam_add_tlv($/;"	f	file:
+ctc_oam_churningKey_rand	user/ctc_oam.c	/^static void ctc_oam_churningKey_rand($/;"	f	file:
+ctc_oam_churningKey_set	user/ctc_oam_var.c	/^int ctc_oam_churningKey_set($/;"	f
+ctc_oam_db_init	user/ctc_oam.c	/^int ctc_oam_db_init($/;"	f
+ctc_oam_dbaConfig_get	user/ctc_oam_var.c	/^int ctc_oam_dbaConfig_get($/;"	f
+ctc_oam_dbaConfig_set	user/ctc_oam_var.c	/^int ctc_oam_dbaConfig_set($/;"	f
+ctc_oam_evtNotification_send	user/ctc_oam.c	/^int ctc_oam_evtNotification_send($/;"	f
+ctc_oam_extInfoStd_parser	user/ctc_oam.c	/^static int ctc_oam_extInfoStd_parser($/;"	f	file:
+ctc_oam_extInfo_handler	user/ctc_oam.c	/^static int ctc_oam_extInfo_handler($/;"	f	file:
+ctc_oam_extInfo_parser	user/ctc_oam.c	/^static int ctc_oam_extInfo_parser($/;"	f	file:
+ctc_oam_get_portid	user/ctc_oam_var.c	/^static int ctc_oam_get_portid($/;"	f	file:
+ctc_oam_init	user/ctc_oam.c	/^int ctc_oam_init(void)$/;"	f
+ctc_oam_onuAuthLoid_get	user/ctc_oam.c	/^int ctc_oam_onuAuthLoid_get(unsigned char llidIdx, ctc_onuAuthLoid_t *pLoidAuth)$/;"	f
+ctc_oam_onuAuthLoid_set	user/ctc_oam.c	/^int ctc_oam_onuAuthLoid_set(unsigned char llidIdx, ctc_onuAuthLoid_t *pLoidAuth)$/;"	f
+ctc_oam_onuAuthState_get	user/ctc_oam.c	/^int ctc_oam_onuAuthState_get($/;"	f
+ctc_oam_onuAuthState_set	user/ctc_oam.c	/^int ctc_oam_onuAuthState_set($/;"	f
+ctc_oam_orgSepcVarCb_get	user/ctc_oam.c	/^static int ctc_oam_orgSepcVarCb_get($/;"	f	file:
+ctc_oam_orgSpecChurning	user/ctc_oam.c	/^static int ctc_oam_orgSpecChurning($/;"	f	file:
+ctc_oam_orgSpecChurning_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecChurning_gen($/;"	f	file:
+ctc_oam_orgSpecDba	user/ctc_oam.c	/^static int ctc_oam_orgSpecDba($/;"	f	file:
+ctc_oam_orgSpecDbaTheshold_parse	user/ctc_oam.c	/^static int ctc_oam_orgSpecDbaTheshold_parse($/;"	f	file:
+ctc_oam_orgSpecDba_calc	user/ctc_oam.c	/^static int ctc_oam_orgSpecDba_calc($/;"	f	file:
+ctc_oam_orgSpecDba_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecDba_gen($/;"	f	file:
+ctc_oam_orgSpecEvent	user/ctc_oam.c	/^static int ctc_oam_orgSpecEvent($/;"	f	file:
+ctc_oam_orgSpecHdr_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecHdr_gen($/;"	f	file:
+ctc_oam_orgSpecOnuAuth	user/ctc_oam.c	/^static int ctc_oam_orgSpecOnuAuth($/;"	f	file:
+ctc_oam_orgSpecOnuAuthLoid_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecOnuAuthLoid_gen($/;"	f	file:
+ctc_oam_orgSpecOnuAuthNak_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecOnuAuthNak_gen($/;"	f	file:
+ctc_oam_orgSpecSet_req20	user/ctc_oam.c	/^static int ctc_oam_orgSpecSet_req20($/;"	f	file:
+ctc_oam_orgSpecSet_req21	user/ctc_oam.c	/^static int ctc_oam_orgSpecSet_req21($/;"	f	file:
+ctc_oam_orgSpecValidInstantLeaf_decode21	user/ctc_oam.c	/^static int ctc_oam_orgSpecValidInstantLeaf_decode21($/;"	f	file:
+ctc_oam_orgSpecVarContainer_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecVarContainer_gen($/;"	f	file:
+ctc_oam_orgSpecVarInstant_gen	user/ctc_oam.c	/^static void ctc_oam_orgSpecVarInstant_gen($/;"	f	file:
+ctc_oam_orgSpecVar_req20	user/ctc_oam.c	/^static int ctc_oam_orgSpecVar_req20($/;"	f	file:
+ctc_oam_orgSpecVar_req21	user/ctc_oam.c	/^static int ctc_oam_orgSpecVar_req21($/;"	f	file:
+ctc_oam_orgSpec_processor	user/ctc_oam.c	/^ctc_oam_orgSpec_processor($/;"	f	file:
+ctc_oam_varCb_aAutoNegAdminState_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aAutoNegAdminState_get($/;"	f
+ctc_oam_varCb_aAutoNegAdvertisedTechnologyAbility_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aAutoNegAdvertisedTechnologyAbility_get($/;"	f
+ctc_oam_varCb_aAutoNegLocalTechnologyAbility_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aAutoNegLocalTechnologyAbility_get($/;"	f
+ctc_oam_varCb_aFECAbility_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aFECAbility_get($/;"	f
+ctc_oam_varCb_aFastLeaveAbility_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aFastLeaveAbility_get($/;"	f
+ctc_oam_varCb_aFastLeaveAdminState_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aFastLeaveAdminState_get($/;"	f
+ctc_oam_varCb_aFecMode_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aFecMode_get($/;"	f
+ctc_oam_varCb_aFecMode_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_aFecMode_set($/;"	f
+ctc_oam_varCb_aPhyAdminState_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_aPhyAdminState_get($/;"	f
+ctc_oam_varCb_acAutoNegAdminControl_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_acAutoNegAdminControl_set($/;"	f
+ctc_oam_varCb_acAutoNegRestartAutoConfig_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_acAutoNegRestartAutoConfig_set($/;"	f
+ctc_oam_varCb_acFastLeaveAdminControl_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_acFastLeaveAdminControl_set($/;"	f
+ctc_oam_varCb_acPhyAdminControl_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_acPhyAdminControl_set($/;"	f
+ctc_oam_varCb_activePonIfAdminstate_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_activePonIfAdminstate_get($/;"	f
+ctc_oam_varCb_activePonIfAdminstate_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_activePonIfAdminstate_set($/;"	f
+ctc_oam_varCb_addDelMulticastVlan_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_addDelMulticastVlan_get($/;"	f
+ctc_oam_varCb_addDelMulticastVlan_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_addDelMulticastVlan_set($/;"	f
+ctc_oam_varCb_alarmAdmin_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_alarmAdmin_set($/;"	f
+ctc_oam_varCb_calssificationMarking_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_calssificationMarking_get($/;"	f
+ctc_oam_varCb_calssificationMarking_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_calssificationMarking_set($/;"	f
+ctc_oam_varCb_chipsetId_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_chipsetId_get($/;"	f
+ctc_oam_varCb_dummy_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_dummy_set($/;"	f
+ctc_oam_varCb_ethLinkState_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethLinkState_get($/;"	f
+ctc_oam_varCb_ethPortDsPolicing_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortDsPolicing_get($/;"	f
+ctc_oam_varCb_ethPortDsPolicing_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortDsPolicing_set($/;"	f
+ctc_oam_varCb_ethPortPause_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortPause_get($/;"	f
+ctc_oam_varCb_ethPortPause_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortPause_set($/;"	f
+ctc_oam_varCb_ethPortStatistic_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortStatistic_get($/;"	f
+ctc_oam_varCb_ethPortUsPolicing_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortUsPolicing_get($/;"	f
+ctc_oam_varCb_ethPortUsPolicing_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortUsPolicing_set($/;"	f
+ctc_oam_varCb_ethPortmode_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_ethPortmode_set($/;"	f
+ctc_oam_varCb_firmwareVer_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_firmwareVer_get($/;"	f
+ctc_oam_varCb_groupNumMax_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_groupNumMax_get($/;"	f
+ctc_oam_varCb_groupNumMax_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_groupNumMax_set($/;"	f
+ctc_oam_varCb_holdoverConfig_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_holdoverConfig_get($/;"	f
+ctc_oam_varCb_holdoverConfig_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_holdoverConfig_set($/;"	f
+ctc_oam_varCb_multicastControl_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_multicastControl_get($/;"	f
+ctc_oam_varCb_multicastControl_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_multicastControl_set($/;"	f
+ctc_oam_varCb_multicastSwitch_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_multicastSwitch_get($/;"	f
+ctc_oam_varCb_multicastSwitch_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_multicastSwitch_set($/;"	f
+ctc_oam_varCb_multicastTagOper_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_multicastTagOper_get($/;"	f
+ctc_oam_varCb_multicastTagOper_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_multicastTagOper_set($/;"	f
+ctc_oam_varCb_mxUMngGlobalParameter_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_mxUMngGlobalParameter_get($/;"	f
+ctc_oam_varCb_mxUMngGlobalParameter_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_mxUMngGlobalParameter_set($/;"	f
+ctc_oam_varCb_mxUMngSNMPParameter_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_mxUMngSNMPParameter_get($/;"	f
+ctc_oam_varCb_mxUMngSNMPParameter_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_mxUMngSNMPParameter_set($/;"	f
+ctc_oam_varCb_onuCapabilities1_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuCapabilities1_get($/;"	f
+ctc_oam_varCb_onuCapabilities2_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuCapabilities2_get($/;"	f
+ctc_oam_varCb_onuCapabilities3_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuCapabilities3_get($/;"	f
+ctc_oam_varCb_onuPowerSavingCapabilities_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuPowerSavingCapabilities_get($/;"	f
+ctc_oam_varCb_onuPowerSavingConfig_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuPowerSavingConfig_get($/;"	f
+ctc_oam_varCb_onuPowerSavingConfig_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuPowerSavingConfig_set($/;"	f
+ctc_oam_varCb_onuProtectionParameters_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuProtectionParameters_get($/;"	f
+ctc_oam_varCb_onuProtectionParameters_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuProtectionParameters_set($/;"	f
+ctc_oam_varCb_onuSn_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_onuSn_get($/;"	f
+ctc_oam_varCb_opticalTransceiverDiagnosis_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_opticalTransceiverDiagnosis_get($/;"	f
+ctc_oam_varCb_ponif_alarmThreshold_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_ponif_alarmThreshold_set($/;"	f
+ctc_oam_varCb_portLoopDetect_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_portLoopDetect_set($/;"	f
+ctc_oam_varCb_portMacAgingTime_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_portMacAgingTime_get($/;"	f
+ctc_oam_varCb_portMacAgingTime_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_portMacAgingTime_set($/;"	f
+ctc_oam_varCb_resetOnu_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_resetOnu_set($/;"	f
+ctc_oam_varCb_serviceSla_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_serviceSla_get($/;"	f
+ctc_oam_varCb_serviceSla_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_serviceSla_set($/;"	f
+ctc_oam_varCb_vlan_get	user/ctc_oam_var.c	/^int ctc_oam_varCb_vlan_get($/;"	f
+ctc_oam_varCb_vlan_set	user/ctc_oam_var.c	/^int ctc_oam_varCb_vlan_set($/;"	f
+ctc_oam_verListItem_alloc	user/ctc_oam.c	/^static void ctc_oam_verListItem_alloc($/;"	f	file:
+ctc_oam_verListItem_free	user/ctc_oam.c	/^static void ctc_oam_verListItem_free($/;"	f	file:
+ctc_oam_version_support	user/ctc_oam.c	/^static unsigned char ctc_oam_version_support($/;"	f	file:
+ctc_onuAuth_failType	user/ctc_oam.c	/^static unsigned char ctc_onuAuth_failType[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+ctc_onuAuth_state	user/ctc_oam.c	/^static unsigned char ctc_onuAuth_state[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+ctc_orgspec_action_flag	user/ctc_oam.c	/^static unsigned char ctc_orgspec_action_flag;$/;"	v	file:
+ctc_stdActCb	user/ctc_oam_vartbl.c	/^static ctc_varCb_t ctc_stdActCb[] = {$/;"	v	file:
+ctc_stdAttrCb	user/ctc_oam_vartbl.c	/^static ctc_varCb_t ctc_stdAttrCb[] = {$/;"	v	file:
+ctc_vlan_mode	user/drv_lw.c	/^CTC_VLAN_MODE_E ctc_vlan_mode = CTC_VLAN_MODE_TRANSPARENT;$/;"	v
+currCtcVer	user/ctc_oam.c	/^static ctc_infoOamVer_t currCtcVer[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+currCtcVer_webDis	epon_oam_rx.c	/^unsigned char currCtcVer_webDis = 0;$/;"	v
+data	epon_oam_db.c	/^    unsigned char *data;$/;"	m	struct:oam_dummy_s	file:
+dbaThresholdDb	user/ctc_oam_var.c	/^ctc_dbaThreshold_t dbaThresholdDb = {$/;"	v
+defEventOrgSpecCb	epon_oam_db.c	/^static oam_eventOrgSpecCb_t defEventOrgSpecCb;$/;"	v	file:
+defInfoOrgSpecCb	epon_oam_db.c	/^static oam_infoOrgSpecCb_t defInfoOrgSpecCb;$/;"	v	file:
+defOrgSpecCb	epon_oam_db.c	/^static oam_orgSpecCb_t defOrgSpecCb;$/;"	v	file:
+defVarCb	epon_oam_db.c	/^static int (*defVarCb)($/;"	v	file:
+diag_printf	user/drv_lw.c	45;"	d	file:
+discovery_count	epon_oam_main.c	/^static int discovery_count=0;$/;"	v	file:
+dry1_alarm	user/oam_alarm.c	/^void	dry1_alarm(alarm_report_t *alarm_info)$/;"	f
+dry2_alarm	user/oam_alarm.c	/^void	dry2_alarm(alarm_report_t *alarm_info)$/;"	f
+dry_alarm_report	user/oam_alarm.c	/^void dry_alarm_report()$/;"	f
+dry_judge_and_alarm	user/oam_alarm.c	/^void dry_judge_and_alarm(alarm_report_t *info)$/;"	f
+dump_alarm_packet	user/oam_alarm.c	/^static void dump_alarm_packet( unsigned char *pkt, int len )$/;"	f	file:
+dump_ctc_infoOam	user/ctc_oam.c	/^static void dump_ctc_infoOam($/;"	f	file:
+dump_hex_value	epon_oam_dbg.c	/^void dump_hex_value(unsigned int flag, unsigned char *hexValue, unsigned short length)$/;"	f
+dump_info_oamPdu	epon_oam_dbg.c	/^void dump_info_oamPdu(unsigned short llid, oam_oamInfo_t *pOamInfo)$/;"	f
+dymUnicastTable	vendor/zte.c	/^	mac_table_t dymUnicastTable;$/;"	m	struct:__anon9	file:
+eopl_bdcom_get_req	vendor/bdcom.c	/^void eopl_bdcom_get_req(u8_t* p_in, u8_t* replybuf, u16_t* replylen)$/;"	f
+eopl_bdcom_pdu_process	vendor/bdcom.c	/^static int eopl_bdcom_pdu_process($/;"	f	file:
+eopl_bdcom_set_mac_aging	vendor/bdcom.c	/^void eopl_bdcom_set_mac_aging(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_mac_bind_static	vendor/bdcom.c	/^void eopl_bdcom_set_mac_bind_static(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_mac_learning	vendor/bdcom.c	/^void eopl_bdcom_set_mac_learning(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_mgmtip	vendor/bdcom.c	/^void eopl_bdcom_set_mgmtip(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_duplex	vendor/bdcom.c	/^void eopl_bdcom_set_port_duplex(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_isolate	vendor/bdcom.c	/^void eopl_bdcom_set_port_isolate(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_lookback	vendor/bdcom.c	/^void eopl_bdcom_set_port_lookback(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_mac	vendor/bdcom.c	/^void eopl_bdcom_set_port_mac(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_mac_num	vendor/bdcom.c	/^void eopl_bdcom_set_port_mac_num(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_mirror	vendor/bdcom.c	/^void eopl_bdcom_set_port_mirror(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_port_speed	vendor/bdcom.c	/^void eopl_bdcom_set_port_speed(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_bdcom_set_req	vendor/bdcom.c	/^void eopl_bdcom_set_req(u8_t* p_in, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_bdcom_set_spanning_tree	vendor/bdcom.c	/^void eopl_bdcom_set_spanning_tree(u8_t* p_in, u8_t*replybuf, u16_t* genlen)$/;"	f
+eopl_ctc_active_req_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_active_req_handler(u8_t *pucData)$/;"	f
+eopl_ctc_alarm_report	user/oam_alarm.c	/^int eopl_ctc_alarm_report(alarm_report_t *reportInfo)$/;"	f
+eopl_ctc_commit_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_commit_handler(u8_t *pucData)$/;"	f
+eopl_ctc_commit_new_img	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_commit_new_img(void)$/;"	f
+eopl_ctc_commit_req_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_commit_req_handler(u8_t *pucData)$/;"	f
+eopl_ctc_crc_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_crc_handler(u8_t *pucData)$/;"	f
+eopl_ctc_end_download_req_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_end_download_req_handler(u32_t ulFileSize)$/;"	f
+eopl_ctc_gen_file	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_gen_file(void)$/;"	f
+eopl_ctc_header_for_update	user/ctc_oam_upgrade.c	/^void eopl_ctc_header_for_update(u8_t *ptr)$/;"	f
+eopl_ctc_image_mark	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_image_mark(void)$/;"	f
+eopl_ctc_image_reboot	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_image_reboot(void)$/;"	f
+eopl_ctc_load_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_load_handler(u8_t *pucData)$/;"	f
+eopl_ctc_load_new_img	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_load_new_img(void)$/;"	f
+eopl_ctc_send_end_download_response	user/ctc_oam_upgrade.c	/^void eopl_ctc_send_end_download_response(u8_t ucRpsCode)$/;"	f
+eopl_ctc_soft_download	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_soft_download($/;"	f
+eopl_ctc_tftp_data_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_tftp_data_handler(u8_t *pucData, u16_t usDatalen)$/;"	f
+eopl_ctc_tftp_file_write_req_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_tftp_file_write_req_handler(u8_t *pucFileName, u8_t ucNameLen)$/;"	f
+eopl_ctc_tftp_handler	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_tftp_handler(u8_t *pucData, u16_t msg_len)$/;"	f
+eopl_ctc_write_flash	user/ctc_oam_upgrade.c	/^OPL_STATUS eopl_ctc_write_flash(void)$/;"	f
+eopl_dhcp_handler	vendor/h3c.c	/^int eopl_dhcp_handler(void)$/;"	f
+eopl_fiberhome_get_onu_instance_mac_limit	vendor/fiberhome.c	/^void eopl_fiberhome_get_onu_instance_mac_limit(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_fiberhome_get_onu_mac_agetime	vendor/fiberhome.c	/^void eopl_fiberhome_get_onu_mac_agetime(u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_fiberhome_get_onu_port_separate	vendor/fiberhome.c	/^void eopl_fiberhome_get_onu_port_separate(u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_fiberhome_get_req	vendor/fiberhome.c	/^int eopl_fiberhome_get_req(u8_t *p_in, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_fiberhome_pdu_process	vendor/fiberhome.c	/^static int eopl_fiberhome_pdu_process($/;"	f	file:
+eopl_fiberhome_set_mac_aging	vendor/fiberhome.c	/^void eopl_fiberhome_set_mac_aging(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_fiberhome_set_onu_mac_limit	vendor/fiberhome.c	/^void eopl_fiberhome_set_onu_mac_limit(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_fiberhome_set_port_separate	vendor/fiberhome.c	/^void eopl_fiberhome_set_port_separate(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_fiberhome_set_req	vendor/fiberhome.c	/^int eopl_fiberhome_set_req(u8_t *p_in, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_h3c_dhcp_process	vendor/h3c.c	/^int eopl_h3c_dhcp_process(u8_t* p_in)$/;"	f
+eopl_h3c_duplex_process	vendor/h3c.c	/^int eopl_h3c_duplex_process(u8_t* p_in)$/;"	f
+eopl_h3c_filter_process	vendor/h3c.c	/^int  eopl_h3c_filter_process(u8_t* p_in)$/;"	f
+eopl_h3c_get_board_stats	vendor/h3c.c	/^int eopl_h3c_get_board_stats(u8_t *p_in, u8_t branch, u16_t leaf, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_h3c_get_req	vendor/h3c.c	/^int eopl_h3c_get_req(u8_t *p_in, u8_t branch, u16_t leaf, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_h3c_get_uni_stats	vendor/h3c.c	/^int eopl_h3c_get_uni_stats(u8_t *p_in, u8_t branch, u16_t leaf, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_h3c_ip_process	vendor/h3c.c	/^int eopl_h3c_ip_process(u8_t* p_in)$/;"	f
+eopl_h3c_isolate_process	vendor/h3c.c	/^int eopl_h3c_isolate_process(u8_t* p_in)$/;"	f
+eopl_h3c_mdi_process	vendor/h3c.c	/^int eopl_h3c_mdi_process(u8_t* p_in)$/;"	f
+eopl_h3c_mirror_process	vendor/h3c.c	/^u32_t eopl_h3c_mirror_process(u8_t* p_in)$/;"	f
+eopl_h3c_mngt_vlan_process	vendor/h3c.c	/^int eopl_h3c_mngt_vlan_process(u8_t* p_in)$/;"	f
+eopl_h3c_monitor_process	vendor/h3c.c	/^int eopl_h3c_monitor_process(u8_t* p_in)$/;"	f
+eopl_h3c_pdu_process	vendor/h3c.c	/^static int eopl_h3c_pdu_process($/;"	f	file:
+eopl_h3c_reset_uni_stats	vendor/h3c.c	/^int eopl_h3c_reset_uni_stats(u8_t* p_in)$/;"	f
+eopl_h3c_set_default_ip	vendor/h3c.c	/^int eopl_h3c_set_default_ip(u8_t* p_in)$/;"	f
+eopl_h3c_set_ip	vendor/h3c.c	/^int eopl_h3c_set_ip(u8_t* p_in)$/;"	f
+eopl_h3c_set_port_duplex	vendor/h3c.c	/^int eopl_h3c_set_port_duplex(u32_t port_num, u32_t duplex_mode)$/;"	f
+eopl_h3c_set_port_isolate	vendor/h3c.c	/^int eopl_h3c_set_port_isolate(u32_t port_num, u32_t action)$/;"	f
+eopl_h3c_set_port_mdi	vendor/h3c.c	/^int eopl_h3c_set_port_mdi(u32_t port_num, u32_t subtype)$/;"	f
+eopl_h3c_set_port_mirror	vendor/h3c.c	/^int eopl_h3c_set_port_mirror(u32_t port_num, u32_t mirror_mode)$/;"	f
+eopl_h3c_set_port_monitor	vendor/h3c.c	/^int eopl_h3c_set_port_monitor(u32_t port_num, u32_t action)$/;"	f
+eopl_h3c_set_port_speed	vendor/h3c.c	/^int eopl_h3c_set_port_speed(u32_t port_num, u32_t speed_mode)$/;"	f
+eopl_h3c_set_req	vendor/h3c.c	/^int eopl_h3c_set_req(u8_t *p_in, u8_t branch, u16_t leaf)$/;"	f
+eopl_h3c_speed_process	vendor/h3c.c	/^u32_t eopl_h3c_speed_process(u8_t* p_in)$/;"	f
+eopl_huawei_get_eth_stats_rsp	vendor/huawei.c	/^void eopl_huawei_get_eth_stats_rsp(u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_huawei_get_optics_rsp	vendor/huawei.c	/^void eopl_huawei_get_optics_rsp(u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_huawei_get_req	vendor/huawei.c	/^void eopl_huawei_get_req(u8_t* p_byte, u8_t* pReplyBuf, u16_t* pReplyLen)$/;"	f
+eopl_huawei_get_special_rsp	vendor/huawei.c	/^void eopl_huawei_get_special_rsp(u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_huawei_pdu_process	vendor/huawei.c	/^int eopl_huawei_pdu_process($/;"	f
+eopl_huawei_pdu_process2	vendor/huawei.c	/^void eopl_huawei_pdu_process2(u8_t* p_byte, u8_t* pReplyBuf, u16_t* pReplyLen)$/;"	f
+eopl_huawei_set_req	vendor/huawei.c	/^int eopl_huawei_set_req(u8_t* p_byte, u8_t* pReplyBuf, u16_t* pReplyLen)$/;"	f
+eopl_huawei_set_ringcheck	vendor/huawei.c	/^void eopl_huawei_set_ringcheck(u8_t* p_in, u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_huawei_set_uni_clear	vendor/huawei.c	/^void eopl_huawei_set_uni_clear(u8_t* p_in, u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_ip_processing	vendor/h3c.c	/^int eopl_ip_processing(struct in_addr ipaddr, struct in_addr mask, struct in_addr gateway)$/;"	f
+eopl_mgmtvlan_processing	vendor/h3c.c	/^int eopl_mgmtvlan_processing(u16_t vlanid)$/;"	f
+eopl_rc_pdu_receive	vendor/raisecom.c	/^void eopl_rc_pdu_receive(u8_t *p_in, u16_t length)$/;"	f
+eopl_share_pdu_process	vendor/huawei.c	/^int eopl_share_pdu_process($/;"	f
+eopl_yotc_get_req	vendor/yotc.c	/^void eopl_yotc_get_req(u8_t* p_in, u8_t* replybuf, u16_t *pReplyLen)$/;"	f
+eopl_yotc_pdu_process	vendor/yotc.c	/^int eopl_yotc_pdu_process($/;"	f
+eopl_yotc_pdu_process2	vendor/yotc.c	/^void eopl_yotc_pdu_process2(u8_t* p_byte, u8_t* pReplyBuf, u16_t* pReplyLen)$/;"	f
+eopl_yotc_set_black_mac	vendor/yotc.c	/^void eopl_yotc_set_black_mac(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_mac_aging	vendor/yotc.c	/^void eopl_yotc_set_mac_aging(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_mac_limit	vendor/yotc.c	/^void eopl_yotc_set_mac_limit(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_onu_adminip	vendor/yotc.c	/^void eopl_yotc_set_onu_adminip(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_onu_adminvlan	vendor/yotc.c	/^void eopl_yotc_set_onu_adminvlan(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_onu_upgrade	vendor/yotc.c	/^void eopl_yotc_set_onu_upgrade(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_port_isolate	vendor/yotc.c	/^void eopl_yotc_set_port_isolate(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_port_mode	vendor/yotc.c	/^void eopl_yotc_set_port_mode(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_port_stats_reset	vendor/yotc.c	/^void eopl_yotc_set_port_stats_reset(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_port_trunk	vendor/yotc.c	/^void eopl_yotc_set_port_trunk(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_yotc_set_req	vendor/yotc.c	/^int eopl_yotc_set_req(u8_t* p_in, u8_t* replybuf, u16_t *replylen)$/;"	f
+eopl_yotc_set_white_mac	vendor/yotc.c	/^void eopl_yotc_set_white_mac(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+eopl_zte_ctc_get_req	vendor/zte.c	/^void eopl_zte_ctc_get_req(u16_t leaf, u8_t** pp_byte, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_ctc_set_req	vendor/zte.c	/^void eopl_zte_ctc_set_req(ctc_varInstant_t *pVarInstant,ctc_varDescriptor_t stVarDesc, u8_t** pp_byte, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_alarm_cfg	vendor/zte.c	/^void eopl_zte_get_alarm_cfg(u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_get_gbl_para	vendor/zte.c	/^void eopl_zte_get_gbl_para(u8_t* pReplybuf, u16_t* pGenlen)\/\/card based$/;"	f
+eopl_zte_get_mac_addr_aging	vendor/zte.c	/^void eopl_zte_get_mac_addr_aging(u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_get_mac_addr_limit	vendor/zte.c	/^void eopl_zte_get_mac_addr_limit(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_mgmt_ip	vendor/zte.c	/^void eopl_zte_get_mgmt_ip(u8_t type,u8_t port, u8_t*pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_onu_ether_stats	vendor/zte.c	/^void eopl_zte_get_onu_ether_stats(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_onu_sn	vendor/zte.c	/^void eopl_zte_get_onu_sn(u8_t type,u8_t port, u8_t*pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_onu_support	vendor/zte.c	/^void eopl_zte_get_onu_support(u8_t type,u8_t port, u8_t*pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_pmac_buff_cfg	vendor/zte.c	/^void eopl_zte_get_pmac_buff_cfg(u8_t* p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_get_pmac_buff_query	vendor/zte.c	/^void eopl_zte_get_pmac_buff_query(u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_get_pmac_ds_shaping	vendor/zte.c	/^void eopl_zte_get_pmac_ds_shaping(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_pon_statics_1	vendor/zte.c	/^void eopl_zte_get_pon_statics_1(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_pon_statics_2	vendor/zte.c	/^void eopl_zte_get_pon_statics_2(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_port_mac_binding	vendor/zte.c	/^void eopl_zte_get_port_mac_binding(u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_port_mac_filter	vendor/zte.c	/^void eopl_zte_get_port_mac_filter(u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_port_mode	vendor/zte.c	/^void eopl_zte_get_port_mode(u8_t type,u8_t port, u8_t*pReplyBuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_req	vendor/zte.c	/^void eopl_zte_get_req(u8_t *p_in, u8_t type, u8_t port,u8_t* pReplyBuf, u16_t* pReplyLen)$/;"	f
+eopl_zte_get_static_mac_cfg	vendor/zte.c	/^void eopl_zte_get_static_mac_cfg(u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_type_c	vendor/zte.c	/^void eopl_zte_get_type_c(u8_t type,u8_t port, u8_t*pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_get_uni_isolation	vendor/zte.c	/^void eopl_zte_get_uni_isolation(u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_get_uni_mac_query	vendor/zte.c	/^void eopl_zte_get_uni_mac_query(u8_t* p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_uni_stats_cfg	vendor/zte.c	/^void eopl_zte_get_uni_stats_cfg(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_uni_stats_query	vendor/zte.c	/^void eopl_zte_get_uni_stats_query(u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_get_upgrade_para	vendor/zte.c	/^void eopl_zte_get_upgrade_para(u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_pdu_process	vendor/zte.c	/^int eopl_zte_pdu_process($/;"	f
+eopl_zte_set_alarm_cfg	vendor/zte.c	/^void eopl_zte_set_alarm_cfg(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_set_config_param	vendor/zte.c	/^void 	eopl_zte_set_config_param(u8_t *p_in,u8_t type,u8_t port, u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_gbl_para	vendor/zte.c	/^void eopl_zte_set_gbl_para(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_mac_addr_aging	vendor/zte.c	/^void eopl_zte_set_mac_addr_aging(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_set_mac_addr_limit	vendor/zte.c	/^void eopl_zte_set_mac_addr_limit(ctc_varInstant_t *p_instance, u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_set_mgmt_dhcp	vendor/zte.c	/^void eopl_zte_set_mgmt_dhcp(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_mgmt_ip	vendor/zte.c	/^void eopl_zte_set_mgmt_ip(u8_t *p_in,u8_t type,u8_t port, u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_pmac_buff_cfg	vendor/zte.c	/^void eopl_zte_set_pmac_buff_cfg(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/onu based$/;"	f
+eopl_zte_set_pmac_ds_shaping	vendor/zte.c	/^void eopl_zte_set_pmac_ds_shaping(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_set_port_mac_binding	vendor/zte.c	/^void eopl_zte_set_port_mac_binding(ctc_varInstant_t *p_instance, u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_port_mac_filter	vendor/zte.c	/^void eopl_zte_set_port_mac_filter(ctc_varInstant_t *p_instance, u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_port_mode	vendor/zte.c	/^void eopl_zte_set_port_mode(u8_t *p_in,u8_t type,u8_t port, u8_t* pReplyBuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_set_req	vendor/zte.c	/^void eopl_zte_set_req(u8_t *p_in, u8_t type, u8_t port,u8_t* pReplyBuf, u16_t* pReplyLen)$/;"	f
+eopl_zte_set_static_mac_cfg	vendor/zte.c	/^void eopl_zte_set_static_mac_cfg(ctc_varInstant_t *p_instance, u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_tx_laser_conrol	vendor/zte.c	/^void eopl_zte_set_tx_laser_conrol(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_set_type_c	vendor/zte.c	/^void eopl_zte_set_type_c(u8_t *p_in,u8_t type,u8_t port, u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_uni_isolation	vendor/zte.c	/^void eopl_zte_set_uni_isolation(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eopl_zte_set_uni_stats_cfg	vendor/zte.c	/^void eopl_zte_set_uni_stats_cfg(ctc_varInstant_t *p_instance, u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_set_uni_stats_reset	vendor/zte.c	/^void eopl_zte_set_uni_stats_reset(ctc_varInstant_t *p_instance, u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)\/\/port based$/;"	f
+eopl_zte_set_upgrade_para	vendor/zte.c	/^void eopl_zte_set_upgrade_para(u8_t *p_in, u8_t* pReplybuf, u16_t* pGenlen)$/;"	f
+eponOamDbgFlag	epon_oam_dbg.c	/^static unsigned int eponOamDbgFlag = EPON_OAM_DBGFLAG_DEFAULT;$/;"	v	file:
+eponOamExtFlag	epon_oam_dbg.c	/^static unsigned int eponOamExtFlag = EPON_OAM_DBGEXT_DEFAULT;$/;"	v	file:
+epon_oam_cli_configAutoReg_set	epon_oam_cli.c	/^static int epon_oam_cli_configAutoReg_set($/;"	f	file:
+epon_oam_cli_configEvent_set	epon_oam_cli.c	/^static int epon_oam_cli_configEvent_set($/;"	f	file:
+epon_oam_cli_configHoldover_set	epon_oam_cli.c	/^static int epon_oam_cli_configHoldover_set($/;"	f	file:
+epon_oam_cli_configMac_set	epon_oam_cli.c	/^static int epon_oam_cli_configMac_set($/;"	f	file:
+epon_oam_cli_configOam_set	epon_oam_cli.c	/^static int epon_oam_cli_configOam_set($/;"	f	file:
+epon_oam_cli_config_get	epon_oam_cli.c	/^static int epon_oam_cli_config_get($/;"	f	file:
+epon_oam_cli_counter_clear	epon_oam_cli.c	/^static int epon_oam_cli_counter_clear($/;"	f	file:
+epon_oam_cli_counter_get	epon_oam_cli.c	/^static int epon_oam_cli_counter_get($/;"	f	file:
+epon_oam_cli_ctcLoid_get	epon_oam_cli.c	/^static int epon_oam_cli_ctcLoid_get($/;"	f	file:
+epon_oam_cli_ctcLoid_set	epon_oam_cli.c	/^static int epon_oam_cli_ctcLoid_set($/;"	f	file:
+epon_oam_cli_dbgExt_get	epon_oam_cli.c	/^static int epon_oam_cli_dbgExt_get($/;"	f	file:
+epon_oam_cli_dbgExt_set	epon_oam_cli.c	/^static int epon_oam_cli_dbgExt_set($/;"	f	file:
+epon_oam_cli_dbgFlag_get	epon_oam_cli.c	/^static int epon_oam_cli_dbgFlag_get($/;"	f	file:
+epon_oam_cli_dbgFlag_set	epon_oam_cli.c	/^static int epon_oam_cli_dbgFlag_set($/;"	f	file:
+epon_oam_cli_failover_get	epon_oam_cli.c	/^static int epon_oam_cli_failover_get($/;"	f	file:
+epon_oam_cli_failover_set	epon_oam_cli.c	/^static int epon_oam_cli_failover_set($/;"	f	file:
+epon_oam_cli_oamInfoVenderOui_set	epon_oam_cli.c	/^static int epon_oam_cli_oamInfoVenderOui_set($/;"	f	file:
+epon_oam_cli_oamInfo_get	epon_oam_cli.c	/^static int epon_oam_cli_oamInfo_get($/;"	f	file:
+epon_oam_cli_oamState_get	epon_oam_cli.c	/^static int epon_oam_cli_oamState_get($/;"	f	file:
+epon_oam_cli_parse	epon_oam_cli.c	/^int epon_oam_cli_parse($/;"	f
+epon_oam_cli_proc	epon_oam_main.c	/^void epon_oam_cli_proc($/;"	f
+epon_oam_cli_register_trigger	epon_oam_cli.c	/^static int epon_oam_cli_register_trigger($/;"	f	file:
+epon_oam_config_get	epon_oam_db.c	/^int epon_oam_config_get($/;"	f
+epon_oam_config_set	epon_oam_db.c	/^int epon_oam_config_set($/;"	f
+epon_oam_counter_get	epon_oam_db.c	/^unsigned int epon_oam_counter_get($/;"	f
+epon_oam_counter_inc	epon_oam_db.c	/^int epon_oam_counter_inc($/;"	f
+epon_oam_counter_init	epon_oam_db.c	/^int epon_oam_counter_init($/;"	f
+epon_oam_ctc_alarm_thread	user/oam_alarm.c	/^void *epon_oam_ctc_alarm_thread(void *argu)$/;"	f
+epon_oam_database_init	epon_oam_db.c	/^int epon_oam_database_init(void)$/;"	f
+epon_oam_dbgExt_get	epon_oam_dbg.c	/^epon_oam_dbgExt_get($/;"	f
+epon_oam_dbgExt_set	epon_oam_dbg.c	/^epon_oam_dbgExt_set($/;"	f
+epon_oam_dbgFlag_get	epon_oam_dbg.c	/^epon_oam_dbgFlag_get($/;"	f
+epon_oam_dbgFlag_set	epon_oam_dbg.c	/^epon_oam_dbgFlag_set($/;"	f
+epon_oam_defOrgSpecCb_get	epon_oam_db.c	/^int epon_oam_defOrgSpecCb_get($/;"	f
+epon_oam_defOrgSpecCb_set	epon_oam_db.c	/^int epon_oam_defOrgSpecCb_set($/;"	f
+epon_oam_defVarCb_get	epon_oam_db.c	/^int epon_oam_defVarCb_get($/;"	f
+epon_oam_defVarCb_set	epon_oam_db.c	/^int epon_oam_defVarCb_set($/;"	f
+epon_oam_discoveryIdleLlid_get	epon_oam_state.c	/^int epon_oam_discoveryIdleLlid_get($/;"	f
+epon_oam_discoveryLlid_init	epon_oam_state.c	/^int epon_oam_discoveryLlid_init($/;"	f
+epon_oam_discovery_init	epon_oam_state.c	/^int epon_oam_discovery_init(void)$/;"	f
+epon_oam_discovery_proc	epon_oam_state.c	/^int epon_oam_discovery_proc($/;"	f
+epon_oam_dummyHandler	epon_oam_db.c	/^static int epon_oam_dummyHandler($/;"	f	file:
+epon_oam_dummyParser	epon_oam_db.c	/^static int epon_oam_dummyParser($/;"	f	file:
+epon_oam_dummyProcessor	epon_oam_db.c	/^static int epon_oam_dummyProcessor($/;"	f	file:
+epon_oam_dummyVarHandler	epon_oam_db.c	/^static int epon_oam_dummyVarHandler($/;"	f	file:
+epon_oam_dyingGasp_gen	epon_oam_tx.c	/^int epon_oam_dyingGasp_gen($/;"	f
+epon_oam_dyingGasp_send	epon_oam_tx.c	/^int epon_oam_dyingGasp_send($/;"	f
+epon_oam_eventData_send	epon_oam_cli.c	/^int epon_oam_eventData_send($/;"	f
+epon_oam_eventData_send	epon_oam_main.c	/^int epon_oam_eventData_send($/;"	f
+epon_oam_event_send	epon_oam_cli.c	/^int epon_oam_event_send($/;"	f
+epon_oam_event_send	epon_oam_main.c	/^int epon_oam_event_send($/;"	f
+epon_oam_failRecover	epon_oam_main.c	/^void *epon_oam_failRecover(void *argu)$/;"	f
+epon_oam_holdover_timeout	epon_oam_main.c	/^static void epon_oam_holdover_timeout($/;"	f	file:
+epon_oam_initObjIdNum	epon_oam_db.c	/^static void epon_oam_initObjIdNum(void)$/;"	f	file:
+epon_oam_keepalive_timeout	epon_oam_main.c	/^static void epon_oam_keepalive_timeout($/;"	f	file:
+epon_oam_localInfo_get	epon_oam_db.c	/^int epon_oam_localInfo_get($/;"	f
+epon_oam_localInfo_set	epon_oam_db.c	/^int epon_oam_localInfo_set($/;"	f
+epon_oam_maxOamPduSize_get	epon_oam_rx.c	/^static int epon_oam_maxOamPduSize_get($/;"	f	file:
+epon_oam_oamPduFlag_get	epon_oam_state.c	/^unsigned short epon_oam_oamPduFlag_get($/;"	f
+epon_oam_orgSpecCb_dereg	epon_oam_db.c	/^int epon_oam_orgSpecCb_dereg($/;"	f
+epon_oam_orgSpecCb_get	epon_oam_db.c	/^int epon_oam_orgSpecCb_get($/;"	f
+epon_oam_orgSpecCb_reg	epon_oam_db.c	/^int epon_oam_orgSpecCb_reg($/;"	f
+epon_oam_orgSpecEvent_dereg	epon_oam_db.c	/^static int epon_oam_orgSpecEvent_dereg($/;"	f	file:
+epon_oam_orgSpecEvent_get	epon_oam_db.c	/^static oam_eventOrgSpecCbRec_t *epon_oam_orgSpecEvent_get(unsigned char *pOui)$/;"	f	file:
+epon_oam_orgSpecEvent_handler	epon_oam_rx.c	/^static int epon_oam_orgSpecEvent_handler($/;"	f	file:
+epon_oam_orgSpecEvent_parser	epon_oam_rx.c	/^static int epon_oam_orgSpecEvent_parser($/;"	f	file:
+epon_oam_orgSpecEvent_reg	epon_oam_db.c	/^static int epon_oam_orgSpecEvent_reg($/;"	f	file:
+epon_oam_orgSpecEvtNotification_send	epon_oam_tx.c	/^int epon_oam_orgSpecEvtNotification_send($/;"	f
+epon_oam_orgSpecInfo_dereg	epon_oam_db.c	/^static int epon_oam_orgSpecInfo_dereg($/;"	f	file:
+epon_oam_orgSpecInfo_get	epon_oam_db.c	/^static oam_infoOrgSpecCbRec_t *epon_oam_orgSpecInfo_get(unsigned char *pOui)$/;"	f	file:
+epon_oam_orgSpecInfo_handler	epon_oam_rx.c	/^static int epon_oam_orgSpecInfo_handler($/;"	f	file:
+epon_oam_orgSpecInfo_parser	epon_oam_rx.c	/^static int epon_oam_orgSpecInfo_parser($/;"	f	file:
+epon_oam_orgSpecInfo_reg	epon_oam_db.c	/^static int epon_oam_orgSpecInfo_reg($/;"	f	file:
+epon_oam_orgSpec_dereg	epon_oam_db.c	/^static int epon_oam_orgSpec_dereg($/;"	f	file:
+epon_oam_orgSpec_get	epon_oam_db.c	/^static oam_orgSpecCbRec_t *epon_oam_orgSpec_get(unsigned char *pOui)$/;"	f	file:
+epon_oam_orgSpec_reg	epon_oam_db.c	/^static int epon_oam_orgSpec_reg($/;"	f	file:
+epon_oam_print	epon_oam_dbg.c	/^epon_oam_print($/;"	f
+epon_oam_raisecom_thread	vendor/raisecom.c	/^void *epon_oam_raisecom_thread(void *argu)$/;"	f
+epon_oam_remoteInfo_get	epon_oam_db.c	/^int epon_oam_remoteInfo_get($/;"	f
+epon_oam_remoteInfo_init	epon_oam_db.c	/^int epon_oam_remoteInfo_init($/;"	f
+epon_oam_remoteInfo_set	epon_oam_db.c	/^int epon_oam_remoteInfo_set($/;"	f
+epon_oam_reply_send	epon_oam_tx.c	/^int epon_oam_reply_send($/;"	f
+epon_oam_rxThread	epon_oam_rx.c	/^void *epon_oam_rxThread(void *argu)$/;"	f
+epon_oam_rx_handler	epon_oam_rx.c	/^epon_oam_rx_handler($/;"	f	file:
+epon_oam_stateKeeper	epon_oam_main.c	/^void *epon_oam_stateKeeper(void *argu)$/;"	f
+epon_oam_stdEvent_parser	epon_oam_rx.c	/^static int epon_oam_stdEvent_parser($/;"	f	file:
+epon_oam_stdEvent_process	epon_oam_rx.c	/^static int epon_oam_stdEvent_process($/;"	f	file:
+epon_oam_stdHdr_gen	epon_oam_tx.c	/^void epon_oam_stdHdr_gen($/;"	f
+epon_oam_stdHdr_parser	epon_oam_rx.c	/^static int epon_oam_stdHdr_parser($/;"	f	file:
+epon_oam_stdInfo_gen	epon_oam_tx.c	/^int epon_oam_stdInfo_gen($/;"	f
+epon_oam_stdInfo_parser	epon_oam_rx.c	/^static int epon_oam_stdInfo_parser($/;"	f	file:
+epon_oam_stdInfo_process	epon_oam_rx.c	/^static int epon_oam_stdInfo_process($/;"	f	file:
+epon_oam_stdLoopback_process	epon_oam_rx.c	/^static int epon_oam_stdLoopback_process($/;"	f	file:
+epon_oam_stdOrgSpec_process	epon_oam_rx.c	/^int epon_oam_stdOrgSpec_process($/;"	f
+epon_oam_stdVarReq_process	epon_oam_rx.c	/^static int epon_oam_stdVarReq_process($/;"	f	file:
+epon_oam_stdVarResp_process	epon_oam_rx.c	/^static int epon_oam_stdVarResp_process($/;"	f	file:
+epon_oam_test_init	epon_oam_db.c	/^static void epon_oam_test_init()$/;"	f	file:
+epon_oam_triggerMpcp_reg	epon_oam_main.c	/^static int epon_oam_triggerMpcp_reg($/;"	f	file:
+epon_oam_userDb_init	epon_oam_main.c	/^int epon_oam_userDb_init($/;"	f
+epon_oam_user_init	epon_oam_main.c	/^int epon_oam_user_init(void)$/;"	f
+epon_oam_varRespErrorLen_gen	epon_oam_tx.c	/^void epon_oam_varRespErrorLen_gen($/;"	f
+epon_oam_varRespLen_calc	epon_oam_rx.c	/^static unsigned short epon_oam_varRespLen_calc($/;"	f	file:
+epon_oam_varResp_free	epon_oam_rx.c	/^static void epon_oam_varResp_free($/;"	f	file:
+epon_oam_varResp_gen	epon_oam_tx.c	/^void epon_oam_varResp_gen($/;"	f
+epon_oam_variableCb_dereg	epon_oam_db.c	/^int epon_oam_variableCb_dereg($/;"	f
+epon_oam_variableCb_get	epon_oam_db.c	/^int epon_oam_variableCb_get($/;"	f
+epon_oam_variableCb_reg	epon_oam_db.c	/^int epon_oam_variableCb_reg($/;"	f
+epon_oam_variableDb_hash	epon_oam_db.c	/^static unsigned char epon_oam_variableDb_hash($/;"	f	file:
+epon_oam_variable_dereg	epon_oam_db.c	/^static int epon_oam_variable_dereg($/;"	f	file:
+epon_oam_variable_get	epon_oam_db.c	/^static oam_varCbRec_t *epon_oam_variable_get($/;"	f	file:
+epon_oam_variable_reg	epon_oam_db.c	/^static int epon_oam_variable_reg($/;"	f	file:
+epon_stateKeeper_timer_init	epon_oam_main.c	/^static void epon_stateKeeper_timer_init(void)$/;"	f	file:
+eth_judge_and_alarm	user/oam_alarm.c	/^void eth_judge_and_alarm(alarm_report_t *info)$/;"	f
+eventSeq	epon_oam_tx.c	/^static unsigned short eventSeq[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+failoverTime	epon_oam_main.c	/^static unsigned int failoverTime;$/;"	v	file:
+failoverTimeSpec	epon_oam_main.c	/^static struct timespec failoverTimeSpec;$/;"	v	typeref:struct:timespec	file:
+fiberhome_get_onu_mac_table	vendor/fiberhome.c	/^void fiberhome_get_onu_mac_table(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+fiberhome_get_onu_port_rstp	vendor/fiberhome.c	/^void fiberhome_get_onu_port_rstp(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+fiberhome_get_onu_port_stats	vendor/fiberhome.c	/^void fiberhome_get_onu_port_stats(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+fiberhome_oam_init	vendor/fiberhome.c	/^int fiberhome_oam_init(void)$/;"	f
+fiberhome_olt_vender	epon_oam_db.c	/^unsigned char   fiberhome_olt_vender[4] = {0x11, 0x00, 0x00, 0x01};$/;"	v
+fiberhome_onu_vendor	epon_oam_db.c	/^unsigned char fiberhome_onu_vendor[4] = {'W','R','I', 0};$/;"	v
+filter_acl_add_local	vendor/h3c.c	/^int filter_acl_add_local(u8_t direction, u8_t aclType,u8_t ucRuleID, u8_t* ucValue)$/;"	f
+filter_acl_add_local	vendor/raisecom.c	/^static int filter_acl_add_local(u8_t aclType,u8_t ucRuleID, u8_t* ucValue)$/;"	f	file:
+filter_acl_clear_local	vendor/h3c.c	/^int filter_acl_clear_local()$/;"	f
+filter_acl_del_local	vendor/h3c.c	/^int filter_acl_del_local(u8_t direction, u8_t aclType, u8_t* ucValue)$/;"	f
+filter_acl_del_local	vendor/raisecom.c	/^static int filter_acl_del_local(u8_t aclType, u8_t* ucValue)$/;"	f	file:
+filter_acl_get_emptyrule	vendor/h3c.c	/^int filter_acl_get_emptyrule(void)$/;"	f
+filter_acl_get_localnum	vendor/h3c.c	/^int filter_acl_get_localnum(void)$/;"	f
+filter_acl_local	vendor/raisecom.c	/^static rc_filter_acl_t filter_acl_local[MAX_FILTER_NUM] =$/;"	v	file:
+findPower	user/drv_lw.c	/^static double findPower(double dPowerData)$/;"	f	file:
+gConfigManageType	vendor/zte.c	/^static ZTE_CONFIG_MANAGE_TYPE_t gConfigManageType;$/;"	v	file:
+gLaserConfigFlag	vendor/zte.c	/^static char gLaserConfigFlag = 0;$/;"	v	file:
+gMacPooValue	vendor/zte.c	/^mac_table_value_t gMacPooValue = {.macHead.random_value = 0xffff};$/;"	v
+gTxLaserCloseDuration	vendor/zte.c	/^static UINT32 gTxLaserCloseDuration = 0;$/;"	v	file:
+g_adPower	user/drv_lw.c	/^double g_adPower[100][2] = {$/;"	v
+g_alarm_card_enable	user/oam_alarm.c	/^static unsigned int g_alarm_card_enable = 0;$/;"	v	file:
+g_alarm_card_state	user/oam_alarm.c	/^unsigned int g_alarm_card_state = 0xffffffff;$/;"	v
+g_alarm_e1_enable	user/oam_alarm.c	/^static unsigned int g_alarm_e1_enable= 0;$/;"	v	file:
+g_alarm_e1_state	user/oam_alarm.c	/^unsigned int g_alarm_e1_state = 0xffffffff;$/;"	v
+g_alarm_eth_enable	user/oam_alarm.c	/^static unsigned int g_alarm_eth_enable[NUMBER_OF_PORTS] = {0xffff, 0xffff, 0xffff, 0xffff};$/;"	v	file:
+g_alarm_eth_state	user/oam_alarm.c	/^unsigned int g_alarm_eth_state[NUMBER_OF_PORTS] = {0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff};$/;"	v
+g_alarm_onu_enable	user/oam_alarm.c	/^static unsigned int g_alarm_onu_enable = 0;$/;"	v	file:
+g_alarm_onu_state	user/oam_alarm.c	/^unsigned int g_alarm_onu_state = 0xffffffff;$/;"	v
+g_alarm_optical_thr	user/oam_alarm.c	/^alarm_thr_t g_alarm_optical_thr[WARNING_TEMP_LOW]={{0xffffffff, 0x0},$/;"	v
+g_alarm_pon_enable	user/oam_alarm.c	/^static unsigned int g_alarm_pon_enable = 0;$/;"	v	file:
+g_alarm_pon_state	user/oam_alarm.c	/^unsigned int g_alarm_pon_state = 0xffffffff;$/;"	v
+g_alarm_pots_enable	user/oam_alarm.c	/^static unsigned int g_alarm_pots_enable = 0;$/;"	v	file:
+g_alarm_pots_state	user/oam_alarm.c	/^unsigned int g_alarm_pots_state = 0xffffffff;$/;"	v
+g_alarm_seq_no	user/oam_alarm.c	/^int g_alarm_seq_no = 0;$/;"	v
+g_alarm_ups_state	user/oam_alarm.c	/^char g_alarm_ups_state = 0;$/;"	v
+g_astPortCfg	user/drv_lw.c	/^PORT_CFG_S g_astPortCfg[MAX_PORT_NUM+1];$/;"	v
+g_astUniQinqMode	user/drv_lw.c	/^static PORT_QINQ_S g_astUniQinqMode[MAX_PORT_NUM+1];$/;"	v	file:
+g_aucOnuMac	user/drv_lw.c	/^UCHAR g_aucOnuMac[MAC_ADDR_LEN];$/;"	v
+g_bLightAlways	user/drv_lw.c	/^UINT8 g_bLightAlways = FALSE;$/;"	v
+g_enOnuBoardType	user/drv_lw.c	/^ONU_BOARD_TYPE_E g_enOnuBoardType = ONU_BORAD_TYPE_EPN104;$/;"	v
+g_mgmt_status_cfg	vendor/zte.c	/^u8_t g_mgmt_status_cfg;$/;"	v
+g_ponStatus	epon_oam_rx.c	/^ponStatus_webDis_t *g_ponStatus = NULL;$/;"	v
+g_rc_port_mac	vendor/raisecom.c	/^rc_port_mac_t * g_rc_port_mac = NULL;$/;"	v
+g_report_enable	user/oam_alarm.c	/^char g_report_enable = 1;$/;"	v
+g_stImageFile	user/ctc_oam_upgrade.c	/^TFTP_FILE_t g_stImageFile;$/;"	v
+g_stIpConfig_20	vendor/zte.c	/^ODM_SYS_IF_CONFIG_t g_stIpConfig_20;$/;"	v
+g_stIpMgmgConfig_20	vendor/zte.c	/^ODM_SYS_IF_CONFIG_t g_stIpMgmgConfig_20;$/;"	v
+g_ucLlid	user/ctc_oam_upgrade.c	/^static u8_t g_ucLlid = 0;$/;"	v	file:
+g_upgradeOngoing	user/ctc_oam_upgrade.c	/^uint8 g_upgradeOngoing;$/;"	v
+g_usAlarmOutDataIdx	user/oam_alarm.c	/^u16_t g_usAlarmOutDataIdx;$/;"	v
+g_usOutDataIdx	vendor/raisecom.c	/^u16_t g_usOutDataIdx;$/;"	v
+g_waitForActive	user/ctc_oam_upgrade.c	/^uint8 g_waitForActive;$/;"	v
+getDigit	user/drv_lw.c	/^static int getDigit(unsigned short usNumber)$/;"	f	file:
+get_alarm_switch_state	user/oam_alarm.c	/^char get_alarm_switch_state()$/;"	f
+get_mac_entity	vendor/zte.c	/^u16_t get_mac_entity(oam_zte_uni_mac_query_block_t *mac_block, u16_t  randomValue)$/;"	f
+get_optical_thr	user/oam_alarm.c	/^int get_optical_thr(INT16U alarm_id, alarm_thr_t *thr)$/;"	f
+get_spdlx_by_new_duplex	user/drv_lw.c	/^int get_spdlx_by_new_duplex(PORT_DUPLEX_E enPortDuplex, int* spdlx_val)$/;"	f
+get_spdlx_by_new_speed	user/drv_lw.c	/^int get_spdlx_by_new_speed(PORT_SPEED_E enPortSpeed, int* spdlx_val)$/;"	f
+get_uptime	vendor/raisecom.c	/^static int get_uptime(u32_t *uptime)$/;"	f	file:
+gst_rc_static_mac	vendor/raisecom.c	/^rc_mac_static_t* gst_rc_static_mac = NULL;$/;"	v
+h3c_oam_init	vendor/h3c.c	/^int h3c_oam_init(void)$/;"	f
+h3c_onu_vendor	epon_oam_db.c	/^unsigned char h3c_onu_vendor[4] = {'H','3','C',0x00};$/;"	v
+h3c_oui	epon_oam_db.c	/^unsigned char 	h3c_oui[3] = {0x00, 0x0f, 0xe2};$/;"	v
+haddleStatisticsCollectPort	vendor/zte.c	/^void *haddleStatisticsCollectPort(void * pthparam)$/;"	f
+haddleStatisticsCount	vendor/zte.c	/^int haddleStatisticsCount(u8_t port , statistics_counter_t  * statistics_counter)$/;"	f
+hostMac	vendor/raisecom.c	/^uint8 hostMac[MAC_ADDRESS_LENGTH] = {0};$/;"	v
+huawei_just_set_response	vendor/huawei.c	/^void huawei_just_set_response(u8_t* p_in, u8_t* pReplyBuf, u16_t* pGenlen)$/;"	f
+huawei_oam_init	vendor/huawei.c	/^int huawei_oam_init(void)$/;"	f
+huawei_oui	epon_oam_db.c	/^unsigned char	huawei_oui[3] = {0xbc, 0x61, 0x4e}; $/;"	v
+huawei_port_instance_2_0	vendor/huawei.c	/^oam_huawei_instance_tlv_2_0_t huawei_port_instance_2_0;$/;"	v
+huawei_port_mode_get	vendor/huawei.c	/^void huawei_port_mode_get(u8_t *p_in, u8_t* p_out, u16_t* pGenlen)$/;"	f
+huawei_port_mode_set	vendor/huawei.c	/^int huawei_port_mode_set(u8_t *p_in)$/;"	f
+huawei_yotc_oam_init	vendor/huawei.c	/^int huawei_yotc_oam_init(void)$/;"	f
+init_mac_pool	vendor/zte.c	/^void init_mac_pool(u16_t randomValue)$/;"	f
+ipc_fd	vendor/fiberhome.c	/^static int ipc_fd;$/;"	v	file:
+ipc_fd	vendor/h3c.c	/^static int ipc_fd;$/;"	v	file:
+ipc_system_request	epon_oam_main.c	/^static int ipc_system_request(int handle)$/;"	f	file:
+length	epon_oam_db.c	/^    unsigned short length;$/;"	m	struct:oam_dummy_s	file:
+link_state_and_loop_alarm	user/oam_alarm.c	/^void link_state_and_loop_alarm(int port, alarm_report_t *alarm_info)$/;"	f
+localOamInfo	epon_oam_db.c	/^static oam_oamInfo_t localOamInfo[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+local_clasmark	user/drv_lw.c	/^static oam_clasmark_local_t local_clasmark[4];$/;"	v	file:
+local_pdu	epon_oam_state.c	/^static unsigned char local_pdu[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+loidDb	user/ctc_oam.c	/^static ctc_onuAuthLoid_t loidDb[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+los_count	epon_oam_main.c	/^static int los_count=0;$/;"	v	file:
+m_DrvCfgMutex	user/drv_lw.c	/^static pthread_mutex_t m_DrvCfgMutex;$/;"	v	file:
+m_abAutoNegEnable	user/drv_lw.c	/^BOOL_T m_abAutoNegEnable[CTC_MAX_SUBPORT_NUM + 1] = {BOOL_TRUE, BOOL_TRUE, BOOL_TRUE, BOOL_TRUE, BOOL_TRUE};$/;"	v
+m_abAutoNegEnable	user/drv_lw.c	/^BOOL_T m_abAutoNegEnable[CTC_MAX_SUBPORT_NUM + 1] = {BOOL_TRUE, BOOL_TRUE};$/;"	v
+m_enOltFlag	epon_oam_state.c	/^OLT_FLAG_E m_enOltFlag = OLT_FLAG_CTC;$/;"	v
+macCount	vendor/zte.c	/^u32_t macCount;$/;"	m	struct:__anon8	file:
+macHead	vendor/zte.c	/^	mac_table_head_t macHead;$/;"	m	struct:__anon9	file:
+macPos	vendor/zte.c	/^int macPos;$/;"	m	struct:__anon8	file:
+mac_resource_free	vendor/zte.c	/^void mac_resource_free()$/;"	f
+mac_table_head_t	vendor/zte.c	/^}__attribute__((__packed__))mac_table_head_t;$/;"	t	typeref:struct:__anon7	file:
+mac_table_t	vendor/zte.c	/^}mac_table_t;$/;"	t	typeref:struct:__anon8	file:
+mac_table_value_t	vendor/zte.c	/^}mac_table_value_t;$/;"	t	typeref:struct:__anon9	file:
+main	epon_oam_cli.c	/^main($/;"	f
+main	epon_oam_main.c	/^main($/;"	f
+msgQId	epon_oam_cli.c	/^static int msgQId;$/;"	v	file:
+msgQId	epon_oam_main.c	/^static int msgQId;$/;"	v	file:
+multicastTable	vendor/zte.c	/^	mac_table_t multicastTable;	$/;"	m	struct:__anon9	file:
+oamConfig	epon_oam_db.c	/^static oam_config_t oamConfig[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+oamCounter	epon_oam_db.c	/^static oam_counter_t oamCounter[EPON_OAM_VARIABLEDB_HASH_NUM];$/;"	v	file:
+oamDbAccessSem	epon_oam_db.c	/^static sem_t oamDbAccessSem;$/;"	v	file:
+oamStateAccessSem	epon_oam_state.c	/^static sem_t oamStateAccessSem;$/;"	v	file:
+oam_alarm	user/oam_alarm.c	/^int oam_alarm(alarm_report_t *info)$/;"	f
+oam_cli_tree_s	epon_oam_cli.c	/^typedef struct oam_cli_tree_s {$/;"	s	file:
+oam_cli_tree_t	epon_oam_cli.c	/^} oam_cli_tree_t;$/;"	t	typeref:struct:oam_cli_tree_s	file:
+oam_discovery_state	epon_oam_main.c	/^unsigned char oam_discovery_state;$/;"	v
+oam_dummy_s	epon_oam_db.c	/^typedef struct oam_dummy_s {$/;"	s	file:
+oam_dummy_t	epon_oam_db.c	/^} oam_dummy_t;$/;"	t	typeref:struct:oam_dummy_s	file:
+oam_fd	epon_oam_main.c	/^int oam_fd;$/;"	v
+oam_fsm_state	epon_oam_state.c	/^static unsigned char oam_fsm_state[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+oam_h3c_set_mgmtvlanif	vendor/h3c.c	/^int oam_h3c_set_mgmtvlanif(u8_t *p_in)$/;"	f
+oam_h3c_set_onu_config	vendor/h3c.c	/^void oam_h3c_set_onu_config(u8_t *p_in)$/;"	f
+oam_h3c_set_uni_config	vendor/h3c.c	/^void oam_h3c_set_uni_config(u8_t *p_in)$/;"	f
+oam_h3c_set_uni_fast_leave	vendor/h3c.c	/^int oam_h3c_set_uni_fast_leave(u8_t *p_in)$/;"	f
+oam_host_socket_recv	vendor/raisecom.c	/^INT16 oam_host_socket_recv(int socket_fd)$/;"	f
+oam_huawei_ip_mgmt_vlan_process	vendor/huawei.c	/^int oam_huawei_ip_mgmt_vlan_process($/;"	f
+oam_in_mirror_lmask	user/drv_lw.c	/^static logic_pmask_t  oam_in_mirror_lmask = {0x00};$/;"	v	file:
+oam_ipc_get_sys_epon	vendor/h3c.c	/^int oam_ipc_get_sys_epon(sys_epon_t *info)$/;"	f
+oam_ipc_get_sys_loop	vendor/h3c.c	/^int oam_ipc_get_sys_loop(sys_loop_t *info)$/;"	f
+oam_ipc_get_sys_mvlan	vendor/h3c.c	/^int oam_ipc_get_sys_mvlan(sys_mvlan_t *mvlan)$/;"	f
+oam_ipc_get_sys_networking	vendor/h3c.c	/^int oam_ipc_get_sys_networking(sys_network_t *info)$/;"	f
+oam_ipc_set_sys_loop	vendor/h3c.c	/^int oam_ipc_set_sys_loop(sys_loop_t *info)$/;"	f
+oam_ipc_set_sys_mvlan	vendor/h3c.c	/^int oam_ipc_set_sys_mvlan(sys_mvlan_t *info)$/;"	f
+oam_ipc_set_sys_networking	vendor/h3c.c	/^int oam_ipc_set_sys_networking(ipc_network_t *info)$/;"	f
+oam_link_lost_flag	vendor/bdcom.c	/^u8_t oam_link_lost_flag =0;$/;"	v
+oam_monitor_port	user/drv_lw.c	/^static UINT32  oam_monitor_port = MONITOR_PORT_DEFAULT_VALUE;$/;"	v	file:
+oam_onu_vendor	epon_oam_db.c	/^unsigned char oam_onu_vendor[4] = {'H','3','C',0x00};$/;"	v
+oam_out_mirror_lmask	user/drv_lw.c	/^static logic_pmask_t  oam_out_mirror_lmask = {0x00};$/;"	v	file:
+oam_raisecom_pkt_process	vendor/raisecom.c	/^void oam_raisecom_pkt_process(void * pkt, UINT16 len)$/;"	f
+oam_rc_bpf_filter	vendor/raisecom.c	/^struct sock_filter oam_rc_bpf_filter [] = {$/;"	v	typeref:struct:sock_filter
+oampdu_flag	epon_oam_state.c	/^static unsigned short oampdu_flag[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+objPort	user/oam_alarm.c	/^char objPort;$/;"	v
+odmOnuRealStatisticGet	vendor/zte.c	/^OPL_STATUS odmOnuRealStatisticGet(onu_stats_t * stats)$/;"	f
+old_dry1_state	user/oam_alarm.c	/^char old_dry1_state=0;$/;"	v
+old_dry2_state	user/oam_alarm.c	/^char old_dry2_state=0;$/;"	v
+onu_alarm_report	user/oam_alarm.c	/^void onu_alarm_report()$/;"	f
+onu_judge_and_alarm	user/oam_alarm.c	/^void onu_judge_and_alarm(alarm_report_t *info)$/;"	f
+onu_stats_s	vendor/zte.c	/^typedef struct onu_stats_s{$/;"	s	file:
+onu_stats_t	vendor/zte.c	/^}onu_stats_t;$/;"	t	typeref:struct:onu_stats_s	file:
+optical_alarm	user/oam_alarm.c	/^void optical_alarm(alarm_report_t *alarm_info)$/;"	f
+out_data	vendor/raisecom.c	/^u8_t	out_data[OAM_MAXIMUM_PDU_SIZE+4];$/;"	v
+pEventOrgSpecCbDb	epon_oam_db.c	/^static oam_eventOrgSpecCbRec_t *pEventOrgSpecCbDb;$/;"	v	file:
+pInfoOrgSpecCbDb	epon_oam_db.c	/^static oam_infoOrgSpecCbRec_t *pInfoOrgSpecCbDb;$/;"	v	file:
+pMacPool	vendor/zte.c	/^char *pMacPool;$/;"	m	struct:__anon8	file:
+pOrgSpecCbDb	epon_oam_db.c	/^static oam_orgSpecCbRec_t *pOrgSpecCbDb;$/;"	v	file:
+pSubTree	epon_oam_cli.c	/^        struct oam_cli_tree_s *pSubTree;$/;"	m	union:oam_cli_tree_s::__anon1	typeref:struct:oam_cli_tree_s::__anon1::oam_cli_tree_s	file:
+pVarCbDb	epon_oam_db.c	/^static oam_varCbRec_t *pVarCbDb[EPON_OAM_VARIABLEDB_HASH_NUM];$/;"	v	file:
+p_gMacTable	vendor/bdcom.c	/^static bdcom_mac_field_t* p_gMacTable = NULL;$/;"	v	file:
+p_gMacTable	vendor/fiberhome.c	/^static fiberhome_mac_field_t* p_gMacTable = NULL;$/;"	v	file:
+pktRedirect_sock	epon_oam_rx.c	/^int pktRedirect_sock;$/;"	v
+ponStatusParasGet	epon_oam_rx.c	/^void ponStatusParasGet( unsigned char llidIdx)$/;"	f
+pon_alarm_report	user/oam_alarm.c	/^void pon_alarm_report()$/;"	f
+pon_judge_and_alarm	user/oam_alarm.c	/^void pon_judge_and_alarm(alarm_report_t *info)$/;"	f
+pon_statistics	vendor/zte.c	/^    pon_statistics_t	pon_statistics;$/;"	m	struct:onu_stats_s	file:
+portStatisticsThreadId	vendor/zte.c	/^VOS_THREAD_t portStatisticsThreadId[ODM_NUM_OF_PORTS] = {0};$/;"	v
+port_alarm_report	user/oam_alarm.c	/^void port_alarm_report()$/;"	f
+port_instance_2_0	user/ctc_oam.c	/^oam_instance_tlv_t_2_0 port_instance_2_0;$/;"	v
+port_monitor	vendor/bdcom.c	/^static port_monitor_t port_monitor = {0,0, {{0,0}, {0,0}, {0,0}}};$/;"	v	file:
+port_statistics	vendor/zte.c	/^    port_statistics_t	port_statistics[ODM_NUM_OF_PORTS];$/;"	m	struct:onu_stats_s	file:
+raisecom_clear_mac_table	vendor/raisecom.c	/^void raisecom_clear_mac_table(u8_t* p_in)$/;"	f
+raisecom_dfp_handle	vendor/raisecom.c	/^void raisecom_dfp_handle(u8_t* p_in)$/;"	f
+raisecom_dhcp_information	vendor/raisecom.c	/^void raisecom_dhcp_information(u8_t* p_in)$/;"	f
+raisecom_dhcp_relay	vendor/raisecom.c	/^void raisecom_dhcp_relay(u8_t* p_in)$/;"	f
+raisecom_dhcp_snooping	vendor/raisecom.c	/^void raisecom_dhcp_snooping(u8_t* p_in)$/;"	f
+raisecom_download_config_for_translation	vendor/raisecom.c	/^void raisecom_download_config_for_translation(u8_t* p_in)$/;"	f
+raisecom_download_config_step1	vendor/raisecom.c	/^void raisecom_download_config_step1(u8_t* p_in)$/;"	f
+raisecom_download_config_step2	vendor/raisecom.c	/^void raisecom_download_config_step2(u8_t* p_in)$/;"	f
+raisecom_firm_ver	vendor/raisecom.c	/^u8_t raisecom_firm_ver[];$/;"	v
+raisecom_get_device_infomation	vendor/raisecom.c	/^void raisecom_get_device_infomation(u8_t *p_in)$/;"	f
+raisecom_get_environment_part1	vendor/raisecom.c	/^void raisecom_get_environment_part1(u8_t *p_in)$/;"	f
+raisecom_get_environment_part2	vendor/raisecom.c	/^void raisecom_get_environment_part2(u8_t *p_in)$/;"	f
+raisecom_get_hostname	vendor/raisecom.c	/^void raisecom_get_hostname(u8_t *p_in)$/;"	f
+raisecom_get_mng_ip_step2	vendor/raisecom.c	/^void raisecom_get_mng_ip_step2(u8_t *p_in)$/;"	f
+raisecom_get_port_state	vendor/raisecom.c	/^void raisecom_get_port_state(u8_t* p_in)$/;"	f
+raisecom_get_request	vendor/raisecom.c	/^void raisecom_get_request(u8_t *p_in)$/;"	f
+raisecom_get_running_config_1	vendor/raisecom.c	/^void raisecom_get_running_config_1(u8_t *p_in)$/;"	f
+raisecom_get_running_config_2	vendor/raisecom.c	/^void raisecom_get_running_config_2(u8_t* p_in)$/;"	f
+raisecom_get_running_config_3	vendor/raisecom.c	/^void raisecom_get_running_config_3(u8_t* p_in)$/;"	f
+raisecom_get_running_config_4	vendor/raisecom.c	/^void raisecom_get_running_config_4(u8_t* p_in)$/;"	f
+raisecom_get_running_config_5	vendor/raisecom.c	/^void raisecom_get_running_config_5(u8_t *p_in)$/;"	f
+raisecom_get_running_config_6	vendor/raisecom.c	/^void raisecom_get_running_config_6(u8_t *p_in)$/;"	f
+raisecom_get_running_config_7	vendor/raisecom.c	/^void raisecom_get_running_config_7(u8_t *p_in)$/;"	f
+raisecom_get_running_config_8	vendor/raisecom.c	/^void raisecom_get_running_config_8(u8_t* p_in)$/;"	f
+raisecom_get_uplink_flow_control	vendor/raisecom.c	/^void raisecom_get_uplink_flow_control(u8_t* p_in)$/;"	f
+raisecom_get_uplink_rate_limit	vendor/raisecom.c	/^void raisecom_get_uplink_rate_limit(u8_t* p_in)$/;"	f
+raisecom_get_uplink_shapping_limit	vendor/raisecom.c	/^void raisecom_get_uplink_shapping_limit(u8_t* p_in)$/;"	f
+raisecom_get_uptime	vendor/raisecom.c	/^void raisecom_get_uptime(u8_t *p_in)$/;"	f
+raisecom_l2address_query	vendor/raisecom.c	/^void raisecom_l2address_query(u8_t* p_in)$/;"	f
+raisecom_multicast_disp	vendor/raisecom.c	/^void raisecom_multicast_disp(u8_t *p_in)$/;"	f
+raisecom_oam_pdu_hdr	vendor/raisecom.c	/^void raisecom_oam_pdu_hdr(u8_t *ptr, raisecom_hdr_t *p_raisecom)$/;"	f
+raisecom_onu_vendor	epon_oam_db.c	/^unsigned char raisecom_onu_vendor[4] = {'R','C',0,0};$/;"	v
+raisecom_oui	epon_oam_db.c	/^unsigned char	raisecom_oui[3] = {0x00,0x13,0x25};$/;"	v
+raisecom_pppoe	vendor/raisecom.c	/^void raisecom_pppoe(u8_t* p_in)$/;"	f
+raisecom_send_unkown_60_0	vendor/raisecom.c	/^void raisecom_send_unkown_60_0(u8_t* p_in)$/;"	f
+raisecom_send_unkown_60_1	vendor/raisecom.c	/^void raisecom_send_unkown_60_1(u8_t* p_in)$/;"	f
+raisecom_set_branch1	vendor/raisecom.c	/^void raisecom_set_branch1(u8_t* p_in)$/;"	f
+raisecom_set_config	vendor/raisecom.c	/^void raisecom_set_config(u8_t* p_in)$/;"	f
+raisecom_set_filter	vendor/raisecom.c	/^void raisecom_set_filter(u8_t* p_in)$/;"	f
+raisecom_set_filter_for_vlan	vendor/raisecom.c	/^void raisecom_set_filter_for_vlan(u8_t* p_in)$/;"	f
+raisecom_set_hostname	vendor/raisecom.c	/^void raisecom_set_hostname(u8_t* p_in)$/;"	f
+raisecom_set_igmp_query	vendor/raisecom.c	/^void raisecom_set_igmp_query(u8_t* p_in)$/;"	f
+raisecom_set_ip_step0	vendor/raisecom.c	/^void raisecom_set_ip_step0(u8_t* p_in)$/;"	f
+raisecom_set_mac_aging	vendor/raisecom.c	/^void raisecom_set_mac_aging(u8_t* p_in)$/;"	f
+raisecom_set_mac_limit	vendor/raisecom.c	/^void raisecom_set_mac_limit(u8_t* p_in)$/;"	f
+raisecom_set_mirror_monitor	vendor/raisecom.c	/^void raisecom_set_mirror_monitor(u8_t* p_in)$/;"	f
+raisecom_set_mng_ip	vendor/raisecom.c	/^void raisecom_set_mng_ip(u8_t *p_in)$/;"	f
+raisecom_set_port_isolate	vendor/raisecom.c	/^void raisecom_set_port_isolate(u8_t* p_in)$/;"	f
+raisecom_set_port_mode	vendor/raisecom.c	/^void raisecom_set_port_mode(u8_t *p_in)$/;"	f
+raisecom_set_pppoe	vendor/raisecom.c	/^void raisecom_set_pppoe(u8_t* p_in)$/;"	f
+raisecom_set_spanning_tree	vendor/raisecom.c	/^void raisecom_set_spanning_tree(u8_t* p_in)$/;"	f
+raisecom_set_static_multcast_mac	vendor/raisecom.c	/^void raisecom_set_static_multcast_mac(u8_t* p_in)$/;"	f
+raisecom_set_telnet	vendor/raisecom.c	/^void raisecom_set_telnet(u8_t* p_in)$/;"	f
+raisecom_statistic	vendor/raisecom.c	/^void raisecom_statistic(u8_t* p_in)$/;"	f
+raisecom_uni_statistics	vendor/raisecom.c	/^void raisecom_uni_statistics(u8_t *p_in)$/;"	f
+raisecom_uplink_handle	vendor/raisecom.c	/^void raisecom_uplink_handle(u8_t* p_in)$/;"	f
+random_value	vendor/zte.c	/^u16_t random_value;$/;"	m	struct:__anon7	file:
+rc_class_remark_process	vendor/raisecom.c	/^void rc_class_remark_process(u8_t* p_in)$/;"	f
+rc_dhcp_option82_process	vendor/raisecom.c	/^void rc_dhcp_option82_process(u8_t* p_in)$/;"	f
+rc_dhcp_relay	vendor/raisecom.c	/^void rc_dhcp_relay(u8_t* p_in)$/;"	f
+rc_dhcp_snooping	vendor/raisecom.c	/^void rc_dhcp_snooping(u8_t* p_in)$/;"	f
+rc_get_mac	vendor/raisecom.c	/^static int rc_get_mac(u16_t type, u16_t port, u32_t *p_macNum)$/;"	f	file:
+rc_get_uni_statistic	vendor/raisecom.c	/^void rc_get_uni_statistic(u8_t* p_in)$/;"	f
+rc_mac_get_static_multicast	vendor/raisecom.c	/^void rc_mac_get_static_multicast(u8_t* p_in)$/;"	f
+rc_mac_static_disp	vendor/raisecom.c	/^void rc_mac_static_disp(u8_t* p_in)$/;"	f
+rc_mac_static_process	vendor/raisecom.c	/^void rc_mac_static_process(u8_t* p_in)$/;"	f
+rc_port_static_mac_add	vendor/raisecom.c	/^static int rc_port_static_mac_add(rc_mac_bind_t* p_bind_mac)$/;"	f	file:
+rc_port_static_mac_del	vendor/raisecom.c	/^static int rc_port_static_mac_del(rc_mac_bind_t *p_mac)$/;"	f	file:
+rc_set_class_remark_dscp	vendor/raisecom.c	/^void rc_set_class_remark_dscp(rc_class_mark_t* p_remark)$/;"	f
+rc_set_class_remark_l2	vendor/raisecom.c	/^void rc_set_class_remark_l2(rc_class_mark_t* p_remark, rc_class_mark_l2_t* p_filed)$/;"	f
+rc_set_class_remark_l3	vendor/raisecom.c	/^void rc_set_class_remark_l3(rc_class_mark_t* p_remark, rc_class_mark_l3_t* p_filed)$/;"	f
+rc_set_class_remark_vlan	vendor/raisecom.c	/^void rc_set_class_remark_vlan(rc_class_mark_t* p_remark)$/;"	f
+rc_set_lookback	vendor/raisecom.c	/^void rc_set_lookback(u8_t* p_in)$/;"	f
+rc_set_port_spduplex	vendor/raisecom.c	/^int rc_set_port_spduplex(u8_t lport, u8_t mode)$/;"	f
+rc_setup_socket_filter	vendor/raisecom.c	/^static VOID rc_setup_socket_filter(INT s)$/;"	f	file:
+read_mac_ucast_dump	vendor/zte.c	/^int read_mac_ucast_dump(mac_dump_ucast_tab_t* pMacTable, u32_t* pmac_count )$/;"	f
+remoteOamInfo	epon_oam_db.c	/^static oam_oamInfo_t remoteOamInfo[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+rstpwarningstate	user/oam_alarm.c	/^unsigned char rstpwarningstate[NUMBER_OF_PORTS];$/;"	v
+sequence_num	vendor/zte.c	/^u16_t sequence_num;$/;"	m	struct:__anon7	file:
+set_optical_thr	user/oam_alarm.c	/^int set_optical_thr(INT16U alarm_id, alarm_thr_t *thr)$/;"	f
+share_oui	epon_oam_db.c	/^unsigned char 	share_oui[3] = {0x00, 0x0c, 0xd5};$/;"	v
+signal_handler	epon_oam_main.c	/^static void signal_handler(int sig)$/;"	f	file:
+simple_itoa	vendor/zte.c	/^char *simple_itoa(unsigned int i)$/;"	f
+skKeepalive	epon_oam_main.c	/^static timer_t skKeepalive[EPON_OAM_SUPPORT_LLID_NUM];$/;"	v	file:
+st_port_mode	vendor/h3c.c	/^static h3c_port_mode_t st_port_mode[4] = $/;"	v	file:
+staifInDiscards	vendor/zte.c	/^	UINT64 staifInDiscards;$/;"	m	struct:__anon4	file:
+staifInErrors	vendor/zte.c	/^	UINT64 staifInErrors;	$/;"	m	struct:__anon4	file:
+staifInNUcastPkts	vendor/zte.c	/^	UINT64 staifInNUcastPkts;$/;"	m	struct:__anon4	file:
+staifInOctets	vendor/zte.c	/^	UINT64 staifInOctets;$/;"	m	struct:__anon4	file:
+staifInUcastPkts	vendor/zte.c	/^	UINT64 staifInUcastPkts;$/;"	m	struct:__anon4	file:
+staifOutDiscards	vendor/zte.c	/^	UINT64 staifOutDiscards;$/;"	m	struct:__anon4	file:
+staifOutErrors	vendor/zte.c	/^	UINT64 staifOutErrors;	$/;"	m	struct:__anon4	file:
+staifOutNUcastPkts	vendor/zte.c	/^	UINT64 staifOutNUcastPkts;$/;"	m	struct:__anon4	file:
+staifOutOctets	vendor/zte.c	/^	UINT64 staifOutOctets;$/;"	m	struct:__anon4	file:
+staifOutUcastPkts	vendor/zte.c	/^	UINT64 staifOutUcastPkts;$/;"	m	struct:__anon4	file:
+state	epon_oam_main.c	/^rtk_enable_t state;$/;"	v
+state_flag	epon_oam_main.c	/^unsigned long  state_flag = 0;$/;"	v
+staticUnicastTable	vendor/zte.c	/^	mac_table_t staticUnicastTable;$/;"	m	struct:__anon9	file:
+statistics_action	vendor/zte.c	/^	u8_t statistics_action;$/;"	m	struct:__anon3	file:
+statistics_counter1	vendor/zte.c	/^statistics_counter_t statistics_counter1[ODM_NUM_OF_PORTS];$/;"	v
+statistics_counter2	vendor/zte.c	/^statistics_counter_t statistics_counter2[ODM_NUM_OF_PORTS];$/;"	v
+statistics_counter_t	vendor/zte.c	/^}statistics_counter_t;$/;"	t	typeref:struct:__anon4	file:
+statistics_duration_time	vendor/zte.c	/^	UINT32 statistics_duration_time;$/;"	m	struct:__anon3	file:
+statistics_interva	vendor/zte.c	/^	UINT32 statistics_interva;$/;"	m	struct:__anon3	file:
+statistics_port	vendor/zte.c	/^statistics_port_t statistics_port[ODM_NUM_OF_PORTS]=$/;"	v
+statistics_port_num	vendor/zte.c	/^int statistics_port_num[ODM_NUM_OF_PORTS] = {0};$/;"	v
+statistics_port_t	vendor/zte.c	/^}statistics_port_t;$/;"	t	typeref:struct:__anon3	file:
+stripzerostring	vendor/zte.c	/^void stripzerostring(char * src, char * dst,int len)$/;"	f
+stub_onu_config_interface_thread_20	vendor/zte.c	/^void * stub_onu_config_interface_thread_20(void *pParm)$/;"	f
+stub_set_mgmg_ip_addr_cfg	vendor/zte.c	/^u32_t stub_set_mgmg_ip_addr_cfg(u32_t ip_addr, u32_t ip_mask)$/;"	f
+stub_set_mgmt_host_info_cfg	vendor/zte.c	/^u32_t stub_set_mgmt_host_info_cfg(u32_t host_subnet, u32_t host_mask, u32_t gateway)$/;"	f
+stub_set_mgmt_status_cfg	vendor/zte.c	/^u32_t stub_set_mgmt_status_cfg(u8_t status)$/;"	f
+stub_set_mgmt_vlan_cfg	vendor/zte.c	/^u32_t stub_set_mgmt_vlan_cfg(u8_t valid, u8_t mgmt_pri, u16_t mgmt_vlan)$/;"	f
+stub_zte_alarm_cfg	vendor/zte.c	/^static u8_t stub_zte_alarm_cfg;$/;"	v	file:
+stub_zte_gbl_para	vendor/zte.c	/^static oam_zte_gbl_para_t stub_zte_gbl_para;$/;"	v	file:
+stub_zte_get_alarm_cfg	vendor/zte.c	/^u32_t stub_zte_get_alarm_cfg(u8_t *p_alarm_cfg)$/;"	f
+stub_zte_get_gbl_para	vendor/zte.c	/^u32_t stub_zte_get_gbl_para(oam_zte_gbl_para_t *p_zte_gbl_para)$/;"	f
+stub_zte_get_hg_access_info	vendor/zte.c	/^u32_t stub_zte_get_hg_access_info(u8_t port_id, oam_zte_hg_access_info_t *p_info)$/;"	f
+stub_zte_get_hg_mgmt_vlan	vendor/zte.c	/^u32_t stub_zte_get_hg_mgmt_vlan(u16_t *p_mgmt_vlan)$/;"	f
+stub_zte_get_mac_addr_aging_time	vendor/zte.c	/^u32_t stub_zte_get_mac_addr_aging_time(u32_t *p_aging_time)$/;"	f
+stub_zte_get_mac_addr_limit	vendor/zte.c	/^u32_t stub_zte_get_mac_addr_limit(u8_t port_id, u16_t *p_limit_num)$/;"	f
+stub_zte_get_onu_sn	vendor/zte.c	/^u32_t stub_zte_get_onu_sn(u8_t *p_onu_sn)$/;"	f
+stub_zte_get_pmac_buff_cfg	vendor/zte.c	/^u32_t stub_zte_get_pmac_buff_cfg(u8_t direction, oam_zte_pmac_buff_cfg_t *p_zte_pmac_buff_cfg)$/;"	f
+stub_zte_get_pmac_buff_query	vendor/zte.c	/^u32_t stub_zte_get_pmac_buff_query(oam_zte_pmac_buff_query_t *p_zte_pmac_buff_query)$/;"	f
+stub_zte_get_pmac_ds_shaping	vendor/zte.c	/^u32_t stub_zte_get_pmac_ds_shaping(oam_zte_pmac_ds_shaping_t *p_zte_pmac_ds_shaping)$/;"	f
+stub_zte_get_pon_port_stats_1	vendor/zte.c	/^u32_t stub_zte_get_pon_port_stats_1(u8_t port_id,  oam_zte_pon_stats_statics_1_t *p_zte_pon_stats_query)$/;"	f
+stub_zte_get_pon_port_stats_2	vendor/zte.c	/^u32_t stub_zte_get_pon_port_stats_2(u8_t port_id,  oam_zte_pon_stats_statics_2_t *p_zte_pon_stats_query)$/;"	f
+stub_zte_get_port_mode	vendor/zte.c	/^u32_t stub_zte_get_port_mode(u8_t port_id, oam_zte_port_mode_t *p_zte_port_mode)$/;"	f
+stub_zte_get_type_c	vendor/zte.c	/^u32_t stub_zte_get_type_c(u8_t *p_k1, u8_t *p_k2)$/;"	f
+stub_zte_get_uni_eth_stats	vendor/zte.c	/^u32_t stub_zte_get_uni_eth_stats(u8_t port_id, oam_zte_onu_ether_stats_t *p_eth_stats)$/;"	f
+stub_zte_get_uni_isolation	vendor/zte.c	/^u32_t stub_zte_get_uni_isolation(oam_zte_uni_isolation_t *p_uni_isolation)$/;"	f
+stub_zte_get_uni_stats_cfg	vendor/zte.c	/^u32_t stub_zte_get_uni_stats_cfg(u8_t port_id, oam_zte_uni_stats_cfg_t *p_zte_uni_stats_cfg)$/;"	f
+stub_zte_get_uni_stats_query	vendor/zte.c	/^u8_t stub_zte_get_uni_stats_query(u8_t port_id,  oam_zte_uni_stats_query_t *p_zte_uni_stats_query)$/;"	f
+stub_zte_get_upgrade_para	vendor/zte.c	/^u32_t stub_zte_get_upgrade_para(oam_zte_upgrade_para_t *p_upgrade_para)$/;"	f
+stub_zte_hg_access_info	vendor/zte.c	/^static oam_zte_hg_access_info_t stub_zte_hg_access_info[ODM_NUM_OF_PORTS+1];$/;"	v	file:
+stub_zte_hg_config_load	vendor/zte.c	/^u32_t stub_zte_hg_config_load(int *inNetState, int *portId)$/;"	f
+stub_zte_hg_config_save	vendor/zte.c	/^u32_t stub_zte_hg_config_save(int inNetState, int portId)$/;"	f
+stub_zte_hg_mac_add	vendor/zte.c	/^u32_t stub_zte_hg_mac_add(oam_zte_hg_mac_entry_t *p_hg_mac_entry)$/;"	f
+stub_zte_hg_mac_clear	vendor/zte.c	/^u32_t stub_zte_hg_mac_clear(void)$/;"	f
+stub_zte_hg_mac_del	vendor/zte.c	/^u32_t stub_zte_hg_mac_del(oam_zte_hg_mac_entry_t *p_hg_mac_entry)$/;"	f
+stub_zte_hg_mac_entry_add	vendor/zte.c	/^u32_t stub_zte_hg_mac_entry_add(u8_t entry_id, oam_zte_hg_mac_entry_t *p_hg_mac_entry)$/;"	f
+stub_zte_hg_mac_entry_del	vendor/zte.c	/^u32_t stub_zte_hg_mac_entry_del(u8_t entry_id)$/;"	f
+stub_zte_hg_mac_entry_get	vendor/zte.c	/^u32_t stub_zte_hg_mac_entry_get(u8_t entry_id, oam_zte_hg_mac_entry_t *p_hg_mac_entry)$/;"	f
+stub_zte_hg_mac_entry_num_get	vendor/zte.c	/^u32_t stub_zte_hg_mac_entry_num_get(u8_t *p_entry_num)$/;"	f
+stub_zte_hg_mac_info	vendor/zte.c	/^static oam_zte_hg_mac_entry_t  stub_zte_hg_mac_info[32];$/;"	v	file:
+stub_zte_hg_mac_num	vendor/zte.c	/^static u8_t stub_zte_hg_mac_num;$/;"	v	file:
+stub_zte_hg_mgmt_vlan	vendor/zte.c	/^static oam_zte_hg_mgmt_vlan_t stub_zte_hg_mgmt_vlan;$/;"	v	file:
+stub_zte_hg_msg_set	vendor/zte.c	/^u32_t stub_zte_hg_msg_set(u8_t *hgMac, u8_t portId, u8_t *reportMsg)$/;"	f
+stub_zte_pmac_buff_cfg	vendor/zte.c	/^static oam_zte_pmac_buff_cfg_t stub_zte_pmac_buff_cfg[2];$/;"	v	file:
+stub_zte_pmac_buff_query	vendor/zte.c	/^static oam_zte_pmac_buff_cfg_t stub_zte_pmac_buff_query;$/;"	v	file:
+stub_zte_pmac_ds_shaping	vendor/zte.c	/^static oam_zte_pmac_ds_shaping_t stub_zte_pmac_ds_shaping;$/;"	v	file:
+stub_zte_port_mac_binding_add	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_add(u8_t port_id, oam_zte_port_mac_binding_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_binding_clear	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_clear(u8_t port_id)$/;"	f
+stub_zte_port_mac_binding_del	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_del(u8_t port_id, oam_zte_port_mac_binding_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_binding_entry_add	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_entry_add(u8_t port_id, u8_t entry_id, oam_zte_port_mac_binding_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_binding_entry_del	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_entry_del(u8_t port_id, u8_t entry_id)$/;"	f
+stub_zte_port_mac_binding_entry_get	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_entry_get(u8_t port_id, u8_t entry_id, oam_zte_port_mac_binding_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_binding_num_get	vendor/zte.c	/^u32_t stub_zte_port_mac_binding_num_get(u8_t port_id, u8_t *p_entry_num)$/;"	f
+stub_zte_port_mac_filter_add	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_add(u8_t port_id, oam_zte_port_mac_filter_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_filter_clear	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_clear(u8_t port_id)$/;"	f
+stub_zte_port_mac_filter_del	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_del(u8_t port_id, oam_zte_port_mac_filter_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_filter_entry_add	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_entry_add(u8_t port_id, u8_t entry_id, oam_zte_port_mac_filter_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_filter_entry_del	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_entry_del(u8_t port_id, u8_t entry_id)$/;"	f
+stub_zte_port_mac_filter_entry_get	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_entry_get(u8_t port_id, u8_t entry_id, oam_zte_port_mac_filter_entry_t *p_entry)$/;"	f
+stub_zte_port_mac_filter_num_get	vendor/zte.c	/^u32_t stub_zte_port_mac_filter_num_get(u8_t port_id, u8_t *p_entry_num)$/;"	f
+stub_zte_port_mode	vendor/zte.c	/^static oam_zte_port_mode_t stub_zte_port_mode[ODM_NUM_OF_PORTS+1];$/;"	v	file:
+stub_zte_port_static_mac_add	vendor/zte.c	/^u32_t stub_zte_port_static_mac_add(u8_t port_id, oam_zte_static_mac_entry_t *p_entry)$/;"	f
+stub_zte_port_static_mac_clear	vendor/zte.c	/^u32_t stub_zte_port_static_mac_clear(u8_t port_id)$/;"	f
+stub_zte_port_static_mac_del	vendor/zte.c	/^u32_t stub_zte_port_static_mac_del(u8_t port_id, oam_zte_static_mac_entry_t *p_entry)$/;"	f
+stub_zte_port_static_mac_entry_add	vendor/zte.c	/^u32_t stub_zte_port_static_mac_entry_add(u8_t port_id, u8_t entry_id, oam_zte_static_mac_entry_t *p_entry)$/;"	f
+stub_zte_port_static_mac_entry_del	vendor/zte.c	/^u32_t stub_zte_port_static_mac_entry_del(u8_t port_id, u8_t entry_id)$/;"	f
+stub_zte_port_static_mac_entry_get	vendor/zte.c	/^u32_t stub_zte_port_static_mac_entry_get(u8_t port_id, u8_t entry_id, oam_zte_static_mac_entry_t *p_entry)$/;"	f
+stub_zte_port_static_mac_num_get	vendor/zte.c	/^u32_t stub_zte_port_static_mac_num_get(u8_t port_id, u8_t *p_entry_num)$/;"	f
+stub_zte_set_alarm_cfg	vendor/zte.c	/^u32_t stub_zte_set_alarm_cfg(u8_t alarm_cfg)$/;"	f
+stub_zte_set_gbl_para	vendor/zte.c	/^u32_t stub_zte_set_gbl_para(oam_zte_gbl_para_t *p_zte_gbl_para)$/;"	f
+stub_zte_set_hg_access_info	vendor/zte.c	/^u32_t stub_zte_set_hg_access_info(u8_t port_id, oam_zte_hg_access_info_t *p_info)$/;"	f
+stub_zte_set_hg_mgmt_vlan	vendor/zte.c	/^u32_t stub_zte_set_hg_mgmt_vlan(u16_t mgmt_vlan)$/;"	f
+stub_zte_set_mac_addr_aging_time	vendor/zte.c	/^u32_t stub_zte_set_mac_addr_aging_time(u32_t aging_time)$/;"	f
+stub_zte_set_mac_addr_limit	vendor/zte.c	/^u32_t stub_zte_set_mac_addr_limit(u8_t port_id, u16_t limit_num)$/;"	f
+stub_zte_set_pmac_buff_cfg	vendor/zte.c	/^u32_t stub_zte_set_pmac_buff_cfg(oam_zte_pmac_buff_cfg_t *p_zte_pmac_buff_cfg)$/;"	f
+stub_zte_set_pmac_ds_shaping	vendor/zte.c	/^u32_t stub_zte_set_pmac_ds_shaping(oam_zte_pmac_ds_shaping_t *p_zte_pmac_ds_shaping)$/;"	f
+stub_zte_set_port_mode	vendor/zte.c	/^u32_t stub_zte_set_port_mode(u8_t port_id, u8_t p_zte_port_mode)$/;"	f
+stub_zte_set_tx_laser_conrol	vendor/zte.c	/^int stub_zte_set_tx_laser_conrol(oam_zte_tx_laser_control_t *p_zte_tx_laser_control)$/;"	f
+stub_zte_set_type_c	vendor/zte.c	/^u32_t stub_zte_set_type_c(u8_t k1, u8_t k2)$/;"	f
+stub_zte_set_uni_isolation	vendor/zte.c	/^u32_t stub_zte_set_uni_isolation(oam_zte_uni_isolation_t *p_uni_isolation)$/;"	f
+stub_zte_set_uni_stats_cfg	vendor/zte.c	/^u32_t stub_zte_set_uni_stats_cfg(u8_t port_id, oam_zte_uni_stats_cfg_t *p_zte_uni_stats_cfg)$/;"	f
+stub_zte_set_uni_stats_reset	vendor/zte.c	/^u32_t stub_zte_set_uni_stats_reset(u8_t port_id, oam_zte_uni_stats_reset_t *p_zte_uni_stats_cfg)$/;"	f
+stub_zte_set_upgrade_para	vendor/zte.c	/^u32_t stub_zte_set_upgrade_para(oam_zte_upgrade_para_t *p_upgrade_para)$/;"	f
+stub_zte_type_c_k1	vendor/zte.c	/^static u8_t stub_zte_type_c_k1;$/;"	v	file:
+stub_zte_type_c_k2	vendor/zte.c	/^static u8_t stub_zte_type_c_k2;$/;"	v	file:
+stub_zte_uni_isolation	vendor/zte.c	/^static oam_zte_uni_isolation_t stub_zte_uni_isolation;$/;"	v	file:
+stub_zte_upgrade_para	vendor/zte.c	/^static oam_zte_upgrade_para_t stub_zte_upgrade_para;$/;"	v	file:
+supportedVerList	user/ctc_oam.c	/^const ctc_infoOamVer_t supportedVerList[] = $/;"	v
+sys_config	epon_oam_main.c	/^sys_config_t sys_config;\/\/ add by linguobin 2013-12-6$/;"	v
+thread_config_laser_tx	vendor/zte.c	/^void *thread_config_laser_tx(void *arg)$/;"	f
+timeout_count	epon_oam_main.c	/^int timeout_count=0;$/;"	v
+total_addr_num	vendor/zte.c	/^u16_t total_addr_num;$/;"	m	struct:__anon7	file:
+type	epon_oam_cli.c	/^    unsigned char type;$/;"	m	struct:oam_cli_tree_s	file:
+u	epon_oam_cli.c	/^    } u;$/;"	m	struct:oam_cli_tree_s	typeref:union:oam_cli_tree_s::__anon1	file:
+u8_t	user/ctc_oam_var.c	1389;"	d	file:
+ucFirstDownConfig	vendor/raisecom.c	/^static u8_t ucFirstDownConfig = 0; $/;"	v	file:
+ulSequenceNum_FIBERHOME	vendor/fiberhome.c	/^u32_t ulSequenceNum_FIBERHOME = 0;$/;"	v
+ulSequenceNum_H3C	vendor/h3c.c	/^u32_t ulSequenceNum_H3C = 0;$/;"	v
+uni_port_auto_negotiation	user/ctc_oam_var.c	/^unsigned char uni_port_auto_negotiation = 0x0f;$/;"	v
+ups_alarm	user/oam_alarm.c	/^void ups_alarm(alarm_report_t *alarm_info)$/;"	f
+width	vendor/zte.c	/^u16_t width;$/;"	m	struct:__anon7	file:
+write_mac_ucast_dump	vendor/zte.c	/^int write_mac_ucast_dump(void)$/;"	f
+yotc_get_onu_optics	vendor/yotc.c	/^void yotc_get_onu_optics(u8_t* replybuf, u16_t *genlen)$/;"	f
+yotc_get_onu_port_rstp	vendor/yotc.c	/^void yotc_get_onu_port_rstp(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+yotc_get_onu_port_state	vendor/yotc.c	/^void yotc_get_onu_port_state(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+yotc_get_onu_port_stats	vendor/yotc.c	/^void yotc_get_onu_port_stats(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+yotc_get_onu_unknown	vendor/yotc.c	/^void yotc_get_onu_unknown(u8_t* replybuf, u16_t *genlen)$/;"	f
+yotc_just_response	vendor/yotc.c	/^void yotc_just_response(u8_t* p_in, u8_t* replybuf, u16_t *genlen)$/;"	f
+yotc_oam_init	vendor/yotc.c	/^int yotc_oam_init(void)$/;"	f
+yotc_onu_vendor	epon_oam_db.c	/^unsigned char yotc_onu_vendor[4] = {'Y','O','T','U'};$/;"	v
+yotc_oui	epon_oam_db.c	/^unsigned char 	yotc_oui[3] = {0x00, 0x0c, 0xd8};$/;"	v
+yotc_white_mac_add	vendor/yotc.c	/^static int yotc_white_mac_add(yotc_mac_t* p_white)$/;"	f	file:
+yotc_white_mac_del	vendor/yotc.c	/^static int yotc_white_mac_del(yotc_mac_t* p_white)$/;"	f	file:
+zte_c300_olt_vender	epon_oam_db.c	/^unsigned char   zte_c300_olt_vender[4] = {0x00, 0x00, 0x00, 0x00};$/;"	v
+zte_ctc_get_port_index	vendor/zte.c	/^int zte_ctc_get_port_index(ctc_varInstant_t *p_instance, u8_t *p_portS, u8_t *p_portE)\/\/port based$/;"	f
+zte_oam_init	vendor/zte.c	/^int zte_oam_init(void)$/;"	f
+zte_olt_vender	epon_oam_db.c	/^unsigned char   zte_olt_vender[4] = {0x37, 0x23, 0x00, 0x01};$/;"	v
+zte_onu_id	epon_oam_db.c	/^unsigned char zte_onu_id[3] = {0x0,0xd,0xb6};$/;"	v
+zte_onu_vendor	epon_oam_db.c	/^unsigned char zte_onu_vendor[4] = {'Z','T','E', 0};$/;"	v
+zte_oui	epon_oam_db.c	/^unsigned char    zte_oui[3] = {0x00, 0x0F, 0x3E};$/;"	v

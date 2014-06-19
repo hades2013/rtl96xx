@@ -1,0 +1,8 @@
+menu "catv configuration"
+config CONFIG_CATVCOM
+        bool "catv communication surpport"
+        default y
+        help
+                none
+endmenu
+

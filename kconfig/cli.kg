@@ -1,0 +1,9 @@
+menu "cli configuration"
+
+
+config CONFIG_VTYSH
+	bool "cli surpport"
+	default y
+	help
+		none
+endmenu

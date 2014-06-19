@@ -1,0 +1,294 @@
+//
+// Copyright (C) 2011 Realtek Semiconductor Corp.
+// All Rights Reserved.
+//
+// This program is the proprietary software of Realtek Semiconductor
+// Corporation and/or its licensors, and only be used, duplicated,
+// modified or distributed under the authorized license from Realtek.
+//
+// ANY USE OF THE SOFTWARE OTHER THAN AS AUTHORIZED UNDER
+// THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+//
+// Purpose : Define diag shell commands for L34.
+//
+// Feature : The file have include the following module and sub-modules
+//           1) L34 commands.
+//
+
+//
+// acl-filter
+//
+
+//rg configuration
+//clear configuration
+//acl-filter configuration
+rg show acl-filter
+
+//rg configuration
+//clear configuration
+//acl-filter configuration
+rg clear acl-filter
+
+//rg configuration
+//add configuration
+//acl-filter configuration
+//entry configuration
+rg add acl-filter entry
+
+//rg configuration
+//get configuration
+//acl-filter configuration
+//entry configuration
+//entry_index
+rg get acl-filter entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//acl-filter configuration
+//entry configuration
+//entry_index
+rg del acl-filter entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_port_mask configuration
+//portmask, <0x000-0xfff>
+rg set acl-filter pattern ingress_port_mask <HEX:portmask>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_dscp configuration
+//dscp, <0-63>
+rg set acl-filter pattern ingress_dscp <UINT:dscp>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_intf_idx configuration
+//igr_intf
+rg set acl-filter pattern ingress_intf_idx <UINT:igr_intf>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//egress_intf_idx configuration
+//egr_intf
+rg set acl-filter pattern egress_intf_idx <UINT:egr_intf>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_ethertype configuration
+//ethtype, 0x0800
+rg set acl-filter pattern ingress_ethertype <HEX:ethtype>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_ctag_vid configuration
+//vid, <0-4095>
+rg set acl-filter pattern ingress_ctag_vid <UINT:vid>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_ctag_pri configuration
+//pri, <0-7>
+rg set acl-filter pattern ingress_ctag_pri <UINT:pri>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_smac configuration
+//smac, A:B:C:D:E:F
+rg set acl-filter pattern ingress_smac <MACADDR:smac>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_dmac configuration
+//dmac, A:B:C:D:E:F
+rg set acl-filter pattern ingress_dmac <MACADDR:dmac>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_src_ipv4_addr_start configuration
+//source ip low bound 
+//ingress_src_ipv4_addr_end configuration
+//source ip up bound
+rg set acl-filter pattern ingress_src_ipv4_addr_start <IPV4ADDR:igr_sip_low_bound> ingress_src_ipv4_addr_end <IPV4ADDR:igr_sip_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_dest_ipv4_addr_start configuration
+//destination ip low bound 
+//ingress_dest_ipv4_addr_end configuration
+//destination ip up bound 
+rg set acl-filter pattern ingress_dest_ipv4_addr_start  <IPV4ADDR:igr_dip_low_bound> ingress_dest_ipv4_addr_end  <IPV4ADDR:igr_dip_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_src_ipv6_addr_start configuration
+//source ipv6 low bound 
+//ingress_src_ipv6_addr_end configuration
+//source ipv6 up bound
+rg set acl-filter pattern ingress_src_ipv6_addr_start  <IPV6ADDR:igr_sip6_low_bound> ingress_src_ipv6_addr_end <IPV6ADDR:igr_sip6_up_bound> 
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_dest_ipv6_addr_start configuration
+//destination ipv6 low bound 
+//ingress_dest_ipv6_addr_end configuration
+//destination ipv6 up bound 
+rg set acl-filter pattern ingress_dest_ipv6_addr_start <IPV6ADDR:igr_dip6_low_bound> ingress_dest_ipv6_addr_end <IPV6ADDR:igr_sip6_up_bound> 
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_src_l4_port_start configuration
+//layer4 source port low bound, 0~65535
+//ingress_src_l4_port_end configuration
+//layer4 source port up bound, 0~65535
+rg set acl-filter pattern ingress_src_l4_port_start <UINT:igr_l4sport_low_bound> ingress_src_l4_port_end <UINT:igr_l4sport_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_dest_l4_port_start configuration
+//layer4 destination port low bound, 0~65535
+//ingress_dest_l4_port_end configuration
+//layer4 destination port up bound, 0~65535
+rg set acl-filter pattern ingress_dest_l4_port_start <UINT:igr_l4dport_low_bound> ingress_dest_l4_port_end <UINT:igr_l4dport_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//egress_src_ipv4_addr_start configuration
+//source ip low bound 
+//egress_src_ipv4_addr_end configuration
+//source ip up bound 
+rg set acl-filter pattern egress_src_ipv4_addr_start <IPV4ADDR:egr_sip_low_bound> egress_src_ipv4_addr_end <IPV4ADDR:egr_sip_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//egress_dest_ipv4_addr_start configuration
+//destination ip low bound 
+//egress_dest_ipv4_addr_end configuration
+//destination ip up bound 
+rg set acl-filter pattern egress_dest_ipv4_addr_start <IPV4ADDR:egr_dip_low_bound> egress_dest_ipv4_addr_end <IPV4ADDR:egr_dip_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//egress_src_l4_port_start configuration
+//layer4 source port low bound, 0~65535
+//egress_src_l4_port_end configuration
+//layer4 source port up bound, 0~65535
+rg set acl-filter pattern egress_src_l4_port_start <UINT:egr_l4sport_low_bound> egress_src_l4_port_end <UINT:egr_l4sport_up_bound>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//egress_dest_l4_port_start configuration
+//layer4 destination port low bound, 0~65535
+//egress_dest_l4_port_end configuration
+//layer4 destination port up bound, 0~65535
+rg set acl-filter pattern egress_dest_l4_port_start <UINT:egr_l4dport_low_bound> egress_dest_l4_port_end <UINT:igr_l4dport_up_bound>
+
+
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//pattern configuration
+//ingress_l4_protocal
+//protocal, 0:UDP 1:TCP 2:ICMP
+rg set acl-filter pattern ingress_l4_protocal <UINT:protocal>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//action_type configuration
+//actiontype, 0:DROP 1:PERMIT 2:TRAP TO CPU 3:QOS 4:TRAP_TO_PS
+rg set acl-filter action action_type <UINT:actiontype>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//qos configuration
+//action_dot1p_remarking_pri
+//dot1p_remarking_pri, <0-7>
+rg set acl-filter action qos action_dot1p_remarking_pri <UINT:dot1p_remarking_pri>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//qos configuration
+//action_ip_precedence_remarking_pri
+//ip_precedence_remarking_pri, <0-7>
+rg set acl-filter action qos action_ip_precedence_remarking_pri  <UINT:ip_precedence_remarking_pri>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//qos configuration
+//action_dscp_remarking_pri
+//dscp_remarking_pri, <0-63>
+rg set acl-filter action qos action_dscp_remarking_pri <UINT:dscp_remarking_pri>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//qos configuration
+//action_queue_id
+//queue_id, <0-7>
+rg set acl-filter action qos action_queue_id <UINT:queue_id>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//qos configuration
+//action_share_meter
+//share_meter
+rg set acl-filter action qos action_share_meter <UINT:share_meter>
+
+//rg configuration
+//set configuration
+//acl-filter configuration
+//action configuration
+//qos configuration
+//action_stream_id
+//stream_id
+rg set acl-filter action qos action_stream_id <UINT:stream_id>

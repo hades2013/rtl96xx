@@ -1,0 +1,16 @@
+
+VENDOR_MODEL="LE8201"
+VENDOR_LOGOPATH="fenghuo.jpg"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="Fiberhome Technologies Co., Ltd."
+VENDOR_SHORT="Fiberhome Technologies"
+VENDOR_NAME="Fiberhome"
+VENDOR_LOCATION="Wuhan, China"
+VENDOR_YEAR="2010"
+
+
+DEV_CNU101="LE8101"
+DEV_CNU104="LE8104"
+
+HFID_CNU101="LE8101-A"
+HFID_CNU104="LE8104-A"

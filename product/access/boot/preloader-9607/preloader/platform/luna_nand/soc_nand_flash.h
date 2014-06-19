@@ -1,0 +1,1 @@
+../../soc/flash/soc_nand_flash.h

@@ -1,0 +1,9 @@
+menu "sshd configuration"
+
+
+config CONFIG_SSHD
+	bool "sshd surpport"
+	default n
+	help
+		none
+endmenu

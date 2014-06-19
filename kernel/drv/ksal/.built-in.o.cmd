@@ -1,0 +1,1 @@
+cmd_drivers/lwdrv/ksal/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o drivers/lwdrv/ksal/built-in.o drivers/lwdrv/ksal/flash/built-in.o drivers/lwdrv/ksal/switch/built-in.o drivers/lwdrv/ksal/watchdog/built-in.o 

@@ -1,0 +1,7 @@
+menu "master configuration"
+config CONFIG_MASTER
+	bool "master surpport"
+	default y
+	help
+		none
+endmenu

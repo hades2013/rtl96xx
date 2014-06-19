@@ -1,0 +1,7 @@
+rtl838x: rtl838x_config; $(MAKE)
+rtl839x: rtl839x_config; $(MAKE)
+rtl8676: rtl8676_config; $(MAKE)
+luna: luna_config; $(MAKE)
+rtl839xS: rtl839xS_config; $(MAKE)
+rtl838xS: rtl838xS_config; $(MAKE)
+lunas: lunas_config; $(MAKE)

@@ -1,0 +1,1 @@
+cmd_rtk_voip/voip_ipc/coprocessor_dsp/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o rtk_voip/voip_ipc/coprocessor_dsp/built-in.o rtk_voip/voip_ipc/coprocessor_dsp/script/built-in.o rtk_voip/voip_ipc/coprocessor_dsp/coprocessor_dsp_tx.o rtk_voip/voip_ipc/coprocessor_dsp/coprocessor_dsp_rx.o 

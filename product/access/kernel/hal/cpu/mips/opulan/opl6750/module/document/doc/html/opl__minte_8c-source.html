@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_minte.c源文件</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_minte.c</h1><a href="opl__minte_8c.html">浏览该文件的文档。</a><div class="fragment"><pre class="fragment">00001 
+00017 <span class="preprocessor">#include &lt;linux/init.h&gt;</span>
+00018 <span class="preprocessor">#include &lt;linux/kernel.h&gt;</span>
+00019 <span class="preprocessor">#include &lt;linux/module.h&gt;</span>
+00020 <span class="preprocessor">#include &lt;linux/sched.h&gt;</span>
+00021 <span class="preprocessor">#include &lt;linux/wait.h&gt;</span>
+00022 <span class="preprocessor">#include &lt;asm/uaccess.h&gt;</span>
+00023 <span class="preprocessor">#include &lt;asm/io.h&gt;</span>
+00024 <span class="preprocessor">#include &lt;linux/slab.h&gt;</span>
+00025 <span class="preprocessor">#include &lt;linux/types.h&gt;</span>
+00026 <span class="preprocessor">#include &lt;linux/errno.h&gt;</span>
+00027 
+00028 <span class="preprocessor">#include &lt;<a class="code" href="opl__minte_8h.html">opl_minte.h</a>&gt;</span>
+00029 <span class="preprocessor">#include &lt;<a class="code" href="ipmux__interrupt_8h.html">ipmux_interrupt.h</a>&gt;</span>
+00030 
+00034 <span class="comment">/*--------------------------Macro definition------------------------- */</span>
+<a name="l00035"></a><a class="code" href="group___m_i_n_t_e.html#ga13">00035</a> <span class="preprocessor">#define OPL_MINTE_MAJOR    120</span>
+<a name="l00036"></a><a class="code" href="group___m_i_n_t_e.html#ga14">00036</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_MINTE_DEVICE  "opl_minte"</span>
+00037 <span class="preprocessor"></span>
+00038 
+00044 <span class="comment">/*--------------------------type definition------------------------- */</span>
+00045 
+00051 <span class="comment">/*-----------------global varible/function declaration--------------- */</span>
+00052 <span class="keyword">extern</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group___m_i_n_t_e.html#ga5">get_irq_pending</a>(<span class="keywordtype">void</span>);
+00053 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___m_i_n_t_e.html#ga6">clear_irq_pending</a>(<span class="keywordtype">void</span>);
+00054 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___m_i_n_t_e.html#ga7">ipmux_irq_enable</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> irq);
+00055 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="group___m_i_n_t_e.html#ga8">ipmux_irq_disable</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> irq);
+<a name="l00061"></a><a class="code" href="group___m_i_n_t_e.html#ga0">00061</a> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group___i_p_m_u_x.html#ga0">g_opl_chip_irq_event</a> = 0;
+<a name="l00062"></a><a class="code" href="group___m_i_n_t_e.html#ga1">00062</a> wait_queue_head_t g_opl_chip_waitq;
+00063 
+00069 <span class="comment">/*--------------local  function declaration------------- */</span>
+00070 <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___m_i_n_t_e.html#ga9">opl_minte_open</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp);         
+00071 <span class="keyword">static</span> ssize_t <a class="code" href="group___m_i_n_t_e.html#ga7">opl_minte_read</a>(<span class="keyword">struct</span> file *filp, <span class="keywordtype">char</span>  *buffer, size_t length, loff_t *offset);
+00072 <span class="keyword">static</span> ssize_t <a class="code" href="group___m_i_n_t_e.html#ga8">opl_minte_write</a>(<span class="keyword">struct</span> file *filp, <span class="keyword">const</span> <span class="keywordtype">char</span> *buffer, size_t length, loff_t *offset);
+00073 <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___m_i_n_t_e.html#ga10">opl_minte_release</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp);
+00074 
+00080 <span class="comment">/*--------------local  varible declaration and definition------------- */</span>
+<a name="l00081"></a><a class="code" href="group___m_i_n_t_e.html#ga2">00081</a> <span class="keyword">static</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group___m_i_n_t_e.html#ga2">opl_minte_open_count</a> = 0;
+<a name="l00082"></a><a class="code" href="group___m_i_n_t_e.html#ga3">00082</a> <span class="keyword">static</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group___m_i_n_t_e.html#ga3">opl_minte_is_open</a> = 0;
+<a name="l00083"></a><a class="code" href="group___m_i_n_t_e.html#ga4">00083</a> <span class="keyword">struct </span>file_operations <a class="code" href="group___m_i_n_t_e.html#ga4">opl_minte_fops</a> = {
+00084   .read = opl_minte_read,
+00085   .write = opl_minte_write,
+00086   .open = opl_minte_open,
+00087   .release = opl_minte_release, 
+00088 };
+00089 
+00095 <span class="comment">/*------------local  function declaration and definition-------------- */</span>
+00096 
+<a name="l00109"></a><a class="code" href="group___m_i_n_t_e.html#ga7">00109</a> <span class="keyword">static</span> ssize_t <a class="code" href="group___m_i_n_t_e.html#ga7">opl_minte_read</a>(<span class="keyword">struct</span> file *filp, <span class="keywordtype">char</span>  *buffer, size_t length, loff_t *offset)
+00110 {
+00111   <a class="code" href="opl__typedef_8h.html#a0">u32</a> pending = 0;
+00112   <span class="keywordflow">if</span>(test_bit(0,&amp;<a class="code" href="group___m_i_n_t_e.html#ga3">opl_minte_is_open</a>)){
+00113     <span class="comment">/* TBD: add debug message */</span>
+00114     wait_event_interruptible(<a class="code" href="group___i_p_m_u_x.html#ga1">g_opl_chip_waitq</a>,<a class="code" href="group___i_p_m_u_x.html#ga0">g_opl_chip_irq_event</a>);
+00115     <span class="keywordflow">if</span>(!test_and_clear_bit(0,&amp;<a class="code" href="group___i_p_m_u_x.html#ga0">g_opl_chip_irq_event</a>)){
+00116       <span class="comment">/* TBD:add debug message ,if return 0,indicate more process read it.*/</span>
+00117       printk(<span class="stringliteral">"clear g_opl_chip_irq_event event failed\n"</span>);
+00118       <span class="keywordflow">return</span> -ENODEV;
+00119     }
+00120     pending = <a class="code" href="group___m_i_n_t_e.html#ga5">get_irq_pending</a>();
+00121     <span class="comment">/* should add lock later */</span>
+00122     <a class="code" href="group___m_i_n_t_e.html#ga6">clear_irq_pending</a>();
+00123     <span class="keywordflow">if</span>(!(copy_to_user((<span class="keywordtype">void</span> *)buffer,(<span class="keywordtype">void</span> *)&amp;pending,4))){
+00124       <span class="comment">/* TBD: add debug message. */</span>
+00125       <span class="keywordflow">return</span> 4;
+00126     }
+00127   }
+00128   <span class="keywordflow">return</span> -ENODEV;
+00129 }
+<a name="l00146"></a><a class="code" href="group___m_i_n_t_e.html#ga8">00146</a> <span class="keyword">static</span> ssize_t <a class="code" href="group___m_i_n_t_e.html#ga8">opl_minte_write</a>(<span class="keyword">struct</span> file *filp, <span class="keyword">const</span> <span class="keywordtype">char</span> *buffer, size_t length, loff_t *offset)
+00147 {
+00148   <span class="keywordtype">int</span> irq_enable = 0;
+00149   <span class="keywordflow">if</span>(test_bit(0,&amp;<a class="code" href="group___m_i_n_t_e.html#ga3">opl_minte_is_open</a>)){
+00150     <span class="keywordflow">if</span>(!(copy_from_user(&amp;irq_enable,buffer,4))){
+00151       <span class="keywordflow">if</span>(irq_enable){
+00152         <a class="code" href="group___m_i_n_t_e.html#ga7">ipmux_irq_enable</a>(<a class="code" href="group___i_p_m_u_x.html#ga27">OPL_IPMUX_IRQ</a>);
+00153       }<span class="keywordflow">else</span>{
+00154         <a class="code" href="group___m_i_n_t_e.html#ga8">ipmux_irq_disable</a>(<a class="code" href="group___i_p_m_u_x.html#ga27">OPL_IPMUX_IRQ</a>);
+00155       }
+00156       <span class="keywordflow">return</span> 0;
+00157     }
+00158   }
+00159   <span class="keywordflow">return</span> -ENODEV;
+00160 }
+00161 
+00162 
+<a name="l00163"></a><a class="code" href="group___m_i_n_t_e.html#ga9">00163</a> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___m_i_n_t_e.html#ga9">opl_minte_open</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp)         
+00164 {
+00165   <span class="keywordflow">if</span> (test_and_set_bit(0, &amp;<a class="code" href="group___m_i_n_t_e.html#ga3">opl_minte_is_open</a>))
+00166     printk(KERN_DEBUG <span class="stringliteral">"the/dev/opl_minte is opened\n"</span>);
+00167   <a class="code" href="group___m_i_n_t_e.html#ga2">opl_minte_open_count</a> ++;
+00168   MOD_INC_USE_COUNT;
+00169   <span class="keywordflow">return</span> 0;
+00170 }
+00171 
+<a name="l00172"></a><a class="code" href="group___m_i_n_t_e.html#ga10">00172</a> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___m_i_n_t_e.html#ga10">opl_minte_release</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp)
+00173 {
+00174   <a class="code" href="group___m_i_n_t_e.html#ga2">opl_minte_open_count</a> --;
+00175   <span class="keywordflow">if</span>(!opl_minte_open_count)
+00176     clear_bit(0, &amp;<a class="code" href="group___m_i_n_t_e.html#ga3">opl_minte_is_open</a>);
+00177   MOD_DEC_USE_COUNT;
+00178   <span class="keywordflow">return</span> 0;
+00179 }
+<a name="l00189"></a><a class="code" href="group__minte.html#ga0">00189</a> <span class="keyword">static</span> <span class="keywordtype">int</span> __init <a class="code" href="group__minte.html#ga0">opl_minte_init</a>(<span class="keywordtype">void</span>)
+00190 {
+00191   <span class="keywordtype">int</span> ret;
+00192   printk(<span class="stringliteral">"enter minte module\n"</span>);
+00193   ret = register_chrdev(<a class="code" href="group___m_i_n_t_e.html#ga13">OPL_MINTE_MAJOR</a>,<a class="code" href="group___m_i_n_t_e.html#ga14">OPL_MINTE_DEVICE</a>,&amp;<a class="code" href="group___m_i_n_t_e.html#ga4">opl_minte_fops</a>);
+00194   <span class="keywordflow">if</span>(ret&lt;0){
+00195     <span class="comment">/* TBD add debug message */</span>
+00196     printk(<span class="stringliteral">"error1\n"</span>);
+00197     <span class="keywordflow">goto</span> fail1;
+00198   }
+00199   ret = <a class="code" href="group___m_i_n_t_e.html#ga16">opl_minte_hw0_irqinit</a>();
+00200   <span class="keywordflow">if</span>(ret){
+00201     <span class="comment">/*TBD add debug message  */</span>
+00202     <span class="keywordflow">goto</span> fail2;
+00203   }
+00204   init_waitqueue_head(&amp;<a class="code" href="group___i_p_m_u_x.html#ga1">g_opl_chip_waitq</a>);
+00205   <span class="keywordflow">return</span> 0;
+00206  fail2:
+00207   unregister_chrdev(<a class="code" href="group___m_i_n_t_e.html#ga13">OPL_MINTE_MAJOR</a>,<a class="code" href="group___m_i_n_t_e.html#ga14">OPL_MINTE_DEVICE</a>);
+00208  fail1:  
+00209   <span class="keywordflow">return</span> ret;
+00210 }
+<a name="l00219"></a><a class="code" href="group__minte.html#ga1">00219</a> <span class="keyword">static</span> <span class="keywordtype">void</span> __exit <a class="code" href="group__minte.html#ga1">opl_minte_exit</a>(<span class="keywordtype">void</span>)
+00220 {
+00221   <span class="keywordtype">int</span> ret;
+00222   <a class="code" href="group___m_i_n_t_e.html#ga15">opl_minte_hw0_irqexit</a>();
+00223   ret = unregister_chrdev(<a class="code" href="group___m_i_n_t_e.html#ga13">OPL_MINTE_MAJOR</a>,<a class="code" href="group___m_i_n_t_e.html#ga14">OPL_MINTE_DEVICE</a>);
+00224   <span class="keywordflow">if</span>(ret &lt; 0){
+00225     <span class="comment">/*TBD:add debug message  */</span>
+00226   }
+00227   <span class="keywordflow">return</span>;
+00228 }
+00229 
+00230 <a class="code" href="group__opl__reg.html#ga2">module_init</a>(opl_minte_init);
+00231 <a class="code" href="group__opl__reg.html#ga3">module_exit</a>(opl_minte_exit);
+00232 <a class="code" href="group__opl__reg.html#ga4">MODULE_LICENSE</a>(<span class="stringliteral">"GPL2"</span>);
+00233 <a class="code" href="group__opl__reg.html#ga5">MODULE_AUTHOR</a>(<span class="stringliteral">"stephanxu &lt;hxu@opulan.com&gt;"</span>);
+00234 <a class="code" href="group__opl__reg.html#ga6">MODULE_DESCRIPTION</a>(<span class="stringliteral">"control interface for opulan ipmux-e switch chip"</span>);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

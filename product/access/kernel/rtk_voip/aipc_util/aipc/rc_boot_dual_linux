@@ -1,0 +1,4 @@
+#!/bin/sh
+aipc_util -w -d 0xb0000000  -i /image/luna_slave.img
+aipc_util -b
+

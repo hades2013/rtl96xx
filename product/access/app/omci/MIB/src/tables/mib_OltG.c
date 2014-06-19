@@ -1,0 +1,140 @@
+/*
+ * Copyright (C) 2012 Realtek Semiconductor Corp. 
+ * All Rights Reserved.
+ *
+ * This program is the proprietary software of Realtek Semiconductor
+ * Corporation and/or its licensors, and only be used, duplicated, 
+ * modified or distributed under the authorized license from Realtek. 
+ *
+ * ANY USE OF THE SOFTWARE OTHER THAN AS AUTHORIZED UNDER 
+ * THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED. 
+ *
+ */
+
+
+#include "app_basic.h"
+#include "omci_defs.h"
+
+MIB_TABLE_INFO_T gMibOltGTableInfo;
+MIB_ATTR_INFO_T  gMibOltGAttrInfo[MIB_TABLE_OLTG_ATTR_NUM];
+MIB_TABLE_OLTG_T gMibOltGDefRow;
+MIB_TABLE_OPER_T gMibOltGOper;
+
+
+GOS_ERROR_CODE OltGDumpMib(void *pData)
+{
+	MIB_TABLE_OLTG_T *pOltG = (MIB_TABLE_OLTG_T*)pData;
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"%s", "OltG");
+
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"EntityId: 0x%02x", pOltG->EntityId);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"OltVendorId: 0x%02x", pOltG->OltVendorId);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"EquipId: 0x%02x", pOltG->EquipId);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"Version: %s", pOltG->Version);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"ToDInfo: %d", pOltG->ToDInfo);
+
+	return GOS_OK;
+}
+
+GOS_ERROR_CODE OltGDrvCfg(void* pOldRow, void* pNewRow, MIB_OPERA_TYPE operationType)
+{
+	OMCI_LOG(OMCI_LOG_LEVEL_LOW,"%s: process end\n", __FUNCTION__);
+	return GOS_OK;
+}
+
+GOS_ERROR_CODE OltG_Init(void)
+{
+    gMibOltGTableInfo.Name = "OltG";
+    gMibOltGTableInfo.Desc = "OLT-G";
+    gMibOltGTableInfo.MaxEntry = (UINT32)(1);
+    gMibOltGTableInfo.ClassId = (UINT32)(131);
+    gMibOltGTableInfo.InitType = (UINT32)(PON_ME_INIT_TYPE_AUTO);
+    gMibOltGTableInfo.StdType = (UINT32)(PON_ME_STD_TYPE_STD);
+    gMibOltGTableInfo.ActionType = (UINT32)(PON_ME_ACTION_SET | PON_ME_ACTION_GET);
+    gMibOltGTableInfo.pAttributes = &(gMibOltGAttrInfo[0]);
+
+	gMibOltGTableInfo.attrNum = MIB_TABLE_OLTG_ATTR_NUM;
+	gMibOltGTableInfo.entrySize = sizeof(MIB_TABLE_OLTG_T);
+	gMibOltGTableInfo.pDefaultRow = &gMibOltGDefRow;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Name = "EntityId";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].Name = "OltVendorId";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].Name = "EquipId";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].Name = "Version";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].Name = "ToDInfo";
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Entity ID";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "OLT vendor Id";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "equipment id";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "version of the OLT";
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Time of day information";
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT32;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_STR;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_STR;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_STR;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].Len = 4;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].Len = 20;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].Len = 14;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].Len = 14;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = TRUE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_CHAR;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_OLTVENDORID_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_EQUIPID_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_VERSION_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibOltGAttrInfo[MIB_TABLE_OLTG_TODINFO_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+
+    memset(&(gMibOltGDefRow.EntityId), 0x00, sizeof(gMibOltGDefRow.EntityId));
+    memset(&(gMibOltGDefRow.OltVendorId), 0x00, sizeof(gMibOltGDefRow.OltVendorId));
+    strncpy(&(gMibOltGDefRow.EquipId), "0", sizeof(gMibOltGDefRow.EquipId));
+    strncpy(&(gMibOltGDefRow.Version), "0", sizeof(gMibOltGDefRow.Version));
+    strncpy(&(gMibOltGDefRow.ToDInfo), "0", sizeof(gMibOltGDefRow.ToDInfo));
+
+    gMibOltGOper.meOperDrvCfg = OltGDrvCfg;
+    gMibOltGOper.meOperConnCheck = NULL;
+    gMibOltGOper.meOperDump = OltGDumpMib;
+	gMibOltGOper.meOperConnCfg =  NULL;
+	
+    MIB_Register(MIB_TABLE_OLTG_INDEX, &gMibOltGTableInfo, &gMibOltGOper);
+
+    return GOS_OK;
+}
+

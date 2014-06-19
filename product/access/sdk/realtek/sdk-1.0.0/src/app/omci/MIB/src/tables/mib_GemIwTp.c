@@ -1,0 +1,334 @@
+/*
+ * Copyright (C) 2012 Realtek Semiconductor Corp. 
+ * All Rights Reserved.
+ *
+ * This program is the proprietary software of Realtek Semiconductor
+ * Corporation and/or its licensors, and only be used, duplicated, 
+ * modified or distributed under the authorized license from Realtek. 
+ *
+ * ANY USE OF THE SOFTWARE OTHER THAN AS AUTHORIZED UNDER 
+ * THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED. 
+ *
+ */
+
+
+#include "app_basic.h"
+#include "omci_defs.h"
+
+MIB_TABLE_INFO_T gMibGemIwTpTableInfo;
+MIB_ATTR_INFO_T  gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ATTR_NUM];
+MIB_TABLE_GEMIWTP_T gMibGemIwTpDefRow;
+MIB_TABLE_OPER_T	gMibGemIwTpOper;
+
+extern GOS_ERROR_CODE GemPortCtpAvlTreeAdd(MIB_TREE_T* pTree,UINT16 gemPortPtr);
+extern GOS_ERROR_CODE MIB_TreeConnUpdate(MIB_TREE_T *pTree);
+
+
+static MIB_TREE_T* GemIwTpGetTree(MIB_TABLE_GEMIWTP_T* pGemIwTp)
+{
+	 MIB_TREE_T *pTree;
+	 
+	 switch(pGemIwTp->IwOpt)
+	 {
+	 	case GEMIWTP_TP_TYPE_8021P:					
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Search Tree by 8021P mapper ID %x",pGemIwTp->ServProPtr);
+			pTree = MIB_AvlTreeSearchByKey(pGemIwTp->ServProPtr,AVL_KEY_MAP8021PSERVPROF);
+		break;
+		case GEMIWTP_TP_TYPE_MACBRIDGE_LAN:	
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Search Tree by Bridge ID %x",pGemIwTp->ServProPtr);
+			pTree = MIB_AvlTreeSearchByKey(pGemIwTp->ServProPtr,AVL_KEY_MACBRISERVPROF);
+		break;
+		default:
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Cant' support IwOpt %x",pGemIwTp->IwOpt);
+			return NULL;
+		break;
+	 }
+	 return pTree;
+}
+
+
+GOS_ERROR_CODE GemIwTpDumpMib(void *pData)
+{
+	
+	MIB_TABLE_GEMIWTP_T *pGemIwTp = (MIB_TABLE_GEMIWTP_T*)pData;
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"%s","GemIwTp");
+	
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"EntityID: %02x",pGemIwTp->EntityID);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"GalLoopbackCfg: %d",pGemIwTp->GalLoopbackCfg);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"GalProfPtr: %02x",pGemIwTp->GalProfPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"GemCtpPtr: %02x",pGemIwTp->GemCtpPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"IwOpt: %d",pGemIwTp->IwOpt);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"IwTpPtr: %02x",pGemIwTp->IwTpPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"OpState: %d",pGemIwTp->OpState);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"PptpCounter: %d",pGemIwTp->PptpCounter);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"ServProPtr: %02x",pGemIwTp->ServProPtr);
+
+	return GOS_OK;
+}
+
+GOS_ERROR_CODE GemIwTpConnCheck(MIB_TREE_T *pTree,MIB_TREE_CONN_T *pConn,PON_ME_ENTITY_ID entityId,int parm)
+{
+	MIB_TABLE_GEMIWTP_T *gemIwTp;
+	MIB_ENTRY_T *pEntry;
+	int index = parm ;
+
+	
+	OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Start %s...,index=%d",__FUNCTION__,index);
+	pEntry = MIB_AvlTreeEntrySearch(pTree->root,AVL_KEY_GEMIWTP,entityId);
+	if(pEntry==NULL) return GOS_FAIL;
+	
+	gemIwTp = (MIB_TABLE_GEMIWTP_T*)pEntry->pData;
+	pConn->pGemIwTp[index] = gemIwTp;
+	pConn->pMcastGemIwTp = NULL;
+
+	return OMCI_MeOperConnCheck(MIB_TABLE_GEMPORTCTP_INDEX,pTree,pConn,gemIwTp->GemCtpPtr,parm);
+}
+
+
+GOS_ERROR_CODE GemIwTpDrvCfg(void* pOldRow,void* pNewRow,MIB_OPERA_TYPE  operationType)
+{
+	OMCI_LOG(OMCI_LOG_LEVEL_LOW,"%s: process end\n", __FUNCTION__);
+	return GOS_OK;	
+}
+
+
+GOS_ERROR_CODE GemIwTpConnCfg(void* pOldRow,void* pNewRow,MIB_OPERA_TYPE  operationType)
+{
+	 MIB_TABLE_GEMIWTP_T *pGemIwTp;
+	 MIB_TREE_T *pTree;
+	 MIB_AVL_KEY_T key;
+	 MIB_ENTRY_T *pEntry;
+
+	 
+	 switch (operationType)
+	 {
+		 case MIB_ADD:
+		 {
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Gem InterWorking TP ---- > ADD");
+
+			pGemIwTp = (MIB_TABLE_GEMIWTP_T*)pNewRow;
+
+			pTree =GemIwTpGetTree(pGemIwTp);
+
+			if(pTree==NULL)
+			{
+				OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Can't find Root Tree");
+				return GOS_OK;
+			}
+			/*add new node to tree*/
+			key = AVL_KEY_GEMIWTP;
+				
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"key is %d",key);
+			if(MIB_AvlTreeNodeAdd(&pTree->root,key,MIB_TABLE_GEMIWTP_INDEX,pGemIwTp)==NULL)
+			{
+				return GOS_OK;
+			}
+			/*update for gemport ctp*/
+			GemPortCtpAvlTreeAdd(pTree,pGemIwTp->GemCtpPtr);            
+			break;
+		 }
+		 
+		 case MIB_SET:
+		 {
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Gem InterWorking TP ---- > SET");
+
+			pGemIwTp = (MIB_TABLE_GEMIWTP_T*)pNewRow;
+
+			pTree =GemIwTpGetTree(pGemIwTp);
+
+			if(pTree==NULL)
+			{
+				OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Can't find Root Tree");
+				return GOS_FAIL;
+			}
+			/*update for gemport ctp*/
+			GemPortCtpAvlTreeAdd(pTree,pGemIwTp->GemCtpPtr);
+			break;
+		 }
+		 
+		 case MIB_DEL:
+		 {
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Gem InterWorking TP ---- > DEL"); 
+			pGemIwTp = (MIB_TABLE_GEMIWTP_T*)pOldRow;
+			pTree =GemIwTpGetTree(pGemIwTp);
+
+			if(pTree==NULL)
+			{
+				OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Can't find Root Tree");
+				return GOS_FAIL;
+			}
+			/*remove entries*/
+			key = AVL_KEY_GEMIWTP;
+			pEntry = MIB_AvlTreeEntrySearch(pTree->root,key,pGemIwTp->EntityID);
+
+			if(pEntry==NULL)
+			{
+				OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Search GemIwTp entry faild");
+				return GOS_FAIL;
+			}
+			/*remove node from tree*/
+			LIST_REMOVE(pEntry,treeEntry);
+			break;
+		 }
+		 default:
+			 return GOS_OK;
+	 }
+	 
+	 /*check connection*/
+	 MIB_TreeConnUpdate(pTree);
+
+	 return GOS_OK;
+
+}
+
+
+GOS_ERROR_CODE GemIwTp_Init(void)
+{
+    gMibGemIwTpTableInfo.Name = "GemIwTp";
+    gMibGemIwTpTableInfo.Desc = "GEM IW TP";
+    gMibGemIwTpTableInfo.MaxEntry = (UINT32)(32);
+    gMibGemIwTpTableInfo.ClassId = (UINT32)(266);
+    gMibGemIwTpTableInfo.InitType = (UINT32)(PON_ME_INIT_TYPE_BY_OLT);
+    gMibGemIwTpTableInfo.StdType = (UINT32)(PON_ME_STD_TYPE_STD);
+    gMibGemIwTpTableInfo.ActionType = (UINT32)(PON_ME_ACTION_CREATE | PON_ME_ACTION_DELETE | PON_ME_ACTION_SET | PON_ME_ACTION_GET);
+    gMibGemIwTpTableInfo.pAttributes = &(gMibGemIwTpAttrInfo[0]);
+
+
+	gMibGemIwTpTableInfo.attrNum = MIB_TABLE_GEMIWTP_ATTR_NUM;
+	gMibGemIwTpTableInfo.entrySize = sizeof(MIB_TABLE_GEMIWTP_T);
+	gMibGemIwTpTableInfo.pDefaultRow = &gMibGemIwTpDefRow;
+
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Name = "EntityID";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "GemCtpPtr";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].Name = "IwOpt";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "ServProPtr";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "IwTpPtr";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].Name = "PptpCounter";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].Name = "OpState";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "GalProfPtr";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].Name = "GalLoopbackCfg";
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Entity ID";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "GEM Port Network CTP Connectivity Pointer";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Interworking Option";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Service Profile Pointer";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Interworking Termination Point Pointer";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "PPTP Counter";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Operational state";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "GAL Profile Pointer";
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "GAL Loopback Configuration";
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = TRUE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GEMCTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWOPT_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_SERVPROPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_IWTPPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_PPTPCOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_OPSTATE_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALPROFPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemIwTpAttrInfo[MIB_TABLE_GEMIWTP_GALLOOPBACKCFG_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+
+
+    memset(&(gMibGemIwTpDefRow.EntityID), 0x00, sizeof(gMibGemIwTpDefRow.EntityID));
+    memset(&(gMibGemIwTpDefRow.GemCtpPtr), 0x00, sizeof(gMibGemIwTpDefRow.GemCtpPtr));
+    memset(&(gMibGemIwTpDefRow.IwOpt), 0x00, sizeof(gMibGemIwTpDefRow.IwOpt));
+    memset(&(gMibGemIwTpDefRow.ServProPtr), 0x00, sizeof(gMibGemIwTpDefRow.ServProPtr));
+    memset(&(gMibGemIwTpDefRow.IwTpPtr), 0x00, sizeof(gMibGemIwTpDefRow.IwTpPtr));
+    memset(&(gMibGemIwTpDefRow.PptpCounter), 0x00, sizeof(gMibGemIwTpDefRow.PptpCounter));
+    gMibGemIwTpDefRow.OpState = MIB_ATTR_DEF_SPACE;
+    memset(&(gMibGemIwTpDefRow.GalProfPtr), 0x00, sizeof(gMibGemIwTpDefRow.GalProfPtr));
+    memset(&(gMibGemIwTpDefRow.GalLoopbackCfg), 0x00, sizeof(gMibGemIwTpDefRow.GalLoopbackCfg));
+
+	gMibGemIwTpOper.meOperDrvCfg = GemIwTpDrvCfg;
+	gMibGemIwTpOper.meOperConnCheck = GemIwTpConnCheck;
+	gMibGemIwTpOper.meOperDump = GemIwTpDumpMib;
+	gMibGemIwTpOper.meOperConnCfg = GemIwTpConnCfg;
+
+
+	MIB_Register(MIB_TABLE_GEMIWTP_INDEX,&gMibGemIwTpTableInfo,&gMibGemIwTpOper);
+
+    return GOS_OK;
+}
+
+

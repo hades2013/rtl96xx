@@ -1,0 +1,359 @@
+/*
+ * Copyright (C) 2012 Realtek Semiconductor Corp. 
+ * All Rights Reserved.
+ *
+ * This program is the proprietary software of Realtek Semiconductor
+ * Corporation and/or its licensors, and only be used, duplicated, 
+ * modified or distributed under the authorized license from Realtek. 
+ *
+ * ANY USE OF THE SOFTWARE OTHER THAN AS AUTHORIZED UNDER 
+ * THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED. 
+ *
+ */
+
+
+#include "app_basic.h"
+#include "omci_defs.h"
+
+
+MIB_TABLE_INFO_T gMibGemPortCtpTableInfo;
+MIB_ATTR_INFO_T  gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ATTR_NUM];
+MIB_TABLE_GEMPORTCTP_T gMibGemPortCtpDefRow;
+MIB_TABLE_OPER_T	   gMibGemPortCtpOper;
+
+
+GOS_ERROR_CODE GemPortCtpAvlTreeAdd(MIB_TREE_T* pTree,UINT16 gemPortPtr)
+{
+
+	MIB_TABLE_GEMPORTCTP_T* pGemPortCtp;
+
+	if(pTree==NULL) return GOS_FAIL;
+
+	pGemPortCtp = (MIB_TABLE_GEMPORTCTP_T*)malloc(sizeof(MIB_TABLE_GEMPORTCTP_T));
+	memset(pGemPortCtp,0,sizeof(MIB_TABLE_GEMPORTCTP_T));
+	pGemPortCtp->EntityID = gemPortPtr;
+	if(MIB_Get(MIB_TABLE_GEMPORTCTP_INDEX, pGemPortCtp, sizeof(MIB_TABLE_GEMPORTCTP_T))!=GOS_OK)
+	{
+		OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Get Gem Port CTP Fail");
+		return GOS_FAIL;	
+	}	
+
+	if(MIB_AvlTreeNodeAdd(&pTree->root,AVL_KEY_GEMPORTCTP,MIB_TABLE_GEMPORTCTP_INDEX,pGemPortCtp)==NULL)
+	{
+		OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Add GemPortCtp Node Fail");
+		return GOS_FAIL;	
+	}
+	return GOS_OK;
+}
+
+
+
+GOS_ERROR_CODE GemPortCtpDumpMib(void *pData)
+{
+	MIB_TABLE_GEMPORTCTP_T *pGemPortCtp = (MIB_TABLE_GEMPORTCTP_T*)pData;
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"%s", "GemPortCtp");
+
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"EntityId: 0x%02x", pGemPortCtp->EntityID);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"PortID: %d", pGemPortCtp->PortID);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"TcAdapterPtr: 0x%02x", pGemPortCtp->TcAdapterPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"Direction: %d", pGemPortCtp->Direction);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"UsTraffMgmtPtr: 0x%02x", pGemPortCtp->UsTraffMgmtPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"UsTraffDescPtr: 0x%02x", pGemPortCtp->UsTraffDescPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"UniCounter: %d", pGemPortCtp->UniCounter);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"DsPriQPtr: 0x%02x", pGemPortCtp->DsPriQPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"EncryptionState: %d", pGemPortCtp->EncryptionState);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"DsTraffDescPtr: 0x%02x", pGemPortCtp->DsTraffDescPtr);
+	OMCI_LOG(OMCI_LOG_LEVEL_HIGH,"EncryptionKeyRing: %d", pGemPortCtp->EncryptionKeyRing);
+
+	return GOS_OK;
+}
+
+
+GOS_ERROR_CODE GemPortCtpConnCheck(MIB_TREE_T *pTree,MIB_TREE_CONN_T *pConn,PON_ME_ENTITY_ID entityId, void *opt)
+{
+	MIB_ENTRY_T *pEntry;
+	MIB_TABLE_GEMPORTCTP_T *pGemPortCtp;
+	int *index = (int*) opt;
+
+	if(opt==NULL)
+	{
+		return GOS_FAIL;
+	}
+	OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Start %s...",__FUNCTION__);
+	pEntry = MIB_AvlTreeEntrySearch(pTree->root,AVL_KEY_GEMPORTCTP,entityId);
+
+	if(!pEntry){
+		return GOS_FAIL;
+	}
+
+	pGemPortCtp = (MIB_TABLE_GEMPORTCTP_T*)pEntry->pData;
+	pConn->pGemPortCtp[*index] = pGemPortCtp;
+	return GOS_OK;
+}
+
+
+GOS_ERROR_CODE GemPortCtpConnCfg(void* pOldRow,void* pNewRow,MIB_OPERA_TYPE  operationType)
+{
+	MIB_ENTRY_T *pEntry;
+	MIB_AVL_KEY_T key;
+	MIB_TREE_T *pTree;	
+	MIB_TABLE_GEMPORTCTP_T* pGemPortCtp;
+	
+
+	switch (operationType){
+    	case MIB_DEL:
+	{
+		OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Gem Port Ctp ---- > DEL");
+		pGemPortCtp = (MIB_TABLE_GEMPORTCTP_T *)pOldRow;
+		key = AVL_KEY_GEMPORTCTP;
+
+		pTree = MIB_AvlTreeSearchByKey(pGemPortCtp->EntityID,AVL_KEY_GEMPORTCTP);
+
+		if(!pTree)
+		{
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Search GemIwTp tree faild");
+			return GOS_OK;
+		}
+		
+		pEntry = MIB_AvlTreeEntrySearch(pTree->root,key,pGemPortCtp->EntityID);
+
+		if(!pEntry)
+		{
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Search GemIwTp entry faild");
+			return GOS_OK;
+		}
+		OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Search Entry [%x]",pEntry);
+		/*remove node from tree*/
+		LIST_REMOVE(pEntry,treeEntry);
+		/*check connection*/
+		MIB_TreeConnUpdate(pTree);	           
+        break;
+	}
+	default:
+		return GOS_OK;
+	}
+
+	return GOS_OK;
+}
+
+
+GOS_ERROR_CODE GemPortCtpDrvCfg(void* pOldRow,void* pNewRow,MIB_OPERA_TYPE  operationType)
+{
+	GOS_ERROR_CODE          ret;
+	MIB_TABLE_TCONT_T       tcont;
+	OMCI_GEM_FLOW_ts        flow;
+	MIB_TABLE_GEMPORTCTP_T* pGemPortCtp;	
+
+	pGemPortCtp = (MIB_TABLE_GEMPORTCTP_T *)pNewRow;
+	tcont.EntityID = pGemPortCtp->TcAdapterPtr;
+	ret = MIB_Get(MIB_TABLE_TCONT_INDEX, &tcont, sizeof(MIB_TABLE_TCONT_T));
+	
+	char cmd[128];
+	sprintf(cmd,"echo %d,%d >> /tmp/b",ret,operationType);
+	system(cmd);	
+
+	if (ret == GOS_OK)
+	{
+		flow.portId  = pGemPortCtp->PortID;
+		flow.allocId = tcont.AllocID;
+		flow.tcontEId = tcont.EntityID;
+		flow.dir     = (PON_GEMPORT_DIRECTION)pGemPortCtp->Direction;
+		flow.isOmcc  = FALSE;
+		flow.queueEId = pGemPortCtp->UsTraffMgmtPtr;
+		OMCI_LOG(OMCI_LOG_LEVEL_LOW,"AllocId: %x,QueueId: %x",flow.allocId,flow.queueEId);
+
+		switch (operationType){
+		case MIB_ADD:
+		{
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Gem Port Ctp ---- > ADD");
+			flow.ena = TRUE;
+		}
+		break;
+		case MIB_DEL:
+		{
+			OMCI_LOG(OMCI_LOG_LEVEL_LOW,"Gem Port Ctp ---- > DEL");
+			flow.ena = FALSE;
+			break;
+		}
+		default:
+			return GOS_OK;
+		}
+        	ret = OMCI_wrapper_CfgGemFlow(flow);
+	}
+	return GOS_OK;
+}
+
+
+
+GOS_ERROR_CODE GemPortCtp_Init(void)
+{
+    gMibGemPortCtpTableInfo.Name = "GemPortCtp";
+    gMibGemPortCtpTableInfo.Desc = "GEM port network CTP";
+    gMibGemPortCtpTableInfo.MaxEntry = (UINT32)(32);
+    gMibGemPortCtpTableInfo.ClassId = (UINT32)(268);
+    gMibGemPortCtpTableInfo.InitType = (UINT32)(PON_ME_INIT_TYPE_BY_OLT);
+    gMibGemPortCtpTableInfo.StdType = (UINT32)(PON_ME_STD_TYPE_STD);
+    gMibGemPortCtpTableInfo.ActionType = (UINT32)(PON_ME_ACTION_CREATE | PON_ME_ACTION_DELETE | PON_ME_ACTION_SET | PON_ME_ACTION_GET);
+    gMibGemPortCtpTableInfo.pAttributes = &(gMibGemPortCtpAttrInfo[0]);
+
+	gMibGemPortCtpTableInfo.attrNum = MIB_TABLE_GEMPORTCTP_ATTR_NUM;
+	gMibGemPortCtpTableInfo.entrySize = sizeof(MIB_TABLE_GEMPORTCTP_T);
+	gMibGemPortCtpTableInfo.pDefaultRow = &gMibGemPortCtpDefRow;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Name = "EntityId";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].Name = "PortID";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "TcAdapterPtr";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].Name = "Direction";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "UsTraffMgmtPtr";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "UsTraffDescPtr";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].Name = "UniCounter";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "DsPriQPtr";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].Name = "EncryptionState";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].Name = "DsTraffDescPtr";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].Name = "EncryptionKeyRing";
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Entity ID";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "GemPort Id";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Tcont pointer";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "direction";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Traffic management pointer for upstream";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Traffic descriptor profile point for upstream";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "UNI counter";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Downstream priority point";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Encrtption state";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Downstream Traffic Descriptor profile point";
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].Desc = "Encryption key ring";
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT16;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].DataType = MIB_ATTR_TYPE_UINT8;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].Len = 2;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].Len = 1;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].IsIndex = FALSE;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_READ_ONLY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].UsrAcc = MIB_ATTR_USR_WRITE;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].MibSave = TRUE;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_HEX;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].OutStyle = MIB_ATTR_OUT_DEC;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE ;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE | PON_ME_OLT_SET_BY_CREATE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].OltAcc = PON_ME_OLT_READ | PON_ME_OLT_WRITE;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].AvcFlag = FALSE;
+
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENTITYID_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_PORTID_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_TCADAPTERPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DIRECTION_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFMGMTPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_USTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_UNICOUNTER_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSPRIQPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_MANDATORY;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONSTATE_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_DSTRAFFDESCPTR_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+    gMibGemPortCtpAttrInfo[MIB_TABLE_GEMPORTCTP_ENCRYPTIONKEYRING_INDEX - MIB_TABLE_FIRST_INDEX].OptionType = PON_ME_ATTR_OPT_SUPPORT;
+
+    memset(&(gMibGemPortCtpDefRow.EntityID), 0x00, sizeof(gMibGemPortCtpDefRow.EntityID));
+    memset(&(gMibGemPortCtpDefRow.PortID), 0x00, sizeof(gMibGemPortCtpDefRow.PortID));
+    memset(&(gMibGemPortCtpDefRow.TcAdapterPtr), 0x00, sizeof(gMibGemPortCtpDefRow.TcAdapterPtr));
+    memset(&(gMibGemPortCtpDefRow.Direction), 0x00, sizeof(gMibGemPortCtpDefRow.Direction));
+    memset(&(gMibGemPortCtpDefRow.UsTraffMgmtPtr), 0x00, sizeof(gMibGemPortCtpDefRow.UsTraffMgmtPtr));
+    memset(&(gMibGemPortCtpDefRow.UsTraffDescPtr), 0x00, sizeof(gMibGemPortCtpDefRow.UsTraffDescPtr));
+    memset(&(gMibGemPortCtpDefRow.UniCounter), 0x00, sizeof(gMibGemPortCtpDefRow.UniCounter));
+    memset(&(gMibGemPortCtpDefRow.DsPriQPtr), 0x00, sizeof(gMibGemPortCtpDefRow.DsPriQPtr));
+    memset(&(gMibGemPortCtpDefRow.EncryptionState), 0x00, sizeof(gMibGemPortCtpDefRow.EncryptionState));
+    memset(&(gMibGemPortCtpDefRow.DsTraffDescPtr), 0x00, sizeof(gMibGemPortCtpDefRow.DsTraffDescPtr));
+    memset(&(gMibGemPortCtpDefRow.EncryptionKeyRing), 0x00, sizeof(gMibGemPortCtpDefRow.EncryptionKeyRing));
+
+    gMibGemPortCtpOper.meOperDrvCfg = GemPortCtpDrvCfg;
+    gMibGemPortCtpOper.meOperConnCheck = GemPortCtpConnCheck;
+    gMibGemPortCtpOper.meOperDump = GemPortCtpDumpMib;
+	gMibGemPortCtpOper.meOperConnCfg = GemPortCtpConnCfg;
+
+    MIB_Register(MIB_TABLE_GEMPORTCTP_INDEX, &gMibGemPortCtpTableInfo, &gMibGemPortCtpOper);
+	
+
+    return GOS_OK;
+}
+
+
+

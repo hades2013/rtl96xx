@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_regmmap_test.c源文件</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_regmmap_test.c</h1><a href="opl__regmmap__test_8c.html">浏览该文件的文档。</a><div class="fragment"><pre class="fragment">00001 
+00014 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
+00015 <span class="preprocessor">#include &lt;sys/mman.h&gt;</span>
+00016 <span class="preprocessor">#include &lt;fcntl.h&gt;</span>
+00017 
+00018 <span class="preprocessor">#include "../include/opl_typedef.h"</span>
+00022 <span class="comment">/*--------------------------Macro definition------------------------- */</span>
+<a name="l00023"></a><a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga3">00023</a> <span class="preprocessor">#define OPL_REG_DEVICE "/dev/opl_reg"</span>
+<a name="l00024"></a><a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga4">00024</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_REG_SIZE 0x300000</span>
+00025 <span class="preprocessor"></span>
+00026 
+00027 
+00028 
+00034 <span class="comment">/*--------------------------type definition------------------------- */</span>
+00035 
+00036 
+00037 
+00038 
+00039 
+00045 <span class="comment">/*-----------------global varible/function declaration--------------- */</span>
+00046 
+00047 
+00048 
+00049 
+00050 
+00056 <span class="comment">/*-------------------local  function declaration---------------------- */</span>
+00057 
+00058 
+00059 
+00060 
+00061 
+00068 <span class="comment">/*--------------local  variable declaration and definition------------- */</span>
+00069 <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group__opl__regmmap.html#ga1">reg_read</a>(<span class="keywordtype">char</span> *reg_base,<span class="keywordtype">int</span> offset);
+00070 <span class="keywordtype">void</span> <a class="code" href="group__opl__regmmap.html#ga2">reg_write</a>(<span class="keywordtype">char</span> *reg_base, <span class="keywordtype">int</span> offset, u32 value);
+00071 <span class="keywordtype">void</span> <a class="code" href="group__opl__regmmap.html#ga3">opl_reg_main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> ** argv);
+00072 <span class="keywordtype">int</span> <a class="code" href="group__opl__reg.html#ga0">opl_reg_init</a>(<span class="keywordtype">int</span> *opl_reg_initialized);
+00073 <span class="keywordtype">int</span> <a class="code" href="group__opl__reg.html#ga1">opl_reg_exit</a>(<span class="keywordtype">int</span> *opl_reg_initialized);
+00074 
+00075 
+00076 
+00083 <span class="comment">/*------------------global variable and function exported-------------- */</span>
+<a name="l00085"></a><a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">00085</a> <span class="keywordtype">char</span> *<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">opl_reg_base</a> = NULL;
+<a name="l00086"></a><a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga1">00086</a> <span class="keywordtype">char</span> *<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga1">OPL_REG_USAGE</a> = <span class="stringliteral">"opl_reg_test -r offset  or\n\</span>
+00087 <span class="stringliteral">                       opl_reg_test --read offset  or\n\</span>
+00088 <span class="stringliteral">                       opl_reg_test -w offset value   or\n\</span>
+00089 <span class="stringliteral">                       opl_reg_test --write offset value  \n\</span>
+00090 <span class="stringliteral">                       Note: the offset and value can be decimal or hex!\n"</span> ;
+00091 
+00092 
+<a name="l00094"></a><a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga2">00094</a> <span class="keywordtype">int</span> opl_reg_fd;
+00095 
+00103 <span class="comment">/*----------------------local  function definition--------------------- */</span>
+00104 
+<a name="l00115"></a><a class="code" href="group__opl__regmmap.html#ga1">00115</a> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group__opl__regmmap.html#ga1">reg_read</a>(<span class="keywordtype">char</span> *reg_base,<span class="keywordtype">int</span> offset)
+00116 {
+00117   <a class="code" href="opl__typedef_8h.html#a0">u32</a> value = 0;
+00118   <span class="keywordflow">if</span>(offset%4){
+00119     printf(<span class="stringliteral">"the alignment is not 4 bytes \n"</span>);
+00120     <span class="keywordflow">return</span> -1;
+00121   }
+00122   value = *(<span class="keyword">volatile</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> *)(reg_base + offset);
+00123   <span class="keywordflow">return</span> value;
+00124 }
+<a name="l00134"></a><a class="code" href="group__opl__regmmap.html#ga2">00134</a> <span class="keywordtype">void</span> <a class="code" href="group__opl__regmmap.html#ga2">reg_write</a>(<span class="keywordtype">char</span> *reg_base, <span class="keywordtype">int</span> offset, u32 value)
+00135 {
+00136   <span class="keywordflow">if</span>(offset%4){
+00137     printf(<span class="stringliteral">"the alignment is not 4 bytes \n"</span>);
+00138     return ;
+00139   } 
+00140   *(<span class="keyword">volatile</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> *)(reg_base + offset) = value;
+00141 }
+<a name="l00151"></a><a class="code" href="group__opl__regmmap.html#ga3">00151</a> <span class="keywordtype">void</span> <a class="code" href="group__opl__regmmap.html#ga3">opl_reg_main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> ** argv)
+00152 {
+00153   <span class="keywordtype">int</span> i = 0;
+00154   <span class="keywordtype">int</span> offset = 0;
+00155   <a class="code" href="opl__typedef_8h.html#a0">u32</a> value = 0;
+00156     
+00157   <span class="keywordflow">if</span>(argc &lt; 3){
+00158     printf(<span class="stringliteral">"the number of argument is not correct\n"</span>);
+00159     printf(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga1">OPL_REG_USAGE</a>);
+00160     <span class="keywordflow">return</span>;
+00161   }
+00162   
+00163   <span class="keywordflow">if</span>((argv[2][0] == <span class="charliteral">'0'</span>) &amp;&amp; ((argv[2][1] == <span class="charliteral">'x'</span>)||(argv[2][1] == <span class="charliteral">'X'</span>))){
+00164     <span class="comment">/* TBD:should be check the ranged */</span>
+00165     sscanf(argv[2],<span class="stringliteral">"%x"</span>,&amp;offset);
+00166   }<span class="keywordflow">else</span>{
+00167     sscanf(argv[2],<span class="stringliteral">"%d"</span>,&amp;offset);
+00168   }
+00169      
+00170   <span class="keywordflow">if</span>(!strcmp(argv[1],<span class="stringliteral">"--read"</span>)||!strcmp(argv[1], <span class="stringliteral">"-r"</span>)){
+00171     <span class="keywordflow">if</span>(argc != 3){
+00172       printf(<span class="stringliteral">"the number of argument is not correct\n"</span>);
+00173       printf(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga1">OPL_REG_USAGE</a>);
+00174       <span class="keywordflow">return</span>;
+00175     }
+00176     printf(<span class="stringliteral">"the %x register's value is 0x%x\n"</span>,offset,<a class="code" href="group__opl__regmmap.html#ga1">reg_read</a>(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">opl_reg_base</a>,offset));
+00177     
+00178   }<span class="keywordflow">else</span> <span class="keywordflow">if</span>(!strcmp(argv[1],<span class="stringliteral">"--write"</span>)||!strcmp(argv[1], <span class="stringliteral">"-w"</span>)){
+00179     <span class="keywordflow">if</span>(argc != 4){
+00180       printf(<span class="stringliteral">"the number of argument is not correct\n"</span>);
+00181       printf(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga1">OPL_REG_USAGE</a>);
+00182       <span class="keywordflow">return</span>;
+00183     }
+00184     <span class="keywordflow">if</span>(argv[3][0] == <span class="charliteral">'0'</span> &amp;&amp; ((argv[3][1] == <span class="charliteral">'x'</span>)||(argv[3][1] == <span class="charliteral">'X'</span>))){
+00185       <span class="comment">/* TBD:should be check the ranged */</span>
+00186       sscanf(argv[3],<span class="stringliteral">"%x"</span>,&amp;value);
+00187     }<span class="keywordflow">else</span>{
+00188       sscanf(argv[3],<span class="stringliteral">"%d"</span>,&amp;value);
+00189     }
+00190     <a class="code" href="group__opl__regmmap.html#ga2">reg_write</a>(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">opl_reg_base</a>,offset,value);
+00191     printf(<span class="stringliteral">"write the %x register,write_value = 0x%x,check_value = 0x%x\n"</span>,offset,value,<a class="code" href="group__opl__regmmap.html#ga1">reg_read</a>(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">opl_reg_base</a>,offset));
+00192   }
+00193 }
+00194 
+<a name="l00203"></a><a class="code" href="group__opl__regmmap.html#ga4">00203</a> <span class="keywordtype">int</span> <a class="code" href="group__opl__reg.html#ga0">opl_reg_init</a>(<span class="keywordtype">int</span> *opl_reg_initialized)
+00204 {
+00205   <a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga2">opl_reg_fd</a> = open(<a class="code" href="group___o_p_l___r_e_g.html#ga7">OPL_REG_DEVICE</a>,O_RDWR);
+00206   <span class="keywordflow">if</span>(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga2">opl_reg_fd</a>&lt;0){
+00207     printf(<span class="stringliteral">"open device file failed\n"</span>,<a class="code" href="group___o_p_l___r_e_g.html#ga7">OPL_REG_DEVICE</a>);
+00208     <span class="keywordflow">return</span> -1;
+00209   }
+00210   <a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">opl_reg_base</a> = (<span class="keywordtype">char</span> *)mmap(0,<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga4">OPL_REG_SIZE</a>,PROT_READ|PROT_WRITE,MAP_SHARED,<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga2">opl_reg_fd</a>,0);
+00211   <span class="keywordflow">if</span>(!opl_reg_base){
+00212     printf(<span class="stringliteral">"mmap the opl register failed\n"</span>);
+00213     close(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga2">opl_reg_fd</a>);
+00214     <span class="keywordflow">return</span> -1;
+00215   }
+00216   *opl_reg_initialized = 1;
+00217   <span class="keywordflow">return</span> 0;
+00218 }
+<a name="l00227"></a><a class="code" href="group__opl__regmmap.html#ga5">00227</a> <span class="keywordtype">int</span> <a class="code" href="group__opl__reg.html#ga1">opl_reg_exit</a>(<span class="keywordtype">int</span> *opl_reg_initialized)
+00228 {
+00229   <span class="keywordtype">int</span> ret = 0;
+00230   <span class="keywordflow">if</span>(*opl_reg_initialized == 1){
+00231     *opl_reg_initialized = 0;
+00232     munmap(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga0">opl_reg_base</a>,<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga4">OPL_REG_SIZE</a>);
+00233     ret = close(<a class="code" href="group___o_p_l___r_e_g___t_e_s_t.html#ga2">opl_reg_fd</a>);
+00234   }
+00235   <span class="keywordflow">return</span> ret;
+00236 }
+<a name="l00247"></a><a class="code" href="group__opl__regmmap.html#ga0">00247</a> <span class="keywordtype">int</span> <a class="code" href="group__opl__regmmap.html#ga0">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)
+00248 {
+00249   <span class="keywordtype">int</span> init = 0;
+00250   <a class="code" href="group__opl__reg.html#ga0">opl_reg_init</a>(&amp;init);
+00251   <span class="keywordflow">if</span>(init){
+00252     <a class="code" href="group__opl__regmmap.html#ga3">opl_reg_main</a>(argc,argv);
+00253   }
+00254   <a class="code" href="group__opl__reg.html#ga1">opl_reg_exit</a>(&amp;init);
+00255   <span class="keywordflow">return</span> 0;
+00256 }
+00257 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

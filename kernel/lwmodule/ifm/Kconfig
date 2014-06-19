@@ -1,0 +1,9 @@
+
+menu "MINIWARE2 INTERFACE"
+
+config IFM
+        tristate "miniware2 interface module"
+        help
+         interface module support
+
+endmenu

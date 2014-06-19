@@ -1,0 +1,7 @@
+menu "onu_compatible configuration"
+config CONFIG_ONU_COMPATIBLE
+        bool "onu_compatible surpport"
+        default y
+        help
+                none
+endmenu

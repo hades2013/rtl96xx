@@ -1,0 +1,356 @@
+################################################################################
+#
+# Copyright (C) 2008 Opulan Technologies Corp., All Rights Reserved
+#
+# FILENAME: Makefile.conf
+#
+# DESCRIPTION: This file defines the Common Configuration, Cross-compiler, Assamlier,
+#              linker, and project related pathes and module and library onfigs. 
+#              This is small set of rules to be included by all Makefiles.
+#
+# Date Created (optional): 4/13/2008
+#
+# Authors (optional): Gan Zhiheng
+#
+# Reviewed by (optional):
+#
+# Edit History:
+#
+#
+################################################################################
+
+################      Common Configurations     ################
+
+LIBDIR = $(TARGETDIR)/build
+OBJSDIR = $(TARGETDIR)/build
+
+###################################################################################
+#	Project Type:
+#	PROJECT_TYPE = ONU_1PORT				(default, V1 version, 1 port)
+#	PROJECT_TYPE = ONU_4PORT_AR8228			(V1 version, 4 ports, S27)
+#	PROJECT_TYPE = ONU_1PORT_V1E_FPGA		(FPGA version, 1 port)
+#	PROJECT_TYPE = ONU_4PORT_V1E_FPGA		(FPGA version, 4 ports)
+#	PROJECT_TYPE = ONU_1PORT_V1E_RF100_GNA	(V1E version, RF400-GNA, 1 port)
+#	PROJECT_TYPE = ONU_4PORT_V1E_RF400_GNA	(V1E version, RF400-GNA, 4 port, S17)
+#	PROJECT_TYPE = ONU_1PORT_V1E_F13		(V1E version, F13, 1 port)
+#	PROJECT_TYPE = ONU_1PORT_V1E_C13		(V1E version, C13, 1 port)
+#	PROJECT_TYPE = ONU_4PORT_V1E_F23		(V1E version, F23, 4 port, S27)
+#
+ifeq ($(shell if [ -f $(TARGETDIR)/project.config ]; then cat $(TARGETDIR)/project.config; else printf ""; fi),)
+PROJECT_TYPE = ONU_1PORT
+else
+PROJECT_TYPE = $(shell cat $(TARGETDIR)/project.config)
+endif
+
+###################################################################################
+#	ONU Version:
+#	ONU_VERSION = ONU_V1
+#	ONU_VERSION = ONU_V1E_FPGA
+#	ONU_VERSION = ONU_V1E_A
+#
+###################################################################################
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT)
+ONU_VERSION=ONU_V1
+PROJECT_TYPE=ONU_1PORT
+HARDWARE_VERSION=ONU_1PORT_V1
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8228)
+ONU_VERSION=ONU_V1
+PROJECT_TYPE=ONU_4PORT_AR8228
+HARDWARE_VERSION=ONU_4PORT_V1_AR8228
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT_V1E_FPGA)
+ONU_VERSION=ONU_V1E_FPGA
+PROJECT_TYPE=ONU_1PORT
+HARDWARE_VERSION=ONU_1PORT_V1E_FPGA
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_4PORT_V1E_FPGA)
+ONU_VERSION=ONU_V1E_FPGA
+PROJECT_TYPE=ONU_4PORT_AR8228
+HARDWARE_VERSION=ONU_4PORT_V1E_FPGA
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT_V1E_RF100_GNA)
+ONU_VERSION=ONU_V1E_A
+PROJECT_TYPE=ONU_1PORT
+HARDWARE_VERSION=ONU_1PORT_V1E_RF100_GNA
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT_V1E_RF100_GNA_ATE)
+ONU_VERSION=ONU_V1E_A
+PROJECT_TYPE=ONU_1PORT
+HARDWARE_VERSION=ONU_1PORT_V1E_RF100_GNA_ATE
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_4PORT_V1E_RF400_GNA)
+ONU_VERSION=ONU_V1E_A_4PORT
+PROJECT_TYPE=ONU_4PORT_AR8327
+HARDWARE_VERSION=ONU_4PORT_V1E_RF400_GNA
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT_V1E_F13)
+ONU_VERSION=ONU_V1E_A
+PROJECT_TYPE=ONU_1PORT
+HARDWARE_VERSION=ONU_1PORT_V1E_F13
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT_V1E_C13)
+ONU_VERSION=ONU_V1E_A
+PROJECT_TYPE=ONU_1PORT
+HARDWARE_VERSION=ONU_1PORT_V1E_C13
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_4PORT_V1E_F23)
+ONU_VERSION=ONU_V1E_A
+PROJECT_TYPE=ONU_4PORT_AR8228
+HARDWARE_VERSION=ONU_4PORT_V1E_F23
+endif
+
+
+###################################################################################
+#	OAM Version:
+#	CTC_2_0	= CTC 2.0 (default)
+#	CTC_2_1 = CTC 2.1
+OAM_VER = CTC_2_0
+
+###################################################################################
+#	ONU TM Mode (only use in ONU):
+#	ONU_TM_MODE_0	= Mode 0 (default)
+#	ONU_TM_MODE_1 	= Mode 1 
+ONU_TM_MODE = ONU_TM_MODE_0
+
+###################################################################################
+#   ONU revision
+#REV = $(shell svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}')
+REV = 3915
+
+###################################################################################
+#	Optimization options (add to CCFLAGS ):
+#	-O0 -g	= Level 0	no optimization, debug info is enabled
+#	-O1 	= Level 1	(incompatible with -g option (gebug info))
+#	-O2 	= Level 2	(incompatible with -g option)
+#	-O3 	= Level 3	(incompatible with -g option)
+OPTIMIZATION = -O0 -g
+###################################################################################
+
+# Components ($TARGETDIR/subdirs) that should be compiled for this TARGET
+COMPONENTS = \
+	bridge \
+	cli \
+	dvrs \
+	hal \
+	oamp \
+	port \
+	multicast \
+	sys \
+	vos \
+	stats \
+	rstp \
+	qos \
+	exchange \
+	ipc
+
+
+# clear LIB variable
+LIB =
+
+# List of libraries produced by COMPONENTS above
+LIBS = \
+	libipc.a \
+	libcli.a \
+	libbridge.a \
+	libport.a \
+	liboamp.a \
+	libstats.a \
+	libmulticast.a \
+	libvos.a \
+	libsys.a \
+	libqos.a \
+	librstp.a \
+	libdvrs.a \
+	libexchange.a 
+
+
+LIBS := $(addprefix $(LIBDIR)/, $(LIBS))
+
+LIBS += -lpthread -lm
+
+# Include path list
+ifeq ($(PROJECT_TYPE),ONU_1PORT)
+INCLUDE = \
+	-I$(TARGETDIR) \
+	-I$(TARGETDIR)/bridge/h \
+	-I$(TARGETDIR)/cli/h \
+	-I$(TARGETDIR)/dvrs/h \
+	-I$(TARGETDIR)/hal/h \
+	-I$(TARGETDIR)/ipc/h \
+	-I$(TARGETDIR)/multicast/h \
+	-I$(TARGETDIR)/oamp/h \
+	-I$(TARGETDIR)/port/h \
+	-I$(TARGETDIR)/qos/h \
+	-I$(TARGETDIR)/exchange/h \
+	-I$(TARGETDIR)/rstp/h \
+	-I$(TARGETDIR)/snmp/h \
+	-I$(TARGETDIR)/sys/h \
+	-I$(TARGETDIR)/vos/linux/h \
+	-I$(TARGETDIR)/stats/h
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8228)
+INCLUDE = \
+	-I$(TARGETDIR) \
+	-I$(TARGETDIR)/bridge/h \
+	-I$(TARGETDIR)/cli/h \
+	-I$(TARGETDIR)/dvrs/dal_atheros_8228/h \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/common\
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/fal \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/hsl \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/hsl/garuda \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/hsl/phy \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/init \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/sal \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/sal/os \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/sal/os/linux_user \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/sal/sd \
+	-I$(TARGETDIR)/dvrs/atheros_8228/include/sal/sd/linux/uk_interface \
+	-I$(TARGETDIR)/dvrs/opconn/h \
+	-I$(TARGETDIR)/hal/h \
+	-I$(TARGETDIR)/ipc/h \
+	-I$(TARGETDIR)/multicast/h \
+	-I$(TARGETDIR)/oamp/h \
+	-I$(TARGETDIR)/port/h \
+	-I$(TARGETDIR)/qos/h \
+	-I$(TARGETDIR)/exchange/h \
+	-I$(TARGETDIR)/rstp/h \
+	-I$(TARGETDIR)/snmp/h \
+	-I$(TARGETDIR)/sys/h \
+	-I$(TARGETDIR)/vos/linux/h \
+	-I$(TARGETDIR)/stats/h
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8327)
+INCLUDE = \
+	-I$(TARGETDIR) \
+	-I$(TARGETDIR)/bridge/h \
+	-I$(TARGETDIR)/cli/h \
+	-I$(TARGETDIR)/dvrs/dal_atheros_8328/h \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/api\
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/common\
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/fal \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/hsl \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/hsl/isis \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/hsl/phy \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/init \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/sal \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/sal/os \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/sal/os/linux_user \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/sal/sd \
+	-I$(TARGETDIR)/dvrs/atheros_8328/include/sal/sd/linux/uk_interface \
+	-I$(TARGETDIR)/dvrs/opconn/h \
+	-I$(TARGETDIR)/hal/h \
+	-I$(TARGETDIR)/ipc/h \
+	-I$(TARGETDIR)/multicast/h \
+	-I$(TARGETDIR)/oamp/h \
+	-I$(TARGETDIR)/port/h \
+	-I$(TARGETDIR)/qos/h \
+	-I$(TARGETDIR)/exchange/h \
+	-I$(TARGETDIR)/rstp/h \
+	-I$(TARGETDIR)/snmp/h \
+	-I$(TARGETDIR)/sys/h \
+	-I$(TARGETDIR)/vos/linux/h \
+	-I$(TARGETDIR)/stats/h
+endif
+
+# Define common targets
+COMMONTARGS = clean cleanall cleanlib liblist include
+
+
+# Cross compile, turn off for x86
+CROSS_COMPILE   = mips-linux-uclibc-
+
+ifdef CROSS_COMPILE 
+
+MAKE_UART = yes
+MAKE_FE   = yes
+
+endif
+
+AS		= $(CROSS_COMPILE)as
+LD		= $(CROSS_COMPILE)ld
+CC		= $(CROSS_COMPILE)gcc
+CPP		= $(CC) -E
+AR		= $(CROSS_COMPILE)ar
+NM		= $(CROSS_COMPILE)nm
+STRIP		= $(CROSS_COMPILE)strip
+OBJCOPY		= $(CROSS_COMPILE)objcopy
+OBJDUMP		= $(CROSS_COMPILE)objdump
+RANLIB          = $(CROSS_COMPILE)ranlib
+
+MAKE = make
+SED  = sed
+
+ifeq ($(CROSS_COMPILE),mips-linux-uclibc-)
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT)
+CCFLAGS = $(INCLUDE) -DLINUX -DUNIX -DHAVE_STDLIB -DSYS_UNIX \
+	-DHAVE_TCGETATTR -DSAL_THREAD_NAME_PRINT_DISABLE \
+	-D__linux__ -DOPCONN_BIG_ENDIAN  -D_MIPS_SZPTR=32 -D_MIPS_SZINT=32 \
+	-DMAKE_MIPS -DOPL_BIG_ENDIANESS -DONU_1PORT
+endif
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8228)
+CCFLAGS = $(INCLUDE) -DLINUX -DUNIX -DHAVE_STDLIB -DSYS_UNIX \
+	-DHAVE_TCGETATTR -DSAL_THREAD_NAME_PRINT_DISABLE \
+	-D__linux__ -DOPCONN_BIG_ENDIAN  -D_MIPS_SZPTR=32 -D_MIPS_SZINT=32 \
+	-DMAKE_MIPS -DOPL_BIG_ENDIANESS -DONU_4PORT_AR8228\
+	-DSHIVA -DUSER_MODE -DHSL_STANDALONG
+endif
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8327)
+CCFLAGS = $(INCLUDE) -DLINUX -DUNIX -DHAVE_STDLIB -DSYS_UNIX \
+	-DHAVE_TCGETATTR -DSAL_THREAD_NAME_PRINT_DISABLE \
+	-D__linux__ -DOPCONN_BIG_ENDIAN  -D_MIPS_SZPTR=32 -D_MIPS_SZINT=32 \
+	-DMAKE_MIPS -DOPL_BIG_ENDIANESS -DONU_4PORT_AR8327\
+	-DISIS -DUSER_MODE -DHSL_STANDALONG
+endif
+
+else
+
+CCFLAGS = $(INCLUDE) -DLINUX -DUNIX -DHAVE_STDLIB -DSYS_UNIX \
+	-DHAVE_TCGETATTR -DSAL_THREAD_NAME_PRINT_DISABLE -DDEBUG -DSYS_X86
+
+endif
+
+ifeq ($(PROJECT_TYPE),ONU_1PORT)
+CCFLAGS += -D$(OAM_VER) -D__REVISION__=\"$(REV)\" -DOPL_DMA0_ETH -DOPL_NO_DMA1_ETH
+endif
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8228)
+CCFLAGS += -D$(OAM_VER) -D__REVISION__=\"$(REV)\" -DOPL_DMA0_ETH
+endif
+ifeq ($(PROJECT_TYPE),ONU_4PORT_AR8327)
+CCFLAGS += -D$(OAM_VER) -D__REVISION__=\"$(REV)\" -DOPL_DMA0_ETH -DOPL_NO_DMA1_ETH
+endif
+
+ifeq ($(ONU_VERSION),ONU_V1E_FPGA)
+CCFLAGS += -DONU_RESPIN
+CCFLAGS += -DONU_RESPIN_NA
+endif
+
+ifeq ($(ONU_VERSION),ONU_V1E_A)
+CCFLAGS += -DONU_RESPIN
+endif
+
+ifeq ($(HARDWARE_VERSION),ONU_1PORT_V1E_RF100_GNA)
+CCFLAGS += -DONU_RESPIN_A
+endif
+
+ifeq ($(ONU_VERSION),ONU_V1E_A_4PORT)
+CCFLAGS += -DONU_RESPIN
+CCFLAGS += -DONU_RESPIN_A_4PORT
+endif
+
+CCFLAGS += -D$(HARDWARE_VERSION) -D$(ONU_TM_MODE) -DOPULAN_IMAGE_HEADER

@@ -1,0 +1,1 @@
+../../soc/common/plr_uart.c

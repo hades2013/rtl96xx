@@ -1,0 +1,60 @@
+# contents below built automatically by configure; do not edit by hand
+mibgroup_list_o= \
+	mibgroup/mibII/at.o \
+	mibgroup/mibII/icmp.o \
+	mibgroup/mibII/ip.o \
+	mibgroup/mibII/snmp_mib.o \
+	mibgroup/mibII/sysORTable.o \
+	mibgroup/mibII/system_mib.o \
+	mibgroup/mibII/tcp.o \
+	mibgroup/mibII/udp.o \
+	mibgroup/snmpv3/snmpEngine.o \
+	mibgroup/snmpv3/snmpMPDStats.o \
+	mibgroup/snmpv3/usmStats.o \
+	mibgroup/snmpv3/usmUser.o \
+	mibgroup/hexicom/hexicom.o \
+	mibgroup/hexicom/eocCLTSystemInfo.o \
+	mibgroup/hexicom/eocCLTConfigSystem.o \
+	mibgroup/hexicom/cltConfigNetworking.o \
+	mibgroup/hexicom/cltDeviceModelTable.o \
+	mibgroup/hexicom/eocCLTDebug.o \
+	mibgroup/hexicom/cltConfigCableTable.o \
+	mibgroup/hexicom/cltConfigCableScalar.o \
+	mibgroup/hexicom/cltConfigAdministratorTable.o \
+	mibgroup/hexicom/cltConfigRemoteUpgrade.o \
+	mibgroup/hexicom/cltConfigRTC.o \
+	mibgroup/hexicom/cltConfigService.o \
+	mibgroup/hexicom/eocCLTConfigInterface.o \
+	mibgroup/hexicom/cltConfigInterfaceTable.o \
+	mibgroup/hexicom/eocCLTNetworkUnitGroup.o \
+	mibgroup/hexicom/eocCLTNetworkUnitScalarGroup.o \
+	mibgroup/hexicom/cltNetworkUnitTopologyTable.o \
+	mibgroup/hexicom/cltNetworkUnitInterfaceTable.o \
+	mibgroup/hexicom/cltNetworkUnitStatisticsTable.o \
+	mibgroup/hexicom/cltTemplateTable.o \
+	mibgroup/hexicom/cltTemplateInterfaceTable.o \
+	mibgroup/hexicom/cltNetworkUnitUserListTable.o \
+	mibgroup/hexicom/eocCLTConfigVLAN.o \
+	mibgroup/hexicom/cltConfigVLANTable.o \
+	mibgroup/hexicom/cltConfigVLANTrunkTable.o \
+	mibgroup/hexicom/cltConfigVLANHybridTable.o \
+	mibgroup/mibII/kernel_linux.o \
+	mibgroup/mibII/ipAddr.o \
+	mibgroup/mibII/var_route.o \
+	mibgroup/mibII/route_write.o \
+	mibgroup/util_funcs.o \
+	mibgroup/mibII/tcpTable.o \
+	mibgroup/mibII/udpTable.o \
+	mibgroup/mibII/vacm_vars.o \
+	mibgroup/if-mib/ifTable/ifTable.o \
+	mibgroup/mibII/vacm_context.o \
+	mibgroup/if-mib/data_access/interface.o \
+	mibgroup/if-mib/ifTable/ifTable_interface.o \
+	mibgroup/if-mib/ifTable/ifTable_data_access.o \
+	mibgroup/if-mib/data_access/interface_linux.o \
+	mibgroup/if-mib/data_access/interface_ioctl.o \
+	mibgroup/ip-mib/data_access/ipaddress_common.o \
+	mibgroup/ip-mib/data_access/ipaddress_linux.o \
+	mibgroup/ip-mib/data_access/ipaddress_ioctl.o
+
+# end configure generated code

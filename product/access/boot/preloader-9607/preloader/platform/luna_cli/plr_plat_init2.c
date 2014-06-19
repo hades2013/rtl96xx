@@ -1,0 +1,1 @@
+../luna_nor_spi/plr_plat_init2.c

@@ -1,0 +1,9 @@
+
+menu "L2TRANS MODULE"
+
+config L2_HANDLE
+        tristate "L2 trans module"
+        help
+         l2 send/receive support
+
+endmenu

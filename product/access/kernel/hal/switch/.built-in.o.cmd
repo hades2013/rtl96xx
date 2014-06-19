@@ -1,0 +1,1 @@
+cmd_drivers/lwdrv/hal/switch/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o drivers/lwdrv/hal/switch/built-in.o drivers/lwdrv/hal/switch/port_config.o drivers/lwdrv/hal/switch/drv_common.o drivers/lwdrv/hal/switch/realtek/built-in.o 

@@ -1,0 +1,37 @@
+menu "common configuration"
+config CONFIG_LIB
+	bool 
+	default y	
+config MAX_SYSTEM_NAME_LEN
+	int "max length of sysname "
+	depends on CONFIG_LIB
+	default 30
+config MAX_PASSWORD_LEN
+	int "max length of password "
+	depends on CONFIG_LIB
+	default 32
+config MAX_VLAN_DESC_LEN
+	int "max length of vlan description "
+	depends on CONFIG_LIB
+	default 32
+config MAX_VLANIF_DESC_LEN
+	int "max length of vlanif description "
+	depends on CONFIG_LIB
+	default 80
+config MAX_PORT_DESC_LEN
+	int "max length of port description "
+	depends on CONFIG_LIB
+	default 80
+config MAX_IPSTR_LEN
+	int "max length of ip str "
+	depends on CONFIG_LIB
+	default 20
+config MAC_ADDR_STR_LEN	
+	int "max length of mac str "
+	depends on CONFIG_LIB
+	default 15
+config MAX_AGGRIF_DESC_LEN
+	int "max aggregation interface desc" 
+	depends on CONFIG_LIB
+	default 32
+endmenu

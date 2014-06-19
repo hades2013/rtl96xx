@@ -1,0 +1,46 @@
+# Copyright (C) 2012 Realtek Semiconductor Corp.
+#
+# Makefile for SDK Linux Kernel Modules
+#
+
+include $(APOLLODIR)/Compiler_Flag
+
+SDK_INCLUDE   = $(SDKDIR)/include
+SYS_INCLUDE   = $(SDKDIR)/system/include
+DRV_INCLUDE   = $(SDKDIR)/system/linux
+
+EXTRA_CFLAGS+= $(PON_CFLAGS)
+FLAGS+="-I$(SDK_INCLUDE) -I$(SYS_INCLUDE) -I$(DRV_INCLUDE)"
+
+APPS:
+
+ifeq ($(CONFIG_DIAG_DEBUG),y)
+APPS+= diag_rtk
+endif
+
+ifeq ($(CONFIG_GPON_FEATURE),y)
+APPS+= pkt_redirect
+else
+ifeq ($(CONFIG_EPON_FEATURE),y)
+APPS+= pkt_redirect
+endif
+endif
+
+ifeq ($(CONFIG_RTK_OMCI),y)
+APPS+= omci
+endif
+
+ifeq ($(CONFIG_EPON_FEATURE),y)
+APPS+= epon_oam
+endif
+
+all:
+	for dir in $(APPS) ; do $(MAKE) -C $$dir FLAGS=$(FLAGS) all || exit 1; done
+
+install:
+	for dir in $(APPS) ; do $(MAKE) -C $$dir BINDIR="../bin" install || exit 1; done
+
+clean:
+	for dir in $(APPS) ; do $(MAKE) -C $$dir clean || exit 1; done
+	rm -rf bin/*
+

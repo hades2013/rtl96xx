@@ -1,0 +1,10 @@
+
+VENDOR_MODEL="CLT101"
+VENDOR_LOGOPATH="black.jpg"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="EOC Production Master."
+VENDOR_SHORT="EOC Production"
+VENDOR_NAME="EOC"
+VENDOR_LOCATION="Made in China"
+VENDOR_YEAR="2011"
+

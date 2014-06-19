@@ -1,0 +1,13 @@
+
+VENDOR_MODEL="CLT502-S"
+VENDOR_LOGOPATH="ls_in.jpg"
+VENDOR_DEVCFG="vendor_ls_shanxi.c"
+
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="EOC Production Master."
+VENDOR_SHORT="EOC Production"
+VENDOR_NAME="EOC"
+VENDOR_LOCATION="Made in China"
+VENDOR_YEAR="2011"
+
+SYS_MACROS="__shanxi"

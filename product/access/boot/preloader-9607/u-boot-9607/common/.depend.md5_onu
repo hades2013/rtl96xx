@@ -1,0 +1,2 @@
+md5_onu.o: md5_onu.c \
+ /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/md5_onu.h

@@ -1,0 +1,145 @@
+#
+# For a description of the syntax of this configuration file,
+# see scripts/kbuild/config-language.txt.
+#
+
+mainmenu "Configuration"
+
+config HAVE_DOT_CONFIG
+	bool
+	default n
+menu "Product Configuration"
+#-----------------------------------------------------------
+menu "Product Select"
+choice
+	prompt "Product Name"
+	default CONFIG_PRODUCT_EPN104
+	help
+	  no help yet.
+
+config CONFIG_PRODUCT_EPN104
+	bool "EPON"
+
+
+
+
+
+
+endchoice
+endmenu
+
+menu "Product switch chip select"
+config CONFIG_SWITCH_CHIP_RTL8365MB
+	bool "Switch chip RTL8365MB"
+	default y
+endmenu
+
+menu "SDK Configuration"
+config CONFIG_DEFAULTS_REALTEK
+	bool "Select Realtek Vendor"
+config CONFIG_VENDOR
+	string 'realtek'
+	default 'realtek'
+		depends on CONFIG_DEFAULTS_REALTEK
+	help
+		no help yet
+		
+config CONFIG_DEFAULTS_REALTEK_SDK
+	bool "Select Realtek SDK"
+config CONFIG_SDK
+	string 'sdk dir'
+	default 'sdk-2.0.1'
+		depends on CONFIG_DEFAULTS_REALTEK_SDK
+	help
+		no help yet
+endmenu
+
+
+
+
+
+
+
+
+
+
+menu "libc select"
+config CONFIG_DEFAULTS_LIBC_UCLIBC_0_9_28
+	bool "Select Uclibc 0.9.28"
+config CONFIG_LIBCDIR
+	string 'uClibc dir'
+	default 'uClibc-0.9.28'
+		depends on CONFIG_DEFAULTS_LIBC_UCLIBC_0_9_28
+	help
+		no help yet
+endmenu
+
+
+
+
+
+
+
+#------------------------------------------------------------
+menu "System Configuration"
+config CONFIG_PRODUCT_NAME
+	string 'Product Name'
+	default 'EPON'
+config CONFIG_COPYRIGHT_TIME
+	string 'CopyRight Time'
+	default '2012'
+config CONFIG_COPYRIGHT_STRING
+	string 'CopyRight String'
+	default 'Copyright (c) EPON PRODUCT'
+config CONFIG_RELEASE_VER
+	string 'Release Version'
+	default 'EPONV100R008'
+config CONFIG_DEVELOP_VER
+	string 'Develop Version'
+	default 'EPONV100D008'
+config CONFIG_DEFAULT_HOSTNAME
+	string "default system host name"
+	default "ONU"
+config DEFAULT_MANAGEIP
+	string "default system management interface ip"
+	default "192.168.0.200"
+config DEFAULT_MANAGEMASK
+	string "default system management interface mask"
+	default "255.255.255.0"
+config DEFAULT_MANAGEGW
+	string "default system management interface gateway"
+	default "192.168.0.1"
+menu "load manufactory"
+config CONFIG_BOOT_RESTORE_APP
+	bool "bootrestoreapp"
+	default y
+config CONFIG_BOOT_MULTI_APP
+	bool "bootmultiapp"
+	default y
+endmenu
+endmenu
+endmenu
+
+#------------------------------------------------------------
+menu "Platform Configuration"
+
+
+source	 "../../kconfig/master.kg"
+source 	"../../kconfig/cli.kg"
+source 	"../../kconfig/opconn.kg"
+source 	"../../kconfig/common.kg"
+source  "../../kconfig/webs.kg"
+source  "../../kconfig/snmpd.kg"
+
+
+
+
+
+
+
+
+
+
+
+
+endmenu

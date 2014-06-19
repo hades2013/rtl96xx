@@ -1,0 +1,1686 @@
+//
+// Copyright (C) 2011 Realtek Semiconductor Corp.
+// All Rights Reserved.
+//
+// This program is the proprietary software of Realtek Semiconductor
+// Corporation and/or its licensors, and only be used, duplicated,
+// modified or distributed under the authorized license from Realtek.
+//
+// ANY USE OF THE SOFTWARE OTHER THAN AS AUTHORIZED UNDER
+// THIS LICENSE OR COPYRIGHT LAW IS PROHIBITED.
+//
+// Purpose : Define diag shell commands for L34.
+//
+// Feature : The file have include the following module and sub-modules
+//           1) L34 commands.
+//
+
+//
+//rg version
+//
+
+//rg configuration
+//get configuration
+//driver version
+rg get version
+
+
+//
+//rg init
+//
+rg init
+
+
+//
+//rg get init
+//
+rg get init
+
+
+//
+//rg lan-intf
+//
+
+//rg configuration
+//show configuration
+//lan-intf configuration
+rg show lan-intf
+
+//rg configuration
+//clear configuration
+//lan-intf configuration
+rg clear lan-intf
+
+//rg configuration
+//add configuration
+//lan-intf configuration
+rg add lan-intf entry
+
+
+//rg configuration
+//set configuration
+//lan-intf configuration
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//gateway-mac configuration
+//gmac, A:B:C:D:E:F
+//ip-addr configuration
+//ip, ipv4 address
+//ip-mask configuration
+//mask, ipv4 mask
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_network_mask_length configuration
+//ipv6_network_mask_length 
+//port-mask configuration
+//port_mask, include extension port <0x0-0xfff>
+//untag-mask configuration
+//untag_mask, not include extension port <0x0-0x7f>
+//intf-vlan_id configuration
+//intf_vid, <0-4095>
+//mtu configuration
+//mtu
+//isIVL configuration
+//isIVL, 0:SVL 1:IVL
+rg set lan-intf ip-version <UINT:ip_version> gateway-mac <MACADDR:gmac> ip-addr <IPV4ADDR:ip> ip-mask <IPV4ADDR:mask> ipv6-addr <IPV6ADDR:ipv6_addr> ipv6_network_mask_length <UINT:ipv6_network_mask_length> port-mask <HEX:port_mask> untag-mask <HEX:untag_mask> intf-vlan_id <UINT:intf_vid> mtu <UINT:mtu> isIVL <UINT:isIVL>
+
+
+//
+//rg wan-intf
+//
+
+//rg configuration
+//show configuration
+//wan-intf configuration
+rg show wan-intf
+
+//rg configuration
+//clear configuration
+//wan-intf configuration
+rg clear wan-intf
+
+//rg configuration
+//add configuration
+//wan-intf configuration
+//entry configuration
+rg add wan-intf entry
+
+
+//rg configuration
+//set configuration
+//wan-intf configuration
+//wan-type configuration
+//wan_type, 0:RTK_RG_IPV4_STATIC 1:RTK_RG_IPV4_DHCP 2:RTK_RG_IPV4_PPPoE 3:RTK_RG_IPV4_BRIDGE
+//gateway-mac configuration
+//gmac, A:B:C:D:E:F
+//wan-port configuration
+//wan_port_idx, PON or RGMII
+//port-binding-mask configuration
+//port_binding_mask, include extention port
+//egress-vlan-tag-on configuration
+//egress_vlan_tag_on, 0:untag 1:tag
+//egress-vlan-id configuration
+//vlan_id, <0-4095>
+//egress-vlan-pri configuration
+//vlan_pri, <0-7>
+//isIVL configuration
+//isIVL, 0:SVL, 1:IVL
+rg set wan-intf wan-type <UINT:wan_type> gateway-mac <MACADDR:gmac> wan-port <UINT:wan_port_idx> port-binding-mask <HEX:port_binding_mask> egress-vlan-tag-on <UINT:tag_on> egress-vlan-id <UINT:vlan_id> egress-vlan-pri <UINT:vlan_pri> isIVL <UINT:isIVL>
+
+
+
+//
+//rg lan-intf wan-intf share same del, get API
+//
+
+//rg configuration
+//get configuration
+//intf configuration
+//entry_index
+rg get intf entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//intf configuration
+//entry_index
+rg del intf entry <UINT:entry_index>
+
+
+//
+//rg wan-intf static info
+//
+
+//rg configuration
+//show configuration
+//wan-intf-static-info configuration
+rg show wan-intf-static-info
+
+//rg configuration
+//show configuration
+//wan-intf-static-info configuration
+rg clear wan-intf-static-info
+
+//rg configuration
+//add configuration
+//wan-intf-static-info configuration
+//intf-index configuration
+//index
+rg add wan-intf-static-info intf-index <UINT:index>
+
+//rg configuration
+//set configuration
+//wan-intf-static-info configuration
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+rg set wan-intf-static-info ip-version <UINT:ip_version>
+
+//rg configuration
+//set configuration
+//wan-intf-static-info configuration
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//napt_enable configuration
+//napt_enable
+//ip_addr configuration
+//ip_addr
+//ip_network_mask configuration
+//ip_network_mask
+//ipv4_default_gateway_on configuration
+//ipv4_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv4_addr configuration
+//gateway_ipv4_addr
+//mtu configuration
+//mtu
+rg set wan-intf-static-info ip-version <UINT:ip_version> napt_enable <UINT:napt_enable> ip_addr <IPV4ADDR:ip_addr> ip_network_mask <IPV4ADDR:ip_network_mask> ipv4_default_gateway_on <UINT:ipv4_default_gateway_on> gateway_ipv4_addr <IPV4ADDR:gateway_ipv4_addr> mtu <UINT:mtu>
+
+
+//rg configuration
+//set configuration
+//wan-intf-static-info configuration
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//napt_enable configuration
+//napt_enable
+//ip_addr configuration
+//ip_addr
+//ip_network_mask configuration
+//ip_network_mask
+//ipv4_default_gateway_on configuration
+//ipv4_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv4_addr configuration
+//gateway_ipv4_addr
+//mtu configuration
+//mtu
+//gw_mac_auto_learn_for_ipv4 configuration
+//gw_mac_auto_learn_for_ipv4
+//gateway_mac_addr_for_ipv4 configuration
+//gateway_mac_addr_for_ipv4, A:B:C:D:E:F	
+rg set wan-intf-static-info ip-version <UINT:ip_version> napt_enable <UINT:napt_enable> ip_addr <IPV4ADDR:ip_addr> ip_network_mask <IPV4ADDR:ip_network_mask> ipv4_default_gateway_on <UINT:ipv4_default_gateway_on> gateway_ipv4_addr <IPV4ADDR:gateway_ipv4_addr> mtu <UINT:mtu> gw_mac_auto_learn_for_ipv4 <UINT:gw_mac_auto_learn_for_ipv4> gateway_mac_addr_for_ipv4 <MACADDR:gateway_mac_addr_for_ipv4> 
+
+//rg configuration
+//set configuration
+//wan-intf-static-info-ipv6 configuration
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_mask_length configuration
+//ipv6_mask_length 	
+//ipv6_default_gateway_on configuration
+//ipv6_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv6_addr configuration
+//gateway_ipv6_addr, 1234::ABCD
+//mtu configuration
+//mtu
+rg set wan-intf-static-info-ipv6 ipv6_addr <IPV6ADDR:ipv6_addr> ipv6_mask_length <UINT:ipv6_mask_length> ipv6_default_gateway_on <UINT:ipv6_default_gateway_on> gateway_ipv6_addr <IPV6ADDR:gateway_ipv6_addr> mtu <UINT:mtu>
+
+
+//rg configuration
+//set configuration
+//wan-intf-static-info-ipv6 configuration
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_mask_length configuration
+//ipv6_mask_length 	
+//ipv6_default_gateway_on configuration
+//ipv6_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv6_addr configuration
+//gateway_ipv6_addr, 1234::ABCD
+//mtu configuration
+//mtu
+//gw_mac_auto_learn_for_ipv6 configuration
+//gw_mac_auto_learn_for_ipv6	
+//gateway_mac_addr_for_ipv6 configuration
+//gateway_mac_addr_for_ipv6, A:B:C:D:E:F	
+rg set wan-intf-static-info-ipv6 ipv6_addr <IPV6ADDR:ipv6_addr> ipv6_mask_length <UINT:ipv6_mask_length> ipv6_default_gateway_on <UINT:ipv6_default_gateway_on> gateway_ipv6_addr <IPV6ADDR:gateway_ipv6_addr> mtu <UINT:mtu> gw_mac_auto_learn_for_ipv6 <UINT:gw_mac_auto_learn_for_ipv6> gateway_mac_addr_for_ipv6 <MACADDR:gateway_mac_addr_for_ipv6>
+
+
+//
+//rg mac-entry
+//
+
+//rg configuration
+//show configuration
+//mac-entry configuration
+rg show mac-entry
+
+//rg configuration
+//clear configuration
+//mac-entry configuration
+rg clear mac-entry
+
+//rg configuration
+//add configuration
+//mac-entry configuration
+//entry configuration
+rg add mac-entry entry
+
+//rg configuration
+//get configuration
+//mac-entry configuration
+//entry configuration
+//entry_index
+rg get mac-entry entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//mac-entry configuration
+//entry configuration
+//entry_index
+rg del mac-entry entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//mac-entry configuration
+//mac-address configuration
+//unicast l2 address, A:B:C:D:E:F
+//isIVL configuration
+//isIVL, 0:svl 1:ivl
+//fid configuration
+//fid, <0~15>
+//vlan_id configuration
+//vlan_id, <0-4095>
+//port_idx configuration
+//port_idx, include extension port, <0-11>
+//static_entry configuration
+//static_entry, 0:non-static 1:static
+rg set mac-entry mac-address <MACADDR:mac> isIVL <UINT:isIVL> fid <UINT:fid> vlan_id <UINT:vlan_id> port_idx <UINT:port_idx> static_entry <UINT:static_entry>
+
+
+
+
+//
+//rg arp-entry
+//
+
+//rg configuration
+//show configuration
+//arp-entry configuration
+rg show arp-entry
+
+//rg configuration
+//clear configuration
+//arp-entry configuration
+rg clear arp-entry
+
+//rg configuration
+//add configuration
+//arp-entry configuration
+//entry configuration
+rg add arp-entry entry
+
+//rg configuration
+//get configuration
+//arp-entry configuration
+//entry configuration
+//entry_index
+rg get arp-entry entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//arp-entry configuration
+//entry configuration
+//entry_index
+rg del arp-entry entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//arp-entry configuration
+//macEntryIdx configuration
+//macEntryIdx
+//ip_addr configuration
+//ipv4
+//static_entry configuration
+//static_entry, 0:non-static 1:static
+//valid configuration
+//valid, 0:disable 1:enable
+rg set arp-entry macEntryIdx <UINT:macEntryIdx> ip_addr <IPV4ADDR:ipv4> static_entry <UINT:static_entry> valid <UINT:valid>
+
+
+
+//
+//rg napt-connection
+//
+
+//rg configuration
+//show configuration
+//napt-connection configuration
+rg show napt-connection 
+
+//rg configuration
+//clear configuration
+//napt-connection configuration
+rg clear napt-connection 
+
+//rg configuration
+//add configuration
+//napt-connection configuration
+//entry configuration
+rg add napt-connection entry
+
+//rg configuration
+//get configuration
+//napt-connection configuration
+//entry configuration
+//entry_index
+rg get napt-connection entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//napt-connection configuration
+//entry configuration
+//entry_index
+rg del napt-connection entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//napt-connection configuration
+//is_tcp configuration
+//is_tcp, 0:udp 1:tcp
+//local_ip configuration
+//local_ip
+//remote_ip configuration
+//remote_ip
+//wan_intf_idx configuration
+//wan_intf_idx
+//local_port configuration
+//local_port
+//remote_port configuration
+//remote_port
+//external_port configuration
+//external_port
+//outbound_pri_valid configuration
+//outbound_pri_valid, 0:disable 1:enable
+//outbound_priority configuration
+//outbound_priority, <0-7>
+//inbound_pri_valid configuration
+//inbound_pri_valid, 0:disable 1:enable
+//inbound_priority configuration
+//inbound_priority, <0-7>
+rg set napt-connection is_tcp <UINT:is_tcp> local_ip <IPV4ADDR:local_ip> remote_ip <IPV4ADDR:remote_ip> wan_intf_idx <UINT:wan_intf_idx> local_port <UINT:local_port> remote_port <UINT:remote_port> external_port <UINT:external_port> outbound_pri_valid <UINT:outbound_pri_valid> outbound_priority <UINT:outbound_priority> inbound_pri_valid <UINT:inbound_pri_valid> inbound_priority <UINT:inbound_priority>
+
+
+//
+// url-filter
+//
+
+//rg configuration
+//clear configuration
+//url-filter configuration
+//entry configuration
+rg clear url-filter entry
+
+//rg configuration
+//add configuration
+//url-filter configuration
+//entry configuration
+rg add url-filter entry
+
+//rg configuration
+//set configuration
+//url-filter entry
+//url configuration
+//url string, ex: www.realtek.com
+//path configuration
+//path string, ex: /path/realtek
+//path-exactly-match configuration
+//match, 0:path string can be part of url path. 1:path string must exactly match url path
+//wan-interface configuration
+//wanintf index
+rg set url-filter url <STRING:url> path <STRING:path> path-exactly-match <UINT:match> wan-interface <UINT:wanintf>
+
+//rg configuration
+//get configuration
+//url-filter entry
+//url-index configuration
+//index, <0~30>
+rg get url-filter url-index <UINT:index>
+
+//rg configuration
+//del configuration
+//url-filter entry
+//url-index configuration
+//index, <0~30>
+rg del url-filter url-index <UINT:index>
+
+
+//
+// callback function
+//
+
+//rg configuration
+//show configuration
+//callback configuration
+rg show callback
+
+//rg configuration
+//clear configuration
+//callback configuration
+rg clear callback
+
+//rg configuration
+//set configuration
+//callback configuration
+//initByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback initByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//arpAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback arpAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//arpDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback arpDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//macAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback macAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//macDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback macDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//naptAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback naptAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//naptDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback naptDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//routingAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback routingAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//routingDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback routingDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//routingDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback bindingAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//bindingDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback bindingDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//interfaceAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback interfaceAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//interfaceDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback interfaceDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//pppoeBeforeDiagByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback pppoeBeforeDiagByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//neighborAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback neighborAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//neighborDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback neighborDelByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//v6RoutingAddByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback v6RoutingAddByHwCallBack <HEX:addr>
+
+//rg configuration
+//set configuration
+//callback configuration
+//v6RoutingDelByHwCallBack configuration
+//function pointer addr, 0 for NULL
+rg set callback v6RoutingDelByHwCallBack <HEX:addr>
+
+
+//rg configuration
+//init configuration
+//callback configuration
+//igmpSnoopingEnable configuration
+//igmpSnoopingEnable
+//macBasedTagDecision configuration
+//macBasedTagDecision
+rg init callback igmpSnoopingEnable <UINT:igmpSnoopingEnable> macBasedTagDecision <UINT:macBasedTagDecision>
+
+//rg configuration
+//init configuration
+//callback configuration
+//default configuration
+//igmpSnoopingEnable configuration
+//igmpSnoopingEnable
+//macBasedTagDecision configuration
+//macBasedTagDecision
+rg init callback default igmpSnoopingEnable <UINT:igmpSnoopingEnable> macBasedTagDecision <UINT:macBasedTagDecision>
+
+//
+//ALG
+//
+
+//rg configuration
+//get configuration
+//algApps configuration
+rg get algApps
+
+//rg configuration
+//add configuration
+//algApps configuration
+//app_mask configuration
+//appmask, algType MaskBit reference to RomeDriver Spec
+rg add algApps app_mask <HEX:appmask>
+
+//rg configuration
+//set configuration
+//serverInLanAppsIpAddr configuration
+//algType configuration
+//algType, algType MaskBit reference to RomeDriver Spec
+//serverAddress configuration
+//serverAddress
+rg set serverInLanAppsIpAddr algType <UINT:algType> serverAddress <IPV4ADDR:serverAddress>
+
+//rg configuration
+//add configuration
+//serverInLanAppsIpAddr configuration
+//entry configuration
+rg add serverInLanAppsIpAddr entry
+
+//rg configuration
+//del configuration
+//serverInLanAppsIpAddr configuration
+//algType configuration
+//algType, algType MaskBit reference to RomeDriver Spec
+rg del serverInLanAppsIpAddr algType <UINT:algType> 
+
+
+//
+//pppoeClientInfoAfterDial
+//
+//rg configuration
+//show configuration
+//pppoeClientInfoAfterDial configuration
+rg show pppoeClientInfoAfterDial
+
+//rg configuration
+//add configuration
+//pppoeClientInfoAfterDial configuration
+//wan_intf_idx configuration
+//wan_intf_idx
+rg add pppoeClientInfoAfterDial wan_intf_idx <UINT:wan_intf_idx>
+
+//rg configuration
+//clear configuration
+//pppoeClientInfoAfterDial configuration
+rg clear pppoeClientInfoAfterDial
+
+//rg configuration
+//set configuration
+//pppoeClientInfoAfterDial configuration
+//sessionId configuration
+//sessionId
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//napt_enable configuration
+//napt_enable
+//ip_addr configuration
+//ip_addr
+//ip_network_mask configuration
+//ip_network_mask
+//ipv4_default_gateway_on configuration
+//ipv4_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv4_addr configuration
+//gateway_ipv4_addr
+//mtu configuration
+//mtu
+rg set pppoeClientInfoAfterDial sessionId <UINT:sessionId> ip-version <UINT:ip_version> napt_enable <UINT:napt_enable> ip_addr <IPV4ADDR:ip_addr> ip_network_mask <IPV4ADDR:ip_network_mask> ipv4_default_gateway_on <UINT:ipv4_default_gateway_on> gateway_ipv4_addr <IPV4ADDR:gateway_ipv4_addr> mtu <UINT:mtu>
+
+//rg configuration
+//set configuration
+//pppoeClientInfoAfterDial configuration
+//sessionId configuration
+//sessionId
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//napt_enable configuration
+//napt_enable
+//ip_addr configuration
+//ip_addr
+//ip_network_mask configuration
+//ip_network_mask
+//ipv4_default_gateway_on configuration
+//ipv4_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv4_addr configuration
+//gateway_ipv4_addr
+//mtu configuration
+//mtu
+//gw_mac_auto_learn_for_ipv4 configuration
+//gw_mac_auto_learn_for_ipv4
+//gateway_mac_addr_for_ipv4 configuration
+//gateway_mac_addr_for_ipv4, A:B:C:D:E:F	
+rg set pppoeClientInfoAfterDial sessionId <UINT:sessionId> ip-version <UINT:ip_version> napt_enable <UINT:napt_enable> ip_addr <IPV4ADDR:ip_addr> ip_network_mask <IPV4ADDR:ip_network_mask> ipv4_default_gateway_on <UINT:ipv4_default_gateway_on> gateway_ipv4_addr <IPV4ADDR:gateway_ipv4_addr> mtu <UINT:mtu> gw_mac_auto_learn_for_ipv4 <UINT:gw_mac_auto_learn_for_ipv4> gateway_mac_addr_for_ipv4 <MACADDR:gateway_mac_addr_for_ipv4>
+
+//rg configuration
+//set configuration
+//pppoeClientInfoAfterDial-ipv6 configuration
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_mask_length configuration
+//ipv6_mask_length 	
+//ipv6_default_gateway_on configuration
+//ipv6_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv6_addr configuration
+//gateway_ipv6_addr, 1234::ABCD
+rg set pppoeClientInfoAfterDial-ipv6 ipv6_addr <IPV6ADDR:ipv6_addr> ipv6_mask_length <UINT:ipv6_mask_length> ipv6_default_gateway_on <UINT:ipv6_default_gateway_on> gateway_ipv6_addr <IPV6ADDR:gateway_ipv6_addr> 
+
+//rg configuration
+//set configuration
+//pppoeClientInfoAfterDial-ipv6 configuration
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_mask_length configuration
+//ipv6_mask_length 	
+//ipv6_default_gateway_on configuration
+//ipv6_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv6_addr configuration
+//gateway_ipv6_addr, 1234::ABCD
+//gw_mac_auto_learn_for_ipv6 configuration
+//gw_mac_auto_learn_for_ipv6	
+//gateway_mac_addr_for_ipv6 configuration
+//gateway_mac_addr_for_ipv6, A:B:C:D:E:F	
+rg set pppoeClientInfoAfterDial-ipv6 ipv6_addr <IPV6ADDR:ipv6_addr> ipv6_mask_length <UINT:ipv6_mask_length> ipv6_default_gateway_on <UINT:ipv6_default_gateway_on> gateway_ipv6_addr <IPV6ADDR:gateway_ipv6_addr> gw_mac_auto_learn_for_ipv6 <UINT:gw_mac_auto_learn_for_ipv6> gateway_mac_addr_for_ipv6 <MACADDR:gateway_mac_addr_for_ipv6>
+
+
+
+//
+//pppoeClientInfoBeforeDial
+//
+
+//rg configuration
+//pppoeClientInfoBeforeDial configuration
+rg show pppoeClientInfoBeforeDial
+
+//rg configuration
+//add configuration
+//pppoeClientInfoBeforeDial configuration
+//wan_intf_idx configuration
+//wan_intf_idx
+rg add pppoeClientInfoBeforeDial wan_intf_idx <UINT:wan_intf_idx>
+
+//rg configuration
+//clear configuration
+//pppoeClientInfoBeforeDial configuration
+rg clear pppoeClientInfoBeforeDial
+
+//rg configuration
+//set configuration
+//pppoeClientInfoBeforeDial configuration
+//username configuration
+//username
+//password configuration
+//password
+//auth_type configuration
+//auth_type 0:PPP_AUTH_TYPE_PAP 1:PPP_AUTH_TYPE_CHAP
+//pppoe_proxy_enable configuration
+//pppoe_proxy_enable
+//max_pppoe_proxy_num configuration
+//max_pppoe_proxy_num
+//auto_reconnect configuration
+//auto_reconnect
+//dial_on_demond configuration
+//dial_on_demond
+//idle_timeout_secs configuration
+//idle_timeout_secs
+//status configuration
+//status 0:PPP_STATUS_DISCONNECT 1:PPP_STATUS_CONNECT
+//dialOnDemondCallBack configuration
+//dialOnDemondCallBack_addr
+//idleTimeOutCallBack configuration
+//idleTimeOutCallBack_adrr
+rg set pppoeClientInfoBeforeDial username <STRING:username> password <STRING:password> auth_type <UINT:auth_type> pppoe_proxy_enable <UINT:pppoe_proxy_enable> max_pppoe_proxy_num <UINT:max_pppoe_proxy_num> auto_reconnect <UINT:auto_reconnect> dial_on_demond <UINT:dial_on_demond> idle_timeout_secs <UINT:idle_timeout_secs> status <UINT:status> dialOnDemondCallBack <HEX:dialOnDemondCallBack_addr> idleTimeOutCallBack <HEX:idleTimeOutCallBack_addr>
+
+
+//
+//rg neighbor-entry
+//
+
+//rg configuration
+//show configuration
+//neighbor-entry configuration
+rg show neighbor-entry
+
+//rg configuration
+//clear configuration
+//neighbor-entry configuration
+rg clear neighbor-entry
+
+//rg configuration
+//add configuration
+//neighbor-entry configuration
+//entry configuration
+rg add neighbor-entry entry
+
+//rg configuration
+//get configuration
+//neighbor-entry configuration
+//entry configuration
+//entry_index
+rg get neighbor-entry entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//neighbor-entry configuration
+//entry configuration
+//entry_index
+rg del neighbor-entry entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//neighbor-entry configuration
+//l2Idx configuration
+//l2Idx
+//matchRouteIdx configuration
+//matchRouteIdx, 0~7
+//interfaceId_up configuration
+//ipv6_addr[63:32]
+//interfaceId_low configuration
+//ipv6_addr[31:0]
+//staticEntry configuration
+//staticEntry, 0:NON-STATIC 1:STATIC
+rg set neighbor-entry l2Idx <UINT:l2Idx> matchRouteIdx <UINT:matchRouteIdx> interfaceId_up <HEX:ipv6_addr_63_32> interfaceId_low <HEX:ipv6_addr_31_0> staticEntry <UINT:staticEntry>
+
+
+//
+//rg set dhcpRequest
+//
+
+//rg configuration
+//add configuration
+//dhcpRequest configuration
+//entry configuration
+rg add dhcpRequest entry
+
+//rg configuration
+//set configuration
+//dhcpRequest configuration
+//wan-intf-idx configuration
+//wan_intf_idx , 0~7
+rg set dhcpRequest wan-intf-idx <UINT:wan_intf_idx> 
+
+
+
+//
+//rg set dhcpClientInfo
+//
+
+//rg configuration
+//show configuration
+//dhcpClientInfo configuration
+rg show dhcpClientInfo
+
+//rg configuration
+//add configuration
+//dhcpClientInfo configuration
+//wan_intf_idx configuration
+//wan_intf_idx
+rg add dhcpClientInfo wan_intf_idx <UINT:wan_intf_idx>
+
+//rg configuration
+//clear configuration
+//dhcpClientInfo configuration
+rg clear dhcpClientInfo
+
+//rg configuration
+//set configuration
+//dhcpClientInfo configuration
+//stauts configuration
+//stauts, 0:DHCP_STATUS_LEASED 1:DHCP_STATUS_RELEASED
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//napt_enable configuration
+//napt_enable
+//ip_addr configuration
+//ip_addr
+//ip_network_mask configuration
+//ip_network_mask
+//ipv4_default_gateway_on configuration
+//ipv4_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv4_addr configuration
+//gateway_ipv4_addr
+//mtu configuration
+//mtu
+rg set dhcpClientInfo stauts <UINT:stauts> ip-version <UINT:ip_version> napt_enable <UINT:napt_enable> ip_addr <IPV4ADDR:ip_addr> ip_network_mask <IPV4ADDR:ip_network_mask> ipv4_default_gateway_on <UINT:ipv4_default_gateway_on> gateway_ipv4_addr <IPV4ADDR:gateway_ipv4_addr> mtu <UINT:mtu>
+
+//rg configuration
+//set configuration
+//dhcpClientInfo configuration
+//stauts configuration
+//stauts, 0:DHCP_STATUS_LEASED 1:DHCP_STATUS_RELEASED
+//ip-version configuration
+//ip_version 0:IPVER_V4ONLY 1:IPVER_V6ONLY 2:IPVER_V4V6
+//napt_enable configuration
+//napt_enable
+//ip_addr configuration
+//ip_addr
+//ip_network_mask configuration
+//ip_network_mask
+//ipv4_default_gateway_on configuration
+//ipv4_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv4_addr configuration
+//gateway_ipv4_addr
+//mtu configuration
+//mtu
+//gw_mac_auto_learn_for_ipv4 configuration
+//gw_mac_auto_learn_for_ipv4
+//gateway_mac_addr_for_ipv4 configuration
+//gateway_mac_addr_for_ipv4, A:B:C:D:E:F	
+rg set dhcpClientInfo stauts <UINT:stauts> ip-version <UINT:ip_version> napt_enable <UINT:napt_enable> ip_addr <IPV4ADDR:ip_addr> ip_network_mask <IPV4ADDR:ip_network_mask> ipv4_default_gateway_on <UINT:ipv4_default_gateway_on> gateway_ipv4_addr <IPV4ADDR:gateway_ipv4_addr> mtu <UINT:mtu> gw_mac_auto_learn_for_ipv4 <UINT:gw_mac_auto_learn_for_ipv4> gateway_mac_addr_for_ipv4 <MACADDR:gateway_mac_addr_for_ipv4>
+
+//rg configuration
+//set configuration
+//dhcpClientInfo-ipv6 configuration
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_mask_length configuration
+//ipv6_mask_length 	
+//ipv6_default_gateway_on configuration
+//ipv6_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv6_addr configuration
+//gateway_ipv6_addr, 1234::ABCD
+rg set dhcpClientInfo-ipv6 ipv6_addr <IPV6ADDR:ipv6_addr> ipv6_mask_length <UINT:ipv6_mask_length> ipv6_default_gateway_on <UINT:ipv6_default_gateway_on> gateway_ipv6_addr <IPV6ADDR:gateway_ipv6_addr> 
+
+//rg configuration
+//set configuration
+//dhcpClientInfo-ipv6 configuration
+//ipv6_addr configuration
+//ipv6_addr, 1234::ABCD
+//ipv6_mask_length configuration
+//ipv6_mask_length 	
+//ipv6_default_gateway_on configuration
+//ipv6_default_gateway_on,  1:should set default route, 0:otherwise
+//gateway_ipv6_addr configuration
+//gateway_ipv6_addr, 1234::ABCD
+//gw_mac_auto_learn_for_ipv6 configuration
+//gw_mac_auto_learn_for_ipv6	
+//gateway_mac_addr_for_ipv6 configuration
+//gateway_mac_addr_for_ipv6, A:B:C:D:E:F	
+rg set dhcpClientInfo-ipv6 ipv6_addr <IPV6ADDR:ipv6_addr> ipv6_mask_length <UINT:ipv6_mask_length> ipv6_default_gateway_on <UINT:ipv6_default_gateway_on> gateway_ipv6_addr <IPV6ADDR:gateway_ipv6_addr> gw_mac_auto_learn_for_ipv6 <UINT:gw_mac_auto_learn_for_ipv6> gateway_mac_addr_for_ipv6 <MACADDR:gateway_mac_addr_for_ipv6>
+
+//
+//vlan/port binding
+//
+
+//rg configuration
+//show configuration
+//bindingconfiguration
+rg show binding
+
+//rg configuration
+//clear configuration
+//binding configuration
+rg clear binding
+
+//rg configuration
+//add configuration
+//binding configuration
+//entry configuration
+rg add binding entry
+
+//rg configuration
+//get configuration
+//binding configuration
+//entry configuration
+//entry_index
+rg get binding entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//binding configuration
+//entry configuration
+//entry_index
+rg del binding entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//binding configuration
+//port_idx configuration
+//port_idx
+//ingress_vid configuration
+//ingress_vid
+//wan_intf_idx configuration
+//wan_intf_idx, 0~7
+rg set binding port_idx <UINT:port_idx> ingress_vid <UINT:ingress_vid> wan_intf_idx <UINT:wan_intf_idx>
+
+
+//
+//Macfilter
+//
+
+//rg configuration
+//show configuration
+//macfilter
+rg show macfilter
+
+//rg configuration
+//clear configuration
+//macfilter configuration
+rg clear macfilter
+
+//rg configuration
+//add configuration
+//macfilter configuration
+//entry configuration
+rg add macfilter entry
+
+//rg configuration
+//get configuration
+//macfilter configuration
+//entry configuration
+//entry_index
+rg get macfilter entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//macfilter configuration
+//entry configuration
+//entry_index
+rg del macfilter entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//macfilter configuration
+//mac configuration
+//mac,
+//direct configuration
+//direct, 0:BOTH_SMAC_DMAC 1:SMAC_ONLY 2:DMAC_ONLY
+rg set macfilter mac <MACADDR:mac> direct <UINT:direct>
+
+
+//
+//virtualServer
+//
+
+//rg configuration
+//show configuration
+//virtualServer
+rg show virtualServer
+
+//rg configuration
+//clear configuration
+//virtualServer configuration
+rg clear virtualServer
+
+//rg configuration
+//add configuration
+//virtualServer configuration
+//entry configuration
+rg add virtualServer entry
+
+//rg configuration
+//get configuration
+//virtualServer configuration
+//entry configuration
+//entry_index
+rg get virtualServer entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//virtualServer configuration
+//entry configuration
+//entry_index
+rg del virtualServer entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//virtualServer configuration
+//is_tcp configuration
+//is_tcp
+//wan_intf_idx configuration
+//wan_intf_idx
+//gateway_port_start configuration
+//gateway_port_start
+//local_ip configuration
+//local_ip
+//local_port_start configuration
+//local_port_start
+//mappingPortRangeCnt configuration
+//mappingPortRangeCnt
+//valid configuration
+//valid
+rg set virtualServer is_tcp <UINT:is_tcp> wan_intf_idx <UINT:wan_intf_idx> gateway_port_start <UINT:gateway_port_start> local_ip <IPV4ADDR:local_ip> local_port_start <UINT:local_port_start> mappingPortRangeCnt <UINT:mappingPortRangeCnt> valid <UINT:valid>
+
+
+//
+//DOS
+//
+
+//rg configuration
+//add configuration
+//dosPortMaskEnable configuration
+//portmask configuration
+//portmask
+rg add dosPortMaskEnable portmask <HEX:portmask>
+
+//rg configuration
+//set configuration
+//dosPortMaskEnable configuration
+rg get dosPortMaskEnable
+
+//rg configuration
+//add configuration
+//dosType configuration
+//dos_type configuration
+//dos_type, type enum reference to RG spec
+//dos_enabled configuration
+//dos_enabled
+//dos_action configuration
+//dos_action, 0:drop 1:trap
+rg add dosType dos_type <UINT:dos_type> dos_enabled <UINT:dos_enabled> dos_action  <UINT:dos_action>
+
+//rg configuration
+//set configuration
+//dosType configuration
+//dos_type configuration
+//dos_type, type enum reference to RG spec
+rg get dosType dos_type <UINT:dos_type> 
+
+//rg configuration
+//add configuration
+//dosFloodType configuration
+//dos_type configuration
+//dos_type, type enum reference to RG spec
+//dos_enabled configuration
+//dos_enabled
+//dos_action configuration
+//dos_action, 0:drop 1:trap
+//dos_threshold configuration
+//dos_threshold
+rg add dosFloodType dos_type <UINT:dos_type> dos_enabled <UINT:dos_enabled> dos_action  <UINT:dos_action> dos_threshold <UINT:dos_threshold>
+
+//rg configuration
+//get configuration
+//dosFloodType configuration
+//dos_type configuration
+//dos_type, type enum reference to RG spec
+rg get dosFloodType dos_type <UINT:dos_type>
+
+//
+//CVLAN
+//
+
+//rg configuration
+//show configuration
+//cvlan configuration
+rg show cvlan
+
+//rg configuration
+//clear configuration
+//cvlan configuration
+rg clear cvlan
+
+//rg configuration
+//add configuration
+//cvlan configuration
+//entry configuration
+rg add cvlan entry
+
+//rg configuration
+//set configuration
+//cvlan configuration
+//vlanId configuration
+//vlanId
+//isIVL configuration
+//isIVL, 0:SVL 1:IVL
+//memberPortMask configuration
+//memberPortMask
+//untagPortMask configuration
+//untagPortMask
+//priority configuration
+//priority, 0~7
+rg set cvlan vlanId <UINT:vlanId> isIVL <UINT:isIVL> memberPortMask <HEX:memberPortMask> untagPortMask <HEX:untagPortMask> priority <UINT:priority>
+
+//rg configuration
+//del configuration
+//cvlan configuration
+//vlanId configuration
+//vlanId
+rg del cvlan vlanId <UINT:vlanId>
+
+//
+//LUT Learning Limit
+//
+
+//rg configuration
+//set configuration
+//softwareSourceAddrLearningLimit configuration
+//learningLimitNumber configuration
+//learningLimitNumber
+//action configuration
+//action, 0:permit 1:drop
+rg set softwareSourceAddrLearningLimit learningLimitNumber <UINT:learningLimitNumber> action <UINT:action>
+
+//rg configuration
+//add configuration
+//softwareSourceAddrLearningLimit configuration
+//port_idx configuration
+//port_idx
+rg add softwareSourceAddrLearningLimit port_idx <UINT:port_idx>
+
+//rg configuration
+//get configuration
+//softwareSourceAddrLearningLimit configuration
+//port_idx configuration
+//port_idx
+rg get softwareSourceAddrLearningLimit port_idx <UINT:port_idx>
+
+//rg configuration
+//get configuration
+//softwareSourceAddrLearningLimit configuration
+//port_idx configuration
+//all
+rg get softwareSourceAddrLearningLimit port_idx all
+
+//
+//Phy Port Ability
+//
+
+//rg configuration
+//set configuration
+//phyPortForceAbility configuration
+//force_disable_phy configuration
+//force_disable_phy
+//valid configuration
+//valid 
+//speed configuration
+//speed, 0:10M 1:100M 2:1000M
+//duplex configuration
+//duplex, 0:HALF_DUPLEX 1:FULL_DUPLEX
+//flowCtrl configuration
+//flowCtrl 0:DISABLE 1:ENABLE
+rg set phyPortForceAbility force_disable_phy <UINT:force_disable_phy> valid <UINT:valid> speed <UINT:speed> duplex <UINT:duplex> flowCtrl <UINT:flowCtrl>
+
+//rg configuration
+//add configuration
+//phyPortForceAbility configuration
+//port_idx configuration
+//port_idx
+rg add phyPortForceAbility port_idx <UINT:port_idx>
+
+//rg configuration
+//get configuration
+//phyPortForceAbility configuration
+//port configuration
+//port
+rg get phyPortForceAbility port_idx <UINT:port>
+
+
+//
+//Port Mirror
+//
+
+//rg configuration
+//set configuration
+//portMirror configuration
+//monitorPort configuration
+//monitorPort
+//enabledPortMask configuration
+//enabledPortMask
+//direct configuration
+//direct, 0:TX_RX_BOTH 1:RX_ONLY 2:TX_ONLY
+rg set portMirror monitorPort <UINT:monitorPort> enabledPortMask <HEX:enabledPortMask> direct <UINT:direct>
+
+//rg configuration
+//add configuration
+//portMirror configuration
+//entry configuration
+rg add portMirror entry
+
+//rg configuration
+//get configuration
+//portMirror configuration
+//port configuration
+//port
+rg get portMirror port <UINT:port>
+
+
+//
+//rate limit
+//
+
+//rg configuration
+//add configuration
+//portEgrBandwidthCtrlRate configuration
+//port configuration
+//port, 0~6
+//rate configuration
+//rate, 0(unlimit) or 8~1048568, unit:Kbps
+rg add portEgrBandwidthCtrlRate port <UINT:port> rate <UINT:rate>
+
+//rg configuration
+//add configuration
+//portIgrBandwidthCtrlRate configuration
+//port configuration
+//port, 0~6
+//rate configuration
+//rate, 0(unlimit) or 8~1048568, unit:Kbps
+rg add portIgrBandwidthCtrlRate port <UINT:port> rate <UINT:rate>
+
+//rg configuration
+//get configuration
+//portEgrBandwidthCtrlRate configuration
+//port configuration
+//port, 0~6
+rg get portEgrBandwidthCtrlRate port <UINT:port>
+
+//rg configuration
+//get configuration
+//portIgrBandwidthCtrlRate configuration
+//port configuration
+//port, 0~6
+rg get portIgrBandwidthCtrlRate port <UINT:port>
+
+
+
+//
+//uPnp
+//
+
+//rg configuration
+//show configuration
+//upnpConnection configuration
+rg show upnpConnection
+
+//rg configuration
+//clear configuration
+//upnpConnection configuration
+rg clear upnpConnection
+
+//rg configuration
+//add configuration
+//upnpConnection configuration
+//entry configuration
+rg add upnpConnection entry
+
+//rg configuration
+//get configuration
+//upnpConnection configuration
+//entry configuration
+//entry_index
+rg get upnpConnection entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//upnpConnection configuration
+//entry configuration
+//entry_index
+rg del upnpConnection entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//upnpConnection configuration
+//is_tcp configuration
+//is_tcp
+//valid configuration
+//valid
+//wan_intf_idx configuration
+//wan_intf_idx
+//gateway_port configuration
+//gateway_port
+//local_ip configuration
+//local_ip
+//local_port configuration
+//local_port
+//limit_remote_ip configuration
+//limit_remote_ip
+//limit_remote_port configuration
+//limit_remote_port
+//remote_ip configuration
+//remote_ip
+//remote_port configuration
+//remote_port
+//type configuration
+//type, 0:UPNP_TYPE_ONESHOT 1:UPNP_TYPE_PERSIST
+//timeout configuration
+//timeout, auto-delete after timeout, 0:disable auto-delete
+rg set upnpConnection is_tcp <UINT:is_tcp> valid <UINT:valid> wan_intf_idx <UINT:wan_intf_idx> gateway_port <UINT:gateway_port> local_ip <IPV4ADDR:local_ip> local_port <UINT:local_port> limit_remote_ip <UINT:limit_remote_ip> limit_remote_port <UINT:limit_remote_port> remote_ip <IPV4ADDR:remote_ip> remote_port <UINT:remote_port> type <UINT:type> timeout <UINT:timeout>
+
+
+
+//
+//dmz
+//
+
+//rg configuration
+//set configuration
+//dmzHost configuration
+//enabled configuration
+//enabled
+//private_ip configuration
+//private_ip, ipv4 address
+rg set dmzHost enabled <UINT:enabled> private_ip <IPV4ADDR:private_ip>
+
+//rg configuration
+//add configuration
+//dmzHost configuration
+//wan_intf_idx configuration
+//wan_intf_idx
+rg add dmzHost wan_intf_idx <UINT:wan_intf_idx>
+
+
+//rg configuration
+//get configuration
+//dmzHost configuration
+//wan_intf_idx configuration
+//wan_intf_idx
+rg get dmzHost wan_intf_idx <UINT:wan_intf_idx>
+
+//
+//stormControl
+//
+
+//rg configuration
+//show configuration
+//stormControl configuration
+rg show stormControl
+
+//rg configuration
+//clear configuration
+//stormControl configuration
+rg clear stormControl
+
+//rg configuration
+//add configuration
+//stormControl configuration
+//entry configuration
+rg add stormControl entry
+
+//rg configuration
+//get configuration
+//stormControl configuration
+//entry configuration
+//entry_index
+rg get stormControl entry <UINT:entry_index>
+
+//rg configuration
+//del configuration
+//stormControl configuration
+//entry configuration
+//entry_index
+rg del stormControl entry <UINT:entry_index>
+
+//rg configuration
+//set configuration
+//stormControl configuration
+//valid configuration
+//valid
+//port configuration
+//port
+//stormType configuration
+//stormType, 0:UNKNOWN_UNICAST 1:UNKNOWN_MULTICAST 2:MULTICAST 3:BROADCAST 4:DHCP 5:ARP 6:IGMP_MLD
+//meterIdx configuration
+//meterIdx 
+rg set stormControl valid <UINT:valid> port <UINT:port> stormType <UINT:stormType> meterIdx <UINT:meterIdx>
+
+
+//
+//shareMeter
+//
+
+//rg configuration
+//add configuration
+//shareMeter configuration
+//index configuration
+//index
+//rate configuration
+//rate , range 8~1048568 (uint:1Kbps)
+//ifgInclude configuration
+//ifgInclude 
+rg add shareMeter index <UINT:index> rate <UINT:rate> ifgInclude <UINT:ifgInclude>
+
+//rg configuration
+//get configuration
+//shareMeter configuration
+//index configuration
+//index
+rg get shareMeter index <UINT:index> 
+
+
+//
+//qos_schedulingQueue
+//
+
+//rg configuration
+//add configuration
+//qosSchedulingQueue configuration
+//q_weight_0 configuration
+//q_weight_0 ,0~127
+//q_weight_1 configuration
+//q_weight_1 ,0~127
+//q_weight_2 configuration
+//q_weight_2 ,0~127
+//q_weight_3 configuration
+//q_weight_3 ,0~127
+//q_weight_4 configuration
+//q_weight_4 ,0~127
+//q_weight_5 configuration
+//q_weight_5 ,0~127
+//q_weight_6 configuration
+//q_weight_6 ,0~127
+//q_weight_7 configuration
+//q_weight_7 ,0~127
+//port configuration
+//port
+rg add qosSchedulingQueue q_weight_0 <UINT:q_weight_0> q_weight_1 <UINT:q_weight_1> q_weight_2 <UINT:q_weight_2> q_weight_3 <UINT:q_weight_3> q_weight_4 <UINT:q_weight_4> q_weight_5 <UINT:q_weight_5> q_weight_6 <UINT:q_weight_6> q_weight_7 <UINT:q_weight_7> port <UINT:port>
+
+//rg configuration
+//get configuration
+//qosSchedulingQueue configuration
+//port configuration
+//port
+rg get qosSchedulingQueue port <UINT:port> 
+
+//rg configuration
+//add configuration
+//qosPriMap configuration
+//pri0-to-queue configuration
+//queueid0
+//pri1-to-queue configuration
+//queueid1
+//pri2-to-queue configuration
+//queueid2
+//pri3-to-queue configuration
+//queueid3
+//pri4-to-queue configuration
+//queueid4
+//pri5-to-queue configuration
+//queueid5
+//pri6-to-queue configuration
+//queueid6
+//pri7-to-queue configuration
+//queueid7
+rg add qosPriMap pri0-to-queue <UINT:queueid0> pri1-to-queue <UINT:queueid1>  pri2-to-queue <UINT:queueid2> pri3-to-queue <UINT:queueid3> pri4-to-queue <UINT:queueid4> pri5-to-queue <UINT:queueid5> pri6-to-queue <UINT:queueid6> pri7-to-queue <UINT:queueid7>
+
+//rg configuration
+//get configuration
+//qosPriMap configuration
+rg get qosPriMap
+
+//rg configuration
+//add configuration
+//qosPriSelGroup configuration
+//weight_of_portBased configuration
+//weight_of_portBased 
+//weight_of_dot1q configuration
+//weight_of_dot1q 
+//weight_of_dscp configuration
+//weight_of_dscp 
+//weight_of_acl configuration
+//weight_of_acl 
+//weight_of_lutFwd configuration
+//weight_of_lutFwd 
+//weight_of_saBaed configuration
+//weight_of_saBaed 
+//weight_of_vlanBased configuration
+//weight_of_vlanBased
+//weight_of_svlanBased configuration
+//weight_of_svlanBased 
+//weight_of_l4Based configuration
+//weight_of_l4Based 
+rg add qosPriSelGroup weight_of_portBased <UINT:weight_of_portBased> weight_of_dot1q <UINT:weight_of_dot1q> weight_of_dscp <UINT:weight_of_dscp> weight_of_acl <UINT:weight_of_acl> weight_of_lutFwd <UINT:weight_of_lutFwd>  weight_of_saBaed <UINT:weight_of_saBaed> weight_of_vlanBased <UINT:weight_of_vlanBased> weight_of_svlanBased <UINT:weight_of_svlanBased> weight_of_l4Based <UINT:weight_of_l4Based>
+
+//rg configuration
+//get configuration
+//qosPriSelGroup configuration
+rg get qosPriSelGroup
+
+//rg configuration
+//add configuration
+//qosDscpPriRemapGroup configuration
+//dscp configuration
+//dscp
+//intPri configuration
+//intPri
+rg add qosDscpPriRemapGroup dscp <UINT:dscp> intPri <UINT:intPri>
+
+//rg configuration
+//get configuration
+//qosDscpPriRemapGroup configuration
+//dscp configuration
+//dscp
+rg get qosDscpPriRemapGroup dscp <UINT:dscp>
+
+//rg configuration
+//add configuration
+//qosPortPri configuration
+//port configuration
+//port
+//intPri configuration
+//intPri
+rg add qosPortPri port <UINT:port> intPri <UINT:intPri>
+
+//rg configuration
+//get configuration
+//qosPortPri configuration
+//port configuration
+//port
+rg get qosPortPri port <UINT:port>
+
+//
+//multicastFlow
+//
+
+//rg configuration
+//show configuration
+//multicastFlow configuration
+rg show multicastFlow
+
+//rg configuration
+//clear configuration
+//multicastFlow configuration
+rg clear multicastFlow
+
+//rg configuration
+//add configuration
+//multicastFlow configuration
+//entry configuration
+rg add multicastFlow entry
+
+//rg configuration
+//get configuration
+//multicastFlow configuration
+//entry configuration
+//flow_idx
+rg get multicastFlow entry <UINT:flow_idx>
+
+//rg configuration
+//del configuration
+//multicastFlow configuration
+//entry configuration
+//flow_idx
+rg del multicastFlow entry <UINT:flow_idx>
+
+//rg configuration
+//set configuration
+//multicastFlow configuration
+//multicast_ipv4_addr configuration
+//multicast_ipv4_addr
+//multicast_ipv6_addr configuration
+//multicast_ipv6_addr
+//isIPv6 configuration
+//isIPv6
+//src_intf_idx configuration
+//src_intf_idx
+//port_mask configuration
+//port_mask
+rg set multicastFlow multicast_ipv4_addr <IPV4ADDR:multicast_ipv4_addr> multicast_ipv6_addr <IPV6ADDR:multicast_ipv6_addr> isIPv6 <UINT:isIPv6> src_intf_idx <UINT:src_intf_idx> port_mask <HEX:port_mask>
+
+
+
+

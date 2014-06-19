@@ -1,0 +1,128 @@
+#!/bin/sh
+
+#
+# create essential directory 
+#
+#mkdir /dev/pts
+mount -t tmpfs none /var
+mkdir /var/empty
+mkdir /var/run
+mkdir /var/log
+mkdir /var/tmp
+mkdir /var/coredump
+cp -r /etc /var
+mount -t tmpfs none /etc
+cp -r /var/etc /
+rm -rf /var/etc
+touch /var/tmp/log
+#
+# mount process
+#
+#mount -t devpts devpts /dev/pts
+mount -t proc proc /proc
+
+
+#
+# insert kernel module if exist
+# default path is /lib/modules/X.X.XX/kernel 
+#
+cd /lib/modules/X.X.XX/kernel
+
+if test -f "drivers/net/switch/rtcore/rtcore.ko"; then
+	insmod drivers/net/switch/rtcore/rtcore.ko
+fi
+
+if test -f "drivers/net/switch/rtnic/rtnic.ko"; then
+	insmod drivers/net/switch/rtnic/rtnic.ko
+fi
+
+if test -f "drivers/net/switch/rtk/rtk.ko"; then
+	insmod drivers/net/switch/rtk/rtk.ko
+fi
+
+if test -f "/lib/model/model.ko"
+then
+	insmod /lib/model/model.ko
+fi
+
+if test -f "drivers/net/switch/unittest/sdktest.ko"; then
+	insmod drivers/net/switch/unittest/sdktest.ko
+fi
+
+if test -f "net/switch/rtdrv/rtdrv.ko"; then
+	insmod net/switch/rtdrv/rtdrv.ko
+fi
+
+cd /
+mount -t jffs2 -o rw,sync /dev/mtdblock5 /mnt
+#
+# network interface configuration 
+#
+ifconfig lo 127.0.0.1
+route add -net 127.0.0.0 netmask 255.255.255.0 lo
+echo "/var/coredump/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
+
+echo 1 >/proc/sys/net/ipv4/ip_no_pmtu_disc
+echo 10 >/proc/sys/net/ipv4/tcp_keepalive_intvl
+echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
+echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
+ulimit -c 4096
+ifconfig eth0 up
+#=================== install modules ============================
+#insmod /modules/opl_reg_mmap.ko
+#insmod /modules/opl_minte.ko
+#insmod /modules/opl_cpuif.ko
+#insmod /modules/opl_mem.ko
+#insmod /modules/opl_dal_driver.ko
+insmod /usr/lib/ifm.ko
+brctl addbr br0
+#brctl addif br0 eth0
+#brctl addif br0 wlan0
+#brctl addif br0 wlan0-vap0
+#brctl addif br0 wlan0-vap1
+#brctl addif br0 wlan0-vap2
+#brctl addif br0 wlan0-vap3
+iwpriv wlan0 set_mib mp_specific=0
+iwpriv wlan0 set_mib regdomain=1
+iwpriv wlan0 set_mib led_type=3
+iwpriv wlan0 set_mib ssid=RTL8188E
+iwpriv wlan0 set_mib opmode=16
+#iwpriv wlan0 set_mib use_efuse=1
+#iwpriv wlan0 set_mib pwrdiffHT40_2S=0000000000000000000000000000
+#iwpriv wlan0 set_mib pwrdiffHT20=0000000000000000000000000000
+#iwpriv wlan0 set_mib pwrdiffOFDM=0000000000000000000000000000
+iwpriv wlan0 set_mib xcap=0
+iwpriv wlan0 set_mib bcnint=100
+iwpriv wlan0 set_mib channel=0
+iwpriv wlan0 set_mib basicrates=15
+iwpriv wlan0 set_mib oprates=4095
+iwpriv wlan0 set_mib autorate=1
+iwpriv wlan0 set_mib rtsthres=2347
+iwpriv wlan0 set_mib fragthres=2346
+iwpriv wlan0 set_mib expired_time=30000
+iwpriv wlan0 set_mib preamble=0
+iwpriv wlan0 set_mib hiddenAP=1
+iwpriv wlan0 set_mib dtimperiod=1
+iwpriv wlan0 set_mib aclnum=0
+iwpriv wlan0 set_mib aclmode=0
+iwpriv wlan0 set_mib wsc_enable=0
+iwpriv wlan0 set_mib authtype=2
+iwpriv wlan0 set_mib psk_enable=0
+iwpriv wlan0 set_mib encmode=0
+iwpriv wlan0 set_mib 802_1x=0
+iwpriv wlan0 set_mib band=11
+iwpriv wlan0 set_mib deny_legacy=0
+iwpriv wlan0 set_mib lgyEncRstrct=15
+iwpriv wlan0 set_mib wifi_specific=2
+#iwpriv wlan0 set_mib ts2self=1
+iwpriv wlan0 set_mib disable_protection=1
+iwpriv wlan0 set_mib block_relay=0
+iwpriv wlan0 set_mib use40M=1
+iwpriv wlan0 set_mib 2ndchoffset=2
+iwpriv wlan0 set_mib coexist=0
+iwpriv wlan0 set_mib shortGI20M=0
+iwpriv wlan0 set_mib shortGI40M=0
+iwpriv wlan0 set_mib ampdu=1
+iwpriv wlan0 set_mib amsdu=0
+master d&
+ponmonitor &

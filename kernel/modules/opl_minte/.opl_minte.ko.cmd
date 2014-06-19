@@ -1,0 +1,1 @@
+cmd_/home/wanghuanyu/opulan/v3.2.1/os/modules/opl_minte/opl_minte.ko := mips-linux-uclibc-ld  -m elf32btsmip -r -o /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_minte/opl_minte.ko /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_minte/opl_minte.o /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_minte/opl_minte.mod.o

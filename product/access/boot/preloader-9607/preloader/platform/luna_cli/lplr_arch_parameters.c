@@ -1,0 +1,1 @@
+../luna_nor_spi/lplr_arch_parameters.c

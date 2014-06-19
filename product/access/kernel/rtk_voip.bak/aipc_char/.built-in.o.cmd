@@ -1,0 +1,1 @@
+cmd_drivers/char/aipc/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o drivers/char/aipc/built-in.o drivers/char/aipc/aipc_dev.o drivers/char/aipc/aipc_irq.o drivers/char/aipc/aipc_intq.o drivers/char/aipc/aipc_ctrl.o drivers/char/aipc/aipc_mbox.o drivers/char/aipc/aipc_mem.o drivers/char/aipc/aipc_shm.o 

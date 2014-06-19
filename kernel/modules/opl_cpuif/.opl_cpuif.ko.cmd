@@ -1,0 +1,1 @@
+cmd_/home/wanghuanyu/opulan/v3.2.1/os/modules/opl_cpuif/opl_cpuif.ko := mips-linux-uclibc-ld  -m elf32btsmip -r -o /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_cpuif/opl_cpuif.ko /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_cpuif/opl_cpuif.o /home/wanghuanyu/opulan/v3.2.1/os/modules/opl_cpuif/opl_cpuif.mod.o

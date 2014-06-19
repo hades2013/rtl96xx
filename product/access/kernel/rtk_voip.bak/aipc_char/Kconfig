@@ -1,0 +1,191 @@
+
+menu "RTL8686 IPC"
+
+# ---------------------------------------------------------------------
+# IPC ASIC or FPGA config
+
+comment "IPC ASIC or FPGA config"
+
+menu "RTL8686 ASIC or FPGA"
+choice 
+	prompt "RTL8686 Chip Type"
+	default y
+
+config RTL8686_ASIC
+	bool  "Support for RTL8686_ASIC"
+	default y
+
+config RTL8686_FPGA
+	bool  "Support for RTL8686_FPGA"
+	default n
+
+endchoice
+
+menu "RTL8686 DRAM SIZE"
+config RTL8686_DRAM_64_MB
+	bool  "Support for DRAM 64 MB"
+	default y
+
+config RTL8686_DRAM_32_MB
+	bool  "Support for DRAM 32 MB"
+	default n
+
+endmenu
+
+menu "RTL8686 Test IP"
+
+config RTL8686_TEST_IP
+	bool "RTL8686 TEST IP"
+	default n
+
+config RTL8686_ASIC_TEST_IP
+	bool  "Support for RTL8686_ASIC_TEST_IP"
+	depends on RTL8686_TEST_IP
+	default n
+
+config RTL8686_FPGA_TEST_IP
+	bool  "Support for RTL8686_FPGA_TEST_IP"
+	depends on RTL8686_TEST_IP
+	default n
+
+endmenu
+
+menu "RTL8686 Read Write Test"
+
+config RTL8686_READ_WRITE_TEST
+	bool "RTL8686 Read Write test"
+	default n
+
+config RTL8686_READ_DRAM_THREAD
+	bool  "Support for RTL8686_READ_TEST"
+	depends on RTL8686_READ_WRITE_TEST
+	default n
+
+config RTL8686_WRITE_DRAM_THREAD
+	bool  "Support for RTL8686_FPGA_TESTP"
+	depends on RTL8686_READ_WRITE_TEST
+	default n
+
+endmenu
+
+endmenu
+
+# ---------------------------------------------------------------------
+# IPC Main Function
+
+comment "IPC Main Function"
+
+menu "RTL8686 IPC interface"
+config RTL8686_IPC_DEV
+	bool "RTL8686 IPC interface"
+	default y
+
+config RTL8686_IPC_PROCESSOR
+    int "RTL8686 IPC processor"
+    default 0
+    depends on RTL8686_IPC_DEV
+
+config RTL8686_IPC_DEBUG_MESSAGE
+    bool "RTL8686 IPC debug message"
+    default y
+    depends on RTL8686_IPC_DEV
+
+config RTL8686_SHM_NOTIFY
+	bool  "Shared memory notify"
+	depends on RTL8686_IPC_DEV
+	default n
+
+# ---------------------------------------------------------------------
+# IPC Shared Memory Setting
+
+comment "IPC Shared Memory Setting"
+
+menu "RTL8686 SHM Setting"
+
+config RTL8686_SHM_SETTING
+	bool "RTL8686 SHM Setting"
+	default y
+
+config RTL8686_CPU_MEM_BASE
+	hex  "RTL8686 CPU MEM Base"
+	depends on RTL8686_SHM_SETTING
+	default 0x00000000
+
+config RTL8686_CPU_MEM_SIZE
+	hex  "RTL8686 CPU MEM Size"
+	depends on RTL8686_SHM_SETTING
+	default 0x02000000
+
+config RTL8686_IPC_MEM_BASE
+	hex  "RTL8686 IPC MEM Base"
+	depends on RTL8686_SHM_SETTING
+	default 0x03000000
+
+config RTL8686_IPC_MEM_SIZE
+	hex  "RTL8686 IPC MEM Size"
+	depends on RTL8686_SHM_SETTING
+	default 0x00100000
+
+config RTL8686_DSP_MEM_BASE
+	hex  "RTL8686 DSP MEM Base"
+	depends on RTL8686_SHM_SETTING
+	default 0x03100000
+
+config RTL8686_DSP_MEM_SIZE
+	hex  "RTL8686 DSP MEM Size"
+	depends on RTL8686_SHM_SETTING
+	default 0x00F00000
+
+endmenu
+
+# ---------------------------------------------------------------------
+# SLIC Reset 
+
+menu "RTL8686 SLIC Reset"
+
+config RTL8686_SLIC_RESET
+	bool "RTL8686 SLIC RESET"
+	default y
+
+config RTL8686_SLIC_RESET_GPIO_NUM
+	int "RTL8686 SLIC RESET GPIO NUM"
+	depends on RTL8686_SLIC_RESET
+	default 17
+	range 0 64
+
+endmenu
+
+# ---------------------------------------------------------------------
+# IPC Debug  
+
+comment "IPC Debug"
+
+config RTL8686_IPC_RECORD_DSP_LOG
+	bool "RTL8686 IPC Record DSP log"
+	default y
+	help
+		Get DSP console logs from CPU side. 
+
+# ---------------------------------------------------------------------
+# IPC Test Codes
+
+comment "IPC Test Codes"
+
+config RTL8686_IPC_TEST_THREAD
+    bool "RTL8686 IPC test thread"
+    default n
+    depends on RTL8686_IPC_DEV
+
+config RTL8686_IPC_TEST_THREAD_2
+    bool "RTL8686 IPC test thread 2"
+    default n
+    depends on RTL8686_IPC_TEST_THREAD
+
+config RTL8686_IPC_TEST_THREAD_3
+    bool "RTL8686 IPC test thread 3"
+    default n
+    depends on RTL8686_IPC_TEST_THREAD_2
+
+endmenu
+
+endmenu

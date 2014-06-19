@@ -1,0 +1,11 @@
+
+VENDOR_MODEL="CLT202-H"
+VENDOR_LOGOPATH="zhichuang.gif"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_DEVCFG="vendor_huanshun.c"
+VENDOR_STRING="ZhiChuang Technologies Co., Ltd."
+VENDOR_SHORT="ZhiChuang Technology"
+VENDOR_NAME="ZhiChuang"
+VENDOR_LOCATION="Ningbo, China"
+VENDOR_YEAR="2011"
+

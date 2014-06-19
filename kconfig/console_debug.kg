@@ -1,0 +1,7 @@
+menu "console debug configuration"
+config CONFIG_CONSOLE_DEBUG
+        bool "console debug surpport"
+        default y
+        help
+                none
+endmenu

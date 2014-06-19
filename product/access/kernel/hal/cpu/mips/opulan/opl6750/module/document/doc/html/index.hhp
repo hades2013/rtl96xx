@@ -1,0 +1,67 @@
+[OPTIONS]
+Compatibility=1.1
+Full-text search=Yes
+Contents file=index.hhc
+Default Window=main
+Default topic=index.html
+Index file=index.hhk
+Language=0x804 Chinese (PRC)
+Title=IPMUX1IPMUX2IPMUX3
+
+[WINDOWS]
+main="IPMUX1IPMUX2IPMUX3","index.hhc","index.hhk","index.html","index.html",,,,,0x23520,,0x387e,,,,,,,,0
+
+[FILES]
+index.html
+files.html
+ipmux__interrupt_8c-source.html
+ipmux__interrupt_8h-source.html
+opl__cpuif_8c-source.html
+opl__cpuif_8h-source.html
+opl__cpuif__test_8c-source.html
+opl__hw__ops_8h-source.html
+opl__minte_8c-source.html
+opl__minte_8h-source.html
+opl__minte__test_8c-source.html
+opl__reg__mmap_8c-source.html
+opl__reg__mmap_8h-source.html
+opl__regmmap__test_8c-source.html
+opl__typedef_8h-source.html
+ipmux__interrupt_8c.html
+ipmux__interrupt_8h.html
+opl__cpuif_8c.html
+opl__cpuif_8h.html
+opl__cpuif__test_8c.html
+opl__hw__ops_8h.html
+opl__minte_8c.html
+opl__minte_8h.html
+opl__minte__test_8c.html
+opl__reg__mmap_8c.html
+opl__reg__mmap_8h.html
+opl__regmmap__test_8c.html
+opl__typedef_8h.html
+annotated.html
+functions.html
+functions_vars.html
+structdma__request__data__s.html
+structdma__request__phys__addr__s.html
+deprecated.html
+group___i_p_m_u_x.html
+group__ipmux.html
+group___c_p_u_i_f.html
+group__cpuif.html
+group___m_i_n_t_e.html
+group__minte.html
+group___m_i_n_t_e___t_e_s_t.html
+group__minte__test.html
+group___o_p_l___r_e_g.html
+group__opl__reg.html
+group___o_p_l___r_e_g___t_e_s_t.html
+group__opl__regmmap.html
+modules.html
+globals.html
+globals_func.html
+globals_vars.html
+globals_type.html
+globals_defs.html
+pages.html

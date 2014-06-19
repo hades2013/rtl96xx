@@ -1,0 +1,14 @@
+#!/bin/sh
+# Copyright (C) 2011 Allwins Technology
+
+INITRAMFS=1
+
+# mount JFFS2 filesystem to /flash, will be the root filesystem
+mount -t jffs2 /dev/mtdblock2 /flash
+
+# Test if enter fail safe mode
+. /etc/preinit
+
+# Not fail safe mode, switch to new rootfs
+
+exec switch_root -c /dev/console /flash /sbin/init

@@ -1,0 +1,11 @@
+
+VENDOR_MODEL="CLT202-H"
+VENDOR_LOGOPATH="huanshun.gif"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_DEVCFG="vendor_huanshun.c"
+VENDOR_STRING="Huanshun Technologies Co., Ltd."
+VENDOR_SHORT="Huanshun Technology"
+VENDOR_NAME="Huanshun"
+VENDOR_LOCATION="Ningbo, China"
+VENDOR_YEAR="2011"
+

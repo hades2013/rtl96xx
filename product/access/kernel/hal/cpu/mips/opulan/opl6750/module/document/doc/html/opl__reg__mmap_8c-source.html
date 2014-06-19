@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_reg_mmap.c源文件</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_reg_mmap.c</h1><a href="opl__reg__mmap_8c.html">浏览该文件的文档。</a><div class="fragment"><pre class="fragment">00001 
+00015 <span class="preprocessor">#include &lt;linux/init.h&gt;</span>
+00016 <span class="preprocessor">#include &lt;linux/kernel.h&gt;</span>
+00017 <span class="preprocessor">#include &lt;linux/module.h&gt;</span>
+00018 <span class="preprocessor">#include &lt;linux/sched.h&gt;</span>
+00019 <span class="preprocessor">#include &lt;linux/wait.h&gt;</span>
+00020 <span class="preprocessor">#include &lt;asm/uaccess.h&gt;</span>
+00021 <span class="preprocessor">#include &lt;asm/io.h&gt;</span>
+00022 <span class="preprocessor">#include &lt;linux/slab.h&gt;</span>
+00023 
+00024 <span class="preprocessor">#include &lt;<a class="code" href="opl__hw__ops_8h.html">opl_hw_ops.h</a>&gt;</span>
+00025 <span class="preprocessor">#include &lt;<a class="code" href="opl__reg__mmap_8h.html">opl_reg_mmap.h</a>&gt;</span>
+00026 
+00030 <span class="comment">/*--------------------------Macro definition------------------------- */</span>
+<a name="l00031"></a><a class="code" href="group___o_p_l___r_e_g.html#ga6">00031</a> <span class="preprocessor">#define OPL_REG_MAJOR    110</span>
+<a name="l00032"></a><a class="code" href="group___o_p_l___r_e_g.html#ga7">00032</a> <span class="preprocessor"></span><span class="preprocessor">#define OPL_REG_DEVICE  "opl_reg"</span>
+00033 <span class="preprocessor"></span>
+00034 
+00040 <span class="comment">/*--------------------------type definition------------------------- */</span>
+00041 
+00047 <span class="comment">/*-----------------global varible/function declaration--------------- */</span>
+00048 
+00060 <span class="comment">/*--------------local  function declaration------------- */</span>
+00061 <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___o_p_l___r_e_g.html#ga3">opl_reg_open</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp);         
+00062 <span class="keyword">static</span> ssize_t <a class="code" href="group___o_p_l___r_e_g.html#ga7">opl_reg_read</a>(<span class="keyword">struct</span> file *filp, <span class="keywordtype">char</span>  *buffer, size_t length, loff_t *offset);
+00063 <span class="keyword">static</span> ssize_t <a class="code" href="group___o_p_l___r_e_g.html#ga4">opl_reg_write</a>(<span class="keyword">struct</span> file *filp, <span class="keyword">const</span> <span class="keywordtype">char</span> *buffer, size_t length, loff_t *offset);
+00064 <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___o_p_l___r_e_g.html#ga8">opl_reg_mmap</a>(<span class="keyword">struct</span> file * file, <span class="keyword">struct</span> vm_area_struct * vma);
+00065 <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___o_p_l___r_e_g.html#ga5">opl_reg_release</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp);
+00066 
+00072 <span class="comment">/*--------------local  varible declaration and definition------------- */</span>
+<a name="l00073"></a><a class="code" href="group___o_p_l___r_e_g.html#ga0">00073</a> <span class="keyword">static</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group___o_p_l___r_e_g.html#ga0">opl_reg_open_count</a> = 0;
+<a name="l00074"></a><a class="code" href="group___o_p_l___r_e_g.html#ga1">00074</a> <span class="keyword">static</span> <a class="code" href="opl__typedef_8h.html#a0">u32</a> <a class="code" href="group___o_p_l___r_e_g.html#ga1">opl_reg_is_open</a> = 0;
+<a name="l00075"></a><a class="code" href="group___o_p_l___r_e_g.html#ga2">00075</a> <span class="keyword">struct </span>file_operations <a class="code" href="group___o_p_l___r_e_g.html#ga2">opl_reg_fops</a> = {
+00076   .read = opl_reg_read,
+00077   .write = opl_reg_write,
+00078   .mmap = opl_reg_mmap,
+00079   .open = opl_reg_open,
+00080   .release = opl_reg_release, 
+00081 };
+00082 
+00088 <span class="comment">/*------------local  function declaration and definition-------------- */</span>
+00089 
+<a name="l00102"></a><a class="code" href="group___o_p_l___r_e_g.html#ga7">00102</a> <span class="keyword">static</span> ssize_t <a class="code" href="group___o_p_l___r_e_g.html#ga7">opl_reg_read</a>(<span class="keyword">struct</span> file *filp, <span class="keywordtype">char</span>  *buffer, size_t length, loff_t *offset)
+00103 {
+00104   <span class="keywordflow">return</span> 0;
+00105 }
+00106 
+<a name="l00107"></a><a class="code" href="group___o_p_l___r_e_g.html#ga4">00107</a> <span class="keyword">static</span> ssize_t <a class="code" href="group___o_p_l___r_e_g.html#ga4">opl_reg_write</a>(<span class="keyword">struct</span> file *filp, <span class="keyword">const</span> <span class="keywordtype">char</span> *buffer, size_t length, loff_t *offset)
+00108 {
+00109   <span class="keywordflow">return</span> 0;
+00110 }
+00111 
+<a name="l00124"></a><a class="code" href="group___o_p_l___r_e_g.html#ga8">00124</a> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___o_p_l___r_e_g.html#ga8">opl_reg_mmap</a>(<span class="keyword">struct</span> file * file, <span class="keyword">struct</span> vm_area_struct * vma)
+00125 {
+00126   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> offset = vma-&gt;vm_pgoff &lt;&lt; PAGE_SHIFT;
+00127   <span class="comment">/*</span>
+00128 <span class="comment">   * Accessing memory above the top the kernel knows about or</span>
+00129 <span class="comment">   * through a file pointer that was marked O_SYNC will be</span>
+00130 <span class="comment">   * done non-cached.</span>
+00131 <span class="comment">   */</span>
+00132   offset += 0x1f000000;
+00133   <span class="keywordflow">if</span> ((offset&gt;__pa(high_memory)) || (file-&gt;f_flags &amp; O_SYNC)) {
+00134     vma-&gt;vm_page_prot = pgprot_noncached(vma-&gt;vm_page_prot);
+00135   }
+00136 
+00137   <span class="comment">/* Don't try to swap out physical pages.. */</span>
+00138   vma-&gt;vm_flags |= VM_RESERVED;
+00139   
+00140   <span class="comment">/* Don't dump addresses that are not real memory to a core file.*/</span>
+00141   <span class="keywordflow">if</span> (offset &gt;= __pa(high_memory) || (file-&gt;f_flags &amp; O_SYNC))
+00142     vma-&gt;vm_flags |= VM_IO;
+00143   <span class="keywordflow">if</span> (remap_page_range(vma-&gt;vm_start, offset, vma-&gt;vm_end-vma-&gt;vm_start,
+00144                        vma-&gt;vm_page_prot)){
+00145     <span class="keywordflow">return</span> -EAGAIN;
+00146   }
+00147   <span class="keywordflow">return</span> 0;
+00148 }
+00149 
+<a name="l00150"></a><a class="code" href="group___o_p_l___r_e_g.html#ga3">00150</a> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___o_p_l___r_e_g.html#ga3">opl_reg_open</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp)         
+00151 {
+00152   <span class="keywordflow">if</span> (test_and_set_bit(0, &amp;<a class="code" href="group___o_p_l___r_e_g.html#ga1">opl_reg_is_open</a>))
+00153     printk(KERN_DEBUG <span class="stringliteral">"the /dev/opl_reg is already opened\n"</span>);
+00154   <a class="code" href="group___o_p_l___r_e_g.html#ga0">opl_reg_open_count</a> ++;
+00155   MOD_INC_USE_COUNT;
+00156   <span class="keywordflow">return</span> 0;
+00157 }
+00158 
+<a name="l00159"></a><a class="code" href="group___o_p_l___r_e_g.html#ga5">00159</a> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code" href="group___o_p_l___r_e_g.html#ga5">opl_reg_release</a>(<span class="keyword">struct</span> inode *inode, <span class="keyword">struct</span> file *filp)
+00160 {
+00161   <a class="code" href="group___o_p_l___r_e_g.html#ga0">opl_reg_open_count</a> ++;
+00162   <span class="keywordflow">if</span>(!opl_reg_open_count)
+00163     clear_bit(0, &amp;<a class="code" href="group___o_p_l___r_e_g.html#ga1">opl_reg_is_open</a>);
+00164   MOD_DEC_USE_COUNT;
+00165   <span class="keywordflow">return</span> 0;
+00166 }
+<a name="l00176"></a><a class="code" href="group__opl__reg.html#ga0">00176</a> <span class="keyword">static</span> <span class="keywordtype">int</span> __init <a class="code" href="group__opl__reg.html#ga0">opl_reg_init</a>(<span class="keywordtype">void</span>)
+00177 {
+00178   <span class="keywordtype">int</span> ret;
+00179   ret = register_chrdev(<a class="code" href="group___o_p_l___r_e_g.html#ga6">OPL_REG_MAJOR</a>,<a class="code" href="group___o_p_l___r_e_g.html#ga7">OPL_REG_DEVICE</a>,&amp;<a class="code" href="group___o_p_l___r_e_g.html#ga2">opl_reg_fops</a>);
+00180   <span class="keywordflow">if</span>(ret&lt;0){
+00181     <span class="comment">/* TBD add debug message */</span>
+00182   }
+00183   <span class="keywordflow">return</span> ret;
+00184 }
+<a name="l00193"></a><a class="code" href="group__opl__reg.html#ga1">00193</a> <span class="keyword">static</span> <span class="keywordtype">void</span> __exit <a class="code" href="group__opl__reg.html#ga1">opl_reg_exit</a>(<span class="keywordtype">void</span>)
+00194 {
+00195   <span class="keywordtype">int</span> ret;
+00196   ret = unregister_chrdev(<a class="code" href="group___o_p_l___r_e_g.html#ga6">OPL_REG_MAJOR</a>,<a class="code" href="group___o_p_l___r_e_g.html#ga7">OPL_REG_DEVICE</a>);
+00197   <span class="keywordflow">if</span>(ret &lt; 0){
+00198     <span class="comment">/*TBD:add debug message  */</span>
+00199   }
+00200   <span class="keywordflow">return</span>;
+00201 }
+00202 
+00203 <a class="code" href="group__opl__reg.html#ga2">module_init</a>(opl_reg_init);
+00204 <a class="code" href="group__opl__reg.html#ga3">module_exit</a>(opl_reg_exit);
+00205 <a class="code" href="group__opl__reg.html#ga4">MODULE_LICENSE</a>(<span class="stringliteral">"GPL2"</span>);
+00206 <a class="code" href="group__opl__reg.html#ga5">MODULE_AUTHOR</a>(<span class="stringliteral">"stephanxu &lt;hxu@opulan.com&gt;"</span>);
+00207 <a class="code" href="group__opl__reg.html#ga6">MODULE_DESCRIPTION</a>(<span class="stringliteral">"dedicated the module for mmap the opulan switch chip register."</span>);
+</pre></div><hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

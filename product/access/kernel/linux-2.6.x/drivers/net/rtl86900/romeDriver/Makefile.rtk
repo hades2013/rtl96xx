@@ -1,0 +1,14 @@
+RG_MODULE_DIR:=rg
+RG_MODULE_INCLUDE:=$(srctree)/drivers/net/rtl86900/romeDriver
+
+RG_FLAG:= -I$(RG_MODULE_INCLUDE) -I$(srctree)/drivers/net/rtl86900/sdk/src/app/diag_rtk/include
+
+RG_MODULE_OBJ:= 
+RG_MODULE_OBJ+= $(RG_MODULE_DIR)/rtk_rg_internal.o
+RG_MODULE_OBJ+= $(RG_MODULE_DIR)/rtk_rg_fwdEngine.o
+RG_MODULE_OBJ+= $(RG_MODULE_DIR)/rtk_rg_liteRomeDriver.o
+RG_MODULE_OBJ+= $(RG_MODULE_DIR)/rtk_rg_debug.o
+
+RG_FLAG+= -DCONFIG_APOLLO
+
+

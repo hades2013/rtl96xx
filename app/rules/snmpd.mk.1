@@ -1,0 +1,113 @@
+# Rules for making busybox
+
+SNMPD_DIR = net-snmp-5.4.2.1
+
+SNMP_MIB_MODULES_INCLUDED = \
+	host/hr_device \
+	host/hr_disk \
+	host/hr_filesys \
+	host/hr_network \
+	host/hr_partition \
+	host/hr_proc \
+	host/hr_storage \
+	host/hr_system \
+	ieee802dot11 \
+	mibII/at \
+	mibII/icmp \
+	mibII/ifTable \
+	mibII/ip \
+	mibII/snmp_mib \
+	mibII/sysORTable \
+	mibII/system_mib \
+	mibII/tcp \
+	mibII/udp \
+	mibII/vacm_context \
+	mibII/vacm_vars \
+	snmpv3/snmpEngine \
+	snmpv3/snmpMPDStats \
+	snmpv3/usmConf \
+	snmpv3/usmStats \
+	snmpv3/usmUser \
+	tunnel \
+	ucd-snmp/disk \
+	ucd-snmp/dlmod \
+	ucd-snmp/extensible \
+	ucd-snmp/loadave \
+	ucd-snmp/memory \
+	ucd-snmp/pass \
+	ucd-snmp/proc \
+	ucd-snmp/vmstat \
+	util_funcs \
+	utilities/execute \
+
+SNMP_MIB_MODULES_EXCLUDED = \
+	agent_mibs \
+	agentx \
+	disman/event \
+	disman/schedule \
+	hardware \
+	host \
+	if-mib \
+	mibII \
+	notification \
+	notification-log-mib \
+	snmpv3mibs \
+	target \
+	tcp-mib \
+	ucd_snmp \
+	udp-mib \
+	utilities \
+
+SNMP_TRANSPORTS_INCLUDED = Callback UDP 
+
+SNMP_TRANSPORTS_EXCLUDED = TCP TCPIPv6 Unix
+
+TARGET_CFLAGS += $(FPIC)
+
+CONFIGURE_ARGS += \
+	--enable-static \
+	--with-endianness=little \
+	--with-logfile=/var/log/snmpd.log \
+	--with-persistent-directory=/usr/lib/snmp/ \
+	--with-default-snmp-version=1 \
+	--with-sys-contact=root@localhost \
+	--with-sys-location=Unknown \
+	--disable-applications \
+	--disable-debugging \
+	--disable-manuals \
+	--disable-mibs \
+	--disable-scripts \
+	--with-out-mib-modules="$(SNMP_MIB_MODULES_EXCLUDED)" \
+	--with-mib-modules="$(SNMP_MIB_MODULES_INCLUDED)" \
+	--with-out-transports="$(SNMP_TRANSPORTS_EXCLUDED)" \
+	--with-transports="$(SNMP_TRANSPORTS_INCLUDED)" \
+	--without-openssl \
+	--without-libwrap \
+	--without-rpm \
+	--without-zlib \
+
+snmpd-config:
+	@cd $(SNMPD_DIR) && \
+	AR=mipsel-openwrt-linux-uclibc-ar AS="mipsel-openwrt-linux-uclibc-gcc -c -Os -pipe -mips32 -mtune=mips32 -funit-at-a-time -fhonour-copts -msoft-float -fpic" LD=mipsel-openwrt-linux-uclibc-ld NM=mipsel-openwrt-linux-uclibc-nm CC="mipsel-openwrt-linux-uclibc-gcc" GCC="mipsel-openwrt-linux-uclibc-gcc" CXX="mipsel-openwrt-linux-uclibc-g++" RANLIB=mipsel-openwrt-linux-uclibc-ranlib STRIP=mipsel-openwrt-linux-uclibc-strip OBJCOPY=mipsel-openwrt-linux-uclibc-objcopy OBJDUMP=mipsel-openwrt-linux-uclibc-objdump SIZE=mipsel-openwrt-linux-uclibc-size CFLAGS="-Os -pipe -mips32 -mtune=mips32 -funit-at-a-time -fhonour-copts -msoft-float -fpic " CXXFLAGS="-Os -pipe -mips32 -mtune=mips32 -funit-at-a-time -fhonour-copts -msoft-float -fpic " CPPFLAGS="-I/home/ryan/openwrt/trunk/staging_dir/target-mipsel_uClibc-0.9.31/usr/include -I/home/ryan/openwrt/trunk/staging_dir/target-mipsel_uClibc-0.9.31/include -I/home/ryan/openwrt/trunk/staging_dir/toolchain-mipsel_gcc-4.3.3+cs_uClibc-0.9.31/usr/include -I/home/ryan/openwrt/trunk/staging_dir/toolchain-mipsel_gcc-4.3.3+cs_uClibc-0.9.31/include " LDFLAGS="-L/home/ryan/openwrt/trunk/staging_dir/target-mipsel_uClibc-0.9.31/usr/lib -L/home/ryan/openwrt/trunk/staging_dir/target-mipsel_uClibc-0.9.31/lib -L/home/ryan/openwrt/trunk/staging_dir/toolchain-mipsel_gcc-4.3.3+cs_uClibc-0.9.31/usr/lib -L/home/ryan/openwrt/trunk/staging_dir/toolchain-mipsel_gcc-4.3.3+cs_uClibc-0.9.31/lib -L/home/ryan/openwrt/trunk/staging_dir/toolchain-mipsel_gcc-4.3.3+cs_uClibc-0.9.31/usr/lib "   \
+	./configure \
+	--target=mipsel-openwrt-linux \
+	--host=mipsel-openwrt-linux \
+	--build=i386-redhat-linux \
+	--prefix=$(TARGETDIR) \
+	--disable-nls  \
+	--disable-ipv6 \
+	$(CONFIGURE_ARGS)
+
+#--enable-shared --enable-static --with-endianness=little --with-logfile=/var/log/snmpd.log --with-persistent-directory=/usr/lib/snmp/ --with-default-snmp-version=1 --with-sys-contact=root@localhost --with-sys-location=Unknown --enable-applications --disable-debugging --disable-manuals --disable-mibs --disable-scripts --with-out-mib-modules="agent_mibs agentx disman/event disman/schedule hardware host if-mib mibII notification notification-log-mib snmpv3mibs target tcp-mib ucd_snmp udp-mib utilities " --with-mib-modules="host/hr_device host/hr_disk host/hr_filesys host/hr_network host/hr_partition host/hr_proc host/hr_storage host/hr_system ieee802dot11 mibII/at mibII/icmp mibII/ifTable mibII/ip mibII/snmp_mib mibII/sysORTable mibII/system_mib mibII/tcp mibII/udp mibII/vacm_context mibII/vacm_vars snmpv3/snmpEngine snmpv3/snmpMPDStats snmpv3/usmConf snmpv3/usmStats snmpv3/usmUser tunnel ucd-snmp/disk ucd-snmp/dlmod ucd-snmp/extensible ucd-snmp/loadave ucd-snmp/memory ucd-snmp/pass ucd-snmp/proc ucd-snmp/vmstat util_funcs utilities/execute " --with-out-transports="TCP TCPIPv6 Unix" --with-transports="Callback UDP " --without-openssl --without-libwrap --without-rpm --without-zlib
+
+snmpd-build:
+	@$(MAKE) -C $(SNMPD_DIR) \
+		LDFLAGS="$(TARGET_LDFLAGS) -lm -static" \
+		all
+
+snmpd-install:
+	$(CROSS_COMPILE)strip $(SNMPD_DIR)/agent/snmpd
+	install -D $(SNMPD_DIR)/agent/snmpd $(TARGETDIR)/usr/sbin/snmpd
+	
+snmpd-clean:
+	@$(MAKE) -C $(SNMPD_DIR) clean

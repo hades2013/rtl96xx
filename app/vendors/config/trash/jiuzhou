@@ -1,0 +1,15 @@
+
+VENDOR_MODEL="EMX-4"
+VENDOR_LOGOPATH="jiuzhou.jpg"
+VENDOR_BGGIF="bg_jiuzhou.gif"
+VENDOR_STRING="Sichuan Jiuzhou Electronic Technology Co., Ltd."
+VENDOR_SHORT="Jiuzhou Electronic"
+VENDOR_NAME="Jiuzhou"
+VENDOR_LOCATION="Sichuan, China"
+VENDOR_YEAR="2010"
+
+DEV_CNU101="ESP-4A"
+DEV_CNU104="ESP-4B"
+
+HFID_CNU101="ESP 4A-A"
+HFID_CNU104="ESP 4B-A"

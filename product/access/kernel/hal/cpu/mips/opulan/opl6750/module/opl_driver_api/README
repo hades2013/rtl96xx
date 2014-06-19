@@ -1,0 +1,111 @@
+API of Module  HOWTO?
+--------------------------------------------------
+This document is to describle the function of all source code 
+in this directory.
+
+the name of the directory: opl_driver_api.
+opl: repsent the opulan.
+driver: means linux module or vxworks driver or other RTOS' driver.
+api: it is the common interface for accessing the linux module,vxworks
+drivers and other rtos' driver.
+
+1. the API for access the cpuif module.
+int open_cpuif(void): 
+used to open the "/dev/cpuif" device, the fd is g_opl_cpuif_fd, which is global.
+the g_opl_cpuif_fd is invisible for API user,the open_cpuif() is for
+lib init function. 
+
+int close_cpuif(void)
+used to close the cpuif. which is used for lib init function too.
+
+void* malloc_dma_rxbuf(int dmas,int size):
+malloc the rxbuf in kernel space with size is "size".
+return the dma tx physical address for dma base address.which is
+uncacheable in mips platform.
+param dmas: indicate that will return which dma's physcal address.only dma0
+is implemented.
+Note:in ipmux-e,tx base addr is invalid.
+
+void* malloc_dma_txbuf(int dmas).
+as above, return the tx base address for dma. the address is
+uncacaheable on mips platform.
+
+void set_dma_rxbuf_addr(int dmas,u32 addr)
+tell the kernel where is the start of the rxbuf if the memory
+allocated only once for txbuf.
+which is not used in ipmux-e platform,becuase if txbuf is in rxbuf.
+
+void set_dma_txbuf_addr(int dmas,u32 addr)
+tell the kernel where is the start of the txbuf is the memory is
+allocated only once for rxbuf. and in ipmux-e platform,which must be used.
+
+void free_dma_rxbuf(int dmas)
+free the memory if it is allocated by malloc_dma_rxbuf when its count
+is zero
+
+void free_dma_txbuf(int dmas)
+free the memory if it is allocated by malloc_dma_txbuf,when the count
+is zero.
+
+void disable_host_dma0_intr(void)
+it is used to disable IPMUX_HOSTDMA0_IRQ. which should be not used in
+fact.
+
+void enable_host_dma0_intr(void)
+used to enable IPMUX_HOSTDMA0_IRQ,which will be used after the
+interrupt generated,and the interrupt handler is called.
+because before the interrupt handler is called,the IPMUX_HOSTDMA0_IRQ
+is disable,which should be enabled manually.
+
+void wait_for_host_dma0_interrupt(void)
+the app call this function to wait for IPMUX_HOSTDMA0_IRQ interrupt.
+the process will be sleep until the IPMUX_HOSTDMA0_IRQ interrupt
+generated.
+
+int read_from_dma_rxbuf(int dmas,int bd,void *pkt,int len)
+when the rx interrupt generated,this function should be call to get
+the rx data from the dmas buffer.return the buffer len.
+dmas: which dma you need get data.
+bd: buffer's index.
+pkt: the buffer will you payload data.
+len: the data's len.
+
+int write_to_dma_txbuf(int dmas,int bd,void *pkt,int len)
+send the data from user app to dma buffer.return the len of data sent.
+dmas:which dma
+bd :tx buffer index
+pkt: the buffer for payload data.
+len the pkt's len.
+
+
+2. the API for access the minte module
+int open_minte(void)
+used to open "/dev/opl_minte" device.and the fd = g_opl_minte_fd is
+global for all process.but only access by the api.this function is
+only used in lib init
+
+int close_minte(void)
+used to close the "/dev/open" device,and release the
+fd=g_opl_minte_fd.it is only used by lib init too.
+
+void enable_ipmux_intr(void)
+it is used to enable the OPL_IPMUX_IRQ,when the ipmux generated,the
+interrupt is disable to prevent reentry,so,after the ipmux interrupt
+handler called, we should enable its interrupt manually by this
+function.
+
+void disable_ipmux_intr(void)
+used to disable the OPL_IPMUX_IRQ,which should not be used in user
+process.
+
+void wait_for_ipmux_intr(u32 *irq_pending)
+wait for the ipmux generated,if it generated,this function will get
+the irq pending to user process,which should call interrupt handler to
+handle these interrupts.
+
+
+3. the API for access the regmmap module.
+
+4. 
+
+

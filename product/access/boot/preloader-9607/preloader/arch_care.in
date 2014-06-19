@@ -1,0 +1,8 @@
+aTEXT_BASE := 0x9F000000##arch_care
+aDECOMP_ALGO_GZIP := 0##arch_care
+aDECOMP_ALGO_LZMA := 1##arch_care
+aCACHELINE_SIZE := 32##arch_care
+  aOTTO_NAND_FLASH := 0##arch_care
+  aOTTO_NOR_SPI_FLASH := 1##arch_care
+  aSOC_CONF_OFFSET := 32##arch_care
+    aON_FLASH_VMA_GAP := 0xc00000##arch_care

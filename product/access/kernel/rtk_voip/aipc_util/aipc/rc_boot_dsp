@@ -1,0 +1,3 @@
+#!/bin/sh
+aipc_util -w -d 0xb0000400  -i /image/dsp.img 
+aipc_util -b

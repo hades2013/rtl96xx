@@ -1,0 +1,8 @@
+menu "bosa configuration"
+config CONFIG_BOSA
+        bool "bosa surpport"
+        default y
+        help
+                none
+endmenu
+

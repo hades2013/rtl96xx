@@ -1,0 +1,411 @@
+################################################################################
+#
+# Copyright (C) 2008 Opulan Technologies Corp., All Rights Reserved
+#
+# FILENAME: make.common.rules.conf
+#
+# DESCRIPTION: Defines common Make rules.
+#              This is small set of rules to be included by all Makefiles.
+#
+#      Internal variables:
+#              $_ = <path>/make
+#              $* = $< = current .c file being processed
+#              $@ = current destination file or directory being processed ( i.e. what's on the left side of the ":")
+#              $^ = current dependency ( i.e. what's on the right side of the ":")
+#
+# Date Created (optional): 4/13/2008
+#
+# Authors (optional): Gan Zhiheng
+#
+# Reviewed by (optional):
+#
+# Edit History:
+#
+#
+################################################################################
+
+
+# Rule to make a subdirectory
+$(SUBDIRS):
+	@$(MAKE) -r -C $@
+
+
+# All the SUBDIRS are nonexistent targets. 
+.PHONY: $(SUBDIRS) $(COMMONTARGS)
+
+
+# Rules to clean .o, .d and .a files
+# run commands separately because of error "argument list too long"
+$(COMMONPREFIX)clean:
+	-@echo "--- cleaning $(shell /bin/pwd) *.o *.d *.a"
+	-@rm -f $(LIBDIR)/main.o
+ifneq ($(OBJECTS),)
+	-@rm -f $(OBJECTS)
+	-@rm -f $(OBJECTS:.o=.d)
+endif
+ifneq ($(LIB),)
+	-@rm -f $(LIBDIR)/$(LIB)
+endif
+
+
+$(COMMONPREFIX)cleanlib:
+	@echo "--- cleaning *.a"
+	$(if $(LIB), -@rm -f $(LIBDIR)/$(LIB) )
+
+
+# run commands separately because of error "argument list too long"
+$(COMMONPREFIX)cleanall:
+	-@echo "--- cleaning ALL $(shell /bin/pwd) *.o *.d *.a"
+	-@rm -f *.o $(LIBDIR)/*.o
+	-@rm -f *.d $(LIBDIR)/*.d
+	-@rm -f *.a $(LIBDIR)/*.a
+	-@rm -f $(LIBDIR)/$(TARGET)*
+	-@rm -f $(TARGETDIR)/project.config
+
+
+# Rule to list names of all libraries (.a) defined by Makefiles
+$(COMMONPREFIX)liblist:
+	@echo $(LIB)
+
+
+ifdef OBJECTS
+$(COMMONPREFIX)include:
+	@echo `pwd`
+	@for str in `cat -s $(OBJECTS:.o=.d) | sort -u | sed -e 'y/\\\/ /;s/  / /g;s/\n//g ;s/.*\ :\ .*\.c//g'`; do \
+		echo "	$$str"; \
+	done | grep '/' | sed -e 's/\(.*\)\/.*\.h/\1/g' | sort -u
+	@echo
+else
+$(COMMONPREFIX)include:
+
+endif
+
+f13s1efpga:
+	@printf "Building ONU-V1E-FPGA environment ... "
+	@printf ONU_1PORT_V1E_FPGA > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f13s:
+	@printf "Building ONU-V1-F13 environment ... "
+	@printf ONU_1PORT > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_f13s_voip_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f13p:
+	@printf "Building ONU-V1-F13 environment ... "
+	@printf ONU_1PORT > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_f13p_voip_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f23s:
+	@printf "Building ONU-V1-F23-S27 environment ... "
+	@printf ONU_4PORT_AR8228 > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_f23s_voip_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f23p:
+	@printf "Building ONU-V1-F23-S27 environment ... "
+	@printf ONU_4PORT_AR8228 > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_f23p_voip_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+rf100gna:
+	@printf "Building ONU-V1E-RF100-GNA environment ... "
+	@printf ONU_1PORT_V1E_RF100_GNA > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_c13_spi_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+rf100gnaate:
+	@printf "Building ONU-V1E-RF100-GNA-ATE environment ... "
+	@printf ONU_1PORT_V1E_RF100_GNA_ATE > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_c13_spi_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+rf400gna:
+	@printf "Building ONU-V1E-RF400-GNA environment ... "
+	@printf ONU_4PORT_V1E_RF400_GNA > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_c13_spi_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+c13v1e:
+	@printf "Building ONU-V1E-C13 environment ... "
+	@printf ONU_1PORT_V1E_RF100_GNA > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_c13_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+
+f13v1e:
+	@printf "Building ONU-V1E-F13 environment ... "
+	@printf ONU_1PORT_V1E_F13 > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_f13_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f23v1e:
+	@printf "Building ONU-V1E-F23-S27 environment ... "
+	@printf ONU_4PORT_V1E_F23 > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_f23_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f23pv1e:
+	@printf "Building ONU-V1E-F23-S27 environment ... "
+	@printf ONU_4PORT_V1E_F23 > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_f23p_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+f33v1e:
+	@printf "Building ONU-V1E-F33-S27 environment ... "
+	@printf ONU_4PORT_V1E_F23 > $(TARGETDIR)/project.config
+#	@cd $(TARGETDIR); svn info | grep Revision | awk 'BEGIN{getline rev; print(substr(rev,11));}' > $(KERNEL_DIR)/linux-2.6.21.5/build_uimage/version	
+#	@if [ -d $(KERNEL_DIR)/linux-2.6.21.5 ]; then \
+#		cd $(KERNEL_DIR)/linux-2.6.21.5;make onu_respin_f33_defconfig; \
+#	fi
+	@sleep 1
+	@echo "done."
+	@echo ""
+
+
+# ACTUAL RULES LOCATED IN TOP-LEVEL Makefile
+# All lower-level Makefiles can use these rules via call to top-level Makefile.
+
+rmmain:
+	-@rm -f $(LIBDIR)/main.o
+
+image: rmmain $(LIBDIR)/main.o
+	@echo ""
+	@echo "	+++ Building $(TARGET) image +++"
+	@echo ""
+	-@rm -f $(LIBDIR)/$(TARGET)
+	@if [ -e $(LIBDIR)/$(TARGET) ]; then \
+		echo "==============================================="; \
+		echo "===  ERROR : $(TARGET) access denied        ==="; \
+		echo "===  File is used by another process        ==="; \
+		echo "===  check your debugger                    ==="; \
+		echo "==============================================="; \
+		return 1;\
+	fi
+	$(CC) $(OPTIMIZATION) $(CCFLAGS) $(LIBDIR)/main.o $(TARGETDIR)/linux/opl_modif.o -L$(LIBDIR) $(LIBS) \
+	-o $(LIBDIR)/$(TARGET)
+	@if [ $$? != 0 ]; then echo "NOT DONE. Terminated due to make error"; return 1; fi
+	@echo ""
+	@echo "	+++ Done. File is here: +++"
+	@echo ""
+	@echo "	$(LIBDIR)/$(TARGET)"
+	@$(STRIP) --strip-debug --strip-unneeded --discard-all $(LIBDIR)/$(TARGET) -o $(LIBDIR)/$(TARGET).stripped
+#	@if command -v lzma &>/dev/null; \
+#	then \
+#		lzma e $(LIBDIR)/$(TARGET).stripped $(LIBDIR)/$(TARGET).image; \
+#		rm -f $(LIBDIR)/$(TARGET).stripped; \
+#		echo ""; \
+#	else \
+#        gzip -9 $(LIBDIR)/$(TARGET).stripped; \
+#		mv -f $(LIBDIR)/$(TARGET).stripped.gz $(LIBDIR)/$(TARGET).image; \
+#	fi
+#	@awk 'BEGIN{if("cksum $(LIBDIR)/$(TARGET).image" | getline cksumret) { \
+#		split(cksumret, array); \
+#		printf("OPL%08X",array[2]) > "$(LIBDIR)/$(TARGET).head"; \
+#		printf("%08X",array[1]) > "$(LIBDIR)/$(TARGET).head"; \
+#		} \
+#	}'
+#	@cat $(LIBDIR)/$(TARGET).head $(LIBDIR)/$(TARGET).image > $(LIBDIR)/$(TARGET).img
+#	-@rm -f $(LIBDIR)/$(TARGET).head
+#	-@rm -f $(LIBDIR)/$(TARGET).image
+	@if command -v lzma &>/dev/null; \
+	then \
+		$(TOOLCHAIN_DIR)/bin/lzma e $(LIBDIR)/$(TARGET).stripped $(LIBDIR)/$(TARGET).img; \
+#		mv $(LIBDIR)/$(TARGET).stripped $(LIBDIR)/$(TARGET).img; \
+		rm -f $(LIBDIR)/$(TARGET).stripped; \
+		echo ""; \
+	else \
+        gzip -9 $(LIBDIR)/$(TARGET).stripped; \
+		mv -f $(LIBDIR)/$(TARGET).stripped.gz $(LIBDIR)/$(TARGET).img; \
+	fi
+	@if [ -e $(LIBDIR)/$(TARGET).img ]; then \
+		echo "	$(LIBDIR)/$(TARGET).img"; \
+	fi
+	@echo ""
+
+env:
+	@echo ""
+	@echo "=== Current Build Environment ==="
+	@echo "  TARGET     = $(TARGET)"
+	@echo "  TARGET DIR = $(TARGETDIR)"
+	@echo "  OUTPUT DIR = $(LIBDIR)"
+	@echo "  LIB DIR = $(LIBDIR)"
+	@echo ""
+	@echo ""
+
+help:
+	@echo ""
+	@echo "Build commands:"
+	@echo "Usage: make [make_options] <command>"
+	@echo ""
+	@echo " Commands available in most subdirectories:"
+	@echo "  f13s-1e-f- building F13 V1E FPGA spi flash environment."
+	@echo "  f13s     - building F13 spi flash environment."
+	@echo "  f13p     - building F13 parellel flash environment."
+	@echo "  f23s     - building F23-A8 spi flash environment."
+	@echo "  f23p     - building F23-A8 parellel flash environment."
+	@echo "  f23-m7   - building F23-M7 environment."
+	@echo "  nuke     - clean everything under build/ directory."
+	@echo "  clean    - walks down the tree and removes .o, .d and .a files specified "
+	@echo "             in OBJECTS variable, if any. Useful when you work only"
+	@echo "             with you module and don't want to clean other module."
+	@echo "             Example: cd to your directory and run make clean."
+	@echo "  cleanall - walks down the tree and removes all .o, .d and .a files regardless"
+	@echo "             of OBJECTS variable."
+	@echo "  cleanlib - walks down the tree and removes only .a files specified in"
+	@echo "             LIB variable, if any."
+	@echo "  liblist  - walks down the tree and prints list of libraries specified in"
+	@echo "             LIB variable."
+	@echo "  include  - list of directories from which header files are used."
+	@echo "  image    - link image only. Skip compilation. Useful when you work only"
+	@echo "             with you module and don't want to run full build."
+	@echo "             Example: cd to your directory and run make; make image."
+	@echo "  help     - this help screen."
+	@echo "  env      - shows build environment settings."
+	@echo ""
+	@echo ""
+
+nuke:
+	@echo "Cleaning EVERYTHING in build directory!"
+	-@rm -f $(TARGETDIR)/build/*.[acdho]
+	-@rm -f $(TARGETDIR)/build/$(TARGET)*
+	-@rm -f $(TARGETDIR)/project.config
+	@echo "Done."
+
+strip: 
+	@echo ""
+	@$(STRIP) --strip-debug --strip-unneeded --discard-all $(LIBDIR)/$(TARGET)
+	@echo "	+++ Strip $(TARGET) done. +++"
+	@echo ""
+
+
+# For debugging:
+#	@echo "\$$@ = $@"
+#	@echo "\$$% = $%"
+#	@echo "\$$< = $<"
+#	@echo "\$$? = $?"
+#	@echo "\$$^ = $^"
+#	@echo "\$$+ = $+"
+#	@echo "\$$* = $*"
+
+ifneq ( $@, clean )
+
+# Rule to make header file dependencies for .c files
+$(LIBDIR)/%.d: %.c Makefile
+	@echo "--- $<	->	$@"
+	@$(CC) -M -c -x c++ -pipe $(CCFLAGS) $(LOCALINCLUDE) $< \
+	| $(SED) -e 's/\(.*\).o *:/!(LIBDIR)\/\1.o !(LIBDIR)\/\1.d : /;s/!/$$/g' 1> $@; \
+	[ -s $@ ] || rm -f $@
+
+#   With sub-shell - Also works
+#	sh -ec "$(CC) -M -E -x c -pipe $(CCFLAGS) $(LOCALINCLUDE) $< \
+#	| $(SED) -e \"s/\(.*\)\.o *:/!(LIBDIR)\/\1.o !(LIBDIR)\/\1.d : /;s/!/$$/g\" \
+#	1> $@; [ -s $@ ] || rm -f $@"
+
+
+# Rule to make header file dependencies for .cpp files
+$(LIBDIR)/%.d: %.cpp Makefile
+	@echo "--- $<	->	$@"
+	@$(CC) -M -c -x c++ -pipe $(CCFLAGS) $(LOCALINCLUDE) $< \
+	| $(SED) -e 's/\(.*\).o *:/!(LIBDIR)\/\1.o !(LIBDIR)\/\1.d : /;s/!/$$/g' 1> $@; \
+	[ -s $@ ] || rm -f $@
+
+#   With sub-shell - Also works
+#	@sh -ec "$(CC) -M -E -x c++ -pipe $(CCFLAGS) $(LOCALINCLUDE) $< \
+#	| $(SED) -e \"s/\(.*\)\.o *:/!(LIBDIR)\/\1.o !(LIBDIR)\/\1.d : /;s/!/$$/g\" \
+#	1> $@; [ -s $@ ] || rm -f $@"
+
+endif
+
+# Rule to make object files from .c files
+#                 v-- $(LIBDIR)/%.d  = Make complains "*** multiple target patterns"
+$(LIBDIR)/%.o: %.c Makefile
+	@echo "--- $<	->	$@"
+	@$(CC) -W -c -x c $(OPTIMIZATION) $(CCFLAGS) $(LOCALINCLUDE) -o $@ $<
+
+# Rule to make object file from .cpp files
+#                   v-- $(LIBDIR)/%.d  = Make complains "*** multiple target patterns"
+$(LIBDIR)/%.o: %.cpp Makefile
+	@echo "--- $<	->	$@"
+	@$(CC) -W -c -x c++ $(OPTIMIZATION) $(CCFLAGS) $(LOCALINCLUDE) -o $@ $<
+
+
+# Application entry file
+$(LIBDIR)/main.o: $(TARGETDIR)/sys/src/main.c
+	@echo "=== make $@"
+	@echo "--- $<	->	$@"
+	@$(CC) -W -c -x c $(OPTIMIZATION) $(CCFLAGS) $(LOCALINCLUDE) -o $@ $<
+
+
+# Rule to make library file
+# There must be at least one second delay after AR updated .a library file,
+# otherwise 'make' does not realize that the next .o file is newer then
+# the library and fails to add it. [A.D.]
+$(LIBDIR)/$(LIB): $(OBJECTS) Makefile
+	@echo "--- Building library $(LIBDIR)/$(LIB) ---"
+	@$(AR) -rsv $(LIBDIR)/$(LIB) $(OBJECTS);sleep 1
+
+# Dummy rule to force execution of another rule
+force: ;

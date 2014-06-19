@@ -1,0 +1,80 @@
+#!/bin/sh
+
+#
+# create essential directory 
+#
+#mkdir /dev/pts
+mount -t tmpfs none /var
+mkdir /var/empty
+mkdir /var/run
+mkdir /var/log
+mkdir /var/tmp
+mkdir /var/coredump
+cp -r /etc /var
+mount -t tmpfs none /etc
+cp -r /var/etc /
+rm -rf /var/etc
+touch /var/tmp/log
+#
+# mount process
+#
+#mount -t devpts devpts /dev/pts
+mount -t proc proc /proc
+
+
+#
+# insert kernel module if exist
+# default path is /lib/modules/X.X.XX/kernel 
+#
+cd /lib/modules/X.X.XX/kernel
+
+if test -f "drivers/net/switch/rtcore/rtcore.ko"; then
+	insmod drivers/net/switch/rtcore/rtcore.ko
+fi
+
+if test -f "drivers/net/switch/rtnic/rtnic.ko"; then
+	insmod drivers/net/switch/rtnic/rtnic.ko
+fi
+
+if test -f "drivers/net/switch/rtk/rtk.ko"; then
+	insmod drivers/net/switch/rtk/rtk.ko
+fi
+
+if test -f "/lib/model/model.ko"
+then
+	insmod /lib/model/model.ko
+fi
+
+if test -f "drivers/net/switch/unittest/sdktest.ko"; then
+	insmod drivers/net/switch/unittest/sdktest.ko
+fi
+
+if test -f "net/switch/rtdrv/rtdrv.ko"; then
+	insmod net/switch/rtdrv/rtdrv.ko
+fi
+
+cd /
+mount -t jffs2 -o rw,sync /dev/mtdblock7 /mnt
+#
+# network interface configuration 
+#
+ifconfig lo 127.0.0.1
+route add -net 127.0.0.0 netmask 255.255.255.0 lo
+echo "/var/coredump/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
+
+echo 1 >/proc/sys/net/ipv4/ip_no_pmtu_disc
+echo 10 >/proc/sys/net/ipv4/tcp_keepalive_intvl
+echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
+echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
+ulimit -c 4096
+ifconfig eth0 up
+#=================== install modules ============================
+#insmod /modules/opl_reg_mmap.ko
+#insmod /modules/opl_minte.ko
+#insmod /modules/opl_cpuif.ko
+#insmod /modules/opl_mem.ko
+#insmod /modules/opl_dal_driver.ko
+insmod /usr/lib/ifm.ko
+master d&
+#ponmonitor &
+

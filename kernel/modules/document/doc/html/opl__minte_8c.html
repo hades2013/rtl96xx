@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_minte.c文件参考</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_minte.c文件参考</h1>
+<p>
+<code>#include &lt;linux/init.h&gt;</code><br>
+<code>#include &lt;linux/kernel.h&gt;</code><br>
+<code>#include &lt;linux/module.h&gt;</code><br>
+<code>#include &lt;linux/sched.h&gt;</code><br>
+<code>#include &lt;linux/wait.h&gt;</code><br>
+<code>#include &lt;asm/uaccess.h&gt;</code><br>
+<code>#include &lt;asm/io.h&gt;</code><br>
+<code>#include &lt;linux/slab.h&gt;</code><br>
+<code>#include &lt;linux/types.h&gt;</code><br>
+<code>#include &lt;linux/errno.h&gt;</code><br>
+<code>#include &lt;<a class="el" href="opl__minte_8h-source.html">opl_minte.h</a>&gt;</code><br>
+<code>#include &lt;<a class="el" href="ipmux__interrupt_8h-source.html">ipmux_interrupt.h</a>&gt;</code><br>
+
+<p>
+<a href="opl__minte_8c-source.html">浏览该文件的源代码。</a><table border="0" cellpadding="0" cellspacing="0">
+<tr><td></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga13">OPL_MINTE_MAJOR</a>&nbsp;&nbsp;&nbsp;120</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga14">OPL_MINTE_DEVICE</a>&nbsp;&nbsp;&nbsp;"opl_minte"</td></tr>
+
+<tr><td colspan="2"><br><h2>the variable and function imported.</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga5">get_irq_pending</a> (void)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga6">clear_irq_pending</a> (void)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga7">ipmux_irq_enable</a> (unsigned int irq)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga8">ipmux_irq_disable</a> (unsigned int irq)</td></tr>
+
+<tr><td colspan="2"><br><h2>local function declaration</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga9">opl_minte_open</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga7">opl_minte_read</a> (struct file *filp, char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: copy the opl_chip_irq_pending(indicate which interrupt occured) to user App, which will handle its interrupt.if the no irq pending occured,the process will sleep until the isr wake up it.  <a href="group___m_i_n_t_e.html#ga7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga8">opl_minte_write</a> (struct file *filp, const char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: because the enable irq or disable irq will be in atomic mode,so it should be operated in kernel mode is correct.  <a href="group___m_i_n_t_e.html#ga8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga10">opl_minte_release</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td colspan="2"><br><h2>the global variable declaration and definition.</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga0">g_opl_chip_irq_event</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">wait_queue_head_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga1">g_opl_chip_waitq</a></td></tr>
+
+<tr><td colspan="2"><br><h2>local variable declaration and definition</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga2">opl_minte_open_count</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga3">opl_minte_is_open</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">file_operations&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___m_i_n_t_e.html#ga4">opl_minte_fops</a></td></tr>
+
+<tr><td colspan="2"><br><h2>函数</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int __init&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga0">opl_minte_init</a> (void)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: The driver module entry.to register the chrdev and request irq.  <a href="group__minte.html#ga0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void __exit&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga1">opl_minte_exit</a> (void)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: it is called when the module removed.  <a href="group__minte.html#ga1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga2">module_init</a> (opl_minte_init)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga3">module_exit</a> (opl_minte_exit)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga4">MODULE_LICENSE</a> ("GPL2")</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga5">MODULE_AUTHOR</a> ("stephanxu &lt;hxu@opulan.com&gt;")</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__minte.html#ga6">MODULE_DESCRIPTION</a> ("control interface for opulan ipmux-e switch chip")</td></tr>
+
+</table>
+<hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

@@ -1,0 +1,12 @@
+
+VENDOR_MODEL="CLT502"
+VENDOR_LOGOPATH="hexicom.gif"
+VENDOR_DEVCFG="vendor_defaults.c"
+
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="ShenZhen Hexicom Technologies Co., Ltd."
+VENDOR_SHORT="Hexicom Technologies"
+VENDOR_NAME="Hexicom"
+VENDOR_LOCATION="ShenZhen, China"
+VENDOR_YEAR="2011"
+

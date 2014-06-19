@@ -1,0 +1,1013 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ACK_STATUS	realtek/rtk_drv_eeprom.c	/^typedef BOOL ACK_STATUS;$/;"	t	file:
+ACL_CreateRuleForArpRateLimit	realtek/rtk_drv_acl.c	/^STATIC INT32 ACL_CreateRuleForArpRateLimit(UINT32 uiPPortMask, UINT32 uiRateLimit)$/;"	f
+ACL_CreateRuleForBpduRateLimit	realtek/rtk_drv_acl.c	/^STATIC INT32 ACL_CreateRuleForBpduRateLimit(UINT32 uiPPortMask, UINT32 uiRateLimit)$/;"	f
+ACL_LIST_ID_ARP_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_ARP_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_BPDU_MAC_PRI_REMAP	atheros/ar_drv_acl.c	/^	ACL_LIST_ID_BPDU_MAC_PRI_REMAP,\/* Added by xujun, 2012-3-30 of SHD13846 *\/$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_BPDU_RATE_LIMIT_0	atheros/ar_drv_acl.c	/^	ACL_LIST_ID_BPDU_RATE_LIMIT_0,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_BPDU_RATE_LIMIT_1	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_BPDU_RATE_LIMIT_1,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_BROD_ARP_RATE_LIMIT_0	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_BROD_ARP_RATE_LIMIT_0,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_BROD_ARP_RATE_LIMIT_1	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_BROD_ARP_RATE_LIMIT_1,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_BUTT	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_BUTT $/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_DHCP_CLIENT_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_DHCP_CLIENT_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_DHCP_SERVER_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_DHCP_SERVER_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_E	atheros/ar_drv_acl.c	/^} ACL_LIST_ID_E;$/;"	t	typeref:enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_MME_PRI_REMAP	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_MME_PRI_REMAP,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_MME_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_MME_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_0	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_0 = 0,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_1	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_1,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_2	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_2,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_3	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_3,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_4	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_4,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_5	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_5,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_RATE_LIMIT_6	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_RATE_LIMIT_6,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_SWITCH_MAC_PRI_REMAP	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_SWITCH_MAC_PRI_REMAP,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_UNTAGGED_ARP_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_UNTAGGED_ARP_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_UNTAGGED_DHCP_CLIENT_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_UNTAGGED_DHCP_CLIENT_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_LIST_ID_UNTAGGED_DHCP_SERVER_TO_CPU	atheros/ar_drv_acl.c	/^    ACL_LIST_ID_UNTAGGED_DHCP_SERVER_TO_CPU,$/;"	e	enum:tagACL_LIST_ID	file:
+ACL_MUTEX_INIT	realtek/rtk_drv_acl.c	92;"	d	file:
+ACL_MUTEX_LOCK	realtek/rtk_drv_acl.c	93;"	d	file:
+ACL_MUTEX_UNLOCK	realtek/rtk_drv_acl.c	94;"	d	file:
+ACL_RULE_ID_VLAN_TRANSP	realtek/hal_common.h	44;"	d
+AR_MAX_PACKET_LEN	atheros/ar_drv_port.c	75;"	d	file:
+AR_NORMAL_PACKET_LEN	atheros/ar_drv_port.c	76;"	d	file:
+AckError	atheros/hal_common.h	/^    AckError,$/;"	e	enum:__anon6
+AckError	realtek/hal_common.h	/^    AckError,$/;"	e	enum:__anon4
+AckError	singleport/hal_common.h	/^    AckError,$/;"	e	enum:__anon1
+BITMAP_AND	realtek/hal_common.h	82;"	d
+BITMAP_CLEAR	realtek/hal_common.h	73;"	d
+BITMAP_IS_CLEAR	realtek/hal_common.h	67;"	d
+BITMAP_IS_SET	realtek/hal_common.h	65;"	d
+BITMAP_OR	realtek/hal_common.h	91;"	d
+BITMAP_REMOVE	realtek/hal_common.h	109;"	d
+BITMAP_RESET	realtek/hal_common.h	77;"	d
+BITMAP_REVERT	realtek/hal_common.h	118;"	d
+BITMAP_SET	realtek/hal_common.h	70;"	d
+BITMAP_XOR	realtek/hal_common.h	100;"	d
+CHIPNMASK	atheros/hal_common.h	72;"	d
+CHIPNMASK	realtek/hal_common.h	184;"	d
+CPU_LIMIT_QUEUE1	atheros/ar_drv_acl.c	61;"	d	file:
+CPU_LIMIT_QUEUE2	atheros/ar_drv_acl.c	62;"	d	file:
+ClrPhyMaskAll	atheros/ar_convert.c	/^void ClrPhyMaskAll(phy_pmask_t *phyPMask_ptr)$/;"	f
+ClrPhyMaskAll	broadcom/hal_convert.c	/^void ClrPhyMaskAll(phy_pmask_t *phyPMask_ptr)$/;"	f
+ClrPhyMaskAll	realtek/rtk_convert.c	/^void ClrPhyMaskAll(phy_pmask_t *phyPMask_ptr)$/;"	f
+ClrPhyMaskBit	atheros/ar_convert.c	/^void ClrPhyMaskBit(phyid_t uiPhyId, phy_pmask_t *phyPMask_ptr)$/;"	f
+ClrPhyMaskBit	broadcom/hal_convert.c	/^void ClrPhyMaskBit(port_num_t ucPhyPort, phy_pmask_t *phyPMask_ptr)$/;"	f
+ClrPhyMaskBit	realtek/rtk_convert.c	/^void ClrPhyMaskBit(phyid_t uiPhyId, phy_pmask_t *phyPMask_ptr)$/;"	f
+ComboPortCfgChange	atheros/ar_drv_port.c	/^BOOL ComboPortCfgChange(UINT32 unit, UINT32 phyPort, rtk_port_media_t enMedia)$/;"	f
+ComboPortCfgChange	realtek/rtk_drv_port.c	/^BOOL ComboPortCfgChange(uint32 unit, uint32 phyPort, rtk_port_media_t enMedia)$/;"	f
+DRV_MAC_DUMP_NUMBER_PER_ROLL	atheros/ar_drv_mac.c	76;"	d	file:
+DRV_MAC_DUMP_NUMBER_PER_ROLL	realtek/rtk_drv_mac.c	89;"	d	file:
+DUMP_LINK_INSERT_PRE	atheros/ar_drv_mac.c	/^void DUMP_LINK_INSERT_PRE(mac_dump_ucast_link_t *_dump_link_cur, mac_dump_ucast_link_t *_dump_link_insert)$/;"	f
+DUMP_LINK_INSERT_PRE	realtek/rtk_drv_mac.c	/^void DUMP_LINK_INSERT_PRE(mac_dump_ucast_link_t *_dump_link_cur, mac_dump_ucast_link_t *_dump_link_insert)$/;"	f
+DUMP_LINK_REMOVE	atheros/ar_drv_mac.c	/^void DUMP_LINK_REMOVE(UINT32 _unit, UINT32 _index)$/;"	f
+DUMP_LINK_REMOVE	realtek/rtk_drv_mac.c	/^void DUMP_LINK_REMOVE(UINT32 _unit, UINT32 _index)$/;"	f
+DrvPin_To_RtkPin	atheros/ar_drv_gpio.c	/^int32 DrvPin_To_RtkPin(GPIO_PIN_E gpio_pin, gpioID *pGpioId)$/;"	f
+DrvPin_To_RtkPin	realtek/rtk_drv_gpio.c	/^int32 DrvPin_To_RtkPin(GPIO_PIN_E gpio_pin, gpioID *pGpioId)$/;"	f
+Drv_MT_AddEntry	atheros/ar_l2_tx.c	/^void Drv_MT_AddEntry(unsigned char* pucPkt, int enPort)$/;"	f
+Drv_MT_AddEntry	realtek/rtk_l2_tx.c	/^void Drv_MT_AddEntry(unsigned char* pucPkt, int enPort)$/;"	f
+Drv_MT_AddEntry	singleport/single_l2_tx.c	/^void Drv_MT_AddEntry(unsigned char* pucPkt, int enPort)$/;"	f
+Drv_MT_Age	atheros/ar_l2_tx.c	/^static void Drv_MT_Age(unsigned long flag)$/;"	f	file:
+Drv_MT_Age	realtek/rtk_l2_tx.c	/^static void Drv_MT_Age(unsigned long flag)$/;"	f	file:
+Drv_MT_Age	singleport/single_l2_tx.c	/^static void Drv_MT_Age(unsigned long flag)$/;"	f	file:
+Drv_MT_Clear	atheros/ar_l2_tx.c	/^void Drv_MT_Clear(void)$/;"	f
+Drv_MT_Clear	realtek/rtk_l2_tx.c	/^void Drv_MT_Clear(void)$/;"	f
+Drv_MT_Clear	singleport/single_l2_tx.c	/^void Drv_MT_Clear(void)$/;"	f
+Drv_MT_GetPortByMac	atheros/ar_l2_tx.c	/^int Drv_MT_GetPortByMac(unsigned char aucMac[6], uint16_t* pVid)$/;"	f
+Drv_MT_GetPortByMac	realtek/rtk_l2_tx.c	/^int Drv_MT_GetPortByMac(unsigned char aucMac[6], uint16_t* pVid)$/;"	f
+Drv_MT_GetPortByMac	singleport/single_l2_tx.c	/^int Drv_MT_GetPortByMac(unsigned char aucMac[6], uint16_t* pVid)$/;"	f
+Drv_MT_LookForEmptyOrOldestEntry	atheros/ar_l2_tx.c	/^int Drv_MT_LookForEmptyOrOldestEntry(void)$/;"	f
+Drv_MT_LookForEmptyOrOldestEntry	realtek/rtk_l2_tx.c	/^int Drv_MT_LookForEmptyOrOldestEntry(void)$/;"	f
+Drv_MT_LookForEmptyOrOldestEntry	singleport/single_l2_tx.c	/^int Drv_MT_LookForEmptyOrOldestEntry(void)$/;"	f
+Drv_MT_LookForEntry	atheros/ar_l2_tx.c	/^int Drv_MT_LookForEntry(unsigned char aucMac[6])$/;"	f
+Drv_MT_LookForEntry	realtek/rtk_l2_tx.c	/^int Drv_MT_LookForEntry(unsigned char aucMac[6])$/;"	f
+Drv_MT_LookForEntry	singleport/single_l2_tx.c	/^int Drv_MT_LookForEntry(unsigned char aucMac[6])$/;"	f
+EEPROM_BYTE_SIZE	realtek/rtk_drv_eeprom.c	122;"	d	file:
+EEPROM_DEBUG	realtek/rtk_drv_eeprom.c	151;"	d	file:
+EEPROM_DEBUG	realtek/rtk_drv_eeprom.c	153;"	d	file:
+EEPROM_I2C_PIN_DEFINE	atheros/hal_common.h	/^}EEPROM_I2C_PIN_DEFINE;$/;"	t	typeref:enum:__anon7
+EEPROM_I2C_PIN_DEFINE	realtek/hal_common.h	/^}EEPROM_I2C_PIN_DEFINE;$/;"	t	typeref:enum:__anon5
+EEPROM_I2C_PIN_DEFINE	singleport/hal_common.h	/^}EEPROM_I2C_PIN_DEFINE;$/;"	t	typeref:enum:__anon2
+EEPROM_I2C_PIN_END	atheros/hal_common.h	/^    EEPROM_I2C_PIN_END$/;"	e	enum:__anon7
+EEPROM_I2C_PIN_END	realtek/hal_common.h	/^    EEPROM_I2C_PIN_END$/;"	e	enum:__anon5
+EEPROM_I2C_PIN_END	singleport/hal_common.h	/^    EEPROM_I2C_PIN_END$/;"	e	enum:__anon2
+EEPROM_I2C_SCL_PIN	atheros/hal_common.h	/^    EEPROM_I2C_SCL_PIN=0,$/;"	e	enum:__anon7
+EEPROM_I2C_SCL_PIN	realtek/hal_common.h	/^    EEPROM_I2C_SCL_PIN=0,$/;"	e	enum:__anon5
+EEPROM_I2C_SCL_PIN	singleport/hal_common.h	/^    EEPROM_I2C_SCL_PIN=0,$/;"	e	enum:__anon2
+EEPROM_I2C_SDA_PIN	atheros/hal_common.h	/^    EEPROM_I2C_SDA_PIN,$/;"	e	enum:__anon7
+EEPROM_I2C_SDA_PIN	realtek/hal_common.h	/^    EEPROM_I2C_SDA_PIN,$/;"	e	enum:__anon5
+EEPROM_I2C_SDA_PIN	singleport/hal_common.h	/^    EEPROM_I2C_SDA_PIN,$/;"	e	enum:__anon2
+EEPROM_I2C_SPEED	realtek/rtk_drv_eeprom.c	127;"	d	file:
+EEPROM_READ_ADDR	realtek/rtk_drv_eeprom.c	121;"	d	file:
+EEPROM_RESET_CLOCK_NUM	realtek/rtk_drv_eeprom.c	135;"	d	file:
+EEPROM_RET	atheros/hal_common.h	/^}EEPROM_RET;$/;"	t	typeref:enum:__anon6
+EEPROM_RET	realtek/hal_common.h	/^}EEPROM_RET;$/;"	t	typeref:enum:__anon4
+EEPROM_RET	singleport/hal_common.h	/^}EEPROM_RET;$/;"	t	typeref:enum:__anon1
+EEPROM_Reset	realtek/rtk_drv_eeprom.c	/^static uint16 EEPROM_Reset(GPIO_PIN_E gpio_scl_pin, GPIO_PIN_E gpio_sda_pin)$/;"	f	file:
+EEPROM_SequentialRead	realtek/rtk_drv_eeprom.c	/^static uint16 EEPROM_SequentialRead(uint16 addr,uint16 n,uint8* p, GPIO_PIN_E gpio_scl_pin, GPIO_PIN_E gpio_sda_pin)$/;"	f	file:
+EEPROM_WRITE_ADDR	realtek/rtk_drv_eeprom.c	120;"	d	file:
+ETH_MAC_TABLE_ENTRY_S	atheros/ar_l2_tx.c	/^} ETH_MAC_TABLE_ENTRY_S;$/;"	t	typeref:struct:tagETH_MAC_TABLE_ENTRY	file:
+ETH_MAC_TABLE_ENTRY_S	realtek/rtk_l2_tx.c	/^} ETH_MAC_TABLE_ENTRY_S;$/;"	t	typeref:struct:tagETH_MAC_TABLE_ENTRY	file:
+ETH_MAC_TABLE_ENTRY_S	singleport/single_l2_tx.c	/^} ETH_MAC_TABLE_ENTRY_S;$/;"	t	typeref:struct:tagETH_MAC_TABLE_ENTRY	file:
+EepromOk	atheros/hal_common.h	/^    EepromOk=0,$/;"	e	enum:__anon6
+EepromOk	realtek/hal_common.h	/^    EepromOk=0,$/;"	e	enum:__anon4
+EepromOk	singleport/hal_common.h	/^    EepromOk=0,$/;"	e	enum:__anon1
+ErrorSdk2Drv	atheros/ar_convert.c	/^DRV_RET_E ErrorSdk2Drv(INT32 iError)$/;"	f
+ErrorSdk2Drv	realtek/rtk_convert.c	/^DRV_RET_E ErrorSdk2Drv(INT32 iRtkError)$/;"	f
+FIBER_PORT_1_NO	realtek/rtk_drv_port.c	2903;"	d	file:
+FIBER_PORT_2_NO	realtek/rtk_drv_port.c	2904;"	d	file:
+FiberInfoUpdate	realtek/rtk_drv_eeprom.c	/^BOOL FiberInfoUpdate(uint32 unit, uint32 phyPort, BOOL bValidFlag)$/;"	f
+FiberInfoWriteToDram	realtek/rtk_drv_eeprom.c	/^BOOL FiberInfoWriteToDram(port_num_t lgcPort, uint8* pucData, uint32 ulLen, BOOL bValidFlag)$/;"	f
+GetPhyMskPortNum	atheros/ar_convert.c	/^INT32 GetPhyMskPortNum(phy_pmask_t *phyPMask_ptr)$/;"	f
+GetPhyMskPortNum	broadcom/hal_convert.c	/^int32 GetPhyMskPortNum(phy_pmask_t *phyPMask_ptr)$/;"	f
+GetPhyMskPortNum	realtek/rtk_convert.c	/^INT32 GetPhyMskPortNum(phy_pmask_t *phyPMask_ptr)$/;"	f
+GpioPinError	atheros/hal_common.h	/^    GpioPinError$/;"	e	enum:__anon6
+GpioPinError	realtek/hal_common.h	/^    GpioPinError$/;"	e	enum:__anon4
+GpioPinError	singleport/hal_common.h	/^    GpioPinError$/;"	e	enum:__anon1
+HAL_DRV_QOS_1P_PRI_REMAP_GROUP	realtek/rtk_drv_qos.c	78;"	d	file:
+HAL_DRV_QOS_1P_PRI_REMARK_GROUP	realtek/rtk_drv_qos.c	81;"	d	file:
+HAL_DRV_QOS_DSCP_PRI_REMAP_GROUP	realtek/rtk_drv_qos.c	79;"	d	file:
+HAL_DRV_QOS_PRI_SELECT_GROUP	realtek/rtk_drv_qos.c	80;"	d	file:
+HAL_L3_ACT_ROUTE_ADD	realtek/hal_common.h	392;"	d
+HAL_L3_ACT_ROUTE_ADD	singleport/hal_common.h	212;"	d
+HAL_L3_ACT_ROUTE_CPU	realtek/hal_common.h	393;"	d
+HAL_L3_ACT_ROUTE_CPU	singleport/hal_common.h	213;"	d
+HAL_L3_ACT_ROUTE_HIT	realtek/hal_common.h	391;"	d
+HAL_L3_ACT_ROUTE_HIT	singleport/hal_common.h	211;"	d
+HAL_PORT_LINKUP_TYPE_COPPER_UP	atheros/hal_common.h	34;"	d
+HAL_PORT_LINKUP_TYPE_COPPER_UP	realtek/hal_common.h	35;"	d
+HAL_PORT_LINKUP_TYPE_COPPER_UP	singleport/hal_common.h	31;"	d
+HAL_PORT_LINKUP_TYPE_DOWN	atheros/hal_common.h	33;"	d
+HAL_PORT_LINKUP_TYPE_DOWN	realtek/hal_common.h	34;"	d
+HAL_PORT_LINKUP_TYPE_DOWN	singleport/hal_common.h	30;"	d
+HAL_PORT_LINKUP_TYPE_FIBER_UP	atheros/hal_common.h	35;"	d
+HAL_PORT_LINKUP_TYPE_FIBER_UP	realtek/hal_common.h	36;"	d
+HAL_PORT_LINKUP_TYPE_FIBER_UP	singleport/hal_common.h	32;"	d
+Hal_AclInit	atheros/ar_drv_acl.c	/^DRV_RET_E Hal_AclInit(void)$/;"	f
+Hal_AclInit	realtek/rtk_drv_acl.c	/^void Hal_AclInit(void)$/;"	f
+Hal_AclRuleEmptyNumGet	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleEmptyNumGet(UINT32 *pAclEmptyNum) { return DRV_OK;}$/;"	f
+Hal_AclRuleEmptyNumGet	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleEmptyNumGet(UINT32 *pAclEmptyNum)$/;"	f
+Hal_AclRuleForCtcClfRmkClear	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcClfRmkClear(UINT32 uiLPortId)$/;"	f
+Hal_AclRuleForCtcClfRmkCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcClfRmkCreate(UINT32 uiLPortId, $/;"	f
+Hal_AclRuleForCtcClfRmkDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcClfRmkDelete(UINT32 uiLPortId, UINT32 uiRulePrecedence)$/;"	f
+Hal_AclRuleForCtcMcVlanCreate	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcMcVlanCreate(UINT32 uiLPortId, UINT32 uiMcVlan) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcMcVlanCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcMcVlanCreate(UINT32 uiLPortId, UINT32 uiMcVlan)$/;"	f
+Hal_AclRuleForCtcMcVlanDelete	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcMcVlanDelete(UINT32 uiLPortId, UINT32 uiMcVlan) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcMcVlanDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcMcVlanDelete(UINT32 uiLPortId, UINT32 uiMcVlan)$/;"	f
+Hal_AclRuleForCtcTagCreate	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcTagCreate(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstVlanCfg) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcTagCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcTagCreate(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstVlanCfg)$/;"	f
+Hal_AclRuleForCtcTagDelete	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcTagDelete(UINT32 uiLPortId) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcTagDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcTagDelete(UINT32 uiLPortId)$/;"	f
+Hal_AclRuleForCtcTranslCreate	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcTranslCreate(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstVlanMode) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcTranslCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcTranslCreate(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstVlanMode)$/;"	f
+Hal_AclRuleForCtcTranslDelete	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcTranslDelete(UINT32 uiLPortId) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcTranslDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcTranslDelete(UINT32 uiLPortId)$/;"	f
+Hal_AclRuleForCtcTranspCreate	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcTranspCreate(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstVlanMode) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcTranspCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcTranspCreate(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstVlanMode)$/;"	f
+Hal_AclRuleForCtcTranspDelete	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AclRuleForCtcTranspDelete(UINT32 uiLPortId) { return DRV_OK;}$/;"	f
+Hal_AclRuleForCtcTranspDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForCtcTranspDelete(UINT32 uiLPortId)$/;"	f
+Hal_AclRuleForEoamFilterCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForEoamFilterCreate(UINT32 uiLPortId, $/;"	f
+Hal_AclRuleForEoamFilterDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForEoamFilterDelete(UINT32 uiLPortId, UINT32 uiRulePrecedence, ACL_DIRECTION_E enAclDir)$/;"	f
+Hal_AclRuleForTrapCpuCreate	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForTrapCpuCreate(BOOL bBroadEn, ACL_TRUST_MODE_E uiAclRuleType,void *pRuleValue)$/;"	f
+Hal_AclRuleForTrapCpuDelete	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleForTrapCpuDelete(ACL_TRUST_MODE_E uiAclRuleType,void *pRuleValue)$/;"	f
+Hal_AclRuleInit	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_AclRuleInit(void)$/;"	f
+Hal_AddCpuToVlanMember	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_AddCpuToVlanMember(UINT32 ulVlanId)$/;"	f
+Hal_AddCpuToVlanMember	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_AddCpuToVlanMember(UINT32 ulVlanId)$/;"	f
+Hal_AddCpuToVlanMember	singleport/single_port.c	/^DRV_RET_E Hal_AddCpuToVlanMember(UINT32 ulVlanId)$/;"	f
+Hal_AddPortBaseVlanMemByIndx	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AddPortBaseVlanMemByIndx(UINT32 uiEntryId, logic_pmask_t stLgcMask) { return DRV_OK;}$/;"	f
+Hal_AddPortBaseVlanMemByIndx	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_AddPortBaseVlanMemByIndx(UINT32 uiEntryId, logic_pmask_t stLgcMask)$/;"	f
+Hal_AddPortBaseVlanMemb	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_AddPortBaseVlanMemb(UINT32 uiVlanId, logic_pmask_t stLgcMask) { return DRV_OK;}$/;"	f
+Hal_AddPortBaseVlanMemb	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_AddPortBaseVlanMemb(UINT32 uiVlanId, logic_pmask_t stLgcMask)$/;"	f
+Hal_CfgPortCtcVlanGet	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_CfgPortCtcVlanGet(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode) { return DRV_OK;}$/;"	f
+Hal_CfgPortCtcVlanGet	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_CfgPortCtcVlanGet(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode)$/;"	f
+Hal_CfgPortCtcVlanSet	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_CfgPortCtcVlanSet(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode) { return DRV_OK;}$/;"	f
+Hal_CfgPortCtcVlanSet	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_CfgPortCtcVlanSet(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode)$/;"	f
+Hal_ClrPortBaseVlanEntryByVid	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_ClrPortBaseVlanEntryByVid(UINT32 uiVlanId) { return DRV_OK;}$/;"	f
+Hal_ClrPortBaseVlanEntryByVid	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_ClrPortBaseVlanEntryByVid(UINT32 uiVlanId)$/;"	f
+Hal_CopperPortCfgInit	atheros/ar_drv_port.c	/^DRV_RET_E Hal_CopperPortCfgInit(port_num_t logical_port, COMBO_PORT_CONFIG_S *pstCfg)$/;"	f
+Hal_CopperPortCfgInit	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_CopperPortCfgInit(port_num_t lgcPort, COMBO_PORT_CONFIG_S *pstCfg)$/;"	f
+Hal_CpuInit	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_CpuInit(void) { return DRV_OK;}$/;"	f
+Hal_CtcVlanEnoughVlanIdxEntryCheck	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_CtcVlanEnoughVlanIdxEntryCheck(CTC_VLAN_CFG_S *pstVlanMode, UINT32 *pbEnough) { return DRV_OK;}$/;"	f
+Hal_CtcVlanEnoughVlanIdxEntryCheck	realtek/rtk_drv_acl.c	/^DRV_RET_E Hal_CtcVlanEnoughVlanIdxEntryCheck(CTC_VLAN_CFG_S *pstVlanMode, UINT32 *puiEnough)$/;"	f
+Hal_DelMirrorAclGrp	atheros/ar_drv_mirror.c	/^DRV_RET_E Hal_DelMirrorAclGrp(port_num_t mirrorDstPort)$/;"	f
+Hal_DelMirrorAclGrp	realtek/rtk_drv_mirror.c	/^DRV_RET_E Hal_DelMirrorAclGrp(port_num_t mirrorDstPort)$/;"	f
+Hal_DelPortBaseVlanMemByIndx	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_DelPortBaseVlanMemByIndx(UINT32 uiEntryId, logic_pmask_t stLgcMask) { return DRV_OK;}$/;"	f
+Hal_DelPortBaseVlanMemByIndx	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_DelPortBaseVlanMemByIndx(UINT32 uiEntryId, logic_pmask_t stLgcMask)$/;"	f
+Hal_DelPortBaseVlanMemb	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_DelPortBaseVlanMemb(UINT32 uiVlanId, logic_pmask_t stLgcMask) { return DRV_OK;}$/;"	f
+Hal_DelPortBaseVlanMemb	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_DelPortBaseVlanMemb(UINT32 uiVlanId, logic_pmask_t stLgcMask)$/;"	f
+Hal_FiberPortCfgInit	atheros/ar_drv_port.c	/^DRV_RET_E Hal_FiberPortCfgInit(port_num_t logical_port, COMBO_PORT_CONFIG_S *pstCfg)$/;"	f
+Hal_FiberPortCfgInit	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_FiberPortCfgInit(port_num_t lgcPort, COMBO_PORT_CONFIG_S *pstCfg)$/;"	f
+Hal_GetCableDiag	atheros/ar_drv_cablediag.c	/^DRV_RET_E Hal_GetCableDiag(port_num_t lport, cable_diag_t *pstDiag)$/;"	f
+Hal_GetCableDiag	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_GetCableDiag(port_num_t lport, cable_diag_t *pstDiag) { return DRV_OK;}$/;"	f
+Hal_GetCableDiag	realtek/rtk_drv_cablediag.c	/^DRV_RET_E Hal_GetCableDiag(port_num_t lport, cable_diag_t *pstDiag)$/;"	f
+Hal_GetCableDiag	singleport/single_port.c	/^DRV_RET_E Hal_GetCableDiag(port_num_t lport, cable_diag_t *pstDiag)$/;"	f
+Hal_GetCpuAddr	atheros/ar_drv_dispatch.c	/^DRV_RET_E Hal_GetCpuAddr(UINT32 ulCpuAddr, UINT32 *pulData)$/;"	f
+Hal_GetCpuAddr	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_GetCpuAddr(UINT32 ulCpuAddr, UINT32 * pulData) { return DRV_OK;}$/;"	f
+Hal_GetCpuAddr	realtek/rtk_drv_dispatch.c	/^DRV_RET_E Hal_GetCpuAddr(UINT32 ulCpuAddr, UINT32 *pulData)$/;"	f
+Hal_GetFiberSpeed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetFiberSpeed(port_num_t logical_port, UINT32 *puiSpeed)$/;"	f
+Hal_GetFiberSpeed	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetFiberSpeed(port_num_t lgcPort, UINT32 *puiSpeed)$/;"	f
+Hal_GetFiberSpeed	singleport/single_port.c	/^DRV_RET_E Hal_GetFiberSpeed(port_num_t lgcPort, UINT32 *puiSpeed)$/;"	f
+Hal_GetIsolateSet	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetIsolateSet(logic_pmask_t *p_logical_port_map)$/;"	f
+Hal_GetIsolateSet	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetIsolateSet(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetIsolateSet	singleport/single_port.c	/^DRV_RET_E Hal_GetIsolateSet(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetMacByIndex	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacByIndex(UINT32 ulStartIdx, mac_common_t * pstTmpMacEntry)$/;"	f
+Hal_GetMacByIndex	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacByIndex(UINT32 ulStartIdx, mac_common_t * pstTmpMacEntry)$/;"	f
+Hal_GetMacByIndex	singleport/single_port.c	/^DRV_RET_E Hal_GetMacByIndex(UINT32 ulStartIdx, mac_common_t * pstTmpMacEntry)$/;"	f
+Hal_GetMacExact	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacExact(vlan_id_t tdVid, mac_address_t mac_addr, mac_common_t *pstTmpMac)$/;"	f
+Hal_GetMacExact	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacExact(vlan_id_t tdVid, mac_address_t mac_addr, mac_common_t *pstTmpMac)$/;"	f
+Hal_GetMacExact	singleport/single_port.c	/^DRV_RET_E Hal_GetMacExact(vlan_id_t tdVid, mac_address_t mac_addr, mac_common_t *pstTmpMac)$/;"	f
+Hal_GetMacFindConflictMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacFindConflictMac(Mac_op_t stMacOp, Mac_op_t *pstMacOp)$/;"	f
+Hal_GetMacFindConflictMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacFindConflictMac(Mac_op_t stMacOp, Mac_op_t *pstMacOp)$/;"	f
+Hal_GetMacFindConflictMac	singleport/single_port.c	/^DRV_RET_E Hal_GetMacFindConflictMac(Mac_op_t stMacOp, Mac_op_t *pstMacOp)$/;"	f
+Hal_GetMacLearnCount	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacLearnCount(UINT32 ulLgcPort, UINT32 *pulCount)$/;"	f
+Hal_GetMacLearnCount	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacLearnCount(UINT32 ulLgcPort, UINT32 *pulCount)$/;"	f
+Hal_GetMacLearnCount	singleport/single_port.c	/^DRV_RET_E Hal_GetMacLearnCount(UINT32 ulLgcPort, UINT32 *pulCount)$/;"	f
+Hal_GetMacLearnEnable	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacLearnEnable(UINT32 ulLgcPort, UINT32 *pulEnable)$/;"	f
+Hal_GetMacLearnEnable	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacLearnEnable(UINT32 ulLgcPort, UINT32 *pulEnable)$/;"	f
+Hal_GetMacLearnEnable	singleport/single_port.c	/^DRV_RET_E Hal_GetMacLearnEnable(UINT32 ulLgcPort, UINT32 *pulEnable)$/;"	f
+Hal_GetMacMcastDump	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacMcastDump(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacMcastDump	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacMcastDump(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacMcastDump	singleport/single_port.c	/^DRV_RET_E Hal_GetMacMcastDump(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacMcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacMcastMac(vlan_id_t tdVid, mac_address_t mac_addr, mac_mcast_t *pstMacMcast)$/;"	f
+Hal_GetMacMcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacMcastMac(vlan_id_t tdVid, mac_address_t mac_addr, mac_mcast_t *pstMacMcast)$/;"	f
+Hal_GetMacMcastMac	singleport/single_port.c	/^DRV_RET_E Hal_GetMacMcastMac(vlan_id_t tdVid, mac_address_t mac_addr, mac_mcast_t *pstMacMcast)$/;"	f
+Hal_GetMacMoreByIndex	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacMoreByIndex(UINT32 ulStartIdx, UINT32 ulGetCount, ULONG userPointer, UINT32* pulCountOut, UINT32* pulNextIdx, UINT32 ulPDataType)$/;"	f
+Hal_GetMacMoreByIndex	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacMoreByIndex(UINT32 ulStartIdx, UINT32 ulGetCount, ULONG userPointer, UINT32* pulCountOut, UINT32* pulNextIdx, UINT32 ulPDataType)$/;"	f
+Hal_GetMacMoreByIndex	singleport/single_port.c	/^DRV_RET_E Hal_GetMacMoreByIndex(UINT32 ulStartIdx, UINT32 ulGetCount, ULONG userPointer, UINT32* pulCountOut, UINT32* pulNextIdx, UINT32 ulPDataType)$/;"	f
+Hal_GetMacNextValidMcast	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacNextValidMcast(UINT32 uiStartIndex, mac_mcast_t* pstMcastEntry, UINT32 *puiCurrentIndex)$/;"	f
+Hal_GetMacNextValidMcast	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacNextValidMcast(UINT32 uiStartIndex, mac_mcast_t* pstMcastEntry, UINT32 *puiCurrentIndex)$/;"	f
+Hal_GetMacNextValidUcast	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacNextValidUcast(UINT32 uiStartIndex, mac_dump_ucast_tab_t* pstUcastEntry, UINT32 *puiCurrentIndex)$/;"	f
+Hal_GetMacNextValidUcast	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacNextValidUcast(UINT32 uiStartIndex, mac_dump_ucast_tab_t* pstUcastEntry, UINT32 *puiCurrentIndex)$/;"	f
+Hal_GetMacUcastDump	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacUcastDump(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacUcastDump	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacUcastDump(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacUcastDump	singleport/single_port.c	/^DRV_RET_E Hal_GetMacUcastDump(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacUcastDumpSorted	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacUcastDumpSorted(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacUcastDumpSorted	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacUcastDumpSorted(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacUcastDumpSorted	singleport/single_port.c	/^DRV_RET_E Hal_GetMacUcastDumpSorted(ULONG userPointer, UINT32 *pulCountOut, UINT32 ulPDataType)$/;"	f
+Hal_GetMacUcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMacUcastMac(vlan_id_t tdVid, mac_address_t mac_addr, mac_ucast_t *pstMacUcast)$/;"	f
+Hal_GetMacUcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMacUcastMac(vlan_id_t tdVid, mac_address_t mac_addr, mac_ucast_t *pstMacUcast)$/;"	f
+Hal_GetMacUcastMac	singleport/single_port.c	/^DRV_RET_E Hal_GetMacUcastMac(vlan_id_t tdVid, mac_address_t mac_addr, mac_ucast_t *pstMacUcast)$/;"	f
+Hal_GetMcastCount	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_GetMcastCount(UINT32 * pulMcastCount)$/;"	f
+Hal_GetMcastCount	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_GetMcastCount(UINT32 * pulMcastCount)$/;"	f
+Hal_GetMcastCount	singleport/single_port.c	/^DRV_RET_E Hal_GetMcastCount(UINT32 * pulMcastCount)$/;"	f
+Hal_GetMibPortStatistics	atheros/ar_drv_statistics.c	/^DRV_RET_E Hal_GetMibPortStatistics(port_num_t lport, MIB_IfStatType_t PktType, UINT64 *p_ullStat)$/;"	f
+Hal_GetMibPortStatistics	realtek/rtk_drv_statistics.c	/^DRV_RET_E Hal_GetMibPortStatistics(port_num_t lport, MIB_IfStatType_t PktType, UINT64 *p_ullStat)$/;"	f
+Hal_GetMibPortStatistics	singleport/single_port.c	/^DRV_RET_E Hal_GetMibPortStatistics(port_num_t lport, MIB_IfStatType_t PktType, UINT64 *p_ullStat)$/;"	f
+Hal_GetPhyReg	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPhyReg(port_num_t logical_port, UINT32* p_value, UINT32 reg)$/;"	f
+Hal_GetPhyReg	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPhyReg(port_num_t lgcPort, UINT32* pRegVal, UINT32 reg_no)$/;"	f
+Hal_GetPhyReg	singleport/single_port.c	/^DRV_RET_E Hal_GetPhyReg(port_num_t lgcPort, UINT32* pRegVal, UINT32 reg_no)$/;"	f
+Hal_GetPortAbility	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortAbility(port_num_t lgcPort, UINT32 *puiAbility, UINT32 uiPortType)$/;"	f
+Hal_GetPortAbility	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortAbility(port_num_t logical_port, UINT32 *p_ability, UINT32 port_type)$/;"	f
+Hal_GetPortAbility	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortAbility(port_num_t lgcPort, UINT32 *puiAbility, UINT32 uiPortType)$/;"	f
+Hal_GetPortAbility	singleport/single_port.c	/^DRV_RET_E Hal_GetPortAbility(port_num_t lgcPort, UINT32 *puiAbility, UINT32 uiPortType)$/;"	f
+Hal_GetPortBaseVlanEntry	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_GetPortBaseVlanEntry(UINT32 *puiEntryId, rtk_vlan_mbrcfg_t *pstVlanEntry)$/;"	f
+Hal_GetPortCounter	atheros/ar_drv_statistics.c	/^DRV_RET_E Hal_GetPortCounter(port_num_t lport, CounterName_E counterName, UINT64 *returnValue)$/;"	f
+Hal_GetPortCounter	realtek/rtk_drv_statistics.c	/^DRV_RET_E Hal_GetPortCounter(port_num_t lport, CounterName_E counterName, UINT64 *returnValue)$/;"	f
+Hal_GetPortCounter	singleport/single_port.c	/^DRV_RET_E Hal_GetPortCounter(port_num_t lport, CounterName_E counterName, UINT64 *returnValue)$/;"	f
+Hal_GetPortCurrentLink	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortCurrentLink(port_num_t lgcPort, UINT32 *puiLink)$/;"	f
+Hal_GetPortCurrentLink	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortCurrentLink(port_num_t logical_port, UINT32 *p_link)$/;"	f
+Hal_GetPortCurrentLink	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortCurrentLink(port_num_t lgcPort, UINT32 *puiLink)$/;"	f
+Hal_GetPortCurrentLink	singleport/single_port.c	/^DRV_RET_E Hal_GetPortCurrentLink(port_num_t lgcPort, UINT32 *puiLink)$/;"	f
+Hal_GetPortDuplex	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortDuplex(port_num_t lgcPort, UINT32 *puiDuplex)$/;"	f
+Hal_GetPortDuplex	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortDuplex(port_num_t logical_port, UINT32 *p_duplex)$/;"	f
+Hal_GetPortDuplex	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortDuplex(port_num_t lgcPort, UINT32 *puiDuplex)$/;"	f
+Hal_GetPortDuplex	singleport/single_port.c	/^DRV_RET_E Hal_GetPortDuplex(port_num_t lgcPort, UINT32 *puiDuplex)$/;"	f
+Hal_GetPortFlowctrl	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortFlowctrl(port_num_t lgcPort, UINT32 *puiFlowctrl)$/;"	f
+Hal_GetPortFlowctrl	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortFlowctrl(port_num_t logical_port, UINT32 *p_flow_ctrl)$/;"	f
+Hal_GetPortFlowctrl	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortFlowctrl(port_num_t lgcPort, UINT32 *puiFlowctrl)$/;"	f
+Hal_GetPortFlowctrl	singleport/single_port.c	/^DRV_RET_E Hal_GetPortFlowctrl(port_num_t lgcPort, UINT32 *puiFlowctrl)$/;"	f
+Hal_GetPortJumbo	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortJumbo(port_num_t lgcPort, UINT32 *puiJumbo)$/;"	f
+Hal_GetPortJumbo	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortJumbo(port_num_t logical_port, UINT32 *p_jumbo)$/;"	f
+Hal_GetPortJumbo	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortJumbo(port_num_t lgcPort, UINT32 *puiJumbo)$/;"	f
+Hal_GetPortJumbo	singleport/single_port.c	/^DRV_RET_E Hal_GetPortJumbo(port_num_t lgcPort, UINT32 *puiJumbo)$/;"	f
+Hal_GetPortLinkMask	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortLinkMask(logic_pmask_t *p_logical_port_map)$/;"	f
+Hal_GetPortLinkMask	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortLinkMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetPortLinkMask	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortLinkMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetPortLinkMask	singleport/single_port.c	/^DRV_RET_E Hal_GetPortLinkMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetPortLinkupType	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortLinkupType(phyid_t phyid, UINT32 *pulLinkupType)$/;"	f
+Hal_GetPortLinkupType	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortLinkupType(phyid_t qca_sw_port_id, UINT32 *p_linkup_type)$/;"	f
+Hal_GetPortLinkupType	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortLinkupType(phyid_t phyid, UINT32 *pulLinkupType)$/;"	f
+Hal_GetPortMaxFrameLen	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMaxFrameLen(port_num_t lgcPort, UINT32 *puiLen)$/;"	f
+Hal_GetPortMaxFrameLen	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMaxFrameLen(port_num_t logical_port, UINT32 *p_max_frame_len)$/;"	f
+Hal_GetPortMaxFrameLen	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortMaxFrameLen(port_num_t lgcPort, UINT32 *puiLen)$/;"	f
+Hal_GetPortMaxFrameLen	singleport/single_port.c	/^DRV_RET_E Hal_GetPortMaxFrameLen(port_num_t lgcPort, UINT32 *puiLen)$/;"	f
+Hal_GetPortMdix	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMdix(port_num_t lgcPort, UINT32 *puiMdix)$/;"	f
+Hal_GetPortMdix	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMdix(port_num_t logical_port, UINT32 *p_mdix)$/;"	f
+Hal_GetPortMdix	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortMdix(port_num_t lgcPort, UINT32 *puiMdix)$/;"	f
+Hal_GetPortMdix	singleport/single_port.c	/^DRV_RET_E Hal_GetPortMdix(port_num_t lgcPort, UINT32 *puiMdix)$/;"	f
+Hal_GetPortMediaFiberMask	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMediaFiberMask(logic_pmask_t *p_logical_port_map)$/;"	f
+Hal_GetPortMediaFiberMask	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMediaFiberMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetPortMediaFiberMask	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortMediaFiberMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetPortMediaFiberMask	singleport/single_port.c	/^DRV_RET_E Hal_GetPortMediaFiberMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_GetPortMedium	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMedium(port_num_t lgcPort, UINT32 *puiMedium)$/;"	f
+Hal_GetPortMedium	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortMedium(port_num_t logical_port, UINT32 *puiMedium)$/;"	f
+Hal_GetPortMedium	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortMedium(port_num_t lgcPort, UINT32 *puiMedium)$/;"	f
+Hal_GetPortMedium	singleport/single_port.c	/^DRV_RET_E Hal_GetPortMedium(port_num_t lgcPort, UINT32 *puiMedium)$/;"	f
+Hal_GetPortPriority	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortPriority(port_num_t lgcPort, UINT32 *puiPrio)$/;"	f
+Hal_GetPortPriority	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortPriority(port_num_t logical_port, UINT32 *p_pri)$/;"	f
+Hal_GetPortPriority	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortPriority(port_num_t lgcPort, UINT32 *puiPrio)$/;"	f
+Hal_GetPortPriority	singleport/single_port.c	/^DRV_RET_E Hal_GetPortPriority(port_num_t lgcPort, UINT32 *puiPrio)$/;"	f
+Hal_GetPortSpeed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortSpeed(port_num_t lgcPort, UINT32 *puiSpeed)$/;"	f
+Hal_GetPortSpeed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetPortSpeed(port_num_t logical_port, UINT32 *p_speed)$/;"	f
+Hal_GetPortSpeed	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetPortSpeed(port_num_t lgcPort, UINT32 *puiSpeed)$/;"	f
+Hal_GetPortSpeed	singleport/single_port.c	/^DRV_RET_E Hal_GetPortSpeed(port_num_t lgcPort, UINT32 *puiSpeed)$/;"	f
+Hal_GetPortStatistics	atheros/ar_drv_statistics.c	/^DRV_RET_E Hal_GetPortStatistics(port_num_t lport, stat_reg_t statisticsName, UINT64 *returnValue)$/;"	f
+Hal_GetPortStatistics	realtek/rtk_drv_statistics.c	/^DRV_RET_E Hal_GetPortStatistics(port_num_t lport, stat_reg_t statisticsName, UINT64 *returnValue)$/;"	f
+Hal_GetPortStatistics	singleport/single_port.c	/^DRV_RET_E Hal_GetPortStatistics(port_num_t lport, stat_reg_t statisticsName, UINT64 *returnValue)$/;"	f
+Hal_GetPortType	atheros/ar_drv_port.c	/^UINT32 Hal_GetPortType(port_num_t lgcPort)$/;"	f
+Hal_GetPortType	atheros/ar_drv_port.c	/^UINT32 Hal_GetPortType(port_num_t logical_port)$/;"	f
+Hal_GetPortType	realtek/rtk_drv_port.c	/^UINT32 Hal_GetPortType(port_num_t lgcPort)$/;"	f
+Hal_GetSpdlxSet	atheros/ar_drv_port.c	/^DRV_RET_E Hal_GetSpdlxSet(port_num_t logical_port, UINT32* p_speed_duplex)$/;"	f
+Hal_GetSpdlxSet	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_GetSpdlxSet(port_num_t lgcPort, UINT32* uiSpdlx)$/;"	f
+Hal_GetSpdlxSet	singleport/single_port.c	/^DRV_RET_E Hal_GetSpdlxSet(port_num_t lgcPort, UINT32* uiSpdlx)$/;"	f
+Hal_GetStpPortState	atheros/ar_drv_rstp.c	/^DRV_RET_E Hal_GetStpPortState(port_num_t logical_port, UINT32 * p_port_state)$/;"	f
+Hal_GetStpPortState	realtek/rtk_drv_rstp.c	/^DRV_RET_E Hal_GetStpPortState(port_num_t lgcPort, UINT32 * puiState)$/;"	f
+Hal_GetStpPortState	singleport/single_port.c	/^DRV_RET_E Hal_GetStpPortState(port_num_t lgcPort, UINT32 * puiState)$/;"	f
+Hal_GetVlanExistNum	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_GetVlanExistNum(UINT32 *puiNum)$/;"	f
+Hal_GetVlanExistNum	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_GetVlanExistNum(UINT32 *puiNum)$/;"	f
+Hal_GetVlanExistNum	singleport/single_port.c	/^DRV_RET_E Hal_GetVlanExistNum(UINT32 *puiNum)$/;"	f
+Hal_GetVlanMember	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_GetVlanMember(UINT32 ulVlanId, logic_pmask_t *pstLgcMask, logic_pmask_t *pstLgcMaskUntag)$/;"	f
+Hal_GetVlanMember	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_GetVlanMember(UINT32 ulVlanId, logic_pmask_t *pstLgcMask, logic_pmask_t *pstLgcMaskUntag)$/;"	f
+Hal_GetVlanMember	singleport/single_port.c	/^DRV_RET_E Hal_GetVlanMember(UINT32 ulVlanId, logic_pmask_t *pstLgcMask, logic_pmask_t *pstLgcMaskUntag)$/;"	f
+Hal_GpioDataGet	atheros/ar_drv_gpio.c	/^DRV_RET_E Hal_GpioDataGet(GPIO_PIN_E gpio_pin, GPIO_DATA_E *pgpio_data)$/;"	f
+Hal_GpioDataGet	realtek/rtk_drv_gpio.c	/^DRV_RET_E Hal_GpioDataGet(GPIO_PIN_E gpio_pin, GPIO_DATA_E *pgpio_data)$/;"	f
+Hal_GpioDataSet	atheros/ar_drv_gpio.c	/^DRV_RET_E Hal_GpioDataSet(GPIO_PIN_E gpio_pin, GPIO_DATA_E gpio_data)$/;"	f
+Hal_GpioDataSet	realtek/rtk_drv_gpio.c	/^DRV_RET_E Hal_GpioDataSet(GPIO_PIN_E gpio_pin, GPIO_DATA_E gpio_data)$/;"	f
+Hal_GpioDirectionGet	atheros/ar_drv_gpio.c	/^DRV_RET_E Hal_GpioDirectionGet(GPIO_PIN_E gpio_pin, GPIO_DIRECTION_E *pgpio_dir)$/;"	f
+Hal_GpioDirectionGet	realtek/rtk_drv_gpio.c	/^DRV_RET_E Hal_GpioDirectionGet(GPIO_PIN_E gpio_pin, GPIO_DIRECTION_E *pgpio_dir)$/;"	f
+Hal_GpioDirectionSet	atheros/ar_drv_gpio.c	/^DRV_RET_E Hal_GpioDirectionSet(GPIO_PIN_E gpio_pin, GPIO_DIRECTION_E gpio_dir)$/;"	f
+Hal_GpioDirectionSet	realtek/rtk_drv_gpio.c	/^DRV_RET_E Hal_GpioDirectionSet(GPIO_PIN_E gpio_pin, GPIO_DIRECTION_E gpio_dir)$/;"	f
+Hal_GpioInit	atheros/ar_drv_gpio.c	/^DRV_RET_E Hal_GpioInit(GPIO_PIN_E gpio_pin, GPIO_CONTROL_E gpio_ctl, GPIO_DIRECTION_E gpio_dir)$/;"	f
+Hal_GpioInit	realtek/rtk_drv_gpio.c	/^DRV_RET_E Hal_GpioInit(GPIO_PIN_E gpio_pin, GPIO_CONTROL_E gpio_ctl, GPIO_DIRECTION_E gpio_dir)$/;"	f
+Hal_I2cFiberInit	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_I2cFiberInit(VOID) { return DRV_OK;}$/;"	f
+Hal_I2cFiberInit	realtek/rtk_drv_eeprom.c	/^DRV_RET_E Hal_I2cFiberInit(VOID)$/;"	f
+Hal_I2cFiberInit	singleport/single_port.c	/^DRV_RET_E Hal_I2cFiberInit(VOID)$/;"	f
+Hal_I2cFiberPortRead	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_I2cFiberPortRead(port_num_t lgcPort, UINT16 usAddr, UINT8* pucData, UINT32 ulLen, UINT32 ulPDataType) { return DRV_OK;}$/;"	f
+Hal_I2cFiberPortRead	realtek/rtk_drv_eeprom.c	/^DRV_RET_E Hal_I2cFiberPortRead(port_num_t lgcPort, uint16 usAddr, uint8* pucData, uint32 ulLen, uint32 ulPDataType)$/;"	f
+Hal_I2cFiberPortRead	singleport/single_port.c	/^DRV_RET_E Hal_I2cFiberPortRead(port_num_t lgcPort, UINT16 usAddr, UINT8* pucData, UINT32 ulLen, UINT32 ulPDataType)$/;"	f
+Hal_InitMirrorAclGrp	atheros/ar_drv_mirror.c	/^void Hal_InitMirrorAclGrp(void)$/;"	f
+Hal_InitMirrorAclGrp	realtek/rtk_drv_mirror.c	/^void Hal_InitMirrorAclGrp(void)$/;"	f
+Hal_L2send	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_L2send(unsigned char *pMsg,UINT uiLen,l2_send_op *pOp) { return DRV_OK;}$/;"	f
+Hal_L2send	atheros/ar_l2_tx.c	/^DRV_RET_E Hal_L2send(unsigned char *pMsg,UINT uiLen,l2_send_op *pOp)$/;"	f
+Hal_L2send	realtek/rtk_l2_tx.c	/^DRV_RET_E Hal_L2send(unsigned char *pMsg,UINT uiLen,l2_send_op *pOp)$/;"	f
+Hal_L2send	singleport/single_l2_tx.c	/^DRV_RET_E Hal_L2send(unsigned char *pMsg,UINT uiLen,l2_send_op *pOp)$/;"	f
+Hal_PortLedInit	atheros/ar_drv_port.c	/^DRV_RET_E Hal_PortLedInit(void)$/;"	f
+Hal_PortLedInit	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_PortLedInit(void)$/;"	f
+Hal_PortLedInit	singleport/single_port.c	/^DRV_RET_E Hal_PortLedInit(void)$/;"	f
+Hal_RefreshUCast	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_RefreshUCast(UINT32 ulInterval)$/;"	f
+Hal_RefreshUCast	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_RefreshUCast(UINT32 ulInterval)$/;"	f
+Hal_RefreshUCast	singleport/single_port.c	/^DRV_RET_E Hal_RefreshUCast(UINT32 ulInterval)$/;"	f
+Hal_RemoveCpuFromVlanMember	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_RemoveCpuFromVlanMember(UINT32 ulVlanId)$/;"	f
+Hal_RemoveCpuFromVlanMember	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_RemoveCpuFromVlanMember(UINT32 ulVlanId)$/;"	f
+Hal_RemoveCpuFromVlanMember	singleport/single_port.c	/^DRV_RET_E Hal_RemoveCpuFromVlanMember(UINT32 ulVlanId)$/;"	f
+Hal_RestartPortNeg	atheros/ar_drv_port.c	/^DRV_RET_E Hal_RestartPortNeg(port_num_t logical_port)$/;"	f
+Hal_RestartPortNeg	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_RestartPortNeg(port_num_t lgcPort)$/;"	f
+Hal_SdkInitSpecial	atheros/ar_drv_special.c	/^DRV_RET_E Hal_SdkInitSpecial(UINT32 unit)$/;"	f
+Hal_SdkInitSpecial	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SdkInitSpecial(UINT32 unit) { return DRV_OK;}$/;"	f
+Hal_SdkInitSpecial	realtek/rtk_drv_special.c	/^DRV_RET_E Hal_SdkInitSpecial(UINT32 unit)$/;"	f
+Hal_Set1pIngressPriorityRemap	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_Set1pIngressPriorityRemap(qos_8021p_to_intpri_t st1pToIntPri)$/;"	f
+Hal_Set1pIngressPriorityRemap	realtek/rtk_drv_qos.c	/^DRV_RET_E Hal_Set1pIngressPriorityRemap(qos_8021p_to_intpri_t st1pToIntPri)$/;"	f
+Hal_Set1pIngressPriorityRemap	singleport/single_port.c	/^DRV_RET_E Hal_Set1pIngressPriorityRemap(qos_8021p_to_intpri_t st1pToIntPri)$/;"	f
+Hal_SetAclInit	singleport/single_port.c	/^DRV_RET_E Hal_SetAclInit(void)$/;"	f
+Hal_SetAggrGroup	atheros/ar_drv_aggr.c	/^DRV_RET_E Hal_SetAggrGroup(agg_grp_num_t grpNum, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetAggrGroup	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetAggrGroup(agg_grp_num_t grpNum, logic_pmask_t stLgcMask) { return DRV_OK;}$/;"	f
+Hal_SetAggrGroup	realtek/rtk_drv_aggr.c	/^DRV_RET_E Hal_SetAggrGroup(agg_grp_num_t grpNum, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetAggrGroup	singleport/single_port.c	/^DRV_RET_E Hal_SetAggrGroup(agg_grp_num_t grpNum, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetAggrMode	atheros/ar_drv_aggr.c	/^DRV_RET_E Hal_SetAggrMode(UINT32 ulMode)$/;"	f
+Hal_SetAggrMode	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetAggrMode(UINT32 ulMode) { return DRV_OK;}$/;"	f
+Hal_SetAggrMode	realtek/rtk_drv_aggr.c	/^DRV_RET_E Hal_SetAggrMode(UINT32 ulMode)$/;"	f
+Hal_SetAggrMode	singleport/single_port.c	/^DRV_RET_E Hal_SetAggrMode(UINT32 ulMode)$/;"	f
+Hal_SetAutoPwrDwnByPort	atheros/ar_drv_ieee8023az.c	/^DRV_RET_E Hal_SetAutoPwrDwnByPort(logic_pmask_t *plportMask, BOOL enable)$/;"	f
+Hal_SetAutoPwrDwnByPort	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetAutoPwrDwnByPort(logic_pmask_t *plportMask, BOOL enable) { return DRV_OK;}$/;"	f
+Hal_SetAutoPwrDwnByPort	realtek/rtk_drv_ieee8023az.c	/^DRV_RET_E Hal_SetAutoPwrDwnByPort(logic_pmask_t *plportMask, BOOL enable)$/;"	f
+Hal_SetAutoPwrDwnByPort	singleport/single_port.c	/^DRV_RET_E Hal_SetAutoPwrDwnByPort(logic_pmask_t *plportMask, BOOL enable)$/;"	f
+Hal_SetCPUPortJumbo	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetCPUPortJumbo(UINT32 frame_len)$/;"	f
+Hal_SetCPUPortJumbo	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetCPUPortJumbo(UINT32 uiLen)$/;"	f
+Hal_SetCPUPortJumbo	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetCPUPortJumbo(UINT32 uiLen)$/;"	f
+Hal_SetCos2QidRemap	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_SetCos2QidRemap(qos_8021p_to_intpri_t st1pPri2qid)$/;"	f
+Hal_SetCos2QidRemap	realtek/rtk_drv_qos.c	/^DRV_RET_E Hal_SetCos2QidRemap(qos_8021p_to_intpri_t st1pPri2qid)$/;"	f
+Hal_SetCos2QidRemap	singleport/single_port.c	/^DRV_RET_E Hal_SetCos2QidRemap(qos_8021p_to_intpri_t st1pPri2qid)$/;"	f
+Hal_SetCpuAddr	atheros/ar_drv_dispatch.c	/^DRV_RET_E Hal_SetCpuAddr(UINT32 ulCpuAddr, UINT32 ulData)$/;"	f
+Hal_SetCpuAddr	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetCpuAddr(UINT32 ulCpuAddr, UINT32 ulData) { return DRV_OK;}$/;"	f
+Hal_SetCpuAddr	realtek/rtk_drv_dispatch.c	/^DRV_RET_E Hal_SetCpuAddr(UINT32 ulCpuAddr, UINT32 ulData)$/;"	f
+Hal_SetCpuHeader	atheros/ar_drv_special.c	/^DRV_RET_E Hal_SetCpuHeader(BOOL bEnable)$/;"	f
+Hal_SetCpuHeader	realtek/rtk_drv_special.c	/^DRV_RET_E Hal_SetCpuHeader(BOOL bEnable)$/;"	f
+Hal_SetCpuPortMacLearnEnable	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetCpuPortMacLearnEnable(UINT32 ulEnable)$/;"	f
+Hal_SetCpuPortMacLearnEnable	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetCpuPortMacLearnEnable(UINT32 ulEnable)$/;"	f
+Hal_SetCpuPortMacLearnEnable	singleport/single_port.c	/^DRV_RET_E Hal_SetCpuPortMacLearnEnable(UINT32 ulEnable)$/;"	f
+Hal_SetDscpIngressPriorityRemap	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_SetDscpIngressPriorityRemap(qos_dscp_to_intpri_t stDscpToIntPri)$/;"	f
+Hal_SetDscpIngressPriorityRemap	realtek/rtk_drv_qos.c	/^DRV_RET_E Hal_SetDscpIngressPriorityRemap(qos_dscp_to_intpri_t stDscpToIntPri)$/;"	f
+Hal_SetDscpIngressPriorityRemap	singleport/single_port.c	/^DRV_RET_E Hal_SetDscpIngressPriorityRemap(qos_dscp_to_intpri_t stDscpToIntPri)$/;"	f
+Hal_SetEEEByPort	atheros/ar_drv_ieee8023az.c	/^DRV_RET_E Hal_SetEEEByPort(logic_pmask_t *plportMask, BOOL enable)$/;"	f
+Hal_SetEEEByPort	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetEEEByPort(logic_pmask_t *plportMask, BOOL enable) { return DRV_OK;}$/;"	f
+Hal_SetEEEByPort	realtek/rtk_drv_ieee8023az.c	/^DRV_RET_E Hal_SetEEEByPort(logic_pmask_t *plportMask, BOOL enable)$/;"	f
+Hal_SetEEEByPort	singleport/single_port.c	/^DRV_RET_E Hal_SetEEEByPort(logic_pmask_t *plportMask, BOOL enable)$/;"	f
+Hal_SetIgmpPktAction	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetIgmpPktAction(UINT32 ulAction)$/;"	f
+Hal_SetIgmpPktAction	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetIgmpPktAction(UINT32 ulAction)$/;"	f
+Hal_SetIgmpPktAction	singleport/single_port.c	/^DRV_RET_E Hal_SetIgmpPktAction(UINT32 ulAction)$/;"	f
+Hal_SetInternalLoopback	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetInternalLoopback(port_num_t lgcPort, UINT32 uiEnable)$/;"	f
+Hal_SetInternalLoopback	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetInternalLoopback(port_num_t logical_port, UINT32 enable)$/;"	f
+Hal_SetInternalLoopback	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetInternalLoopback(port_num_t lgcPort, UINT32 uiEnable)$/;"	f
+Hal_SetInternalLoopback	singleport/single_port.c	/^DRV_RET_E Hal_SetInternalLoopback(port_num_t lgcPort, UINT32 uiEnable)$/;"	f
+Hal_SetMacAddMcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacAddMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacAddMcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacAddMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacAddMcastMac	singleport/single_port.c	/^DRV_RET_E Hal_SetMacAddMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacAddUcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacAddUcastMac(mac_ucast_t stMacUcast)$/;"	f
+Hal_SetMacAddUcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacAddUcastMac(mac_ucast_t stMacUcast)$/;"	f
+Hal_SetMacAddUcastMac	singleport/single_port.c	/^DRV_RET_E Hal_SetMacAddUcastMac(mac_ucast_t stMacUcast)$/;"	f
+Hal_SetMacAgeTime	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacAgeTime(UINT32 ulSecond)$/;"	f
+Hal_SetMacAgeTime	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacAgeTime(UINT32 ulSecond)$/;"	f
+Hal_SetMacAgeTime	singleport/single_port.c	/^DRV_RET_E Hal_SetMacAgeTime(UINT32 ulSecond)$/;"	f
+Hal_SetMacCpuMacAdd	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacCpuMacAdd(vlan_id_t tdVid, mac_address_t mac_address)$/;"	f
+Hal_SetMacCpuMacAdd	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacCpuMacAdd(vlan_id_t tdVid, mac_address_t mac_address)$/;"	f
+Hal_SetMacCpuMacAdd	singleport/single_port.c	/^DRV_RET_E Hal_SetMacCpuMacAdd(vlan_id_t tdVid, mac_address_t mac_address)$/;"	f
+Hal_SetMacDelMcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacDelMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacDelMcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacDelMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacDelMcastMac	singleport/single_port.c	/^DRV_RET_E Hal_SetMacDelMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacDelUcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacDelUcastMac(mac_ucast_t stMacUcast)$/;"	f
+Hal_SetMacDelUcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacDelUcastMac(mac_ucast_t stMacUcast)$/;"	f
+Hal_SetMacDelUcastMac	singleport/single_port.c	/^DRV_RET_E Hal_SetMacDelUcastMac(mac_ucast_t stMacUcast)$/;"	f
+Hal_SetMacFlushUcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacFlushUcastMac(mac_delete_t stMacDelete)$/;"	f
+Hal_SetMacFlushUcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacFlushUcastMac(mac_delete_t stMacDelete)$/;"	f
+Hal_SetMacFlushUcastMac	singleport/single_port.c	/^DRV_RET_E Hal_SetMacFlushUcastMac(mac_delete_t stMacDelete)$/;"	f
+Hal_SetMacLearnEnable	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacLearnEnable(UINT32 ulEnable, logic_pmask_t stPortMask)$/;"	f
+Hal_SetMacLearnEnable	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacLearnEnable(UINT32 ulEnable, logic_pmask_t stPortMask)$/;"	f
+Hal_SetMacLearnEnable	singleport/single_port.c	/^DRV_RET_E Hal_SetMacLearnEnable(UINT32 ulEnable, logic_pmask_t stPortMask)$/;"	f
+Hal_SetMacLearnLimit	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacLearnLimit(UINT32 ulLgcPort, UINT32 uLlimit, UINT32 ulDisForward)$/;"	f
+Hal_SetMacLearnLimit	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacLearnLimit(UINT32 ulLgcPort, UINT32 uLlimit, UINT32 ulDisForward)$/;"	f
+Hal_SetMacLearnLimit	singleport/single_port.c	/^DRV_RET_E Hal_SetMacLearnLimit(UINT32 ulLgcPort, UINT32 uLlimit, UINT32 ulDisForward)$/;"	f
+Hal_SetMacLookFailFrd	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacLookFailFrd(logic_pmask_t stPortMask)$/;"	f
+Hal_SetMacLookFailFrd	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacLookFailFrd(logic_pmask_t stPortMask)$/;"	f
+Hal_SetMacLookFailFrd	singleport/single_port.c	/^DRV_RET_E Hal_SetMacLookFailFrd(logic_pmask_t stPortMask)$/;"	f
+Hal_SetMacSetMcastMac	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacSetMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacSetMcastMac	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacSetMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacSetMcastMac	singleport/single_port.c	/^DRV_RET_E Hal_SetMacSetMcastMac(mac_mcast_t stMacMcast)$/;"	f
+Hal_SetMacTrapToCpu	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMacTrapToCpu(port_num_t lport, mac_trap_set_t stTrapSet, UINT32 priority)$/;"	f
+Hal_SetMacTrapToCpu	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMacTrapToCpu(port_num_t lport, mac_trap_set_t stTrapSet, UINT32 priority)$/;"	f
+Hal_SetMacTrapToCpu	singleport/single_port.c	/^DRV_RET_E Hal_SetMacTrapToCpu(port_num_t lport, mac_trap_set_t stTrapSet, UINT32 priority)$/;"	f
+Hal_SetMcVlanMemberAdd	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetMcVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag)$/;"	f
+Hal_SetMcastLookupMissDrop	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetMcastLookupMissDrop(UINT32 ulEnable)$/;"	f
+Hal_SetMcastLookupMissDrop	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetMcastLookupMissDrop(UINT32 ulEnable)$/;"	f
+Hal_SetMcastLookupMissDrop	singleport/single_port.c	/^DRV_RET_E Hal_SetMcastLookupMissDrop(UINT32 ulEnable)$/;"	f
+Hal_SetMibCountReset	atheros/ar_drv_statistics.c	/^DRV_RET_E Hal_SetMibCountReset(port_num_t lport)$/;"	f
+Hal_SetMibCountReset	realtek/rtk_drv_statistics.c	/^DRV_RET_E Hal_SetMibCountReset(port_num_t lport)$/;"	f
+Hal_SetMibCountReset	singleport/single_port.c	/^DRV_RET_E Hal_SetMibCountReset(port_num_t lport)$/;"	f
+Hal_SetMibCountSync	atheros/ar_drv_statistics.c	/^DRV_RET_E Hal_SetMibCountSync(void)$/;"	f
+Hal_SetMibCountSync	realtek/rtk_drv_statistics.c	/^DRV_RET_E Hal_SetMibCountSync(void)$/;"	f
+Hal_SetMibCountSync	singleport/single_port.c	/^DRV_RET_E Hal_SetMibCountSync(void)$/;"	f
+Hal_SetMirrorAclGrp	atheros/ar_drv_mirror.c	/^DRV_RET_E Hal_SetMirrorAclGrp(port_num_t mirrorDstPort, UINT32 *puiMirrorGrpId)$/;"	f
+Hal_SetMirrorAclGrp	realtek/rtk_drv_mirror.c	/^DRV_RET_E Hal_SetMirrorAclGrp(port_num_t mirrorDstPort, UINT32 *puiMirrorGrpId)$/;"	f
+Hal_SetMirrorGroup	atheros/ar_drv_mirror.c	/^DRV_RET_E Hal_SetMirrorGroup(port_num_t mirrorDestPort, logic_pmask_t ingressMask, logic_pmask_t egressMask)$/;"	f
+Hal_SetMirrorGroup	realtek/rtk_drv_mirror.c	/^DRV_RET_E Hal_SetMirrorGroup(port_num_t mirrorDestPort, logic_pmask_t ingressMask, logic_pmask_t egressMask)$/;"	f
+Hal_SetMirrorGroup	singleport/single_port.c	/^DRV_RET_E Hal_SetMirrorGroup(port_num_t mirrorDestPort, logic_pmask_t ingressMask, logic_pmask_t egressMask)$/;"	f
+Hal_SetPhyReg	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPhyReg(port_num_t logical_port, UINT32 reg, UINT32 value)$/;"	f
+Hal_SetPhyReg	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPhyReg(port_num_t lgcPort, UINT32 reg_no, UINT32 reg_val)$/;"	f
+Hal_SetPhyReg	singleport/single_port.c	/^DRV_RET_E Hal_SetPhyReg(port_num_t lgcPort, UINT32 reg_no, UINT32 reg_val)$/;"	f
+Hal_SetPortAbility	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortAbility(port_num_t lgcPort, UINT32 uiAbility, UINT32 uiPortType)$/;"	f
+Hal_SetPortAbility	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortAbility(port_num_t logical_port, UINT32 ability, UINT32 port_type)$/;"	f
+Hal_SetPortAbility	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortAbility(port_num_t lgcPort, UINT32 uiAbility, UINT32 uiPortType)$/;"	f
+Hal_SetPortAbility	singleport/single_port.c	/^DRV_RET_E Hal_SetPortAbility(port_num_t lgcPort, UINT32 uiAbility, UINT32 uiPortType)$/;"	f
+Hal_SetPortAutoneg	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortAutoneg(port_num_t lgcPort, UINT32 uiAuton, UINT32 uiPortType)$/;"	f
+Hal_SetPortAutoneg	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortAutoneg(port_num_t logical_port, UINT32 auto_neg, UINT32 port_type)$/;"	f
+Hal_SetPortAutoneg	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortAutoneg(port_num_t lgcPort, UINT32 uiAuton, UINT32 uiPortType)$/;"	f
+Hal_SetPortAutoneg	singleport/single_port.c	/^DRV_RET_E Hal_SetPortAutoneg(port_num_t lgcPort, UINT32 uiAuton, UINT32 uiPortType)$/;"	f
+Hal_SetPortBaseVlanEntry	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetPortBaseVlanEntry(UINT32 *puiEntryId, rtk_vlan_mbrcfg_t *pstVlanEntry)$/;"	f
+Hal_SetPortDuplex	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortDuplex(port_num_t lgcPort, UINT32 uiDuplex, UINT32 uiPortType)$/;"	f
+Hal_SetPortDuplex	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortDuplex(port_num_t logical_port, UINT32 duplex, UINT32 port_type)$/;"	f
+Hal_SetPortDuplex	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortDuplex(port_num_t lgcPort, UINT32 uiDuplex, UINT32 uiPortType)$/;"	f
+Hal_SetPortDuplex	singleport/single_port.c	/^DRV_RET_E Hal_SetPortDuplex(port_num_t lgcPort, UINT32 uiDuplex, UINT32 uiPortType)$/;"	f
+Hal_SetPortEnable	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortEnable(port_num_t lgcPort, UINT32 uiEnable)$/;"	f
+Hal_SetPortEnable	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortEnable(port_num_t logical_port, UINT32 enable)$/;"	f
+Hal_SetPortEnable	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortEnable(port_num_t lgcPort, UINT32 uiEnable)$/;"	f
+Hal_SetPortEnable	singleport/single_port.c	/^DRV_RET_E Hal_SetPortEnable(port_num_t lgcPort, UINT32 uiEnable)$/;"	f
+Hal_SetPortFlowctrl	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortFlowctrl(port_num_t lgcPort, UINT32 uiPauseTx, UINT32 uiPauseRx)$/;"	f
+Hal_SetPortFlowctrl	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortFlowctrl(port_num_t logical_port, UINT32 pause_tx, UINT32 pause_rx)$/;"	f
+Hal_SetPortFlowctrl	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortFlowctrl(port_num_t lgcPort, UINT32 uiPauseTx, UINT32 uiPauseRx)$/;"	f
+Hal_SetPortFlowctrl	singleport/single_port.c	/^DRV_RET_E Hal_SetPortFlowctrl(port_num_t lgcPort, UINT32 uiPauseTx, UINT32 uiPauseRx)$/;"	f
+Hal_SetPortIsolateMask	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortIsolateMask(logic_pmask_t *p_logical_port_map)$/;"	f
+Hal_SetPortIsolateMask	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortIsolateMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_SetPortIsolateMask	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortIsolateMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_SetPortIsolateMask	singleport/single_port.c	/^DRV_RET_E Hal_SetPortIsolateMask(logic_pmask_t *pstPortMask)$/;"	f
+Hal_SetPortJumbo	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortJumbo(port_num_t lgcPort, UINT32 uiJumbo)$/;"	f
+Hal_SetPortJumbo	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortJumbo(port_num_t logical_port, UINT32 jumbo)$/;"	f
+Hal_SetPortJumbo	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortJumbo(port_num_t lgcPort, UINT32 uiJumbo)$/;"	f
+Hal_SetPortJumbo	singleport/single_port.c	/^DRV_RET_E Hal_SetPortJumbo(port_num_t lgcPort, UINT32 uiJumbo)$/;"	f
+Hal_SetPortLed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortLed(port_num_t lgcPort, UINT32 uiLinkState, UINT32 uiPortType)$/;"	f
+Hal_SetPortLed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortLed(port_num_t logical_port, UINT32 uiLinkState, UINT32 uiPortType)$/;"	f
+Hal_SetPortLed	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortLed(port_num_t lgcPort, UINT32 uiLinkState, UINT32 uiPortType)$/;"	f
+Hal_SetPortLed	singleport/single_port.c	/^DRV_RET_E Hal_SetPortLed(port_num_t lgcPort, UINT32 uiLinkState, UINT32 uiPortType)$/;"	f
+Hal_SetPortMdix	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortMdix(port_num_t lgcPort, UINT32 uiMdix)$/;"	f
+Hal_SetPortMdix	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortMdix(port_num_t logical_port, UINT32 mdix)$/;"	f
+Hal_SetPortMdix	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortMdix(port_num_t lgcPort, UINT32 uiMdix)$/;"	f
+Hal_SetPortMdix	singleport/single_port.c	/^DRV_RET_E Hal_SetPortMdix(port_num_t lgcPort, UINT32 uiMdix)$/;"	f
+Hal_SetPortMedium	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortMedium(port_num_t lgcPort, UINT32 uiMedium)$/;"	f
+Hal_SetPortMedium	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortMedium(port_num_t logical_port, UINT32 uiMedium)$/;"	f
+Hal_SetPortMedium	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortMedium(port_num_t lgcPort, UINT32 uiMedium)$/;"	f
+Hal_SetPortMedium	singleport/single_port.c	/^DRV_RET_E Hal_SetPortMedium(port_num_t lgcPort, UINT32 uiMedium)$/;"	f
+Hal_SetPortPriority	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortPriority(port_num_t lgcPort, UINT32 uiPrio)$/;"	f
+Hal_SetPortPriority	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortPriority(port_num_t logical_port, UINT32 pri)$/;"	f
+Hal_SetPortPriority	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortPriority(port_num_t lgcPort, UINT32 uiPrio)$/;"	f
+Hal_SetPortPriority	singleport/single_port.c	/^DRV_RET_E Hal_SetPortPriority(port_num_t lgcPort, UINT32 uiPrio)$/;"	f
+Hal_SetPortSpdlx	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortSpdlx(port_num_t logical_port, UINT32 speed_duplex)$/;"	f
+Hal_SetPortSpdlx	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortSpdlx(port_num_t lgcPort, UINT32 uiSpdlx)$/;"	f
+Hal_SetPortSpdlx	singleport/single_port.c	/^DRV_RET_E Hal_SetPortSpdlx(port_num_t lgcPort, UINT32 uiSpdlx)$/;"	f
+Hal_SetPortSpeed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortSpeed(port_num_t lgcPort, UINT32 uiSpeed, UINT32 uiPortType)$/;"	f
+Hal_SetPortSpeed	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortSpeed(port_num_t logical_port, UINT32 speed, UINT32 port_type)$/;"	f
+Hal_SetPortSpeed	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortSpeed(port_num_t lgcPort, UINT32 uiSpeed, UINT32 uiPortType)$/;"	f
+Hal_SetPortSpeed	singleport/single_port.c	/^DRV_RET_E Hal_SetPortSpeed(port_num_t lgcPort, UINT32 uiSpeed, UINT32 uiPortType)$/;"	f
+Hal_SetPortTxRx	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortTxRx(port_num_t lgcPort, UINT32 uiState)$/;"	f
+Hal_SetPortTxRx	atheros/ar_drv_port.c	/^DRV_RET_E Hal_SetPortTxRx(port_num_t logical_port, UINT32 state)$/;"	f
+Hal_SetPortTxRx	realtek/rtk_drv_port.c	/^DRV_RET_E Hal_SetPortTxRx(port_num_t lgcPort, UINT32 uiState)$/;"	f
+Hal_SetPortTxRx	singleport/single_port.c	/^DRV_RET_E Hal_SetPortTxRx(port_num_t lgcPort, UINT32 uiState)$/;"	f
+Hal_SetPortVlanEgressMode	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgressMode) { return DRV_OK;}$/;"	f
+Hal_SetPortVlanEgressMode	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgressMode)$/;"	f
+Hal_SetPortVlanIngressFilter	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetPortVlanIngressFilter(UINT32 uiLPort, BOOL bEnable) { return DRV_OK;}$/;"	f
+Hal_SetPortVlanIngressFilter	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetPortVlanIngressFilter(UINT32 uiLPort, BOOL bEnable)$/;"	f
+Hal_SetPortVlanIngressMode	atheros/ar_drv_stub.c	/^DRV_RET_E Hal_SetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E enIngressMode) { return DRV_OK;}$/;"	f
+Hal_SetPortVlanIngressMode	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E enIngressMode)$/;"	f
+Hal_SetQosCpuInit	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_SetQosCpuInit(void)$/;"	f
+Hal_SetQosCpuInit	realtek/rtk_drv_qos.c	/^static DRV_RET_E Hal_SetQosCpuInit(void)$/;"	f	file:
+Hal_SetQosInit	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_SetQosInit(void)$/;"	f
+Hal_SetQosInit	realtek/rtk_drv_qos.c	/^DRV_RET_E Hal_SetQosInit(void)$/;"	f
+Hal_SetQosInit	singleport/single_port.c	/^DRV_RET_E Hal_SetQosInit(void)$/;"	f
+Hal_SetQosQueueSchedul	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_SetQosQueueSchedul(QueueMode_S stQueueSchedule)$/;"	f
+Hal_SetQosQueueSchedul	realtek/rtk_drv_qos.c	/^DRV_RET_E Hal_SetQosQueueSchedul(QueueMode_S stQueueSchedule)$/;"	f
+Hal_SetQosQueueSchedul	singleport/single_port.c	/^DRV_RET_E Hal_SetQosQueueSchedul(QueueMode_S stQueueSchedule)$/;"	f
+Hal_SetQosTrustMode	atheros/ar_drv_qos.c	/^DRV_RET_E Hal_SetQosTrustMode(UINT32 mode)$/;"	f
+Hal_SetQosTrustMode	realtek/rtk_drv_qos.c	/^DRV_RET_E Hal_SetQosTrustMode(UINT32 mode)$/;"	f
+Hal_SetQosTrustMode	singleport/single_port.c	/^DRV_RET_E Hal_SetQosTrustMode(UINT32 mode)$/;"	f
+Hal_SetRatelimitByPort	atheros/ar_drv_ratelimit.c	/^DRV_RET_E Hal_SetRatelimitByPort(UINT32 direction, logic_pmask_t lPortMask, UINT32 ulKBps)$/;"	f
+Hal_SetRatelimitByPort	realtek/rtk_drv_ratelimit.c	/^DRV_RET_E Hal_SetRatelimitByPort(UINT32 direction, logic_pmask_t lPortMask, UINT32 ulKBps)$/;"	f
+Hal_SetRatelimitByPort	singleport/single_port.c	/^DRV_RET_E Hal_SetRatelimitByPort(UINT32 direction, logic_pmask_t lPortMask, UINT32 ulKBps)$/;"	f
+Hal_SetRatelimitCpu	atheros/ar_drv_ratelimit.c	/^static DRV_RET_E Hal_SetRatelimitCpu(void)$/;"	f	file:
+Hal_SetRatelimitCpu	realtek/rtk_drv_ratelimit.c	/^static DRV_RET_E Hal_SetRatelimitCpu(void)$/;"	f	file:
+Hal_SetRatelimitInit	atheros/ar_drv_ratelimit.c	/^DRV_RET_E Hal_SetRatelimitInit(void)$/;"	f
+Hal_SetRatelimitInit	realtek/rtk_drv_ratelimit.c	/^DRV_RET_E Hal_SetRatelimitInit(void)$/;"	f
+Hal_SetRatelimitInit	singleport/single_port.c	/^DRV_RET_E Hal_SetRatelimitInit(void)$/;"	f
+Hal_SetRatelimitStormCtl	atheros/ar_drv_ratelimit.c	/^DRV_RET_E Hal_SetRatelimitStormCtl(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortMask, STORM_CTLRATE_S stStorm)$/;"	f
+Hal_SetRatelimitStormCtl	realtek/rtk_drv_ratelimit.c	/^DRV_RET_E Hal_SetRatelimitStormCtl(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortMask, STORM_CTLRATE_S stStorm)$/;"	f
+Hal_SetRatelimitStormCtl	singleport/single_port.c	/^DRV_RET_E Hal_SetRatelimitStormCtl(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortMask, STORM_CTLRATE_S stStorm)$/;"	f
+Hal_SetReservedMacTrap	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetReservedMacTrap(UINT32 uiIndex, UINT32 priority, rsv_mac_pass_action_t action)$/;"	f
+Hal_SetReservedMacTrap	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetReservedMacTrap(UINT32 uiIndex, UINT32 priority, rsv_mac_pass_action_t action)$/;"	f
+Hal_SetReservedMacTrap	singleport/single_port.c	/^DRV_RET_E Hal_SetReservedMacTrap(UINT32 uiIndex, UINT32 priority, rsv_mac_pass_action_t action)$/;"	f
+Hal_SetStpPortState	atheros/ar_drv_rstp.c	/^DRV_RET_E Hal_SetStpPortState(port_num_t logical_port, UINT32 port_state)$/;"	f
+Hal_SetStpPortState	realtek/rtk_drv_rstp.c	/^DRV_RET_E Hal_SetStpPortState(port_num_t lgcPort, UINT32 uiState)$/;"	f
+Hal_SetStpPortState	singleport/single_port.c	/^DRV_RET_E Hal_SetStpPortState(port_num_t lgcPort, UINT32 uiState)$/;"	f
+Hal_SetUnKnowIp4McastAct	atheros/ar_drv_mac.c	/^DRV_RET_E Hal_SetUnKnowIp4McastAct(MCAST_UNKNOW_ACT_E enActMode)$/;"	f
+Hal_SetUnKnowIp4McastAct	realtek/rtk_drv_mac.c	/^DRV_RET_E Hal_SetUnKnowIp4McastAct(MCAST_UNKNOW_ACT_E enActMode)$/;"	f
+Hal_SetVlanEntryCreate	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanEntryCreate(UINT32 ulVlanId)$/;"	f
+Hal_SetVlanEntryCreate	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanEntryCreate(UINT32 ulVlanId)$/;"	f
+Hal_SetVlanEntryCreate	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanEntryCreate(UINT32 ulVlanId)$/;"	f
+Hal_SetVlanEntryDelete	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanEntryDelete(UINT32 ulVlanId)$/;"	f
+Hal_SetVlanEntryDelete	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanEntryDelete(UINT32 ulVlanId)$/;"	f
+Hal_SetVlanEntryDelete	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanEntryDelete(UINT32 ulVlanId)$/;"	f
+Hal_SetVlanInterfaceAdd	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanInterfaceAdd(vlan_id_t vid, mac_address_t mac_address)$/;"	f
+Hal_SetVlanInterfaceDel	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanInterfaceDel(vlan_id_t vid)$/;"	f
+Hal_SetVlanMemberAdd	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag)$/;"	f
+Hal_SetVlanMemberAdd	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag)$/;"	f
+Hal_SetVlanMemberAdd	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag)$/;"	f
+Hal_SetVlanMemberRemove	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanMemberRemove(UINT32 ulVlanId, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetVlanMemberRemove	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanMemberRemove(UINT32 ulVlanId, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetVlanMemberRemove	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanMemberRemove(UINT32 ulVlanId, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetVlanMode	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)$/;"	f
+Hal_SetVlanMode	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)$/;"	f
+Hal_SetVlanMode	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)$/;"	f
+Hal_SetVlanPortEgressMode	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanPortEgressMode(UINT32 ulLgcPort, PortEGMode_t eTagMode)$/;"	f
+Hal_SetVlanPortVlanMember	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanPortVlanMember(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetVlanPortVlanMember	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanPortVlanMember(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetVlanPortVlanMember	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanPortVlanMember(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask)$/;"	f
+Hal_SetVlanPvid	atheros/ar_drv_vlan.c	/^DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid)$/;"	f
+Hal_SetVlanPvid	realtek/rtk_drv_vlan.c	/^DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid)$/;"	f
+Hal_SetVlanPvid	singleport/single_port.c	/^DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid)$/;"	f
+Hal_SwitchInit	atheros/ar_drv_init.c	/^DRV_RET_E Hal_SwitchInit(void)$/;"	f
+Hal_SwitchInit	realtek/rtk_drv_init.c	/^DRV_RET_E Hal_SwitchInit(void)$/;"	f
+Hal_getEmptyShareMeterIndx	realtek/rtk_drv_ratelimit.c	/^static DRV_RET_E Hal_getEmptyShareMeterIndx(UINT32 *pulMeterId)$/;"	f	file:
+Hal_getSameShareMeterIndx	realtek/rtk_drv_ratelimit.c	/^static DRV_RET_E Hal_getSameShareMeterIndx(UINT32 ulMeterValue, UINT32 *pulMeterId)$/;"	f	file:
+Hal_soc_mem_read	atheros/ar_drv_dispatch.c	/^DRV_RET_E Hal_soc_mem_read(UINT32 ulChipNum, UINT32 ulTable,  UINT32 ulAddr, UINT32* pulEntryData)$/;"	f
+Hal_soc_mem_read	realtek/rtk_drv_dispatch.c	/^DRV_RET_E Hal_soc_mem_read(UINT32 ulChipNum, UINT32 ulTable,  UINT32 ulAddr, UINT32* pulEntryData)$/;"	f
+Hal_soc_mem_write	atheros/ar_drv_dispatch.c	/^DRV_RET_E Hal_soc_mem_write(UINT32 ulChipNum, UINT32 ulTable,  UINT32 ulAddr, UINT32* pulEntryData)$/;"	f
+Hal_soc_mem_write	realtek/rtk_drv_dispatch.c	/^DRV_RET_E Hal_soc_mem_write(UINT32 ulChipNum, UINT32 ulTable,  UINT32 ulAddr, UINT32* pulEntryData)$/;"	f
+Hal_soc_reg_read	atheros/ar_drv_dispatch.c	/^DRV_RET_E Hal_soc_reg_read(UINT32 ulChipNum, UINT32 ulRegIndex, UINT32 *pulData)$/;"	f
+Hal_soc_reg_read	realtek/rtk_drv_dispatch.c	/^DRV_RET_E Hal_soc_reg_read(UINT32 ulChipNum, UINT32 ulRegIndex, UINT32 *pulData)$/;"	f
+Hal_soc_reg_read	singleport/single_port.c	/^DRV_RET_E Hal_soc_reg_read(UINT32 ulChipNum, UINT32 ulRegIndex, UINT32 *pulData)$/;"	f
+Hal_soc_reg_write	atheros/ar_drv_dispatch.c	/^DRV_RET_E Hal_soc_reg_write(UINT32 ulChipNum, UINT32 ulRegIndex, UINT32 ulData)$/;"	f
+Hal_soc_reg_write	realtek/rtk_drv_dispatch.c	/^DRV_RET_E Hal_soc_reg_write(UINT32 ulChipNum, UINT32 ulRegIndex, UINT32 ulData)$/;"	f
+Hal_soc_reg_write	singleport/single_port.c	/^DRV_RET_E Hal_soc_reg_write(UINT32 ulChipNum, UINT32 ulRegIndex, UINT32 ulData)$/;"	f
+Hal_test_L2send	atheros/ar_l2_tx.c	/^void Hal_test_L2send(struct sk_buff *skb)$/;"	f
+Hal_test_L2send	realtek/rtk_l2_tx.c	/^void Hal_test_L2send(struct sk_buff *skb)$/;"	f
+Hal_test_L2send	singleport/single_l2_tx.c	/^void Hal_test_L2send(struct sk_buff *skb)$/;"	f
+I2C_DELAY_HALF_TIME_US	realtek/rtk_drv_eeprom.c	131;"	d	file:
+I2C_DELAY_QUARTER_TIME_US	realtek/rtk_drv_eeprom.c	132;"	d	file:
+I2C_DELAY_TIME_US	realtek/rtk_drv_eeprom.c	130;"	d	file:
+I2C_GPIO_HIGH	realtek/rtk_drv_eeprom.c	138;"	d	file:
+I2C_GPIO_LOW	realtek/rtk_drv_eeprom.c	137;"	d	file:
+I2C_SCL_HIGH	realtek/rtk_drv_eeprom.c	140;"	d	file:
+I2C_SCL_LOW	realtek/rtk_drv_eeprom.c	141;"	d	file:
+I2C_SDA_GET	realtek/rtk_drv_eeprom.c	145;"	d	file:
+I2C_SDA_HIGH	realtek/rtk_drv_eeprom.c	143;"	d	file:
+I2C_SDA_INPUT	realtek/rtk_drv_eeprom.c	146;"	d	file:
+I2C_SDA_LOW	realtek/rtk_drv_eeprom.c	144;"	d	file:
+I2C_SDA_OUTPUT	realtek/rtk_drv_eeprom.c	147;"	d	file:
+I2C_SPEED_SLOW_IO	realtek/rtk_drv_eeprom.c	126;"	d	file:
+I2c_DELAY_SDA_INPUT_OUPUT_CHANGE_US	realtek/rtk_drv_eeprom.c	133;"	d	file:
+IsStackPort	atheros/ar_convert.c	/^BOOL IsStackPort(phyid_t uiPhyId)$/;"	f
+IsStackPort	realtek/rtk_convert.c	/^BOOL IsStackPort(phyid_t uiPhyId)$/;"	f
+IsValidPhyID	atheros/ar_convert.c	/^BOOL IsValidPhyID(phyid_t uiPhyID)$/;"	f
+IsValidPhyID	broadcom/hal_convert.c	/^BOOL IsValidPhyID(phyid_t uiPhyID)$/;"	f
+IsValidPhyID	realtek/rtk_convert.c	/^BOOL IsValidPhyID(phyid_t uiPhyID)$/;"	f
+IsValidPhyID	singleport/single_convert.c	/^BOOL IsValidPhyID(phyid_t uiPhyID)$/;"	f
+LIMIT_RATE_ARP	atheros/ar_drv_acl.c	65;"	d	file:
+LIMIT_RATE_BPDU	atheros/ar_drv_acl.c	63;"	d	file:
+LIMIT_RATE_BROD_ARP	atheros/ar_drv_acl.c	64;"	d	file:
+LOGIC_PORT_MASK_CPARE	realtek/hal_common.h	165;"	d
+LOGIC_PORT_MASK_CPARE	singleport/hal_common.h	36;"	d
+LogicPort_To_I2cDrvPin	realtek/rtk_drv_eeprom.c	/^static int32 LogicPort_To_I2cDrvPin(port_num_t lgcPort, GPIO_PIN_E *p_gpio_scl_pin, GPIO_PIN_E *p_gpio_sda_pin)$/;"	f	file:
+MAC_TABLE_AGING_TICK	atheros/ar_l2_tx.c	61;"	d	file:
+MAC_TABLE_AGING_TICK	realtek/rtk_l2_tx.c	61;"	d	file:
+MAC_TABLE_AGING_TICK	singleport/single_l2_tx.c	53;"	d	file:
+MAX_FRAME_LEN	atheros/ar_l2_tx.c	49;"	d	file:
+MAX_FRAME_LEN	realtek/rtk_l2_tx.c	49;"	d	file:
+MAX_FRAME_LEN	singleport/single_l2_tx.c	41;"	d	file:
+MAX_LIST_ID	atheros/ar_drv_acl.c	68;"	d	file:
+MAX_POLICER_ID	atheros/ar_drv_acl.c	69;"	d	file:
+MAX_TABLE_ENTRY_COUNT	atheros/ar_l2_tx.c	60;"	d	file:
+MAX_TABLE_ENTRY_COUNT	realtek/rtk_l2_tx.c	60;"	d	file:
+MAX_TABLE_ENTRY_COUNT	singleport/single_l2_tx.c	52;"	d	file:
+MIN_FRAME_LEN	atheros/ar_l2_tx.c	50;"	d	file:
+MIN_FRAME_LEN	realtek/rtk_l2_tx.c	50;"	d	file:
+MIN_FRAME_LEN	singleport/single_l2_tx.c	42;"	d	file:
+MaskLogic2Phy	atheros/ar_convert.c	/^void MaskLogic2Phy(logic_pmask_t *lgcPMask_ptr, phy_pmask_t *phyPMask_ptr)$/;"	f
+MaskLogic2Phy	broadcom/hal_convert.c	/^void MaskLogic2Phy(logic_pmask_t *lgcPMask_ptr, phy_pmask_t *phyPMask_ptr)$/;"	f
+MaskLogic2Phy	realtek/rtk_convert.c	/^void MaskLogic2Phy(logic_pmask_t *lgcPMask_ptr, phy_pmask_t *phyPMask_ptr)$/;"	f
+MaskPhy2Logic	atheros/ar_convert.c	/^void MaskPhy2Logic(phy_pmask_t *phyPMask_ptr, logic_pmask_t *lgcPMask_ptr)$/;"	f
+MaskPhy2Logic	broadcom/hal_convert.c	/^void MaskPhy2Logic(phy_pmask_t *phyPMask_ptr, logic_pmask_t *lgcPMask_ptr)$/;"	f
+MaskPhy2Logic	realtek/rtk_convert.c	/^void MaskPhy2Logic(phy_pmask_t *phyPMask_ptr, logic_pmask_t *lgcPMask_ptr)$/;"	f
+OPL_CPU_IPORT_GBE	atheros/ar_l2_tx.c	54;"	d	file:
+OPL_CPU_IPORT_GBE	realtek/rtk_l2_tx.c	54;"	d	file:
+OPL_CPU_IPORT_GBE	singleport/single_l2_tx.c	46;"	d	file:
+OPL_CPU_IPORT_INVALID	atheros/ar_l2_tx.c	56;"	d	file:
+OPL_CPU_IPORT_INVALID	realtek/rtk_l2_tx.c	56;"	d	file:
+OPL_CPU_IPORT_INVALID	singleport/single_l2_tx.c	48;"	d	file:
+OPL_CPU_IPORT_PON	atheros/ar_l2_tx.c	55;"	d	file:
+OPL_CPU_IPORT_PON	realtek/rtk_l2_tx.c	55;"	d	file:
+OPL_CPU_IPORT_PON	singleport/single_l2_tx.c	47;"	d	file:
+OutOfAddr	atheros/hal_common.h	/^    OutOfAddr,$/;"	e	enum:__anon6
+OutOfAddr	realtek/hal_common.h	/^    OutOfAddr,$/;"	e	enum:__anon4
+OutOfAddr	singleport/hal_common.h	/^    OutOfAddr,$/;"	e	enum:__anon1
+OutOfRang	atheros/hal_common.h	/^    OutOfRang,$/;"	e	enum:__anon6
+OutOfRang	realtek/hal_common.h	/^    OutOfRang,$/;"	e	enum:__anon4
+OutOfRang	singleport/hal_common.h	/^    OutOfRang,$/;"	e	enum:__anon1
+PHY_CPU_CHIPID	atheros/hal_common.h	30;"	d
+PHY_CPU_CHIPID	realtek/hal_common.h	31;"	d
+PHY_CPU_CHIPID	singleport/hal_common.h	27;"	d
+PHY_CPU_PORTID	atheros/hal_common.h	29;"	d
+PHY_CPU_PORTID	realtek/hal_common.h	30;"	d
+PHY_CPU_PORTID	singleport/hal_common.h	26;"	d
+PKTBUF_ALLOC	atheros/ar_l2_tx.c	45;"	d	file:
+PKTBUF_ALLOC	realtek/rtk_l2_tx.c	45;"	d	file:
+PKTBUF_FREE	atheros/ar_l2_tx.c	46;"	d	file:
+PKTBUF_FREE	realtek/rtk_l2_tx.c	46;"	d	file:
+PORTMASK_AND	atheros/hal_common.h	58;"	d
+PORTMASK_GET_PORT_COUNT	atheros/hal_common.h	54;"	d
+PORTMASK_IS_PORT_CLEAR	atheros/hal_common.h	48;"	d
+PORTMASK_IS_PORT_SET	atheros/hal_common.h	46;"	d
+PORTMASK_OR	atheros/hal_common.h	56;"	d
+PORTMASK_PORT_CLEAR	atheros/hal_common.h	43;"	d
+PORTMASK_PORT_SET	atheros/hal_common.h	40;"	d
+PORTMASK_REMOVE	atheros/hal_common.h	62;"	d
+PORTMASK_RESET	atheros/hal_common.h	51;"	d
+PORTMASK_REVERT	atheros/hal_common.h	64;"	d
+PORTMASK_XOR	atheros/hal_common.h	60;"	d
+PRIORITY_0	atheros/ar_drv_acl.c	53;"	d	file:
+PRIORITY_1	atheros/ar_drv_acl.c	54;"	d	file:
+PRIORITY_2	atheros/ar_drv_acl.c	55;"	d	file:
+PRIORITY_3	atheros/ar_drv_acl.c	56;"	d	file:
+PRIORITY_4	atheros/ar_drv_acl.c	57;"	d	file:
+PRIORITY_5	atheros/ar_drv_acl.c	58;"	d	file:
+PRIORITY_6	atheros/ar_drv_acl.c	59;"	d	file:
+PRIORITY_7	atheros/ar_drv_acl.c	60;"	d	file:
+PhyGetStackPort	atheros/ar_convert.c	/^phyid_t PhyGetStackPort(UINT32 ulUnit, UINT32 ulStackIndex)$/;"	f
+PhyGetStackPort	realtek/rtk_convert.c	/^phyid_t PhyGetStackPort(UINT32 ulUnit, UINT32 ulStackIndex)$/;"	f
+PhyMaskAddCpuPort	atheros/ar_convert.c	/^void PhyMaskAddCpuPort(phy_pmask_t *mska)$/;"	f
+PhyMaskAddCpuPort	broadcom/hal_convert.c	/^void PhyMaskAddCpuPort(phy_pmask_t *mska)$/;"	f
+PhyMaskAddCpuPort	realtek/rtk_convert.c	/^void PhyMaskAddCpuPort(phy_pmask_t *mska)$/;"	f
+PhyMaskAddStackPort	atheros/ar_convert.c	/^void PhyMaskAddStackPort(phy_pmask_t *mska)$/;"	f
+PhyMaskAddStackPort	realtek/rtk_convert.c	/^void PhyMaskAddStackPort(phy_pmask_t *mska)$/;"	f
+PhyMaskAnd	atheros/ar_convert.c	/^void PhyMaskAnd(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskAnd	broadcom/hal_convert.c	/^void PhyMaskAnd(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskAnd	realtek/rtk_convert.c	/^void PhyMaskAnd(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskCopy	atheros/ar_convert.c	/^void PhyMaskCopy(phy_pmask_t *dstMsk,phy_pmask_t *srcMsk)$/;"	f
+PhyMaskCopy	broadcom/hal_convert.c	/^void PhyMaskCopy(phy_pmask_t *dstMsk,phy_pmask_t *srcMsk)$/;"	f
+PhyMaskCopy	realtek/rtk_convert.c	/^void PhyMaskCopy(phy_pmask_t *dstMsk,phy_pmask_t *srcMsk)$/;"	f
+PhyMaskNegate	atheros/ar_convert.c	/^void PhyMaskNegate(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskNegate	broadcom/hal_convert.c	/^void PhyMaskNegate(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskNegate	realtek/rtk_convert.c	/^void PhyMaskNegate(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskOr	atheros/ar_convert.c	/^void PhyMaskOr(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskOr	broadcom/hal_convert.c	/^void PhyMaskOr(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskOr	realtek/rtk_convert.c	/^void PhyMaskOr(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskRemove	atheros/ar_convert.c	/^void PhyMaskRemove(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskRemove	broadcom/hal_convert.c	/^void PhyMaskRemove(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskRemove	realtek/rtk_convert.c	/^void PhyMaskRemove(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskRemoveCpuPort	atheros/ar_convert.c	/^void PhyMaskRemoveCpuPort(phy_pmask_t *mska)$/;"	f
+PhyMaskRemoveCpuPort	broadcom/hal_convert.c	/^void PhyMaskRemoveCpuPort(phy_pmask_t *mska)$/;"	f
+PhyMaskRemoveCpuPort	realtek/rtk_convert.c	/^void PhyMaskRemoveCpuPort(phy_pmask_t *mska)$/;"	f
+PhyMaskXor	atheros/ar_convert.c	/^void PhyMaskXor(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskXor	broadcom/hal_convert.c	/^void PhyMaskXor(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PhyMaskXor	realtek/rtk_convert.c	/^void PhyMaskXor(phy_pmask_t *mska,phy_pmask_t *mskb)$/;"	f
+PointError	atheros/hal_common.h	/^    PointError,$/;"	e	enum:__anon6
+PointError	realtek/hal_common.h	/^    PointError,$/;"	e	enum:__anon4
+PointError	singleport/hal_common.h	/^    PointError,$/;"	e	enum:__anon1
+PortLogci2ChipId	atheros/hal_common.h	74;"	d
+PortLogci2ChipId	realtek/hal_common.h	186;"	d
+PortLogci2ChipId	singleport/hal_common.h	52;"	d
+PortLogic2PhyID	atheros/ar_convert.c	/^phyid_t PortLogic2PhyID(port_num_t ucLogicPort)$/;"	f
+PortLogic2PhyID	broadcom/hal_convert.c	/^phyid_t PortLogic2PhyID(port_num_t ucLogicPort)$/;"	f
+PortLogic2PhyID	realtek/rtk_convert.c	/^phyid_t PortLogic2PhyID(port_num_t ucLogicPort)$/;"	f
+PortLogic2PhyID	singleport/single_convert.c	/^phyid_t PortLogic2PhyID(port_num_t ucLogicPort)$/;"	f
+PortLogic2PhyPortId	atheros/hal_common.h	73;"	d
+PortLogic2PhyPortId	realtek/hal_common.h	185;"	d
+PortLogic2PhyPortId	singleport/hal_common.h	51;"	d
+PortPhyID2Logic	atheros/ar_convert.c	/^port_num_t PortPhyID2Logic(phyid_t uiPhyId)$/;"	f
+PortPhyID2Logic	broadcom/hal_convert.c	/^port_num_t PortPhyID2Logic(phyid_t uiPhyId)$/;"	f
+PortPhyID2Logic	realtek/rtk_convert.c	/^port_num_t PortPhyID2Logic(phyid_t uiPhyId)$/;"	f
+PortPhyID2Logic	singleport/single_convert.c	/^port_num_t PortPhyID2Logic(phyid_t uiPhyId)$/;"	f
+QUEUE_0	atheros/ar_drv_acl.c	49;"	d	file:
+QUEUE_1	atheros/ar_drv_acl.c	50;"	d	file:
+QUEUE_2	atheros/ar_drv_acl.c	51;"	d	file:
+QUEUE_3	atheros/ar_drv_acl.c	52;"	d	file:
+RESERVE_SPACE	atheros/ar_l2_tx.c	48;"	d	file:
+RESERVE_SPACE	realtek/rtk_l2_tx.c	48;"	d	file:
+RESERVE_SPACE	singleport/single_l2_tx.c	40;"	d	file:
+RTK_MAX_PACKET_LEN	realtek/rtk_drv_port.c	93;"	d	file:
+RTK_NORMAL_PACKET_LEN	realtek/rtk_drv_port.c	94;"	d	file:
+RTK_PORTMASK_AND	realtek/hal_common.h	155;"	d
+RTK_PORTMASK_GET_PORT_COUNT	realtek/hal_common.h	150;"	d
+RTK_PORTMASK_IS_PORT_CLEAR	realtek/hal_common.h	144;"	d
+RTK_PORTMASK_IS_PORT_SET	realtek/hal_common.h	142;"	d
+RTK_PORTMASK_OR	realtek/hal_common.h	153;"	d
+RTK_PORTMASK_PORT_CLEAR	realtek/hal_common.h	137;"	d
+RTK_PORTMASK_PORT_SET	realtek/hal_common.h	132;"	d
+RTK_PORTMASK_REMOVE	realtek/hal_common.h	159;"	d
+RTK_PORTMASK_RESET	realtek/hal_common.h	147;"	d
+RTK_PORTMASK_REVERT	realtek/hal_common.h	161;"	d
+RTK_PORTMASK_WORD_GET	realtek/hal_common.h	129;"	d
+RTK_PORTMASK_WORD_SET	realtek/hal_common.h	127;"	d
+RTK_PORTMASK_XOR	realtek/hal_common.h	157;"	d
+RTK_PORT_DEBUG	atheros/ar_drv_port.c	86;"	d	file:
+RTK_PORT_DEBUG	atheros/ar_drv_port.c	88;"	d	file:
+RTK_PORT_DEBUG	realtek/rtk_drv_port.c	104;"	d	file:
+RTK_PORT_DEBUG	realtek/rtk_drv_port.c	106;"	d	file:
+RTL_HEADER_OFF	realtek/hal_common.h	41;"	d
+RTL_HEADER_S	realtek/hal_common.h	/^}RTL_HEADER_S;$/;"	t	typeref:struct:tagRTL_HEADER
+RTL_METER_ID_INVALID	realtek/hal_common.h	42;"	d
+SFP_GetBxTypeIndex	atheros/ar_drv_port.c	/^VOID SFP_GetBxTypeIndex(UINT8 *pucData, UINT32 ulCodeVal, UINT8 *pucIndex)$/;"	f
+SFP_GetBxTypeIndex	realtek/rtk_drv_port.c	/^VOID SFP_GetBxTypeIndex(UINT8 *pucData, UINT32 ulCodeVal, UINT8 *pucIndex)$/;"	f
+SPIN_HAL_EEPROM_LOCK	realtek/rtk_drv_eeprom.c	116;"	d	file:
+SPIN_HAL_EEPROM_UNLOCK	realtek/rtk_drv_eeprom.c	117;"	d	file:
+SPIN_HAL_MAC_LOCK	atheros/ar_drv_mac.c	77;"	d	file:
+SPIN_HAL_MAC_LOCK	atheros/ar_drv_vlan.c	66;"	d	file:
+SPIN_HAL_MAC_LOCK	realtek/rtk_drv_mac.c	90;"	d	file:
+SPIN_HAL_MAC_LOCK	realtek/rtk_drv_vlan.c	74;"	d	file:
+SPIN_HAL_MAC_UNLOCK	atheros/ar_drv_mac.c	78;"	d	file:
+SPIN_HAL_MAC_UNLOCK	atheros/ar_drv_vlan.c	67;"	d	file:
+SPIN_HAL_MAC_UNLOCK	realtek/rtk_drv_mac.c	91;"	d	file:
+SPIN_HAL_MAC_UNLOCK	realtek/rtk_drv_vlan.c	75;"	d	file:
+SPIN_HAL_PORT_LOCK	atheros/ar_drv_port.c	80;"	d	file:
+SPIN_HAL_PORT_LOCK	realtek/rtk_drv_port.c	98;"	d	file:
+SPIN_HAL_PORT_UNLOCK	atheros/ar_drv_port.c	81;"	d	file:
+SPIN_HAL_PORT_UNLOCK	realtek/rtk_drv_port.c	99;"	d	file:
+SetPhyMaskAll	atheros/ar_convert.c	/^void SetPhyMaskAll(phy_pmask_t *phyPMask_ptr)$/;"	f
+SetPhyMaskAll	broadcom/hal_convert.c	/^void SetPhyMaskAll(phy_pmask_t *phyPMask_ptr)$/;"	f
+SetPhyMaskAll	realtek/rtk_convert.c	/^void SetPhyMaskAll(phy_pmask_t *phyPMask_ptr)$/;"	f
+SetPhyMaskBit	atheros/ar_convert.c	/^void SetPhyMaskBit(phyid_t uiPhyId, phy_pmask_t *phyPMask_ptr)$/;"	f
+SetPhyMaskBit	broadcom/hal_convert.c	/^void SetPhyMaskBit(port_num_t ucPhyPort, phy_pmask_t *phyPMask_ptr)$/;"	f
+SetPhyMaskBit	realtek/rtk_convert.c	/^void SetPhyMaskBit(phyid_t uiPhyId, phy_pmask_t *phyPMask_ptr)$/;"	f
+TstPhyMaskBit	atheros/ar_convert.c	/^BOOL TstPhyMaskBit(phyid_t uiPhyId, phy_pmask_t *phyPMask_ptr)$/;"	f
+TstPhyMaskBit	broadcom/hal_convert.c	/^BOOL TstPhyMaskBit(port_num_t ucPhyPort, phy_pmask_t *phyPMask_ptr)$/;"	f
+TstPhyMaskBit	realtek/rtk_convert.c	/^BOOL TstPhyMaskBit(phyid_t uiPhyId, phy_pmask_t *phyPMask_ptr)$/;"	f
+_Acl_policer_set	atheros/ar_drv_acl.c	/^static sw_error_t _Acl_policer_set(a_uint32_t policer_id, a_uint32_t rate_value)$/;"	f	file:
+_Acl_rule_arp_limit_value_set	atheros/ar_drv_acl.c	/^static sw_error_t _Acl_rule_arp_limit_value_set(a_uint32_t uiLPort, a_uint32_t uiListId, a_uint32_t policer_ptr)$/;"	f	file:
+_Acl_rule_bpdu_limit_value_set	atheros/ar_drv_acl.c	/^static sw_error_t _Acl_rule_bpdu_limit_value_set(a_uint32_t uiLPort, a_uint32_t uiListId, a_uint32_t policer_ptr)$/;"	f	file:
+_Acl_rule_dmacaddr_to_queue_create	atheros/ar_drv_acl.c	/^sw_error_t _Acl_rule_dmacaddr_to_queue_create(a_uint32_t ul_list_id, $/;"	f
+_Acl_rule_ethtype_copy_to_cpu	atheros/ar_drv_acl.c	/^sw_error_t _Acl_rule_ethtype_copy_to_cpu(a_uint32_t ul_list_id, $/;"	f
+_Acl_rule_ethtype_to_queue_create	atheros/ar_drv_acl.c	/^sw_error_t _Acl_rule_ethtype_to_queue_create(a_uint32_t ul_list_id, $/;"	f
+_HAL_COMMON_H_	atheros/hal_common.h	18;"	d
+_HAL_COMMON_H_	realtek/hal_common.h	18;"	d
+_HAL_COMMON_H_	singleport/hal_common.h	18;"	d
+_HAL_GetBitNum	atheros/ar_drv_mac.c	/^static DRV_RET_E _HAL_GetBitNum(UINT32 uiMask, UINT32 *pBitNum)$/;"	f	file:
+_HAL_GetBitNum	realtek/rtk_drv_mac.c	/^static DRV_RET_E _HAL_GetBitNum(UINT32 uiMask, UINT32 *pBitNum)$/;"	f	file:
+_HAL_GetValidRateShareMeterIndex	realtek/rtk_drv_acl.c	/^STATIC INT32 _HAL_GetValidRateShareMeterIndex(UINT32 uiRate, BOOL *pbFind, UINT32 *pIndex)$/;"	f
+_Hal_ACLRuleCfgTagCare	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_ACLRuleCfgTagCare(UINT32 uiAclRuleId, INT32 iCareTagType, BOOL bEnable)$/;"	f	file:
+_Hal_AclActionCfgGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclActionCfgGet(UINT32 uiAclId, void *pstAclAction)$/;"	f	file:
+_Hal_AclActionCfgSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclActionCfgSet(UINT32 uiAclId, void *pstAclAction)$/;"	f	file:
+_Hal_AclCfgGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclCfgGet(UINT32 uiAclId, void *pstAclCfg)$/;"	f	file:
+_Hal_AclCfgSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclCfgSet(UINT32 uiAclId, void *pstAclCfg)$/;"	f	file:
+_Hal_AclRuleActivePortsGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleActivePortsGet(UINT32 uiAclRuleId, UINT32 *puiPortMask)$/;"	f	file:
+_Hal_AclRuleBind	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleBind(UINT32 uiPortMask, UINT32 uiAclId)$/;"	f	file:
+_Hal_AclRuleCfgClear	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleCfgClear(UINT32 uiAclRuleId)$/;"	f	file:
+_Hal_AclRuleCfgCreate	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleCfgCreate(UINT32 uiAclId, ACL_TRUST_MODE_E uiAclRuleType, ACL_ACTION_E enAclAct, void *pAclRuleTypeValue, void *pAclRuleData)$/;"	f	file:
+_Hal_AclRuleCfgPortsClear	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleCfgPortsClear(UINT32 uiAclRuleId)$/;"	f	file:
+_Hal_AclRuleEmptyIdGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleEmptyIdGet(UINT32 *puiAclRuleId)$/;"	f	file:
+_Hal_AclRuleFieldFill	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleFieldFill(ACL_TRUST_MODE_E enTrustMode, void *pValue, void *pAclTypeAndValue) $/;"	f	file:
+_Hal_AclRuleIsEmpty	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleIsEmpty(UINT32 uiAclRuleId, BOOL *pbState)$/;"	f	file:
+_Hal_AclRuleMacCfgCreate	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleMacCfgCreate(UINT32 uiAclId, ACL_TRUST_MODE_E uiAclRuleType, ACL_ACTION_E enAclAct, void *pMac, void * pMacMask, void *pAclRuleData)$/;"	f	file:
+_Hal_AclRuleUnbind	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_AclRuleUnbind(UINT32 uiAclId)$/;"	f	file:
+_Hal_CfgAclCareTag	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgAclCareTag(UINT32 uiAclRuleId, rtk_filter_care_tag_index_t enCareTagType, BOOL bEnable)$/;"	f	file:
+_Hal_CfgCtcTranspAclRuleIdGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgCtcTranspAclRuleIdGet(UINT32 *puiAclRuleId, UINT32 *puiLPortMask)$/;"	f	file:
+_Hal_CfgPortClfRmkAclRuleIdGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkAclRuleIdGet(UINT32 uiLPortId, UINT32 uiClfRmkIndex, UINT32 *puiAclId)$/;"	f	file:
+_Hal_CfgPortClfRmkAclRuleIdSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkAclRuleIdSet(UINT32 uiLPortId, UINT32 uiClfRmkIndex, UINT32 uiAclId)$/;"	f	file:
+_Hal_CfgPortClfRmkGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkGet(UINT32 uiLPortId, PORT_CLF_REMAERK_CFG_S *pstClfMarkMode)$/;"	f	file:
+_Hal_CfgPortClfRmkModeGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkModeGet(UINT32 uiLPortId, UINT32 uiClfRmkIndex, ACL_TRUST_MODE_E *penMode)$/;"	f	file:
+_Hal_CfgPortClfRmkModeSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkModeSet(UINT32 uiLPortId, UINT32 uiClfRmkIndex, ACL_TRUST_MODE_E enMode)$/;"	f	file:
+_Hal_CfgPortClfRmkNumDec	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkNumDec(UINT32 uiLPortId)$/;"	f	file:
+_Hal_CfgPortClfRmkNumGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkNumGet(UINT32 uiLPortId, UINT32 *puiNum)$/;"	f	file:
+_Hal_CfgPortClfRmkNumInc	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkNumInc(UINT32 uiLPortId)$/;"	f	file:
+_Hal_CfgPortClfRmkSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortClfRmkSet(UINT32 uiLPortId, PORT_CLF_REMAERK_CFG_S *pstClfMarkMode)$/;"	f	file:
+_Hal_CfgPortCtcVlanRuleIdGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortCtcVlanRuleIdGet(UINT32 uiLPortId, UINT32 uiListId, UINT32 *puiAclId)$/;"	f	file:
+_Hal_CfgPortCtcVlanRuleIdSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortCtcVlanRuleIdSet(UINT32 uiLPortId, UINT32 uiListId, UINT32 uiAclId)$/;"	f	file:
+_Hal_CfgPortCtcVlanSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortCtcVlanSet(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode)$/;"	f	file:
+_Hal_CfgPortFilterGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortFilterGet(UINT32 uiLPortId, PORT_FILTER_CFG_S *pstFilterMode)$/;"	f	file:
+_Hal_CfgPortFilterModeGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortFilterModeGet(UINT32 uiLPortId, UINT32 uiFilterIndex, ACL_DIRECTION_E enAclDir, ACL_TRUST_MODE_E *penMode)$/;"	f	file:
+_Hal_CfgPortFilterModeSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortFilterModeSet(UINT32 uiLPortId, UINT32 uiFilterIndex, ACL_DIRECTION_E enAclDir, ACL_TRUST_MODE_E enMode)$/;"	f	file:
+_Hal_CfgPortFilterRuleIdGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortFilterRuleIdGet(UINT32 uiLPortId, UINT32 uiFilterIndex, ACL_DIRECTION_E enAclDir, UINT32 *puiAclId)$/;"	f	file:
+_Hal_CfgPortFilterRuleIdSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortFilterRuleIdSet(UINT32 uiLPortId, UINT32 uiFilterIndex, ACL_DIRECTION_E enAclDir, UINT32 uiAclId)$/;"	f	file:
+_Hal_CfgPortFilterSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortFilterSet(UINT32 uiLPortId, PORT_FILTER_CFG_S *pstFilterMode)$/;"	f	file:
+_Hal_CfgPortMcVlanGet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortMcVlanGet(UINT32 uiLPortId, PORT_MC_VLAN_CFG_S *pstCtcMcVlanCfg)$/;"	f	file:
+_Hal_CfgPortMcVlanSet	realtek/rtk_drv_acl.c	/^static DRV_RET_E _Hal_CfgPortMcVlanSet(UINT32 uiLPortId, PORT_MC_VLAN_CFG_S *pstCtcMcVlanCfg)$/;"	f	file:
+_Hal_DumpUCastMacEntry	atheros/ar_drv_mac.c	/^static DRV_RET_E _Hal_DumpUCastMacEntry(UINT32 ulUnit, UINT32 ulStartIndex, UINT32 ulEndIndex)$/;"	f	file:
+_Hal_DumpUCastMacEntry	realtek/rtk_drv_mac.c	/^static DRV_RET_E _Hal_DumpUCastMacEntry(UINT32 ulUnit, UINT32 ulStartIndex, UINT32 ulEndIndex)$/;"	f	file:
+_Hal_GetPortRateByPercentage	atheros/ar_drv_ratelimit.c	/^static UINT32 _Hal_GetPortRateByPercentage(port_num_t lport, UINT32 percentage)$/;"	f	file:
+_Hal_GetPortRateByPercentage	realtek/rtk_drv_ratelimit.c	/^static UINT32 _Hal_GetPortRateByPercentage(port_num_t lport, UINT32 percentage)$/;"	f	file:
+_Hal_InsertUcastMacEntry	atheros/ar_drv_mac.c	/^static void _Hal_InsertUcastMacEntry(UINT32 ulUnit, UINT32 ulIndex)$/;"	f	file:
+_Hal_InsertUcastMacEntry	realtek/rtk_drv_mac.c	/^static void _Hal_InsertUcastMacEntry(UINT32 ulUnit, UINT32 ulIndex)$/;"	f	file:
+_Hal_MacCompare	atheros/ar_drv_mac.c	/^static UINT32 _Hal_MacCompare(mac_address_t address_1, mac_address_t address_2)$/;"	f	file:
+_Hal_MacCompare	realtek/rtk_drv_mac.c	/^static UINT32 _Hal_MacCompare(mac_address_t address_1, mac_address_t address_2)$/;"	f	file:
+_Hal_MacMcastAdd	atheros/ar_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastAdd(mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastAdd	realtek/rtk_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastAdd(mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastDel	atheros/ar_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastDel(mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastDel	realtek/rtk_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastDel(mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastGetByMac	atheros/ar_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastGetByMac(mac_address_t tdMac, mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastGetByMac	realtek/rtk_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastGetByMac(mac_address_t tdMac, mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastGetByVid	atheros/ar_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastGetByVid(vlan_id_t tdVid, mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastGetByVid	realtek/rtk_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastGetByVid(vlan_id_t tdVid, mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastSet	atheros/ar_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastSet(mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_MacMcastSet	realtek/rtk_drv_mac.c	/^static DRV_RET_E _Hal_MacMcastSet(mac_mcast_t *pstMacMcast)$/;"	f	file:
+_Hal_UcastCompare	realtek/rtk_drv_mac.c	/^static UINT32 _Hal_UcastCompare(UINT32 ulUnit, rtk_l2_ucastAddr_t *pstRtkUcast, mac_dump_ucast_tab_t *pstDumpTab, UINT32 *pulRefreshOnly)$/;"	f	file:
+_hal_vlan_num	atheros/ar_drv_vlan.c	/^static UINT32 _hal_vlan_num = 1;$/;"	v	file:
+_hal_vlan_num	realtek/rtk_drv_vlan.c	/^static UINT32 _hal_vlan_num = 1;$/;"	v	file:
+_l3_route_s_	realtek/hal_common.h	/^typedef struct _l3_route_s_ {$/;"	s
+_l3_route_s_	singleport/hal_common.h	/^typedef struct _l3_route_s_ {$/;"	s
+_mac_mcast_entry_dump	atheros/ar_drv_mac.c	/^static mac_mcast_t _mac_mcast_entry_dump[MAX_MULTICAST_ENTRY];$/;"	v	file:
+_mac_mcast_entry_dump	realtek/rtk_drv_mac.c	/^static mac_mcast_t _mac_mcast_entry_dump[MAX_MULTICAST_ENTRY];$/;"	v	file:
+_mac_ucast_dump_link	atheros/ar_drv_mac.c	/^static mac_dump_ucast_link_t _mac_ucast_dump_link[CHIP_NO][MAX_ARL_TABLE];$/;"	v	file:
+_mac_ucast_dump_link	realtek/rtk_drv_mac.c	/^static mac_dump_ucast_link_t _mac_ucast_dump_link[CHIP_NO][MAX_ARL_TABLE];$/;"	v	file:
+_mac_ucast_entry_dump	atheros/ar_drv_mac.c	/^static mac_dump_ucast_tab_t _mac_ucast_entry_dump[CHIP_NO][MAX_ARL_TABLE];$/;"	v	file:
+_mac_ucast_entry_dump	realtek/rtk_drv_mac.c	/^static mac_dump_ucast_tab_t _mac_ucast_entry_dump[CHIP_NO][MAX_ARL_TABLE];$/;"	v	file:
+_mac_ucast_entry_dump_sorted	atheros/ar_drv_mac.c	/^static mac_dump_ucast_tab_t _mac_ucast_entry_dump_sorted[MAX_ARL_TABLE];$/;"	v	file:
+_mac_ucast_entry_dump_sorted	realtek/rtk_drv_mac.c	/^static mac_dump_ucast_tab_t _mac_ucast_entry_dump_sorted[MAX_ARL_TABLE];$/;"	v	file:
+_qosIntPriToDp	realtek/rtk_drv_qos.c	/^UINT32 _qosIntPriToDp[QOS_MAX_INTERNAL_PRIORITY]={QOS_COLOR_GREEEN,QOS_COLOR_GREEEN,QOS_COLOR_GREEEN,$/;"	v
+_spin_hal_eeprom_lock	realtek/rtk_drv_eeprom.c	/^static spinlock_t _spin_hal_eeprom_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+_spin_hal_mac_lock	atheros/ar_drv_mac.c	/^static spinlock_t _spin_hal_mac_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+_spin_hal_mac_lock	realtek/rtk_drv_mac.c	/^static spinlock_t _spin_hal_mac_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+_spin_hal_port_lock	atheros/ar_drv_port.c	/^static spinlock_t _spin_hal_port_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+_spin_hal_port_lock	realtek/rtk_drv_port.c	/^static spinlock_t _spin_hal_port_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+_spin_hal_vlan_lock	atheros/ar_drv_vlan.c	/^static spinlock_t _spin_hal_vlan_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+_spin_hal_vlan_lock	realtek/rtk_drv_vlan.c	/^static spinlock_t _spin_hal_vlan_lock = SPIN_LOCK_UNLOCKED;$/;"	v	file:
+action	realtek/hal_common.h	/^    UINT8 action;\/*HAL_L3_ACT_ROUTE_XXX*\/$/;"	m	struct:_l3_route_s_
+action	singleport/hal_common.h	/^    UINT8 action;\/*HAL_L3_ACT_ROUTE_XXX*\/$/;"	m	struct:_l3_route_s_
+aucMac	atheros/ar_l2_tx.c	/^    unsigned char   aucMac[6];  \/* MAC地址作为该软件TABLE的索引 *\/$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+aucMac	realtek/rtk_l2_tx.c	/^    unsigned char   aucMac[6];  \/* MAC地址作为该软件TABLE的索引 *\/$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+aucMac	singleport/single_l2_tx.c	/^    unsigned char   aucMac[6];  \/* MAC地址作为该软件TABLE的索引 *\/$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+bitop_numberOfSetBitsInArray	realtek/rtk_convert.c	/^UINT32 bitop_numberOfSetBitsInArray(UINT32 *pArray, UINT32 arraySize)$/;"	f
+check_add_del_rtl_head	atheros/ar_l2_tx.c	/^INT32 check_add_del_rtl_head(UINT8 * pBuf, INT32 len, UINT32* rtl_pport)$/;"	f
+check_add_del_rtl_head	realtek/rtk_l2_tx.c	/^INT32 check_add_del_rtl_head(UINT8 * pBuf, INT32 len, UINT32* rtl_pport)$/;"	f
+destPort	realtek/rtk_drv_mirror.c	/^    port_num_t destPort;    \/*0 if invalid*\/$/;"	m	struct:__anon3	file:
+dest_ip	realtek/hal_common.h	/^    ip_address_t dest_ip;$/;"	m	struct:_l3_route_s_
+dest_ip	singleport/hal_common.h	/^    ip_address_t dest_ip;$/;"	m	struct:_l3_route_s_
+diag_printf	atheros/ar_drv_mac.c	84;"	d	file:
+diag_printf	realtek/rtk_drv_mac.c	97;"	d	file:
+echo_hello	realtek/hello.c	/^void echo_hello(void)$/;"	f
+enPort	atheros/ar_l2_tx.c	/^    unsigned int    enPort;    $/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+enPort	realtek/rtk_l2_tx.c	/^    unsigned int    enPort;    $/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+enPort	singleport/single_l2_tx.c	/^    unsigned int    enPort;    $/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+g_astUniQinqMode	realtek/rtk_drv_acl.c	/^PORT_QINQ_S g_astUniQinqMode[LOGIC_PORT_NO+1];$/;"	v
+g_auEepromBuf	realtek/rtk_drv_eeprom.c	/^static uint8 g_auEepromBuf[EEPROM_BYTE_SIZE];$/;"	v	file:
+g_bI2cFiberInitDone	realtek/rtk_drv_eeprom.c	/^BOOL g_bI2cFiberInitDone = FALSE;$/;"	v
+g_stComboPortCfg	atheros/ar_drv_port.c	/^COMBO_PORT_CONFIG_S g_stComboPortCfg[LOGIC_PORT_NO+1][PORT_TYPE_ALL];$/;"	v
+g_stComboPortCfg	realtek/rtk_drv_port.c	/^COMBO_PORT_CONFIG_S g_stComboPortCfg[LOGIC_PORT_NO+1][PORT_TYPE_ALL];$/;"	v
+g_szI2cFiberGpioPin	realtek/rtk_drv_eeprom.c	/^static GPIO_PIN_E g_szI2cFiberGpioPin[LOGIC_PORT_NO+1][EEPROM_I2C_PIN_END] = {$/;"	v	file:
+gpioMap	atheros/ar_drv_gpio.c	/^static gpioID gpioMap[GPIO_INTERNAL_PIN_END+1]=$/;"	v	file:
+gpioMap	realtek/rtk_drv_gpio.c	/^static gpioID gpioMap[GPIO_INTERNAL_PIN_END+1]=$/;"	v	file:
+i2c_RevByte	realtek/rtk_drv_eeprom.c	/^static uint8 i2c_RevByte(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_SendAck	realtek/rtk_drv_eeprom.c	/^static void i2c_SendAck(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_SendByte	realtek/rtk_drv_eeprom.c	/^static void i2c_SendByte(uint8 data, gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_SendNoAck	realtek/rtk_drv_eeprom.c	/^static void i2c_SendNoAck(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_check_ACK	realtek/rtk_drv_eeprom.c	/^static ACK_STATUS i2c_check_ACK(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_delay_us	realtek/rtk_drv_eeprom.c	/^static void i2c_delay_us(uint32 us)$/;"	f	file:
+i2c_init	realtek/rtk_drv_eeprom.c	/^static void i2c_init(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_repstart	realtek/rtk_drv_eeprom.c	/^static void i2c_repstart(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_reset	realtek/rtk_drv_eeprom.c	/^static void i2c_reset(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_start	realtek/rtk_drv_eeprom.c	/^static void i2c_start(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+i2c_stop	realtek/rtk_drv_eeprom.c	/^static void i2c_stop(gpioID GpioSclId, gpioID GpioSdaId)$/;"	f	file:
+int32	realtek/rtk_drv_port.c	/^typedef int             int32;$/;"	t	file:
+ip_mask_len	realtek/hal_common.h	/^    UINT8 ip_mask_len;\/*manual network route:1~32, auto direct route:32, default route:0*\/$/;"	m	struct:_l3_route_s_
+ip_mask_len	singleport/hal_common.h	/^    UINT8 ip_mask_len;\/*manual network route:1~32, auto direct route:32, default route:0*\/$/;"	m	struct:_l3_route_s_
+isolate_save	realtek/rtk_drv_port.c	/^logic_pmask_t isolate_save;$/;"	v
+k_l2_send_by_port	atheros/ar_l2_tx.c	/^DRV_RET_E k_l2_send_by_port(struct sk_buff *pSkb, l2_send_op *op)$/;"	f
+k_l2_send_by_port	realtek/rtk_l2_tx.c	/^DRV_RET_E k_l2_send_by_port(struct sk_buff *pSkb, l2_send_op *op)$/;"	f
+l2_tx_callback	atheros/ar_l2_tx.c	/^static void l2_tx_callback(uint32 unit, drv_nic_pkt_t *pPacket, void *pCookie)$/;"	f	file:
+l2_tx_callback	realtek/rtk_l2_tx.c	/^static void l2_tx_callback(uint32 unit, drv_nic_pkt_t *pPacket, void *pCookie)$/;"	f	file:
+l3Route_t	realtek/hal_common.h	/^}l3Route_t;$/;"	t	typeref:struct:_l3_route_s_
+l3Route_t	singleport/hal_common.h	/^}l3Route_t;$/;"	t	typeref:struct:_l3_route_s_
+m_astAclAction	realtek/rtk_drv_acl.c	/^rtk_filter_action_t m_astAclAction[ACL_RULE_NUM_MAX];$/;"	v
+m_astAclCfg	realtek/rtk_drv_acl.c	/^rtk_filter_cfg_t m_astAclCfg[ACL_RULE_NUM_MAX];$/;"	v
+m_astDrvMacTable	atheros/ar_l2_tx.c	/^static ETH_MAC_TABLE_ENTRY_S m_astDrvMacTable[MAX_TABLE_ENTRY_COUNT];$/;"	v	file:
+m_astDrvMacTable	realtek/rtk_l2_tx.c	/^static ETH_MAC_TABLE_ENTRY_S m_astDrvMacTable[MAX_TABLE_ENTRY_COUNT];$/;"	v	file:
+m_astDrvMacTable	singleport/single_l2_tx.c	/^static ETH_MAC_TABLE_ENTRY_S m_astDrvMacTable[MAX_TABLE_ENTRY_COUNT];$/;"	v	file:
+m_astUniClfMarkMode	realtek/rtk_drv_acl.c	/^PORT_CLF_REMAERK_CFG_S m_astUniClfMarkMode[LOGIC_PORT_NO+1];$/;"	v
+m_astUniFilterMode	realtek/rtk_drv_acl.c	/^PORT_FILTER_CFG_S m_astUniFilterMode[LOGIC_PORT_NO+2];$/;"	v
+m_astUniMcVlanCfg	realtek/rtk_drv_acl.c	/^PORT_MC_VLAN_CFG_S m_astUniMcVlanCfg[LOGIC_PORT_NO+1];$/;"	v
+m_astUniVlanMode	realtek/rtk_drv_acl.c	/^CTC_VLAN_CFG_S m_astUniVlanMode[LOGIC_PORT_NO+1];$/;"	v
+m_stAclMutex	realtek/rtk_drv_acl.c	/^struct mutex m_stAclMutex;$/;"	v	typeref:struct:mutex
+mac_add	realtek/hal_common.h	/^    mac_address_t mac_add;\/*not valid with local vlan interface route*\/$/;"	m	struct:_l3_route_s_
+mac_add	singleport/hal_common.h	/^    mac_address_t mac_add;\/*not valid with local vlan interface route*\/$/;"	m	struct:_l3_route_s_
+mac_tab_lock	atheros/ar_l2_tx.c	/^static spinlock_t mac_tab_lock=SPIN_LOCK_UNLOCKED;$/;"	v	file:
+mac_tab_lock	realtek/rtk_l2_tx.c	/^static spinlock_t mac_tab_lock=SPIN_LOCK_UNLOCKED;$/;"	v	file:
+mac_tab_lock	singleport/single_l2_tx.c	/^static spinlock_t mac_tab_lock=SPIN_LOCK_UNLOCKED;$/;"	v	file:
+mac_tab_timer	atheros/ar_l2_tx.c	/^struct timer_list mac_tab_timer;$/;"	v	typeref:struct:timer_list
+mac_tab_timer	realtek/rtk_l2_tx.c	/^struct timer_list mac_tab_timer;$/;"	v	typeref:struct:timer_list
+mac_tab_timer	singleport/single_l2_tx.c	/^struct timer_list mac_tab_timer;$/;"	v	typeref:struct:timer_list
+mirrorAclGrp	realtek/rtk_drv_mirror.c	/^static mirrorAclGrp_t mirrorAclGrp[MAX_ACL_ACTION_MIRROR];$/;"	v	file:
+mirrorAclGrp_t	realtek/rtk_drv_mirror.c	/^}mirrorAclGrp_t;$/;"	t	typeref:struct:__anon3	file:
+nexthop_ip	realtek/hal_common.h	/^    ip_address_t nexthop_ip;\/*not valid with direct route*\/$/;"	m	struct:_l3_route_s_
+nexthop_ip	singleport/hal_common.h	/^    ip_address_t nexthop_ip;\/*not valid with direct route*\/$/;"	m	struct:_l3_route_s_
+phy_pmask_t	atheros/hal_common.h	/^}phy_pmask_t;$/;"	t	typeref:struct:tagPhyMask
+phy_pmask_t	realtek/hal_common.h	/^}phy_pmask_t;$/;"	t	typeref:struct:tagPhyMask
+pmask	atheros/hal_common.h	/^    fal_pbmp_t pmask[CHIP_NO];$/;"	m	struct:tagPhyMask
+pmask	realtek/hal_common.h	/^    rtk_portmask_t pmask[CHIP_NO];$/;"	m	struct:tagPhyMask
+preference	realtek/hal_common.h	/^    UINT8 preference;\/*priority 1~255, the smaller the higher, only valid if network route entries have same dest_ip and ip_mask_len*\/$/;"	m	struct:_l3_route_s_
+preference	singleport/hal_common.h	/^    UINT8 preference;\/*priority 1~255, the smaller the higher, only valid if network route entries have same dest_ip and ip_mask_len*\/$/;"	m	struct:_l3_route_s_
+pstMacUcastDumpLinkHead	atheros/ar_drv_mac.c	/^static mac_dump_ucast_link_t *pstMacUcastDumpLinkHead = NULL;$/;"	v	file:
+pstMacUcastDumpLinkHead	realtek/rtk_drv_mac.c	/^static mac_dump_ucast_link_t *pstMacUcastDumpLinkHead = NULL;$/;"	v	file:
+rtk_ComboPortSkipSet	realtek/rtk_drv_port.c	/^static bool rtk_ComboPortSkipSet(phyid_t phyid, UINT32 uiPortType)$/;"	f	file:
+rtk_port_parm_init	realtek/rtk_drv_port.c	/^void  rtk_port_parm_init(void)$/;"	f
+rtl_l2_init	atheros/ar_l2_tx.c	/^int __init rtl_l2_init(void)$/;"	f
+rtl_l2_init	atheros/ar_l2_tx.c	/^module_init(rtl_l2_init);$/;"	v
+rtl_l2_init	realtek/rtk_l2_tx.c	/^int __init rtl_l2_init(void)$/;"	f
+rtl_l2_init	realtek/rtk_l2_tx.c	/^module_init(rtl_l2_init);$/;"	v
+rtl_l2_init	singleport/single_l2_tx.c	/^int __init rtl_l2_init(void)$/;"	f
+rtl_l2_init	singleport/single_l2_tx.c	/^module_init(rtl_l2_init);$/;"	v
+single_getDbgReg	singleport/single_smi.c	/^int single_getDbgReg(unsigned int reg, unsigned int *pValue)$/;"	f
+single_getMiiReg	singleport/single_smi.c	/^int single_getMiiReg(unsigned int reg, unsigned int *pValue)$/;"	f
+single_setDbgReg	singleport/single_smi.c	/^int single_setDbgReg(unsigned int reg, unsigned int value)$/;"	f
+single_setMiiReg	singleport/single_smi.c	/^int single_setMiiReg(unsigned int reg, unsigned int value)$/;"	f
+skb_push_qtag	atheros/ar_l2_tx.c	/^void skb_push_qtag(struct sk_buff *pSkb, UINT16 usVid, UINT8 ucPriority)$/;"	f
+skb_push_qtag	realtek/rtk_l2_tx.c	/^void skb_push_qtag(struct sk_buff *pSkb, UINT16 usVid, UINT8 ucPriority)$/;"	f
+skb_push_qtag	singleport/single_l2_tx.c	/^void skb_push_qtag(struct sk_buff *pSkb, UINT16 usVid, UINT8 ucPriority)$/;"	f
+spdlx_save	realtek/rtk_drv_port.c	/^uint32 spdlx_save[LOGIC_PORT_NO+1];$/;"	v
+tagACL_LIST_ID	atheros/ar_drv_acl.c	/^typedef enum tagACL_LIST_ID$/;"	g	file:
+tagETH_MAC_TABLE_ENTRY	atheros/ar_l2_tx.c	/^typedef struct tagETH_MAC_TABLE_ENTRY$/;"	s	file:
+tagETH_MAC_TABLE_ENTRY	realtek/rtk_l2_tx.c	/^typedef struct tagETH_MAC_TABLE_ENTRY$/;"	s	file:
+tagETH_MAC_TABLE_ENTRY	singleport/single_l2_tx.c	/^typedef struct tagETH_MAC_TABLE_ENTRY$/;"	s	file:
+tagPhyMask	atheros/hal_common.h	/^typedef struct tagPhyMask{$/;"	s
+tagPhyMask	realtek/hal_common.h	/^typedef struct tagPhyMask{$/;"	s
+tagRTL_HEADER	realtek/hal_common.h	/^typedef struct tagRTL_HEADER$/;"	s
+ucAge	atheros/ar_l2_tx.c	/^    atomic_t   ucAge;      \/* 0表示该表项未被占用。当一个表项被添加，该值为255，每隔一定时间就减1 *\/$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+ucAge	realtek/rtk_l2_tx.c	/^    atomic_t   ucAge;      \/* 0表示该表项未被占用。当一个表项被添加，该值为255，每隔一定时间就减1 *\/$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+ucAge	singleport/single_l2_tx.c	/^    atomic_t   ucAge;      \/* 0表示该表项未被占用。当一个表项被添加，该值为255，每隔一定时间就减1 *\/$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+ucDisableLearn	realtek/hal_common.h	/^    UINT8  ucDisableLearn:1;$/;"	m	struct:tagRTL_HEADER
+ucEFID	realtek/hal_common.h	/^	UINT8  ucEFID:1;$/;"	m	struct:tagRTL_HEADER
+ucFID	realtek/hal_common.h	/^	UINT8  ucFID:3;$/;"	m	struct:tagRTL_HEADER
+ucKeep	realtek/hal_common.h	/^    UINT8  ucKeep:1;$/;"	m	struct:tagRTL_HEADER
+ucPriority	realtek/hal_common.h	/^    UINT8  ucPriority:3;$/;"	m	struct:tagRTL_HEADER
+ucPrioritySelect	realtek/hal_common.h	/^    UINT8  ucPrioritySelect:1;$/;"	m	struct:tagRTL_HEADER
+ucProtocol	realtek/hal_common.h	/^	UINT8  ucProtocol;$/;"	m	struct:tagRTL_HEADER
+ucReason	realtek/hal_common.h	/^	UINT8  ucReason;$/;"	m	struct:tagRTL_HEADER
+ucVIDX	realtek/hal_common.h	/^    UINT8  ucVIDX:5;$/;"	m	struct:tagRTL_HEADER
+ucVSEL	realtek/hal_common.h	/^    UINT8  ucVSEL:1;$/;"	m	struct:tagRTL_HEADER
+uiCount	realtek/rtk_drv_mirror.c	/^    UINT32 uiCount;         \/*share count, remove group when 0*\/$/;"	m	struct:__anon3	file:
+uint32	realtek/rtk_drv_port.c	/^typedef unsigned int   uint32;$/;"	t	file:
+ulMacCurrentIndex	atheros/ar_drv_mac.c	/^static UINT32 ulMacCurrentIndex = 0;$/;"	v	file:
+ulMacCurrentIndex	realtek/rtk_drv_mac.c	/^static UINT32 ulMacCurrentIndex = 0;$/;"	v	file:
+ulMacDumpInited	atheros/ar_drv_mac.c	/^static UINT32 ulMacDumpInited = 0;$/;"	v	file:
+ulMacDumpInited	realtek/rtk_drv_mac.c	/^static UINT32 ulMacDumpInited = 0;$/;"	v	file:
+ulMacMacstInited	atheros/ar_drv_mac.c	/^static UINT32 ulMacMcastCount = 0, ulMacMacstInited = 0;$/;"	v	file:
+ulMacMacstInited	realtek/rtk_drv_mac.c	/^static UINT32 ulMacMcastCount = 0, ulMacMacstInited = 0;$/;"	v	file:
+ulMacMcastCount	atheros/ar_drv_mac.c	/^static UINT32 ulMacMcastCount = 0, ulMacMacstInited = 0;$/;"	v	file:
+ulMacMcastCount	realtek/rtk_drv_mac.c	/^static UINT32 ulMacMcastCount = 0, ulMacMacstInited = 0;$/;"	v	file:
+usEthType	realtek/hal_common.h	/^	UINT16 usEthType;$/;"	m	struct:tagRTL_HEADER
+usPPortMask	realtek/hal_common.h	/^    UINT16 usPPortMask;$/;"	m	struct:tagRTL_HEADER
+usVlan	atheros/ar_l2_tx.c	/^    unsigned short  usVlan;$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+usVlan	realtek/rtk_l2_tx.c	/^    unsigned short  usVlan;$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+usVlan	singleport/single_l2_tx.c	/^    unsigned short  usVlan;$/;"	m	struct:tagETH_MAC_TABLE_ENTRY	file:
+vid	realtek/hal_common.h	/^    vlan_id_t vid;$/;"	m	struct:_l3_route_s_
+vid	singleport/hal_common.h	/^    vlan_id_t vid;$/;"	m	struct:_l3_route_s_
+zj_debug	atheros/ar_drv_stub.c	/^int zj_debug(struct seq_file *m, void *v){ return 0;}$/;"	f
+zj_debug	atheros/ar_l2_tx.c	/^int zj_debug(struct seq_file *m, void *v)$/;"	f
+zj_debug	realtek/rtk_l2_tx.c	/^int zj_debug(struct seq_file *m, void *v)$/;"	f
+zj_debug	singleport/single_l2_tx.c	/^int zj_debug(struct seq_file *m, void *v)$/;"	f

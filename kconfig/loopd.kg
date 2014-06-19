@@ -1,0 +1,7 @@
+menu "loodp configuration"
+config CONFIG_LOOPD
+        bool "loodp communication surpport"
+        default y
+        help
+                none
+endmenu

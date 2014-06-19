@@ -1,0 +1,3 @@
+# This file is for Makefile to include.
+# $(CARCHF) will be used as a compilation flag.
+CARCHF:=-march=5281 -mtune=5281 -mno-abicalls -mno-memcpy -EB

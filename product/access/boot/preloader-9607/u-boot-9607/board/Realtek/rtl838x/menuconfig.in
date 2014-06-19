@@ -1,0 +1,9 @@
+mainmenu_option next_comment
+comment '838x Diagnosis Tools'
+
+bool 'DRAM Test' CONFIG_CMD_DRAM_TEST
+bool 'SPI Flash Test' CONFIG_CMD_FLASH_TEST
+bool 'Memory Test Error Handle Manner' CONFIG_MT_ERR_HANDLE
+bool 'DRAM AC DC Test' CONFIG_CMD_DRAM_AC_TEST
+
+endmenu

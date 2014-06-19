@@ -1,0 +1,41 @@
+mainmenu_name "U-Boot Configuration"
+
+mainmenu_option next_comment
+comment 'Board'
+
+bool 'Standalone U-Boot' CONFIG_STANDALONE_UBOOT
+
+if [ "$CONFIG_STANDALONE_UBOOT" = "n" ]; then
+	define_bool CONFIG_RTL838XS n
+	define_bool CONFIG_RTL839XS n
+	define_int  CONFIG_EXCEPTION_BASE CONFIG_SYS_TEXT_BASE
+	choice 'Realtek' "RTL838x  CONFIG_RTL838X
+	                  RTL839x  CONFIG_RTL839X
+	                  LUNA     CONFIG_LUNA"
+else
+	define_bool CONFIG_RTL838X n
+	define_bool CONFIG_RTL839X n
+	define_bool CONFIG_LUNA    n
+	define_int  CONFIG_EXCEPTION_BASE 0xbf000000
+	choice 'Realtek' "RTL838x  CONFIG_RTL838XS
+	                  RTL839x  CONFIG_RTL839XS
+	                  LUNA     CONFIG_LUNAS"
+fi
+
+if [ "$CONFIG_LUNA" = "y" ]; then
+	choice 'Console' "UART0 CONFIG_UART0
+	                  UART1 CONFIG_UART1" UART0
+fi
+
+comment 'U-Boot Location'
+hex 'U-Boot Text Base' CONFIG_SYS_TEXT_BASE  	0x80F00000
+
+endmenu
+
+if [ "$CONFIG_RTL838X" = "y" ] || [ "$CONFIG_RTL838XS" = "y" ]; then
+	source ./board/Realtek/rtl838x/menuconfig.in
+elif [ "$CONFIG_RTL839X" = "y" ] || [ "$CONFIG_RTL839XS" = "y" ]; then
+	source ./board/Realtek/rtl839x/menuconfig.in
+elif [ "$CONFIG_LUNA" = "y" ] || [ "$CONFIG_LUNAS" = "y" ]; then
+	source ./board/Realtek/luna/menuconfig.in
+fi

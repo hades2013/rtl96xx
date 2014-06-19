@@ -1,0 +1,40 @@
+#!/bin/sh
+mount -t tmpfs none /var -o size=5m
+mkdir /var/empty
+mkdir /var/run
+mkdir /var/log
+mkdir /var/tmp
+mkdir /var/coredump
+cp -r /etc /var
+mount -t tmpfs none /etc
+cp -r /var/etc /
+rm -rf /var/etc
+touch /var/tmp/log
+#mkdir /dev/pts
+#mount -t devpts devpts /dev/pts
+mount -t proc proc /proc
+mount -t jffs2 /dev/mtdblock6 /mnt
+
+ifconfig lo 127.0.0.1
+route add -net 127.0.0.0 netmask 255.255.255.0 lo
+echo "/var/coredump/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
+
+#brctl addbr br0
+
+# for kernel utest
+echo 1 >/proc/sys/net/ipv4/ip_no_pmtu_disc
+echo 10 >/proc/sys/net/ipv4/tcp_keepalive_intvl
+echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
+echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
+ifconfig eth0 up
+#=================== install modules ============================
+insmod /modules/opl_reg_mmap.ko
+insmod /modules/opl_minte.ko
+insmod /modules/opl_cpuif.ko
+#insmod /modules/opl_mem.ko
+insmod /modules/opl_dal_driver.ko
+insmod /usr/lib/ifm.ko
+master &
+opconn &
+ponmonitor &
+

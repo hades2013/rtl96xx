@@ -1,0 +1,450 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: register mmap module</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>register mmap module</h1><hr><a name="_details"></a><h2>详细描述</h2>
+THE FORMAT is FOR DOXYGEN to Generate the document  opulan.com. 
+<p>
+<dl compact><dt><b>作者:</b></dt><dd><a href="mailto:stephanxu@sina.com">stephanxu@sina.com</a> </dd></dl>
+<dl compact><dt><b>版本:</b></dt><dd>v0.2 </dd></dl>
+<dl compact><dt><b>日期:</b></dt><dd>June-29-2007  author date description ------------------------------------------------------------------- hxu June-29-2007 mainly from the old version and rewrite the opulan_read function.<br>
+ hxu July-05-2007 distill the piece of the ipmux driver code dedicated for the opl switch chip register map. </dd></dl>
+
+<p>
+<table border="0" cellpadding="0" cellspacing="0">
+<tr><td></td></tr>
+<tr><td colspan="2"><br><h2>模块</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">组 &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__opl__reg.html">function_description(opl_reg_mmap.c)</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga6">OPL_REG_MAJOR</a>&nbsp;&nbsp;&nbsp;110</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga7">OPL_REG_DEVICE</a>&nbsp;&nbsp;&nbsp;"opl_reg"</td></tr>
+
+<tr><td colspan="2"><br><h2>local function declaration</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga3">opl_reg_open</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga4">opl_reg_write</a> (struct file *filp, const char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga5">opl_reg_release</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga7">opl_reg_read</a> (struct file *filp, char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description:  <a href="#ga7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga8">opl_reg_mmap</a> (struct file *file, struct vm_area_struct *vma)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: memory map the ipmux register into user space to access it.  <a href="#ga8"></a><br></td></tr>
+<tr><td colspan="2"><br><h2>local variable declaration and definition</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga0">opl_reg_open_count</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga1">opl_reg_is_open</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">file_operations&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___o_p_l___r_e_g.html#ga2">opl_reg_fops</a></td></tr>
+
+</table>
+<hr><h2>宏定义文档</h2>
+<a class="anchor" name="ga7" doxytag="opl_reg_mmap.c::OPL_REG_DEVICE"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">#define OPL_REG_DEVICE&nbsp;&nbsp;&nbsp;"opl_reg"          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00032">32</a>行定义。
+<p>
+参考自 <a class="el" href="opl__reg__mmap_8c-source.html#l00193">opl_reg_exit()</a>及<a class="el" href="opl__reg__mmap_8c-source.html#l00176">opl_reg_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga6" doxytag="opl_reg_mmap.c::OPL_REG_MAJOR"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">#define OPL_REG_MAJOR&nbsp;&nbsp;&nbsp;110          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00031">31</a>行定义。
+<p>
+参考自 <a class="el" href="opl__reg__mmap_8c-source.html#l00193">opl_reg_exit()</a>及<a class="el" href="opl__reg__mmap_8c-source.html#l00176">opl_reg_init()</a>.    </td>
+  </tr>
+</table>
+<hr><h2>函数文档</h2>
+<a class="anchor" name="ga8" doxytag="opl_reg_mmap.c::opl_reg_mmap"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">int opl_reg_mmap           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct vm_area_struct *&nbsp;</td>
+          <td class="mdname" nowrap> <em>vma</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+description: memory map the ipmux register into user space to access it. 
+<p>
+which will reduce the spense on copy value between kernel space with user space. and reduce the dependency on interface of OS. the ipmux register must be NOcached and NO swap out and NO Coredump. <dl compact><dt><b>参数:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td>file *file </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>struct</em>&nbsp;</td><td>vm_area_struct *vma </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>返回值:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>0</em>&nbsp;</td><td>success. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>-(x)</em>&nbsp;</td><td>failure.</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>参见:</b></dt><dd>mmap manual. </dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000019">Deprecated:</a></b></dt><dd></dd></dl>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00124">124</a>行定义。    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga3" doxytag="opl_reg_mmap.c::opl_reg_open"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">int opl_reg_open           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct inode *&nbsp;</td>
+          <td class="mdname" nowrap> <em>inode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00150">150</a>行定义。
+<p>
+参考 <a class="el" href="opl__reg__mmap_8c-source.html#l00074">opl_reg_is_open</a>及<a class="el" href="opl__reg__mmap_8c-source.html#l00073">opl_reg_open_count</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga7" doxytag="opl_reg_mmap.c::opl_reg_read"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">ssize_t opl_reg_read           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>size_t&nbsp;</td>
+          <td class="mdname" nowrap> <em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>loff_t *&nbsp;</td>
+          <td class="mdname" nowrap> <em>offset</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+description: 
+<p>
+<dl compact><dt><b>参数:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>@param</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>@return</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>返回值:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>@retval</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>参见:</b></dt><dd></dd></dl>
+<dl compact><dt><b><a class="el" href="deprecated.html#_deprecated000018">Deprecated:</a></b></dt><dd></dd></dl>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00102">102</a>行定义。    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga5" doxytag="opl_reg_mmap.c::opl_reg_release"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">int opl_reg_release           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct inode *&nbsp;</td>
+          <td class="mdname" nowrap> <em>inode</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00159">159</a>行定义。
+<p>
+参考 <a class="el" href="opl__reg__mmap_8c-source.html#l00074">opl_reg_is_open</a>及<a class="el" href="opl__reg__mmap_8c-source.html#l00073">opl_reg_open_count</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga4" doxytag="opl_reg_mmap.c::opl_reg_write"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">ssize_t opl_reg_write           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">struct file *&nbsp;</td>
+          <td class="mdname" nowrap> <em>filp</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>const char *&nbsp;</td>
+          <td class="mdname" nowrap> <em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>size_t&nbsp;</td>
+          <td class="mdname" nowrap> <em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>loff_t *&nbsp;</td>
+          <td class="mdname" nowrap> <em>offset</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"><code> [static]</code></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00107">107</a>行定义。    </td>
+  </tr>
+</table>
+<hr><h2>变量文档</h2>
+<a class="anchor" name="ga2" doxytag="opl_reg_mmap.c::opl_reg_fops"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">struct file_operations <a class="el" href="group___o_p_l___r_e_g.html#ga2">opl_reg_fops</a>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+<b>初始化序列：</b><div class="fragment"><pre class="fragment"> {
+  .read = opl_reg_read,
+  .write = opl_reg_write,
+  .mmap = opl_reg_mmap,
+  .open = opl_reg_open,
+  .release = opl_reg_release, 
+}
+</pre></div>
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00075">75</a>行定义。
+<p>
+参考自 <a class="el" href="opl__reg__mmap_8c-source.html#l00176">opl_reg_init()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga1" doxytag="opl_reg_mmap.c::opl_reg_is_open"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___o_p_l___r_e_g.html#ga1">opl_reg_is_open</a> = 0<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00074">74</a>行定义。
+<p>
+参考自 <a class="el" href="opl__reg__mmap_8c-source.html#l00150">opl_reg_open()</a>及<a class="el" href="opl__reg__mmap_8c-source.html#l00159">opl_reg_release()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="ga0" doxytag="opl_reg_mmap.c::opl_reg_open_count"></a><p>
+<table class="mdTable" width="100%" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a> <a class="el" href="group___o_p_l___r_e_g.html#ga0">opl_reg_open_count</a> = 0<code> [static]</code>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+在文件<a class="el" href="opl__reg__mmap_8c-source.html">opl_reg_mmap.c</a>第<a class="el" href="opl__reg__mmap_8c-source.html#l00073">73</a>行定义。
+<p>
+参考自 <a class="el" href="opl__reg__mmap_8c-source.html#l00150">opl_reg_open()</a>及<a class="el" href="opl__reg__mmap_8c-source.html#l00159">opl_reg_release()</a>.    </td>
+  </tr>
+</table>
+<hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

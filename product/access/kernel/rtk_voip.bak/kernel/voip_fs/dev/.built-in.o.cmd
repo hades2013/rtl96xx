@@ -1,0 +1,1 @@
+cmd_rtk_voip/voip_fs/dev/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o rtk_voip/voip_fs/dev/built-in.o rtk_voip/voip_fs/dev/voip_dev_core.o rtk_voip/voip_fs/dev/data_dump_dev.o rtk_voip/voip_fs/dev/voip_dev_proc.o rtk_voip/voip_fs/dev/circular_log.o 

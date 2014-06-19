@@ -1,0 +1,1 @@
+cmd_rtk_voip/voip_drivers/zarlink/built-in.o :=  rsdk-linux-ld  -m elf32btsmip   -r -o rtk_voip/voip_drivers/zarlink/built-in.o rtk_voip/voip_drivers/zarlink/zarlink_api.o rtk_voip/voip_drivers/zarlink/api_lib-2.16.1/built-in.o rtk_voip/voip_drivers/zarlink/common/built-in.o rtk_voip/voip_drivers/zarlink/ve890/built-in.o 

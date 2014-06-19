@@ -1,0 +1,1 @@
+cmd_drivers/lwdrv/hal/cpu/mips/opulan/opl6750/built-in.o :=  mips-linux-ld  -m elf32btsmip  -r -o drivers/lwdrv/hal/cpu/mips/opulan/opl6750/built-in.o drivers/lwdrv/hal/cpu/mips/opulan/opl6750/mdio/built-in.o drivers/lwdrv/hal/cpu/mips/opulan/opl6750/register/built-in.o drivers/lwdrv/hal/cpu/mips/opulan/opl6750/gpio/built-in.o

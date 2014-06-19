@@ -1,0 +1,32 @@
+How to build linux modules?
+-----------------------------------------
+cd in this directory:
+
+%%
+if you want make all modules:
+$make 
+or 
+$make all
+
+the linux modules will be stored in ../obj/
+and the simple test application in ../bin/
+
+%%
+if you only want make one module:
+$make minte
+or 
+$make reg
+or 
+$make cpuif
+
+the module will be in ../obj/ too and its test application in ../bin/
+too.
+
+%%
+$make ?
+will tell you how to make it
+
+%%
+$make clean
+will delete all generated files.
+

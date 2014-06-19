@@ -1,0 +1,11 @@
+
+VENDOR_MODEL="PLM101"
+VENDOR_LOGOPATH="hexicom.gif"
+VENDOR_BGGIF="bg_default.gif"
+VENDOR_STRING="ShenZhen Hexicom Technology Co., Ltd."
+VENDOR_SHORT="Hexicom Technology"
+VENDOR_NAME="Hexicom"
+VENDOR_LOCATION="ShenZhen, China"
+VENDOR_YEAR="2010"
+
+SYS_MACROS="__plc"

@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_cpuif.h源文件</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_cpuif.h</h1><a href="opl__cpuif_8h.html">浏览该文件的文档。</a><div class="fragment"><pre class="fragment">00001 
+00018 <span class="comment">/*--------------------------Macro definition------------------------- */</span>
+<a name="l00019"></a><a class="code" href="opl__cpuif_8h.html#a0">00019</a> <span class="preprocessor">#define GET_IPMUX_DMA_TX_PHYS_ADDR  1000</span>
+<a name="l00020"></a><a class="code" href="opl__cpuif_8h.html#a1">00020</a> <span class="preprocessor"></span><span class="preprocessor">#define GET_IPMUX_DMA_RX_PHYS_ADDR  2000</span>
+00021 <span class="preprocessor"></span>
+<a name="l00022"></a><a class="code" href="opl__cpuif_8h.html#a2">00022</a> <span class="preprocessor">#define GET_IPMUX_DMA_RX_BUF_DATA       3000</span>
+<a name="l00023"></a><a class="code" href="opl__cpuif_8h.html#a3">00023</a> <span class="preprocessor"></span><span class="preprocessor">#define SET_IPMUX_DMA_TX_BUF_DATA       4000</span>
+00024 <span class="preprocessor"></span>
+<a name="l00025"></a><a class="code" href="opl__cpuif_8h.html#a4">00025</a> <span class="preprocessor">#define ENABLE_IPMUX_HOST_DMA0_INTERRUPT   5000</span>
+<a name="l00026"></a><a class="code" href="opl__cpuif_8h.html#a5">00026</a> <span class="preprocessor"></span><span class="preprocessor">#define DISABLE_IPMUX_HOST_DMA0_INTERRUPT  6000</span>
+<a name="l00027"></a><a class="code" href="opl__cpuif_8h.html#a6">00027</a> <span class="preprocessor"></span><span class="preprocessor">#define WAIT_FOR_IPMUX_HOST_DMA0_INTERRUPT 7000</span>
+00028 <span class="preprocessor"></span>
+00029 
+00030 
+00031 
+00032 
+00038 <span class="comment">/*--------------------------type definition------------------------- */</span>
+00039 
+<a name="l00040"></a><a class="code" href="structdma__request__phys__addr__s.html">00040</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdma__request__phys__addr__s.html">dma_request_phys_addr_s</a>{
+<a name="l00041"></a><a class="code" href="structdma__request__phys__addr__s.html#o0">00041</a>   <span class="keywordtype">int</span> dmas;
+<a name="l00042"></a><a class="code" href="structdma__request__phys__addr__s.html#o1">00042</a>   <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> phys_addr;
+00043 }<a class="code" href="structdma__request__phys__addr__s.html">dma_request_phys_addr_t</a>;
+00044 
+<a name="l00045"></a><a class="code" href="structdma__request__data__s.html">00045</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structdma__request__data__s.html">dma_request_data_s</a>{
+<a name="l00046"></a><a class="code" href="structdma__request__data__s.html#o0">00046</a>   <span class="keywordtype">int</span> dmas;
+<a name="l00047"></a><a class="code" href="structdma__request__data__s.html#o1">00047</a>   <span class="keywordtype">int</span> bd;
+<a name="l00048"></a><a class="code" href="structdma__request__data__s.html#o2">00048</a>   <span class="keywordtype">int</span> len;
+<a name="l00049"></a><a class="code" href="structdma__request__data__s.html#o3">00049</a>   <span class="keywordtype">char</span> buf[2048];
+00050 }<a class="code" href="structdma__request__data__s.html">dma_request_data_t</a>;
+00051 
+00052 
+00053 
+00059 <span class="comment">/*-----------------global varible/function declaration--------------- */</span>
+00060 
+00061 
+00062 
+00063 
+00064 
+00070 <span class="comment">/*-------------------local  function declaration---------------------- */</span>
+00071 
+00072 
+00073 
+00074 
+00075 
+00082 <span class="comment">/*--------------local  variable declaration and definition------------- */</span>
+00083 
+00084 
+00085 
+00086 
+00087 
+00094 <span class="comment">/*------------------global variable and function exported-------------- */</span>
+00095 
+00096 
+00097 
+00098 
+00099 
+00107 <span class="comment">/*----------------------local  function definition--------------------- */</span>
+00108 
+00109 
+00110 
+00111 
+00112 
+00113 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

@@ -1,0 +1,9 @@
+menu "ssl configuration"
+
+
+config WEBS_SSL_SUPPORT
+	bool "ssl surpport"
+	default n
+	help
+		none
+endmenu

@@ -1,0 +1,9 @@
+menu "Priv product name configuration"
+
+
+config PRIV_PRODUCT_NAME_SUPPORT
+	bool "Priv product name surpport"
+	default y
+	help
+		none
+endmenu

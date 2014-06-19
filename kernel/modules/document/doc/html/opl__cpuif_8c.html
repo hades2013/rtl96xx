@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=gb2312">
+<title>IPMUX1IPMUX2IPMUX3: opl_cpuif.c文件参考</title>
+<link href="doxygen.css" rel="stylesheet" type="text/css">
+</head><body>
+<!-- 制作者 Doxygen 1.3.9.1 -->
+<div class="qindex"><a class="qindex" href="index.html">首页</a> | <a class="qindex" href="modules.html">模块</a> | <a class="qindex" href="annotated.html">数据结构</a> | <a class="qindex" href="files.html">文件列表</a> | <a class="qindex" href="functions.html">数据字段</a> | <a class="qindex" href="globals.html">全局定义</a> | <a class="qindex" href="pages.html">相关页面</a></div>
+<h1>opl_cpuif.c文件参考</h1>
+<p>
+<code>#include &lt;linux/init.h&gt;</code><br>
+<code>#include &lt;linux/kernel.h&gt;</code><br>
+<code>#include &lt;linux/module.h&gt;</code><br>
+<code>#include &lt;linux/sched.h&gt;</code><br>
+<code>#include &lt;linux/wait.h&gt;</code><br>
+<code>#include &lt;asm/uaccess.h&gt;</code><br>
+<code>#include &lt;asm/io.h&gt;</code><br>
+<code>#include &lt;linux/slab.h&gt;</code><br>
+<code>#include &lt;linux/types.h&gt;</code><br>
+<code>#include &lt;linux/errno.h&gt;</code><br>
+<code>#include &lt;<a class="el" href="ipmux__interrupt_8h-source.html">ipmux_interrupt.h</a>&gt;</code><br>
+<code>#include &lt;<a class="el" href="opl__cpuif_8h-source.html">opl_cpuif.h</a>&gt;</code><br>
+
+<p>
+<a href="opl__cpuif_8c-source.html">浏览该文件的源代码。</a><table border="0" cellpadding="0" cellspacing="0">
+<tr><td></td></tr>
+<tr><td colspan="2"><br><h2>Macro definition</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga16">OPL_HOST_MAJOR</a>&nbsp;&nbsp;&nbsp;130</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga17">OPL_HOST_NAME</a>&nbsp;&nbsp;&nbsp;"opl_cpuif"</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga18">IPMUX_DMA_NUMS</a>&nbsp;&nbsp;&nbsp;4</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga19">OPL_DMA_VAL_MAX</a>&nbsp;&nbsp;&nbsp;2048</td></tr>
+
+<tr><td colspan="2"><br><h2>global variable and function imported</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga10">ipmux_irq_enable</a> (unsigned int irq)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga11">ipmux_irq_disable</a> (unsigned int irq)</td></tr>
+
+<tr><td colspan="2"><br><h2>local variable declaration and definition</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga12">opl_host_open</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga13">opl_host_read</a> (struct file *filp, char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">ssize_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga14">opl_host_write</a> (struct file *filp, const char *buffer, size_t length, loff_t *offset)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga15">opl_host_release</a> (struct inode *inode, struct file *filp)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga8">opl_host_ioctl</a> (struct inode *inode, struct file *filp, unsigned int cmd, <a class="el" href="opl__typedef_8h.html#a0">u32</a> arg)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: it is used for api to do something associated with ioctl command.  <a href="group___c_p_u_i_f.html#ga8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga7">host_dma0_isr</a> (int irq, void *dev_id, struct pt_regs *regs)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: the host dma0 interrupt handler, when the interrupt generated, it will wake up the process,which is waiting for the host dma0 interrupt.  <a href="group___c_p_u_i_f.html#ga7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga0">tx_phys_addr</a> [IPMUX_DMA_NUMS] = {0}</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga1">rx_phys_addr</a> [IPMUX_DMA_NUMS] = {0}</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga2">dma0_rx_buf</a> = NULL</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga3">dma0_tx_buf</a> = NULL</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga4">order</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga5">opl_host_is_open</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga6">opl_host_open_count</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="opl__typedef_8h.html#a0">u32</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga7">opl_host_dma0_irq_event</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">wait_queue_head_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga8">opl_host_dma0_waitq</a></td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">file_operations&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___c_p_u_i_f.html#ga9">opl_host_fops</a></td></tr>
+
+<tr><td colspan="2"><br><h2>函数</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int __init&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga0">opl_host_dma_init</a> (void)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description: the module's entry.  <a href="group__cpuif.html#ga0"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void __exit&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga1">opl_host_dma_exit</a> (void)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">description:the module's exit.  <a href="group__cpuif.html#ga1"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga2">module_init</a> (opl_host_dma_init)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga3">module_exit</a> (opl_host_dma_exit)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga4">MODULE_LICENSE</a> ("GPL2")</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga5">MODULE_AUTHOR</a> ("opulan Inc")</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__cpuif.html#ga6">MODULE_DESCRIPTION</a> ("opulan IPMUX-e switch chip driver module")</td></tr>
+
+</table>
+<hr size="1"><address style="align: right;"><small>Generated at Mon Jul 30 16:43:48 2007 for IPMUX1IPMUX2IPMUX3 by&nbsp;
+<a href="http://www.doxygen.org/index.html">
+<img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.3.9.1 </small></address>
+</body>
+</html>

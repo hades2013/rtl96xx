@@ -1,0 +1,54 @@
+
+# RTL86900 SDK configuration
+#
+
+config	MODULE_BUILD_IN
+	tristate "Realtek RTL86900 SDK"
+	default y
+	help
+
+	   To compile it as a module, choose M here.  If unsure, say N.
+
+config SDK_MODULES
+	bool "Support RTK Apollo Modules"
+	help
+	   Say Y if you want to enable RTK Apollo modules.
+	
+config GPON_FEATURE
+        bool "Support RTK GPON"
+        depends on SDK_MODULES
+        help
+          Say Y if your machine has pon phy port.
+
+config RTK_OMCI
+        bool "Support RTK OMCI"
+        depends on GPON_FEATURE
+        help
+          Choice for enable RTK OMCI.
+
+config EPON_FEATURE
+	bool "Support RTK EPON"
+	depends on SDK_MODULES
+        help
+          Say Y if your machine has EPON phy ports.
+
+config RTK_L34_DEMO
+        tristate "Support RTK L34 Lite Auto Learning"
+        depends on SDK_MODULES && !RTK_L34_ENABLE
+        default m
+	help
+          Choice for enable L34 Lite Auto Learning mechanism.
+
+config RTK_FT2_MODULE
+        bool "Support RTK FT2 module"
+        depends on SDK_MODULES
+        help
+          Choice for enable Factory Test module.
+
+config EXTERNAL_PHY_POLLING
+	bool "Support Switch External PHY Polling"
+	default n
+	help
+          Choice for enable external phy polling with GPIO.
+
+

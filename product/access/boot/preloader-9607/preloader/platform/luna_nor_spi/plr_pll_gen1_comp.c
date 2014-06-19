@@ -1,0 +1,1 @@
+../../soc/common/plr_pll_gen1_comp.c

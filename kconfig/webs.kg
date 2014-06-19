@@ -1,0 +1,8 @@
+menu "webs configuration"
+config CONFIG_HTTPD
+        bool "webs surpport"
+        default y
+        help
+                none
+endmenu
+

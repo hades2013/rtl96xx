@@ -1,0 +1,9 @@
+menu "wlan_ap configuration"
+
+
+config CONFIG_WLAN_AP
+	bool "wlan_ap surpport"
+	default y
+	help
+		none
+endmenu
