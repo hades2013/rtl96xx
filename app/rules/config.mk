@@ -9,8 +9,8 @@
 # 	-L$(TOOLCHAIN_DIR)/lib \
 # 	-L$(TOOLCHAIN_DIR)/usr/lib
 ##else
-CFLAGS = -Os -Wall -pipe -mtune=mips32 -msoft-float -funit-at-a-time  -fpic -g
-CXXFLAGS = -Os -Wall -pipe -mtune=mips32 -funit-at-a-time  -msoft-float -fpic
+CFLAGS = -Os -Wall -pipe -mtune=mips32 -msoft-float -funit-at-a-time -fpic -g
+CXXFLAGS = -Os -Wall -pipe -mtune=mips32 -funit-at-a-time -msoft-float -fpic
 CPPFLAGS += -I$(TOOLCHAIN_DIR)/usr/include  -I$(TOOLCHAIN_DIR)/include -I$(SOFTWAREDIR)/include -I$(PDT_INC_DIR)
 LDFLAGS += -L$(TOOLCHAIN_DIR)/usr/lib \
  	-L$(TOOLCHAIN_DIR)/lib \

@@ -24,6 +24,13 @@ TARGETDIR = $(shell /bin/pwd)
 # Include common and TARGET specific defines
 include $(TARGETDIR)/Makefile.conf
 
+PRODUCTDIR=$(TARGETDIR)/../../product/access
+PDT_INC_DIR=$(PRODUCTDIR)/include
+PLAT_INC_DIR=$(TARGETDIR)/../include
+# added by Einsn 20130425
+include $(PRODUCTDIR)/.config
+
+
 # Define a prefix for this Makefile, so that the common targets 
 # (COMMONTARGS defined in Makefile.conf), such as clean, etc. can be 
 # made in the subdirectories. Use the name of the current directory
@@ -58,6 +65,7 @@ libdir:
 # Rule to make a directory component
 $(COMPONENTS): 
 	@echo "=== make COMPONENT ./$@"
+	@echo "== $(HARDWARE_VERSION) , $(PDT_INC_DIR) , $(PLAT_INC_DIR) , $(LDFLAGS) , $(SOFTWAREDIR) =="
 	@$(MAKE) -rw -C $@
 
 # All the COMPONENTS are nonexistent targets. 

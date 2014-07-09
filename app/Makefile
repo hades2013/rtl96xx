@@ -11,6 +11,37 @@ TARGETDIR :=$(ROOTFSDIR)
 export TOPDIR TARGETDIR
 
 
+ifeq (y,$(CONFIG_EOC_EXTEND))
+
+CONFIG_BUSYBOX = y
+CONFIG_SHARED = y
+CONFIG_NVRAM = n
+CONFIG_VTYSH = n
+CONFIG_HTTPD = n
+CONFIG_SNMPD = n
+CONFIG_LIB8367M = n
+CONFIG_MASTER = n
+CONFIG_UTILS = n
+CONFIG_WTD = n
+CONFIG_NTPCLIENT = n
+CONFIG_LOOPD = y
+
+else
+
+CONFIG_BUSYBOX = y
+CONFIG_SHARED = y
+CONFIG_NVRAM = y
+#CONFIG_VTYSH = y
+#CONFIG_HTTPD = y
+#CONFIG_SNMPD = y
+CONFIG_LIB8367M = y
+CONFIG_MASTER = y
+CONFIG_UTILS = y
+CONFIG_WTD = y
+CONFIG_NTPCLIENT = y
+CONFIG_LOOPD = y
+
+endif
 
 
 
@@ -31,15 +62,12 @@ export TOPDIR TARGETDIR
 
 
 
+obj-$(CONFIG_LIB8367M) += lib8367m
+obj-$(CONFIG_SHARED) += shared
+obj-$(CONFIG_BUSYBOX) += busybox
 
-
-
-#obj-y += lib8367m
-obj-y += shared
-#obj-$(CONFIG_BUSYBOX) += busybox
-obj-y += busybox
 obj-$(CONFIG_SSHD) += sshd 
-#obj-$(CONFIG_NVRAM) += nvram
+obj-$(CONFIG_NVRAM) += nvram
 #obj-y += nvram
 obj-$(CONFIG_VTYSH) += vtysh
 obj-$(CONFIG_OPCONN) += opconn
@@ -50,22 +78,17 @@ obj-$(CONFIG_HTTPD) += www
 #obj-$(CONFIG_BOSA) += ponmonitor
 obj-$(CONFIG_PONMONITOR) += ponmonitor
 obj-$(CONFIG_CATVCOM) += catvcom
-obj-y += master
-#obj-y += utils
-obj-y += watchdog
-obj-y += ntpclient
+obj-$(CONFIG_MASTER) += master
+obj-$(CONFIG_UTILS) += utils
+obj-$(CONFIG_WTD) += watchdog
+obj-$(CONFIG_NTPCLIENT) += ntpclient
 obj-$(CONFIG_LOOPD) += loopd
-#obj-y += www
-obj-y += test
-obj-y += iproute2
-obj-y += snmpd
-obj-y += auth
-obj-y += wireless_tools
 
-obj-build := $(foreach obj,$(obj-y) $(obj-n),$(obj)-build)
-obj-install := $(foreach obj,$(obj-y) $(obj-n),$(obj)-install)
-obj-clean := $(foreach obj,$(obj-y) $(obj-n),$(obj)-clean)
-includelist :=$(foreach obj,$(obj-y),rules/$(obj).mk)
+
+obj-build := $(foreach obj,$(obj-y),$(obj)-build)
+obj-install := $(foreach obj,$(obj-y),$(obj)-install)
+obj-clean := $(foreach obj,$(obj-y),$(obj)-clean)
+includelist :=$(foreach obj,$(obj-y) $(obj-n),rules/$(obj).mk)
 includelist += rules/ifm.mk
 includelist += rules/cfg.mk
 include $(includelist)
