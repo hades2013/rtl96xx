@@ -75,6 +75,6 @@ ifconfig eth0 up
 #insmod /modules/opl_mem.ko
 #insmod /modules/opl_dal_driver.ko
 insmod /usr/lib/ifm.ko
-master d&
+#master d&
 ponmonitor &
 

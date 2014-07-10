@@ -64,7 +64,7 @@ release.pre:
 release:release.pre app image
 	
 clean:uboot-clean ifm-modules-clean linux-modules-clean linux-clean software-clean squashfs-clean
-	rm -rf $(PRODUCTDIR)/rootfs
+#	rm -rf $(PRODUCTDIR)/rootfs
 	@echo "make clean finish ...."
 
 distclean:clean product.distclean platform.distclean

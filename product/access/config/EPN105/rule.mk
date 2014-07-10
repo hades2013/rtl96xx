@@ -3,6 +3,7 @@ LINUXDIR := $(TOPDIR)/../../kernel/linux-2.6.x
 LINUX_CONFIG :=$(TOPDIR)/../../kernel/linux-2.6.x/.config
 RELEASE_DIR :=$(TOPDIR)/release/$(ENV_PRO)
 
+SUDO := sudo
 LWDRV_DIR=$(TOPDIR)/../../kernel/drv
 APOLLODIR=$(LINUXDIR)/drivers/net/rtl86900
 KERNEL_DIR=$(LINUXDIR)
@@ -100,7 +101,7 @@ sdk-app-clean:
 	$(MAKE) -C $(LINUXDIR)/drivers/net/rtl86900/sdk/src clean
 
 rootfs:oam-vendor-clean oam-vendor sdk-app
-	if [ ! -d $(PRODUCTDIR)/rootfs ]; then tar -zxvf $(CONFIGDIR)/rootfs.tgz -C $(PRODUCTDIR);mv root rootfs;fi
+	if [ ! -d $(PRODUCTDIR)/rootfs ]; then $(SUDO) tar -zxvf $(CONFIGDIR)/rootfs.tgz -C $(PRODUCTDIR); $(SUDO) mv root rootfs;fi
 	@ echo "install app "
 	$(MAKE) -C $(SOFTWAREDIR) install
 	echo $(CONFIGDIR)
@@ -156,6 +157,8 @@ app: mksquashfs_lzma
     	else \
         bash ${TOOLS_DIR}/mk_app.sh $(RELEASE_DIR) $(CONFIG_RELEASE_VER) $(TOOLS_DIR) 0;\
 	fi	
+#   todo: create linux.bin by mk_app.sh 	
+	dd bs=65536 count=18 if=$(RELEASE_DIR)/$(CONFIG_RELEASE_VER).bin of=$(RELEASE_DIR)/linux.bin
 	@echo "make app finish .."
 image: makeapp
 	cp -f $(PRODUCTDIR)/release/$(ENV_PRO)/u-boot.bin ./u-boot.bin
