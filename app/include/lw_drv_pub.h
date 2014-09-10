@@ -46,12 +46,14 @@ typedef unsigned char mac_address_t[MAC_ADDR_LEN];   /* MAC 地址数据类型 (UINT8[
 #define LOGIC_PORT_NO   MAX_PORT_NUM
 #if defined(CONFIG_PRODUCT_EPN104)
 #define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 1)
-#elif defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
+#elif defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_GPN104N)
 #define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 3)
 #elif defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG)
 #define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 6)
 #elif defined(CONFIG_PRODUCT_5500)
 #define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 4)
+#elif defined(CONFIG_PRODUCT_EPN105)
+#define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 2)
 #endif
 #define INVALID_PORT    0xFFFFFFFF
 #define STACK_PORT      0xFFFF0000
@@ -2573,7 +2575,14 @@ DRV_RET_E Drv_LoopBackInternal (port_num_t lport);
 
 #if defined(CHIPSET_RTL8305) || defined(CHIPSET_RTL9607) || defined(CHIPSET_RTL9601)
 /*Realtek header will be behind the src mac or befor the crc of frame.*/
+/* Modified by Einsn 20130403 */
+//#ifdef CONFIG_EOC_EXTEND
+//#define SWITCH_HEADER_POSITION_BEHIND_SRC_MAC  1
+//#else
 #define SWITCH_HEADER_POSITION_BEHIND_SRC_MAC  0
+//#endif 
+/* End */
+
 
 //#define ACL_RULE_NUM_MAX RTL8367B_ACLRULEMAX
 #define ACL_RULE_NUM_MAX 64
@@ -2612,9 +2621,11 @@ typedef struct  vlan_port_base_entry
 
 #if defined(CONFIG_PRODUCT_EPN104)
 #define LOGIC_PON_PORT    LOGIC_CPU_PORT
-#elif defined(CONFIG_PRODUCT_EPN104N) || defined (CONFIG_PRODUCT_5500) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
+#elif defined(CONFIG_PRODUCT_EPN104N) || defined (CONFIG_PRODUCT_5500) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_GPN104N)
 #define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 1
-#else
+#elif defined(CONFIG_PRODUCT_EPN105)
+#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 0
+#else 
 #define LOGIC_PON_PORT     INVALID_PORT  
 #endif
 #define LOGIC_UPPON_PORT  LOGIC_PON_PORT    /*for packet tx lport,see Hal_L2send()*/
@@ -2808,6 +2819,28 @@ typedef enum tagPORT_ALERT_PONSTATUS
     PORT_ALERT_PON_ALWAYS_LASER_RECOVER,
     PORT_ALERT_PON_BUTT
 }PORT_ALERT_PONSTATUS_E;
+
+/* Added by Einsn for EOC functions 20130417 */
+#ifdef CONFIG_EOC_EXTEND
+typedef struct eoc_low_level{
+    mac_address_t cpu_mac;
+    logic_pmask_t cable_ports;
+    logic_pmask_t drop_mme_ports;
+    unsigned long drop_ip_from_cable_to_cpu;
+}eoc_low_level_t;
+
+typedef enum tagPORT_StormType
+{
+    PORT_STORM_UNKNOWN_UNICAST = 0,
+    PORT_STORM_UNKNOWN_MULTICAST,
+    PORT_STORM_MULTICAST,
+    PORT_STORM_BROADCAST,
+    PORT_STORM_END
+}PORT_STORM_TYPE_E;
+
+#endif 
+/* End */
+
 
 #ifdef  __cplusplus
 }

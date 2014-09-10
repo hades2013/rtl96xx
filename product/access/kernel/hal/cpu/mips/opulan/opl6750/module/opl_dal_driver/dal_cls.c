@@ -6641,6 +6641,43 @@ void dalCpuClsInit(void)
 
 #endif
 
+/* Added by Einsn, copy broadcast mme to cpu 20130418 */
+#ifdef CONFIG_EOC_EXTEND
+    /* Copy Realtek Header packets to cpu. */
+    memset(&ClassItemInfoSin, 0, sizeof(ClassItemInfoSin));
+    ClassItemInfoSin.lenOrTypeFlag = 1;
+    ClassItemInfoSin.lenOrType.lowRange = 0x8899;
+    ClassItemInfoSin.lenOrType.highRange = 0xffff;
+#ifndef OPL_NO_DMA1_ETH
+    ClassItemInfoSin.bingress=0x00;
+	ClassItemInfoSin.ingressmask=0x00;
+#endif
+    ClassItemInfoSin.t_act = (DROP_PKTS|COPY_PKTS_TO_CPU);
+    (void)dalVoipClsRuleCtcAdd(&ClassItemInfoSin,&rule);
+
+    /* Copy broadcast MME to cpu. */
+    memset(&ClassItemInfoSin, 0, sizeof(ClassItemInfoSin));
+    ClassItemInfoSin.dstMacFlag = 1;
+    ClassItemInfoSin.dstMac.lowRange[0] = 0xFF;
+    ClassItemInfoSin.dstMac.lowRange[1] = 0xFF;
+    ClassItemInfoSin.dstMac.lowRange[2] = 0xFF;
+    ClassItemInfoSin.dstMac.lowRange[3] = 0xFF;
+    ClassItemInfoSin.dstMac.lowRange[4] = 0xFF;
+    ClassItemInfoSin.dstMac.lowRange[5] = 0xFF;
+    ClassItemInfoSin.lenOrTypeFlag = 1;
+    ClassItemInfoSin.lenOrType.lowRange = 0x88E1;
+    memcpy(&(ClassItemInfoSin.dstMac.highRange),aucBroadMac,MAC_LENGTH);
+    ClassItemInfoSin.lenOrType.highRange = 0xffff;
+#ifndef OPL_NO_DMA1_ETH
+    ClassItemInfoSin.bingress=0x00;
+	ClassItemInfoSin.ingressmask=0x00;
+#endif
+    ClassItemInfoSin.t_act = (DONOT_DROP|COPY_PKTS_TO_CPU);
+    (void)dalVoipClsRuleCtcAdd(&ClassItemInfoSin,&rule);        
+#endif 
+/* End */
+
+
 #if 0
     UINT8	userMac[6] = {0x01,0x00,0x5E,0x00,0x00,0x00};
 	brgUsrDefineRsvMacHwWrite(0, userMac);

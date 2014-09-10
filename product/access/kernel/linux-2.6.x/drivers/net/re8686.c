@@ -1061,6 +1061,7 @@ __IRAM_NIC
 static struct net_device* decideRxDevice(struct re_private *cp, struct rx_info *pRxInfo){
 	unsigned int num = (pRxInfo->opts3.bit.src_port_num >= SW_PORT_NUM) ? 
 		(0) : pRxInfo->opts3.bit.src_port_num ;
+   
 #ifdef CONFIG_RG_SIMPLE_PROTOCOL_STACK
 	//printk("the num is %d, the src_port_num is %d, port2dev->name is %s\n",num,pRxInfo->opts3.bit.src_port_num,
 	//cp->port2dev[num]->name);
@@ -1693,7 +1694,6 @@ __IRAM_NIC void re8670_tx (struct re_private *cp,int ring_num)
 			cp->tx_skb[ring_num][tx_tail].skb=NULL;
 			tx_tail = NEXT_TX(tx_tail,RE8670_TX_MRING_SIZE[ring_num]); //tysu: this skb is many frags skb, just free once.
 			skb = cp->tx_skb[ring_num][tx_tail].skb;
-			//printk("skb=%x tx_tail=%d\n",(u32)skb,tx_tail);			
 			status = cp->tx_Mhqring[ring_num][tx_tail].opts1;			
 			if(status & DescOwn) break;
 		}

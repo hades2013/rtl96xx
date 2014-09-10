@@ -102,7 +102,7 @@ typedef enum tagDrv_cmd{
     DRV_CMD_SET_TXRX,
     DRV_CMD_SET_ABILITY,
     DRV_CMD_SET_AUTONEG,
-       DRV_CMD_GET_AUTONEG,   
+    DRV_CMD_GET_AUTONEG,   
     DRV_CMD_SET_SPEED,
     DRV_CMD_SET_DUPLEX,
     DRV_CMD_SET_SPDLX ,
@@ -323,6 +323,10 @@ typedef enum tagDrv_cmd{
 	DRV_CMD_ADDTRSLMC_MBR,
 	DRV_CMD_DELTRSLMC_MBR,
 	DRV_CMD_LOOKUP_MISS_FLOOD_SET,  /*Add by huangmingjian 2013-09-24 for Bug 234: flood-ports none for unkown multcast packet*/
+    DRV_CMD_SET_VLAN_FILTER,
+    DRV_CMD_SET_EOC_LOW_LEVEL_FUNCTION,
+    DRV_CMD_SET_RATELIMIT_STORM_PORT,
+    DRV_CMD_GET_MIB_COUNT_RAW,   
     DRV_CMD_NUM
 }DRV_CMD_E;
 
@@ -441,6 +445,9 @@ typedef struct tagDrvReq{
         STORM_CTLRATE_S stStorm;
         l2_send_op    l2_op;
         UINT16        usValue; 
+#ifdef CONFIG_EOC_EXTEND
+        eoc_low_level_t eocLowLevel;
+#endif 
     }para3_u;  
     #define p_pause_rx      para3_u.uiValue
     #define p_porttype      para3_u.uiValue

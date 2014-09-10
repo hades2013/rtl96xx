@@ -66,6 +66,30 @@ DRV_RET_E Hal_SetMirrorGroup(port_num_t mirrorDestPort, logic_pmask_t ingressMas
     }
     MaskLogic2Phy(&ingressMask, &stIngressPhyMask);
     MaskLogic2Phy(&egressMask, &stEgressPhyMask);  
+
+    printk("===> Mirror Ingress Phy Mask:%08x\n", stIngressPhyMask.pmask[0]);
+    printk("===> Mirror  Egress Phy Mask:%08x\n", stEgressPhyMask.pmask[0]);
+
+ /*
+
+	if (stIngressPhyMask)
+    {
+    	stIngressPhyMask.pmask[0] |= (1 << 5);
+    }
+   
+
+	if (stEgressPhyMask)
+    {
+    	stEgressPhyMask.pmask[0] |= (1 << 5);
+    }
+*/
+    
+    //SetPhyMaskBit(5,&stIngressPhyMask);
+    //SetPhyMaskBit(5,&stEgressPhyMask);
+
+   // printk("+++> Mirror Ingress Phy Mask:%08x\n", stIngressPhyMask.pmask[0]);
+   // printk("+++> Mirror  Egress Phy Mask:%08x\n", stEgressPhyMask.pmask[0]);
+    
     if(RT_ERR_OK!=rtk_mirror_portBased_set(PortLogic2PhyPortId(mirrorDestPort),&CHIPNMASK(0, &stIngressPhyMask),&CHIPNMASK(0, &stEgressPhyMask)))
     {
         return DRV_ERR_UNKNOW;

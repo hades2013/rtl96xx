@@ -81,7 +81,7 @@
  */
 #define CONFIG_BOOT_RESTORE_APP 1
 
-#undef CONFIG_BOOT_MULTI_APP
+#define CONFIG_BOOT_MULTI_APP 1
 
 
 /*
@@ -91,13 +91,13 @@
 /*
  * master configuration
  */
-#define CONFIG_MASTER 1
+#undef CONFIG_MASTER
 
 
 /*
  * cli configuration
  */
-#define CONFIG_VTYSH 1
+#undef CONFIG_VTYSH
 
 
 /*
@@ -125,13 +125,13 @@
 /*
  * webs configuration
  */
-#define CONFIG_HTTPD 1
+#undef CONFIG_HTTPD
 
 
 /*
  * Realtek diag shell configuration
  */
-#define CONFIG_DIAG_DEBUG 1
+#undef CONFIG_DIAG_DEBUG
 
 
 /*
@@ -149,7 +149,7 @@
 /*
  * loodp configuration
  */
-#define CONFIG_LOOPD 1
+#undef CONFIG_LOOPD
 
 
 /*
@@ -161,6 +161,6 @@
 /*
  * Priv product name configuration
  */
-#define PRIV_PRODUCT_NAME_SUPPORT 1
+#undef PRIV_PRODUCT_NAME_SUPPORT
 
 #endif /* MW_CONFIG_H */

@@ -239,8 +239,13 @@
 #define OPULAN_BOOT_MENU_MODE
 #define OPL_NULL            ((void *) 0)    /* a null pointer */
 
+#if defined(CONFIG_PRODUCT_EPN105)
+#define MTD_FS1 			"/dev/mtdblock4"
+#define MTD_FS2 			"/dev/mtdblock8"
+#else
 #define MTD_FS1 			"/dev/mtdblock4"
 #define MTD_FS2 			"/dev/mtdblock6"
+#endif
 
 #if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
 #define CONFIG_BOOT_PASSWORD CONFIG_PRODUCT_NAME
@@ -272,7 +277,7 @@
 #define cfg_offset 0x50000
 #define knl_1offset 0x60000
 
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_GPN104N)
 	#define FLASH_SIZE 0x800000
 	#define OS_MAX_SIZE 0x700000
 	#define boot_os1_cmd "sf read 0xa0050000 0x60060 0x200000;go 0xa0050000;bootm 0xa1000000"
@@ -306,13 +311,43 @@
 	expcfg
 	--------------0xbd060000
 	kernel1 + os1
-	--------------0xbd4e0000
+	--------------0xbd4e0000  //  60000 + 480000 = 4e0000
 	kernel2 + os2
-	--------------0xbd960000	
+	--------------0xbd960000	 // 4e0000 + 480000 = 960000
 	jffs2
-	--------------0xbe000000
+	--------------0xbe000000  // d960000 + 6A0000 = E000000  // JFFS2_SIZE   	0x6A0000
 	*/
 #endif
+
+/* Add by Alan Lee ,at 20140711 */
+#ifdef CONFIG_PRODUCT_EPN105
+	#define FLASH_SIZE 0x800000
+	#define OS_MAX_SIZE 0x390000
+	#define knl_2offset 0x470000
+	#define boot_os1_cmd "sf read 0xa0050000 0x60060 0x200000;go 0xa0050000;bootm 0xa1000000"
+	#define boot_os2_cmd "sf read 0xa0050000 0x470060 0x200000;go 0xa0050000;bootm 0xa1000000"
+
+	/*
+	--------------0xbd000000
+	uboot
+	--------------0xbd040000
+	bootenv
+	--------------0xbd050000
+	expcfg
+	--------------0xbd060000
+	kernel + root
+	--------------0xbd3F0000               //60000 + 3A0000
+	nvram1
+	--------------0xbd430000
+	nvram2
+	--------------0xbd470000
+	(kernel + root)2
+	--------------0xbd800000
+	jffs2
+	--------------0xbd800000
+	*/	
+#endif
+/*End*/
 
 #if defined(CONFIG_PRODUCT_EPN101R) 
 	#define FLASH_SIZE 0x2000000

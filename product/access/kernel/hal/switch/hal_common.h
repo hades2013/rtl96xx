@@ -984,6 +984,15 @@ DRV_RET_E Hal_ClfRuleForCtcClfPriToQueueDelete(UINT32 uiLPortId, UINT32 uiRulePr
 DRV_RET_E Hal_ClfRuleForCtcClfPriToQueueClear(UINT32 uiLPortId);
 DRV_RET_E Hal_LookupMissFloodPortMaskSet(UINT32 type, rtk_portmask_t *pFlood_portmask);
 
+/* Modified by Einsn For EOC Porting 20130416 */
+#ifdef CONFIG_EOC_EXTEND
+DRV_RET_E Hal_SetVlanFilter(BOOL bEnable);
+DRV_RET_E Hal_SetEocLowLevelFunction(eoc_low_level_t *peocLowLevel);
+DRV_RET_E Hal_SetRatelimitStormCtrlByPort(PORT_STORM_TYPE_E stormType, logic_pmask_t lPortMask, UINT32 ulKBps);
+DRV_RET_E Hal_GetMibPortStatisticsRaw(port_num_t lport, UINT32 mibType, UINT64 *p_ullStat);
+#endif 
+/* End */
+
 
 #ifdef  __cplusplus
 }

@@ -25,6 +25,7 @@ extern "C"{
 #define PON_LINK_GPIO 42  /*the gpio of EPN105 has no led function as hardware design*/
 #define PON_LOS_GPIO  23
 #define ENABLE_UART_GPIO 41
+#define ENABLE_UART_GPIO_HC 61
 
 #define LAN0_GPIO	58
 #define LAN1_GPIO	59
@@ -32,10 +33,10 @@ extern "C"{
 #define LAN3_GPIO	60
 #define ONU_STYLE 1
 
-#define MAX_PORT_NUM 4
+#define MAX_PORT_NUM   5
 #define LOGIC_PORT_NO   MAX_PORT_NUM
-#define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 3)
-#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 1
+#define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 2)
+#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 0
 
 #ifdef  __cplusplus
 }

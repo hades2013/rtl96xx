@@ -32,6 +32,7 @@ extern "C"{
 #endif
 #include <rtk/i2c.h>
 #include <dal/apollomp/dal_apollomp_l2.h>
+#include <linux/kernel.h>
 
 
 /*----------------------------------------------*
@@ -285,6 +286,8 @@ DRV_RET_E Hal_SwitchInit(void)
 	UINT32 uiLPortIndex;	
 	phy_pmask_t stPhyMaskExt;
 
+    rtk_port_linkStatus_t portStatus;
+
     //rtk_port_mac_ability_t mac_abi;
     rtk_portmask_t port_mask;
     #if defined (CHIPSET_RTL9607) || defined(CHIPSET_RTL9601)
@@ -412,7 +415,7 @@ DRV_RET_E Hal_SwitchInit(void)
 	(void)rtk_svlan_create(0);/*add by shipeng 2013-04-28*/
 
     /*Unmatch packet assign to SVID 0*/
-    (void)rtk_svlan_unmatchAction_set(UNMATCH_ASSIGN,0);
+   (void)rtk_svlan_unmatchAction_set(UNMATCH_ASSIGN,0);
 		
     /*Untag packet assign to SVID 0*/
     (void)rtk_svlan_untagAction_set(UNTAG_ASSIGN,0);
@@ -435,12 +438,14 @@ DRV_RET_E Hal_SwitchInit(void)
     stphybility.Half_10 = 1;
     stphybility.Half_100 = 1;
 	stphybility.Half_1000 = 1;
-
+ 
 	LgcPortFor(i)
-    {
+    {	
     	if(PortLogic2PhyID(i) == 5)
     	{
 			/*Cable Port , So Do Nothing*/
+			rtk_port_phyForceModeAbility_set(i,2,1,1);// cable port set to 1000M Speed , Full duplex , flowControl enable
+			printk(" === into the cable port config! === \n");
 		}
 		else
 		{
@@ -451,18 +456,19 @@ DRV_RET_E Hal_SwitchInit(void)
 
 	        /* Close eee functionality. */
 	        //(void)rtk_eee_portEnable_set((rtk_port_t)i, DISABLED);
-
-	        /**/
 	        (void)rtk_port_phyAutoNegoAbility_set(PortLogic2PhyID(i), &stphybility);
 		}
     }
+
 
     /* Close green ethernet functionality. */
     //(void)rtk_switch_greenEthernet_set(DISABLED);   
 
     /*Add realtek header to broadcast arp/dhcp frame.*/	
 	(void)rtk_cpu_init();/*add by shipeng 2013-05-22*/
-	(void)Hal_SetCpuHeader(TRUE);
+//	(void)Hal_SetCpuHeader(TRUE);
+    (void)Hal_SetCpuHeader(FALSE);
+
 
 	(void)rtk_acl_init();/*add by shipeng 2013-05-22*/
     (void)Hal_AclRuleInit();
@@ -553,7 +559,21 @@ DRV_RET_E Hal_SwitchInit(void)
 	(void)rtk_port_macForceAbilityState_set(5, ENABLED);
 	(void)rtk_port_macExtRgmiiDelay_set(5, 1, 3);/*rxdelay需要调试*/
 	#endif
-
+/* Set ext rgmii port can link up to switch. Add by Alan Lee.at 20140718 */
+	#ifdef CONFIG_EOC_EXTEND
+    #ifdef CONFIG_PRODUCT_EPN105   
+	rtk_port_macAbility_t ext_macAbility;
+	memset(&ext_macAbility, 0, sizeof(rtk_port_macAbility_t));
+	ext_macAbility.speed = PORT_SPEED_1000M;
+	ext_macAbility.duplex = PORT_FULL_DUPLEX;
+	ext_macAbility.linkStatus = PORT_LINKUP;
+	(void)rtk_port_macExtMode_set(5, EXT_MODE_RGMII);
+	(void)rtk_port_macForceAbility_set(5, ext_macAbility);
+	(void)rtk_port_macForceAbilityState_set(5, ENABLED);
+	(void)rtk_port_macExtRgmiiDelay_set(5, 0, 3);/*rxdelay需要调试*/
+    #endif
+	#endif    
+/* End */
 	rtk_mac_t switch_mac;
 #if 0
 	memcpy(switch_mac.octet, stSwitchPauseMac.octet, ETHER_ADDR_LEN);
@@ -571,7 +591,6 @@ DRV_RET_E Hal_SwitchInit(void)
 #endif
 	l2Addr.flags |= RTK_L2_UCAST_FLAG_STATIC;
 	rtk_l2_addr_add(&l2Addr);
-
 
 	Hal_CpuRegWrite(0xBB023078, 0x0);/*Set backpressure off by shipeng 2013-11-05*/
 	
@@ -607,6 +626,17 @@ DRV_RET_E Hal_SwitchInit(void)
 	/*End add by huangmingjian 2014-05-19 for Bug 587*/
 	
 	__Hal_InitPonLaserMonior();
+
+/* used to diag port status */
+	for (i = 0 ; i < 6; i ++)
+    {	
+    	int ret;
+		portStatus = 0;       
+        ret = rtk_port_link_get(i, &portStatus);
+        printk("rtk_port_link_get(%d) return %d, (status=%d)\n", i, ret, portStatus);
+    }
+    
+/* end */
 
     return DRV_OK;
 	

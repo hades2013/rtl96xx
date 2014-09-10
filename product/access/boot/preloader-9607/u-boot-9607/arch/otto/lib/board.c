@@ -357,6 +357,7 @@ void board_init_f(ulong bootflag)
 	
 #if defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_GPN104N) || defined(CONFIG_PRODUCT_EPN101ZG)
 	boot_gpio_value_set(ENABLE_UART_GPIO, GPIO_DATABIT_1); /*Add by huangmingjian for test led 2014-01-17*/
+	boot_gpio_value_set(ENABLE_UART_GPIO_HC, GPIO_DATABIT_1); /*Add by Alan Lee for Uart enabled 2014-07-16*/
 #endif
 /*begin add by shipeng for test led 2013-03-21*/
 #if 0

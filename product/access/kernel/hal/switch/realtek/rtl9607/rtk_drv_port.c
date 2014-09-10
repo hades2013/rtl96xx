@@ -1284,6 +1284,22 @@ DRV_RET_E Hal_GetPortLinkMask(logic_pmask_t *pstPortMask)
     {
         return DRV_ERR_PARA;
     }
+
+
+    for (phyid = 0; phyid < 7; phyid ++)
+	{
+		int speed, duplex;
+		enStatus = 0;
+        speed = 0;
+        duplex = 0;
+		iRv= rtk_port_link_get(phyid, &enStatus);
+        printk("call rtk_port_link_get(%d) return %d, link=%d\n", phyid, iRv, enStatus);
+
+        iRv = rtk_port_speedDuplex_get(phyid, &speed, &duplex);
+        printk("call rtk_port_speedDuplex_get(%d) return %d, speed=%d, duplex=%d\n", phyid, iRv, speed, duplex);
+	}        
+
+   
     LgcPortFor(uiPort)
     {
         phyid = PortLogic2PhyID(uiPort);  

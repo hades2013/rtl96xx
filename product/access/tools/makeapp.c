@@ -13,7 +13,7 @@
 
 // TODO
 /*Begin modify by dengjian 2012-11-06 for QID0080*/
-#if (defined(CONFIG_PRODUCT_EPN104) || defined(CONFIG_PRODUCT_EPN204))
+#if defined(CONFIG_PRODUCT_EPN104) || defined(CONFIG_PRODUCT_EPN204)
 #ifdef CONFIG_BOOT_MULTI_APP
 #define FLASH_SIZE              (8 * 1024 * 1024)
 #else
@@ -154,6 +154,10 @@ unsigned char *m_pucFilePtr = NULL;
 //#define BIN_RSD_SIZE       (512 * 1024)
 #if defined(CONFIG_PRODUCT_EPN104)
 #define BIN_OS_SIZE        (3584 * 1024)
+#endif
+
+#if defined(CONFIG_PRODUCT_EPN105)
+#define BIN_OS_SIZE        (1536 * 1024)
 #endif
 
 #if defined(CONFIG_PRODUCT_5500)
@@ -371,7 +375,6 @@ int main(int argc, char* argv[])
 	#endif
 
 	len = AddFile(BIN_BOOT_OFF, boot_name);
-	
 	/*Begin modify by dengjian 2012-11-01 for QID0077*/
     #if 0
     /*Begin add by dengjian 2012-07-17 for make 8M image*/
@@ -381,17 +384,16 @@ int main(int argc, char* argv[])
     strcat(szDir, szapp_file_name);
     /*End add by dengjian 2012-07-17 for make 8M image*/
     #endif
-    
+
     len = AddFile(BIN_OS1_OFF, soft_name);
     /*Begin modify by dengjian 2012-11-06 for QID0080*/
 #ifdef CONFIG_BOOT_MULTI_APP
-    memcpy(BIN_OS2_OFF, BIN_OS1_OFF, len);
+    memcpy(BIN_OS2_OFF,BIN_OS1_OFF, len);
 #endif
     /*End modify by dengjian 2012-11-06 for QID0080*/
     /*End modify by dengjian 2012-11-01 for QID0077*/
-	
     /* 生成bin文件 */
-    SaveFile(szimg_file_name, m_pucFilePtr, FLASH_SIZE);
+    SaveFile(szimg_file_name, m_pucFilePtr, FLASH_SIZE);  
     free(m_pucFilePtr);
     m_pucFilePtr = NULL;
 

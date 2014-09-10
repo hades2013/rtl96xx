@@ -13,20 +13,20 @@ cpu port id is 52.
 So only port ids 0-52 are valid.
 */
 
-PORT_TYPE_S g_szPortType[LOGIC_PORT_NO+4] = {
+PORT_TYPE_S g_szPortType[LOGIC_PORT_NO+3] = {
 /* 0 */    {INVALID_PORT, INVALID_PORT, 0},
 /* 1 */    {TO_USERPORT(1, 0, 1),  TOPHYID(0,0),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
 /* 2 */    {TO_USERPORT(1, 0, 2),  TOPHYID(0,1),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
 /* 3 */    {TO_USERPORT(1, 0, 3),  TOPHYID(0,2),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
 /* 4 */    {TO_USERPORT(1, 0, 4),  TOPHYID(0,3),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
-/* 5 */    {TO_USERPORT(1, 0, 5),  TOPHYID(0,4),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
-/* 6 */    {INVALID_PORT, INVALID_PORT, 0},
+/* 5 */    {TO_USERPORT(1, 0, 5),  TOPHYID(0,5),     PORT_TYPE_DEF(0,TP_CABLE, UD_DOWNLINK, SP_1000)},
+/* 6 */    {TO_USERPORT(1, 0, 6),  TOPHYID(0,4),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
 /* rtl9607 CPU port is mac 6 and it's port id is port 6. */
 /*LGC_CPU*/{INVALID_PORT,          TOPHYID(0,6),     PORT_TYPE_DEF(0, TP_CPU, 0, 0)}
 };
 
 /*只有端口为光电复用口才会添加到以下结构中*/
-PORT_TYPE_S g_szComboPortSecType[LOGIC_PORT_NO+4] = {
+PORT_TYPE_S g_szComboPortSecType[LOGIC_PORT_NO+3] = {
 /* 0 */    {INVALID_PORT, INVALID_PORT, 0},
 /* 1 */    {INVALID_PORT, INVALID_PORT, 0},
 /* 2 */    {INVALID_PORT, INVALID_PORT, 0},

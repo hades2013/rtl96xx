@@ -52,7 +52,7 @@ static struct mtd_partition luna_nor_spi_parts[] = {
 };
 #endif
 
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_GPN104N)
 #define U_BOOT_SIZE     0x40000  //256kb
 #define U_BOOT_ENV_SIZE 0x10000  //64kb
 #define EXP_CFG_SIZE    0x10000  //64kb
@@ -68,13 +68,24 @@ static struct mtd_partition luna_nor_spi_parts[] = {
 #define JFFS2_SIZE   	0x6A0000 //6M+640KB
 #endif
 
-#if defined(CONFIG_PRODUCT_EPN101R)
+#ifdef CONFIG_PRODUCT_EPN101R
 #define U_BOOT_SIZE     0x40000  //256kb
 #define U_BOOT_ENV_SIZE 0x10000  //64kb
 #define EXP_CFG_SIZE    0x10000  //64kb
 #define OS_SIZE      	0xF80000 //15.5M *2
 #define JFFS2_SIZE   	0xA0000 //640KB
 #endif
+
+/* Add by Alan Lee ,at 20140711 */
+#ifdef CONFIG_PRODUCT_EPN105
+#define U_BOOT_SIZE     0x40000  //256kb
+#define U_BOOT_ENV_SIZE 0x10000  //64kb
+#define EXP_CFG_SIZE    0x10000  //64kb
+#define OS_SIZE      0x390000 //3.6M * 2
+#define NVRAM_SIZE   0x40000  //256kB
+#define JFFS2_SIZE   0x60000  //384kb
+#endif
+/*End*/
 
 #ifdef CONFIG_MTD_DYNAMIC_FLASH_PARTITION
 #define TOTAL_FMW_HEADLEN 0x60 
@@ -83,11 +94,11 @@ static struct mtd_partition luna_nor_spi_parts[] = {
 #define FS_SIZE             (OS_SIZE-KERNEL_SIZE)  
 #else
 #define UNIT_SIZE 65536
-#define KERNEL_SIZE         (UNIT_SIZE*24)                           
-#define FS_SIZE             (UNIT_SIZE*32)
+#define KERNEL_SIZE         (UNIT_SIZE*24)    //0x00180000   1.5m                      
+#define FS_SIZE             (UNIT_SIZE*32)    //0x00200000   2m
 #endif
 
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W)|| defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W)|| defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_GPN104N)
 static struct mtd_partition luna_nor_spi_parts[] = {
 	{
 		.name = "bootloader",
@@ -158,13 +169,69 @@ static struct mtd_partition luna_nor_spi_parts[] = {
 		.name = "fs2",
 		.size = FS_SIZE,
 		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE+KERNEL_SIZE,
-	},
+	},      
 	{
 		.name = "jffs2",
 		.size = JFFS2_SIZE,
 		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+(2*OS_SIZE),	
 	},
 };
+#endif
+
+
+#if defined(CONFIG_PRODUCT_EPN105)
+static struct mtd_partition luna_nor_spi_parts[] = {
+	{
+		.name = "bootloader",
+		.size = U_BOOT_SIZE,
+		.offset = 0x0,	
+	},    
+	{
+		.name = "bootenv",
+		.size = U_BOOT_ENV_SIZE,
+		.offset = U_BOOT_SIZE,		
+	},	
+	{
+		.name = "expcfg",
+		.size = EXP_CFG_SIZE,
+		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE,		
+	},	
+	{
+		.name =	"kernel1",
+		.size =	KERNEL_SIZE,
+		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE,
+	},
+	{
+		.name =	"fs1",
+		.size =	FS_SIZE,
+		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+KERNEL_SIZE,
+	},
+	{
+	   .name = "nvram1",
+	   .size = NVRAM_SIZE,
+	  // .offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+(2*OS_SIZE), 
+	  .offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE,
+	},  
+	{
+	   .name = "nvram2",
+	   .size = NVRAM_SIZE,
+	  // .offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+(2*OS_SIZE)+NVRAM_SIZE, 
+	  .offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE+NVRAM_SIZE,
+	},             
+	{
+		.name =	"kernel2",
+		.size =	KERNEL_SIZE,
+		//.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE,
+		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE+(2*NVRAM_SIZE), 
+	},
+	{
+		.name = "fs2",
+		.size = FS_SIZE,
+		//.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE+KERNEL_SIZE,
+		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE+(2*NVRAM_SIZE)+KERNEL_SIZE, 
+	},     
+};
+
 #endif
 
 typedef enum {

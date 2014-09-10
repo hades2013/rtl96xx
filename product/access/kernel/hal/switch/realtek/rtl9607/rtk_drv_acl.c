@@ -3570,6 +3570,10 @@ static void Hal_Acl_FieldSelect_init(void)
 }
 DRV_RET_E __Hal_CreateRuleForCpuMac(void);
 
+#ifdef CONFIG_EOC_EXTEND
+    void Hal_EocLowLevelFunctionInit(void);   
+#endif /* EOC_PORTING */
+
 /*****************************************************************************
     Func Name: Hal_AclRuleInit
   Description: Initiate default acl rules.
@@ -3683,6 +3687,9 @@ DRV_RET_E Hal_AclRuleInit(void)
 	Hal_AclRuleForTrapSnmpBroatcast2Cpu(TRUE, ACL_TRUST_UDP_DPORT, &ruleValue);
 #endif
 /*End add by huangmingjian 2014-05-12  for Bug 583*/	
+#ifdef CONFIG_EOC_EXTEND
+        Hal_EocLowLevelFunctionInit();   
+#endif /* EOC_PORTING */
 
     printk("done.##############\n");
     return DRV_OK;
@@ -4390,6 +4397,284 @@ DRV_RET_E Hal_VlanInterfaceDelete(UINT32 vid)
 }
 
 #endif
+
+#ifdef CONFIG_EOC_EXTEND
+
+static UINT32 eocBcastMmeTrapToCpuAclId;
+static UINT32 eocCpuMmeTrapToCpuAclId;
+static UINT32 eocDropMmeAclId;
+static UINT32 eocDropIpFromCableToCpuAclId;
+
+
+static DRV_RET_E Hal_AclForMmeTrapToCpu(logic_pmask_t *pstLgcMask, UINT8 *aucMac, UINT32 *puiAclRuleId)
+{
+    DRV_RET_E enRet;    
+    UINT32 uiAclRuleId;
+    UINT32 uiMmeEthType = 0x88E1;
+    UINT32 uiPortMask;
+    UINT32 lgcPort, uiPhyId;
+
+
+    if (!LgcMaskNotNull(pstLgcMask))
+    {
+        return DRV_ERR_PARA;
+    }
+   
+    enRet = _Hal_AclRuleEmptyIdGet(&uiAclRuleId);
+    if (DRV_OK != enRet)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    if (NULL != aucMac)
+    {
+        printk("%s %d: _Hal_AclRuleCfgCreate(%d, %02X:%02X:%02X:%02X:%02X:%02X);\n", __FUNCTION__, __LINE__, uiAclRuleId, aucMac[0], aucMac[1], aucMac[2], aucMac[3], aucMac[4], aucMac[5]);    
+        enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_DMAC, ACL_ACTION_TRAP_TO_CPU, aucMac, aucMac);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }
+    }
+    
+    enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_ETHTYPE, ACL_ACTION_TRAP_TO_CPU, &uiMmeEthType, &uiMmeEthType);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    uiPortMask = 0;
+    LgcPortFor(lgcPort)
+    {
+        if(TstLgcMaskBit(lgcPort, pstLgcMask))
+        {
+            uiPhyId = PortLogic2PhyPortId(lgcPort);
+            uiPortMask |= (1U << uiPhyId);
+        }
+    }    
+
+    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
+    enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    if (puiAclRuleId){
+        *puiAclRuleId = uiAclRuleId;
+    }
+
+    return DRV_OK;
+}
+
+
+static DRV_RET_E Hal_AclForIpFromCableToCpuDrop(logic_pmask_t *pstLgcMask, UINT8 *aucCpuMac, UINT32 *puiAclRuleId)
+{
+    DRV_RET_E enRet;  
+    UINT32 uiAclRuleId;
+    UINT32 uiIpEthType = 0x0800;
+    UINT32 uiPortMask;
+    UINT32 lgcPort, uiPhyId;
+    
+
+    if (!LgcMaskNotNull(pstLgcMask))
+    {
+        return DRV_ERR_PARA;
+    }
+
+   
+    enRet = _Hal_AclRuleEmptyIdGet(&uiAclRuleId);
+    if (DRV_OK != enRet)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    if (NULL != aucCpuMac)
+    {
+        enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_DMAC, ACL_ACTION_DROP, aucCpuMac, aucCpuMac);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }
+    }
+    
+    enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_ETHTYPE, ACL_ACTION_DROP, &uiIpEthType, &uiIpEthType);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    uiPortMask = 0;
+    LgcPortFor(lgcPort)
+    {
+        if(TstLgcMaskBit(lgcPort, pstLgcMask))
+        {
+            uiPhyId = PortLogic2PhyPortId(lgcPort);
+            uiPortMask |= (1U << uiPhyId);
+        }
+    }   
+
+    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
+    enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    if (puiAclRuleId){
+        *puiAclRuleId = uiAclRuleId;
+    }
+
+    return DRV_OK;
+}
+
+
+static DRV_RET_E Hal_AclForMmeDrop(logic_pmask_t *pstLgcMask, UINT32 *puiAclRuleId)
+{
+    DRV_RET_E enRet;   
+    UINT32 uiAclRuleId;
+    UINT32 uiMmeEthType = 0x88E1;
+    UINT32 uiPortMask;
+    UINT32 lgcPort, uiPhyId;
+
+    if (!LgcMaskNotNull(pstLgcMask))
+    {
+        return DRV_ERR_PARA;
+    }
+
+   
+    enRet = _Hal_AclRuleEmptyIdGet(&uiAclRuleId);
+    if (DRV_OK != enRet)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_ETHTYPE, ACL_ACTION_DROP, &uiMmeEthType, &uiMmeEthType);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    uiPortMask = 0;
+    LgcPortFor(lgcPort)
+    {
+        if(TstLgcMaskBit(lgcPort, pstLgcMask))
+        {
+            uiPhyId = PortLogic2PhyPortId(lgcPort);
+            uiPortMask |= (1U << uiPhyId);
+        }
+    }       
+
+    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
+    
+    enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    if (puiAclRuleId){
+        *puiAclRuleId = uiAclRuleId;
+    }
+
+    return DRV_OK;
+}
+
+
+DRV_RET_E Hal_SetEocLowLevelFunction(eoc_low_level_t *peocLowLevel)
+{
+    DRV_RET_E enRet = DRV_OK;
+    UINT8  aucMacBcast[ETHER_ADDR_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+    UINT8  aucMacZero[ETHER_ADDR_LEN] = {0x00,0x00,0x00,0x00,0x00,0x00};        
+
+    if (NULL == peocLowLevel){
+        return DRV_ERR_PARA;
+    }
+
+    if (eocBcastMmeTrapToCpuAclId != ACL_RULE_ID_IVALLID){
+        enRet = ACL_DeleteRuleByAclid(eocBcastMmeTrapToCpuAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }       
+        eocBcastMmeTrapToCpuAclId = ACL_RULE_ID_IVALLID;
+    }
+    
+    if (eocCpuMmeTrapToCpuAclId != ACL_RULE_ID_IVALLID){
+        enRet = ACL_DeleteRuleByAclid(eocCpuMmeTrapToCpuAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }  
+        eocCpuMmeTrapToCpuAclId = ACL_RULE_ID_IVALLID;
+    } 
+    
+    if (eocDropMmeAclId != ACL_RULE_ID_IVALLID){
+        enRet = ACL_DeleteRuleByAclid(eocDropMmeAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }   
+        eocDropMmeAclId = ACL_RULE_ID_IVALLID;
+    }  
+   
+    if (eocDropIpFromCableToCpuAclId != ACL_RULE_ID_IVALLID){
+        enRet = ACL_DeleteRuleByAclid(eocDropIpFromCableToCpuAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }
+        eocDropIpFromCableToCpuAclId = ACL_RULE_ID_IVALLID;
+    }          
+    if (LgcMaskNotNull(&peocLowLevel->cable_ports)){
+        enRet = Hal_AclForMmeTrapToCpu(&peocLowLevel->cable_ports, aucMacBcast, &eocBcastMmeTrapToCpuAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }        
+        if (memcmp(peocLowLevel->cpu_mac, aucMacZero, sizeof(peocLowLevel->cpu_mac))){
+            enRet = Hal_AclForMmeTrapToCpu(&peocLowLevel->cable_ports, peocLowLevel->cpu_mac, &eocBcastMmeTrapToCpuAclId);            
+            if (DRV_OK != enRet)
+            {
+                return DRV_ERR_UNKNOW;
+            }            
+        }
+        if (peocLowLevel->drop_ip_from_cable_to_cpu){
+            enRet = Hal_AclForIpFromCableToCpuDrop(&peocLowLevel->cable_ports, peocLowLevel->cpu_mac, &eocDropIpFromCableToCpuAclId);            
+            if (DRV_OK != enRet)
+            {
+                return DRV_ERR_UNKNOW;
+            }            
+        }        
+    }
+    
+    if (LgcMaskNotNull(&peocLowLevel->drop_mme_ports)){
+        enRet = Hal_AclForMmeDrop(&peocLowLevel->drop_mme_ports, &eocDropMmeAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }        
+    }
+
+    return enRet;    
+}
+
+
+void Hal_EocLowLevelFunctionInit(void)
+{
+    eocBcastMmeTrapToCpuAclId = ACL_RULE_ID_IVALLID;
+    eocCpuMmeTrapToCpuAclId = ACL_RULE_ID_IVALLID;
+    eocDropMmeAclId = ACL_RULE_ID_IVALLID;
+    eocDropIpFromCableToCpuAclId = ACL_RULE_ID_IVALLID; 
+}
+
+
+
+#endif /* CONFIG_EOC_EXTEND */
+
+
+
+
+
 
 #ifdef  __cplusplus
 }

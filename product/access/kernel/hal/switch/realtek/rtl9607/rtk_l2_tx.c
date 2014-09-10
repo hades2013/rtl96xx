@@ -133,6 +133,39 @@ INT32 check_add_del_rtl_head(UINT8 * pBuf, INT32 len, UINT32* rtl_pport)
 
     if((0x88 == pbufTmp[0]) && (0x99 == pbufTmp[1])){
         memcpy((uint8_t *)&stRtlHeader, pbufTmp, (size_t)rtl_size);
+		/* Modified by Einsn 20130403 */
+		#ifdef CONFIG_EOC_EXTEND
+		u16 eth_type = *((u16*)(pbufTmp + rtl_size));
+		        
+		printk("\n<rtk> eth_type:%X, rxport:%d\n dst[%02X:%02X:%02X:%02X:%02X:%02X] src[%02X:%02X:%02X:%02X:%02X:%02X]\n", eth_type, (int)PORTID(stRtlHeader.usPPortMask),
+		                pBuf[0],pBuf[1],pBuf[2],pBuf[3],pBuf[4],pBuf[5],
+		                pBuf[6],pBuf[7],pBuf[8],pBuf[9],pBuf[10],pBuf[11]);
+		        
+		/* If ethtype is 88e1, keep this tag */
+		if (eth_type == ntohs(0x88e1)){
+		    return 0;
+		}
+		// handle mme with vlan tag
+		if ((eth_type == ntohs(0x8100))
+		    && (*((u16*)(pbufTmp + rtl_size + 4))) == ntohs(0x88e1)){
+		    memcpy(pbufTmp + rtl_size, pbufTmp + rtl_size + 4, (size_t)((len - rtl_size) - 12 - 4));
+
+		    /*  
+		        remove vlan tag if any
+		        dst src 8100 00 00 + 88 99 ... + 81 00 00 01 + 88 e1
+		    */
+		    if ((0x81 == pBuf[12]) && (0x00 == pBuf[13]))
+		    {
+		        memcpy(pBuf + 12, pBuf + 12 + 4, (size_t)(len - 12));                    
+		        return 8;
+		    }                
+		    return 4;
+		}
+
+		#endif /* CONFIG_EOC_EXTEND */
+		/* End */        
+
+        
         *rtl_pport = (UINT32)stRtlHeader.usPPortMask;
 
         memcpy(pbufTmp, pbufTmp+rtl_size, (size_t)((len - rtl_size) - 12));

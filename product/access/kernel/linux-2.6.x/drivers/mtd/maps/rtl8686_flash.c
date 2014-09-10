@@ -147,8 +147,14 @@ static struct mtd_partition rtl8672_parts[] = {
 #define OS_SIZE      0x300000 //3M
 #endif
 /*End modify by dengjian 2012-11-06 for QID0080*/
+
+#ifdef CONFIG_PRODUCT_EPN105
+#define NVRAM_SIZE   0x40000  //256kB
+#define JFFS2_SIZE   0x60000  //384kb
+#else
 #define NVRAM_SIZE   0x20000  //128kb
 #define JFFS2_SIZE   0x80000  //512kb
+#endif
 
 /*Begin add by dengjian 2012/10/16*/
 #define UNIT_SIZE 65536
@@ -209,17 +215,12 @@ static struct mtd_partition rtl8672_parts[] = {
 		.size = FS_SIZE,
 		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+OS_SIZE+KERNEL_SIZE,
 	},
-	/*End add by dengjian 2012/10/16*/
-	{
-		.name = "nvram",
-		.size = NVRAM_SIZE,
-		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+(2*OS_SIZE),	
-	},	
-	{
-		.name = "jffs2",
-		.size = JFFS2_SIZE,
-		.offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+(2*OS_SIZE)+NVRAM_SIZE,	
-	},
+	/*End add by dengjian 2012/10/16*/      
+    {
+        .name = "jffs2",
+        .size = JFFS2_SIZE,
+        .offset = U_BOOT_SIZE+U_BOOT_ENV_SIZE+EXP_CFG_SIZE+(2*OS_SIZE), 
+    },
 };
 #else
 static struct mtd_partition rtl8672_parts[] = {
