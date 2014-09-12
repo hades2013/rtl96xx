@@ -1,0 +1,10 @@
+#
+# common variables used by configure scripts
+#
+SED="/bin/sed"
+CPP="rsdk-linux-gcc  -E"
+GREP="/bin/grep"
+PARTIALTARGETFLAGS="-Ulinux -Dlinux=linux"
+NETSNMP_SYSTEM_INCLUDE_FILE="net-snmp/system/linux.h"
+
+srcdir=.

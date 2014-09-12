@@ -1,0 +1,14 @@
+  SNMP Versions Supported:    1 2c 3
+  Building for:               linux
+  Net-SNMP Version:           5.6.2
+  Network transport support:  Alias Callback UDP UDPIPv4Base UDPBase IPv4Base SocketBase
+  SNMPv3 Security Modules:     usm
+  *** MIB Module warning *** mib module 'mibII/vacm_conf' requires module 'mibII/vacm_context' but someone told me to compile without it
+  Agent MIB code:             mibII/system_mib mibII/vacm_conf snmpv3/usmConf EPN104/miscIdent EPN104/trap EPN104/cltConfigRemoteUpgradeTable EPN104/opRxInputTable EPN104/opRxOutputTable EPN104/dorDCPowerTable product_common/snmp_ipc_interface default_modules =>  util_funcs mibII/updates util_funcs/header_generic mibII/vacm_conf util_funcs/header_generic EPN104/miscIdent util_funcs/header_generic EPN104/trap util_funcs/header_generic EPN104/cltConfigRemoteUpgradeTable util_funcs/header_generic EPN104/opRxInputTable util_funcs/header_generic EPN104/opRxOutputTable util_funcs/header_generic EPN104/dorDCPowerTable mibII/system_mib mibII/vacm_conf util_funcs/Exit util_funcs/restart
+  MYSQL Trap Logging:         unavailable
+  Embedded Perl support:      disabled
+  SNMP Perl modules:          disabled
+  SNMP Python modules:        disabled
+  Crypto support from:        internal
+  Authentication support:     MD5 SHA1
+  Encryption support:         DES AES

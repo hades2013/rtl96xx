@@ -1,2 +1,2 @@
 ctype.o: ctype.c \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/ctype.h
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/ctype.h

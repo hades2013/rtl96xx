@@ -1,11 +1,11 @@
 string.o: string.c \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/types.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/config.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/posix_types.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/stddef.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/asm/posix_types.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/asm/types.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/string.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/asm/string.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/linux/ctype.h \
- /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/boot/preloader-9607/u-boot-9607/include/malloc.h
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/types.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/config.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/posix_types.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/stddef.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/posix_types.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/types.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/string.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/string.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/linux/ctype.h \
+ /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/malloc.h

@@ -1,4 +1,4 @@
-cmd_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := rsdk-linux-gcc -Wp,-MD,drivers/lwdrv/ksal/watchdog/.drv_watchdog.o.d  -nostdinc -isystem /home/wanghuanyu/EPN/ZG/hexicom/trunk/toolchains/rsdk-1.5.6-5281-EB-2.6.30-0.9.30.3-110915/bin/../lib/gcc/mips-linux/4.4.6/include -Iinclude  -I/home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include -include include/linux/autoconf.h -Iinclude/soc -D__KERNEL__ -D"VMLINUX_LOAD_ADDRESS=0x80041000" -D"LOADADDR=0x80041000" -D"DATAOFFSET=0" -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -fno-delete-null-pointer-checks -D__LUNA_KERNEL__ -Os -fno-inline -ffunction-sections -mno-check-zero-division -mabi=32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -ffreestanding -EB -UMIPSEB -U_MIPSEB -U__MIPSEB -U__MIPSEB__ -UMIPSEL -U_MIPSEL -U__MIPSEL -U__MIPSEL__ -DMIPSEB -D_MIPSEB -D__MIPSEB -D__MIPSEB__ -Iinclude/asm-rlx -Iarch/rlx/bsp_rtl8686/ -Idrivers/net/rtl86900/sdk/include/ -Idrivers/net/rtl86900/sdk/system/include -I/home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic -Wframe-larger-than=1024 -fno-stack-protector -fomit-frame-pointer -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-dwarf2-cfi-asm -I/home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/include -I/home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/../../app/include   -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(drv_watchdog)"  -D"KBUILD_MODNAME=KBUILD_STR(drv_watchdog)"  -c -o drivers/lwdrv/ksal/watchdog/drv_watchdog.o drivers/lwdrv/ksal/watchdog/drv_watchdog.c
+cmd_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := rsdk-linux-gcc -Wp,-MD,drivers/lwdrv/ksal/watchdog/.drv_watchdog.o.d  -nostdinc -isystem /opt/workspace/rtl9607/toolchains/rsdk-1.5.6-5281-EB-2.6.30-0.9.30.3-110915/bin/../lib/gcc/mips-linux/4.4.6/include -Iinclude  -I/opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include -include include/linux/autoconf.h -Iinclude/soc -D__KERNEL__ -D"VMLINUX_LOAD_ADDRESS=0x80041000" -D"LOADADDR=0x80041000" -D"DATAOFFSET=0" -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -fno-delete-null-pointer-checks -D__LUNA_KERNEL__ -Os -fno-inline -ffunction-sections -mno-check-zero-division -mabi=32 -G 0 -mno-abicalls -fno-pic -pipe -msoft-float -ffreestanding -EB -UMIPSEB -U_MIPSEB -U__MIPSEB -U__MIPSEB__ -UMIPSEL -U_MIPSEL -U__MIPSEL -U__MIPSEL__ -DMIPSEB -D_MIPSEB -D__MIPSEB -D__MIPSEB__ -Iinclude/asm-rlx -Iarch/rlx/bsp_rtl8686/ -Idrivers/net/rtl86900/sdk/include/ -Idrivers/net/rtl86900/sdk/system/include -I/opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic -Wframe-larger-than=1024 -fno-stack-protector -fomit-frame-pointer -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fno-dwarf2-cfi-asm -I/opt/workspace/rtl9607/product/access/include -I/opt/workspace/rtl9607/product/access/../../app/include   -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(drv_watchdog)"  -D"KBUILD_MODNAME=KBUILD_STR(drv_watchdog)"  -c -o drivers/lwdrv/ksal/watchdog/drv_watchdog.o drivers/lwdrv/ksal/watchdog/drv_watchdog.c
 
 deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
   drivers/lwdrv/ksal/watchdog/drv_watchdog.c \
@@ -33,13 +33,13 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/lbd.h) \
     $(wildcard include/config/phys/addr/t/64bit.h) \
     $(wildcard include/config/64bit.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/types.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/types.h \
   include/asm-generic/int-ll64.h \
   include/asm-generic/bitsperlong.h \
   include/linux/posix_types.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/posix_types.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/sgidefs.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/processor.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/posix_types.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/sgidefs.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/processor.h \
     $(wildcard include/config/cpu/has/sleep.h) \
   include/linux/cpumask.h \
     $(wildcard include/config/disable/obsolete/cpumask/functions.h) \
@@ -56,14 +56,14 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/ring/buffer.h) \
     $(wildcard include/config/numa.h) \
     $(wildcard include/config/ftrace/mcount/record.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/toolchains/rsdk-1.5.6-5281-EB-2.6.30-0.9.30.3-110915/bin/../lib/gcc/mips-linux/4.4.6/include/stdarg.h \
+  /opt/workspace/rtl9607/toolchains/rsdk-1.5.6-5281-EB-2.6.30-0.9.30.3-110915/bin/../lib/gcc/mips-linux/4.4.6/include/stdarg.h \
   include/linux/linkage.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/linkage.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/linkage.h \
   include/linux/bitops.h \
     $(wildcard include/config/generic/find/first/bit.h) \
     $(wildcard include/config/generic/find/last/bit.h) \
     $(wildcard include/config/generic/find/next/bit.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/bitops.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/bitops.h \
     $(wildcard include/config/cpu/has/llsc.h) \
     $(wildcard include/config/cpu/rlx4181.h) \
     $(wildcard include/config/cpu/rlx5181.h) \
@@ -75,29 +75,29 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/trace/irqflags/support.h) \
     $(wildcard include/config/rtl/819x.h) \
   include/linux/typecheck.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/irqflags.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/hazards.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cpu-features.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/irqflags.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/hazards.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cpu-features.h \
     $(wildcard include/config/cpu/has/ejtag.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cpu.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cpu-info.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cache.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/kmalloc.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cpu.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cpu-info.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cache.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/kmalloc.h \
     $(wildcard include/config/dma/coherent.h) \
   arch/rlx/bsp_rtl8686/bspcpu.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/barrier.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/barrier.h \
     $(wildcard include/config/cpu/has/sync.h) \
     $(wildcard include/config/cpu/has/wb.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/bug.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/bug.h \
     $(wildcard include/config/bug.h) \
   include/asm-generic/bug.h \
     $(wildcard include/config/generic/bug/relative/pointers.h) \
     $(wildcard include/config/debug/bugverbose.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/byteorder.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/byteorder.h \
     $(wildcard include/config/cpu/big/endian.h) \
   include/linux/byteorder/big_endian.h \
   include/linux/swab.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/swab.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/swab.h \
   include/linux/byteorder/generic.h \
   include/asm-generic/bitops/non-atomic.h \
   include/asm-generic/bitops/fls64.h \
@@ -114,7 +114,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/arch/has/ilog2/u64.h) \
   include/linux/ratelimit.h \
   include/linux/param.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/param.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/param.h \
     $(wildcard include/config/hz.h) \
   include/linux/dynamic_debug.h \
   include/linux/threads.h \
@@ -123,20 +123,20 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
   include/linux/bitmap.h \
   include/linux/string.h \
     $(wildcard include/config/binary/printf.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/string.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cachectl.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/rlxregs.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/string.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cachectl.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/rlxregs.h \
     $(wildcard include/config/cpu/rlx5281.h) \
     $(wildcard include/config/cpu/rlx4281.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/system.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/addrspace.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/spaces.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/system.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/addrspace.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/spaces.h \
     $(wildcard include/config/32bit.h) \
     $(wildcard include/config/dma/noncoherent.h) \
   include/linux/const.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cmpxchg.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/cmpxchg.h \
   include/linux/stat.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/stat.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/stat.h \
   include/linux/time.h \
   include/linux/cache.h \
     $(wildcard include/config/arch/has/cache/line/size.h) \
@@ -151,7 +151,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/preempt/notifiers.h) \
   include/linux/thread_info.h \
     $(wildcard include/config/compat.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/thread_info.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/thread_info.h \
     $(wildcard include/config/kernel/stack/size/order.h) \
     $(wildcard include/config/debug/stack/usage.h) \
   include/linux/stringify.h \
@@ -164,10 +164,10 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/generic/hardirqs.h) \
   include/linux/spinlock_up.h \
   include/linux/spinlock_api_up.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/atomic.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/atomic.h \
   include/asm-generic/atomic-long.h \
   include/linux/math64.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/div64.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/div64.h \
   include/asm-generic/div64.h \
   include/linux/kmod.h \
   include/linux/gfp.h \
@@ -192,7 +192,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/holes/in/zone.h) \
     $(wildcard include/config/arch/has/holes/memorymodel.h) \
   include/linux/wait.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/current.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/current.h \
   include/linux/numa.h \
     $(wildcard include/config/nodes/shift.h) \
   include/linux/init.h \
@@ -209,13 +209,13 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/hugetlb/page.h) \
     $(wildcard include/config/hugetlb/page/size/variable.h) \
   include/linux/bounds.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/page.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/page.h \
   include/linux/pfn.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/io.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/io.h \
   include/asm-generic/iomap.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/pgtable-bits.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/ioremap.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/mangle-port.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/pgtable-bits.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/ioremap.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/mangle-port.h \
     $(wildcard include/config/swap/io/space.h) \
   include/asm-generic/memory_model.h \
     $(wildcard include/config/sparsemem/vmemmap.h) \
@@ -225,7 +225,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/memory/hotremove.h) \
   include/linux/notifier.h \
   include/linux/errno.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/errno.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/errno.h \
   include/asm-generic/errno-base.h \
   include/linux/mutex.h \
     $(wildcard include/config/debug/mutexes.h) \
@@ -238,15 +238,15 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/sched/mc.h) \
   include/linux/smp.h \
     $(wildcard include/config/use/generic/smp/helpers.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/topology.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/topology.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/topology.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/mach-generic/topology.h \
   include/asm-generic/topology.h \
   include/linux/mmdebug.h \
     $(wildcard include/config/debug/vm.h) \
     $(wildcard include/config/debug/virtual.h) \
   include/linux/elf.h \
   include/linux/elf-em.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/elf.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/elf.h \
   include/linux/kobject.h \
   include/linux/sysfs.h \
   include/linux/kref.h \
@@ -263,7 +263,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
   include/linux/completion.h \
   include/linux/rcuclassic.h \
     $(wildcard include/config/rcu/cpu/stall/detector.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/local.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/local.h \
   include/linux/percpu.h \
     $(wildcard include/config/have/dynamic/per/cpu/area.h) \
   include/linux/slab.h \
@@ -276,12 +276,12 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/kmemtrace.h) \
   include/trace/kmemtrace.h \
   include/linux/kmalloc_sizes.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/percpu.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/percpu.h \
   include/asm-generic/percpu.h \
     $(wildcard include/config/have/setup/per/cpu/area.h) \
   include/linux/percpu-defs.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/module.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/uaccess.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/module.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/uaccess.h \
   include/linux/fs.h \
     $(wildcard include/config/dnotify.h) \
     $(wildcard include/config/quota.h) \
@@ -297,7 +297,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/migration.h) \
   include/linux/limits.h \
   include/linux/ioctl.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/ioctl.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/ioctl.h \
   include/asm-generic/ioctl.h \
   include/linux/kdev_t.h \
   include/linux/dcache.h \
@@ -319,7 +319,7 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
   include/linux/nfs.h \
   include/linux/sunrpc/msg_prot.h \
   include/linux/fcntl.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/fcntl.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/fcntl.h \
   include/asm-generic/fcntl.h \
   include/linux/err.h \
   include/linux/miscdevice.h \
@@ -330,25 +330,26 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/rtl/multi/eth/wan.h) \
     $(wildcard include/config/rtl867x/vlan/mapping.h) \
     $(wildcard include/config/port/mirror.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/sockios.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/sockios.h \
   include/linux/delay.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/delay.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/delay.h \
   include/linux/net.h \
     $(wildcard include/config/sysctl.h) \
   include/linux/socket.h \
     $(wildcard include/config/proc/fs.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/socket.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/socket.h \
   include/linux/uio.h \
   include/linux/random.h \
   include/linux/irqnr.h \
   include/linux/sysctl.h \
     $(wildcard include/config/rtl/nf/conntrack/garbage/new.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/../../app/include/lw_type.h \
+  /opt/workspace/rtl9607/product/access/../../app/include/lw_type.h \
     $(wildcard include/config/product/epn104.h) \
     $(wildcard include/config/product/epn204.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/include/lw_config.h \
+  /opt/workspace/rtl9607/product/access/../../app/include/lw_config.h \
     $(wildcard include/config/h.h) \
     $(wildcard include/config/product/epn105.h) \
+    $(wildcard include/config/eoc/extend.h) \
     $(wildcard include/config/defaults/realtek.h) \
     $(wildcard include/config/vendor.h) \
     $(wildcard include/config/defaults/realtek/sdk.h) \
@@ -377,7 +378,8 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/ponmonitor.h) \
     $(wildcard include/config/loopd.h) \
     $(wildcard include/config/onu/compatible.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/../../app/include/lw_drv_pub.h \
+  /opt/workspace/rtl9607/product/access/include/lw_config.h \
+  /opt/workspace/rtl9607/product/access/../../app/include/lw_drv_pub.h \
     $(wildcard include/config/product/epn104n.h) \
     $(wildcard include/config/product/epn104w.h) \
     $(wildcard include/config/product/epn104zg.h) \
@@ -393,12 +395,11 @@ deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o := \
     $(wildcard include/config/schedule/return/sum/page.h) \
     $(wildcard include/config/wdt.h) \
     $(wildcard include/config/dhcpsp.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/include/pdt_config.h \
+  /opt/workspace/rtl9607/product/access/../../app/include/pdt_config.h \
     $(wildcard include/config/h/.h) \
     $(wildcard include/config/isouservlan.h) \
     $(wildcard include/config/hard/version.h) \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/include/lw_config.h \
-  /home/wanghuanyu/EPN/ZG/hexicom/trunk/product/access/include/pdt_priv_config.h \
+  /opt/workspace/rtl9607/product/access/../../app/include/pdt_priv_config.h \
 
 drivers/lwdrv/ksal/watchdog/drv_watchdog.o: $(deps_drivers/lwdrv/ksal/watchdog/drv_watchdog.o)
 
