@@ -46,7 +46,6 @@ cfg.tgz
 epon_oam.tgz
 ifm.tgz
 kernel/drv/hal
-kernel/linux-2.6.x
 kernel/lwmodule/ifm/.ifm.ko.cmd
 kernel/lwmodule/ifm/.tmp_versions/
 kernel/lwmodule/ifm/Module.symvers
