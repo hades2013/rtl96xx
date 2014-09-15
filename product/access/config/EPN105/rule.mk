@@ -167,6 +167,7 @@ image: makeapp
 	rm -f u-boot.bin temp_for_app.bin
 	mv *.img $(PRODUCTDIR)/release/$(ENV_PRO)
 	rm -f makeapp.c makeapp
+	if [ -d /opt/tftpboot ]; then chmod 666 $(RELEASE_DIR)/*.bin; cp -f $(RELEASE_DIR)/*.bin /opt/tftpboot; fi
 platform.setup:
 	rm -f $(SOFTWAREDIR)/shared/drv/port_config.c
 	rm -f $(LWDRV_DIR)/hal/switch/drv_common.c
