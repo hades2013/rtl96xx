@@ -6,7 +6,7 @@
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
 #if defined(CONFIG_VLAN_8021Q)
-#define CP_VLAN_TAG_USED 1
+#define CP_VLAN_TAG_USED 0
 #endif
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
 
