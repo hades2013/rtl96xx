@@ -1158,8 +1158,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	}
 	else
 	{
-		skb_push_qtag(skb,s_ui_management_vlan,0);
-		skb->vlan_tci = s_ui_management_vlan;
+ 		//skb_push_qtag(skb,s_ui_management_vlan,0);
+		//skb->vlan_tci = s_ui_management_vlan;
 	}
 #endif
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
