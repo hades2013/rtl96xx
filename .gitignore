@@ -254,6 +254,7 @@ product/access/release/EPN105/zImage
 product/access/sdk/realtek/sdk-1.0.0/src/app/lib/librtk.a
 product/access/tools/mkfw/mkfw
 product/access/tools/mksquashfs4.2
+product/access/rootfs/*
 scripts/conf
 scripts/conf.o
 scripts/lxdialog/checklist.o
