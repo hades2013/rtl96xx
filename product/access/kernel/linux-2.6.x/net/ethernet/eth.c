@@ -165,7 +165,7 @@ __be16 eth_type_trans(struct sk_buff *skb, struct net_device *dev)
 	skb_reset_mac_header(skb);
 
     if(((skb->data[12]<<8)|skb->data[13]) == 0x8899){//cpu tag
-        printk("cpu tag packet.... len=%d\n",sizeof(cpu_tag_t));
+        //printk("cpu tag packet.... len=%d\n",sizeof(cpu_tag_t));
     	skb_pull(skb, ETH_HLEN + sizeof(cpu_tag_t));
     }else{
     	skb_pull(skb, ETH_HLEN);
