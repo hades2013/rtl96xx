@@ -30,7 +30,19 @@
 #endif
 #endif
 #define APOLLO_PON_PORT 4//6266
-#define CPU_PORT 6
+#define CPU_PORT 6//phy 6
+
+#define CLT0_PORT 5 //cable 0 port,use phy 5
+#define CLT1_PORT (-1)// phy==-1 means no use it now
+#define CLT2_PORT (-1)// phy==-1 means no use it now
+#define CLT3_PORT (-1)// phy==-1 means no use it now
+
+#define CLT_PORT_LIST CLT0_PORT //eg : CLT0_PORT,CLT1_PORT,CLT2_PORT,CLT3_PORT
+#define CLT_PORT_MAX 1//max is 4
+
+#ifndef __packed
+#define __packed    __attribute__((packed))
+#endif
 
 #define ETHBASE	0xB8012000	//internal phy
 

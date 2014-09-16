@@ -527,7 +527,7 @@ extern atomic_t re8670_rxskb_num;
 unsigned int iocmd_reg=CMD_CONFIG;//=0x4009113d;	//shlee 8672
 unsigned int iocmd1_reg=CMD1_CONFIG | (RX_NOT_ONLY_RING1<<25);   
 
-__DRAM unsigned int debug_enable=(1<<4)|(1<<0);
+__DRAM unsigned int debug_enable=0;//(1<<4)|(1<<0);
 static unsigned int tx_ring_show_bitmap=((1<<MAX_TXRING_NUM)-1);
 static unsigned int rx_ring_show_bitmap=((1<<MAX_RXRING_NUM)-1);
 
@@ -1133,15 +1133,9 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 
     ptag = (cpu_tag_t *)(pSkb->data+(2 * MAC_ADDR_LEN));
 
-    printk("skb_push_cputag len=%d... \n\n",sizeof(*ptag));
-    
-    for(i=0;i<16;i++){
-        printk("%x.",pSkb->data[i]);
-    }
-    printk("\n\n");
     
     if(ntohs(ptag->rtl_eth_type) != 0x88E1){//if it is not MME packet
-        printk("eth type=%x\n",ntohs(ptag->rtl_eth_type));
+        //printk("eth type=%x\n",ntohs(ptag->rtl_eth_type));
         return;
     }
 
@@ -1152,7 +1146,7 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
     }
 
     if(i == CLT_PORT_MAX) { //if it is not from cable,return.
-        printk("phy = %d\n",phy);
+        //printk("phy = %d\n",phy);
         return; 
     }
     
@@ -1190,8 +1184,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	/* switch_port is patched for iptables and ebtables rule matching */
 	skb->switch_port = getSwitchPort(cp, pRxInfo);
 	skb->mark = (skb->vlan_tci & 0xFFF);
-	printk("%s %d switch_port: %s vlan_tci=0x%x mark=0x%x\n", 
-			__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
+	//printk("%s %d switch_port: %s vlan_tci=0x%x mark=0x%x\n", 
+			//__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
 #if CP_VLAN_TAG_USED
@@ -1221,8 +1215,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
 	skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);	
 
-    printk("%s %d l2_vlan=%d, l2_port=%d\n", 
-			__func__, __LINE__, skb->l2_vlan,skb->l2_port);
+    //printk("%s %d l2_vlan=%d, l2_port=%d\n", 
+			//__func__, __LINE__, skb->l2_vlan,skb->l2_port);
 #endif
 	
 	updateRxStatic(cp, skb);
@@ -1251,7 +1245,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		skb->protocol = eth_type_trans (skb, skb->dev);
 		skb->vlan_tci = 0;
         
-        printk("skb->protocol=%x\n",skb->protocol);
+        //printk("skb->protocol=%x\n",skb->protocol);
 
 		if (netif_rx(skb) == NET_RX_DROP)
 			DEVPRIV(skb->dev)->net_stats.rx_dropped++;
