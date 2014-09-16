@@ -40,10 +40,6 @@
 #define CLT_PORT_LIST CLT0_PORT //eg : CLT0_PORT,CLT1_PORT,CLT2_PORT,CLT3_PORT
 #define CLT_PORT_MAX 1//max is 4
 
-#ifndef __packed
-#define __packed    __attribute__((packed))
-#endif
-
 #define ETHBASE	0xB8012000	//internal phy
 
 #define RTL_W32(reg, value)			(*(volatile u32*)(ETHBASE+reg)) = (u32)value
