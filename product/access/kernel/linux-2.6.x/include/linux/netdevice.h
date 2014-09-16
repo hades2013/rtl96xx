@@ -611,6 +611,25 @@ struct net_device_ops {
 };
 
 /*
+* if a mme packet receive from cable port, we need insert rtl_tag structure after src-mac-address in the packet
+*/
+typedef struct __packed {
+    u16 rtl_eth_type;    // 0x8899
+    u8 protocol;
+    u8 reason;
+    u16 pritag;
+    union{
+        u16 txmask;
+        struct {
+            u8 rsvd;
+            u8 rxport;
+        };
+    };
+}cpu_tag_t;//add cpu-tag for master
+
+
+
+/*
  *	The DEVICE structure.
  *	Actually, this whole structure is a big mistake.  It mixes I/O
  *	data with strictly "high-level" data, and it has to know about

@@ -527,7 +527,7 @@ extern atomic_t re8670_rxskb_num;
 unsigned int iocmd_reg=CMD_CONFIG;//=0x4009113d;	//shlee 8672
 unsigned int iocmd1_reg=CMD1_CONFIG | (RX_NOT_ONLY_RING1<<25);   
 
-__DRAM unsigned int debug_enable=0;
+__DRAM unsigned int debug_enable=(1<<4)|(1<<0);
 static unsigned int tx_ring_show_bitmap=((1<<MAX_TXRING_NUM)-1);
 static unsigned int rx_ring_show_bitmap=((1<<MAX_RXRING_NUM)-1);
 
@@ -1122,6 +1122,52 @@ void str2mac(unsigned char *mac_string, unsigned char *MacEntry)
 extern void skb_push_qtag(struct sk_buff *pSkb, unsigned short usVid, unsigned char ucPriority);
 extern	void Drv_MT_AddEntry(unsigned char* pucPkt, int enPort,int vid);
 
+
+
+void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
+{
+    cpu_tag_t *ptag;
+
+    int cable_phy[CLT_PORT_MAX]={CLT_PORT_LIST};
+    int i;
+
+    ptag = (cpu_tag_t *)(pSkb->data+(2 * MAC_ADDR_LEN));
+
+    printk("skb_push_cputag len=%d... \n\n",sizeof(*ptag));
+    
+    for(i=0;i<16;i++){
+        printk("%x.",pSkb->data[i]);
+    }
+    printk("\n\n");
+    
+    if(ntohs(ptag->rtl_eth_type) != 0x88E1){//if it is not MME packet
+        printk("eth type=%x\n",ntohs(ptag->rtl_eth_type));
+        return;
+    }
+
+    for(i=0; i<CLT_PORT_MAX; i++){
+        if(cable_phy[i] == phy){
+            break;
+        }
+    }
+
+    if(i == CLT_PORT_MAX) { //if it is not from cable,return.
+        printk("phy = %d\n",phy);
+        return; 
+    }
+    
+    /*push cnutag header*/
+    skb_push(pSkb, sizeof(*ptag)); 
+    memmove(pSkb->data, 
+            pSkb->data + sizeof(*ptag), 
+            (2 * MAC_ADDR_LEN));
+
+    ptag = (cpu_tag_t *)(pSkb->data+(2 * MAC_ADDR_LEN));
+
+    ptag->rtl_eth_type = htons(0x8899);
+    ptag->rxport = phy;
+}
+
 __IRAM_NIC
 int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *pRxInfo)
 {	
@@ -1144,8 +1190,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	/* switch_port is patched for iptables and ebtables rule matching */
 	skb->switch_port = getSwitchPort(cp, pRxInfo);
 	skb->mark = (skb->vlan_tci & 0xFFF);
-	//printk("%s %d switch_port: %s vlan_tci=0x%x mark=0x%x\n", 
-	//		__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
+	printk("%s %d switch_port: %s vlan_tci=0x%x mark=0x%x\n", 
+			__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
 #if CP_VLAN_TAG_USED
@@ -1174,6 +1220,9 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 #ifdef CONFIG_L2_HANDLE	
 	skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
 	skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);	
+
+    printk("%s %d l2_vlan=%d, l2_port=%d\n", 
+			__func__, __LINE__, skb->l2_vlan,skb->l2_port);
 #endif
 	
 	updateRxStatic(cp, skb);
@@ -1197,8 +1246,13 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		DEVPRIV(skb->dev)->net_stats.rx_dropped++;
 #else
 	{
+        skb_push_cputag (skb, pRxInfo->opts3.bit.src_port_num);
+        
 		skb->protocol = eth_type_trans (skb, skb->dev);
 		skb->vlan_tci = 0;
+        
+        printk("skb->protocol=%x\n",skb->protocol);
+
 		if (netif_rx(skb) == NET_RX_DROP)
 			DEVPRIV(skb->dev)->net_stats.rx_dropped++;
 	}
@@ -1424,8 +1478,6 @@ static void re8670_rx (struct re_private *cp)
 			,skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5]
 			,skb->data[6],skb->data[7],skb->data[8],skb->data[9],skb->data[10],skb->data[11]			
 			,(skb->data[12]<<8)|skb->data[13],len);
-
-			
 
 			cp->rx_Mring[ring_num][rx_Mtail].addr = CPHYSADDR(new_skb->data);
 			cp->rx_skb[ring_num][rx_Mtail].skb = new_skb;
@@ -2151,7 +2203,7 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
-	
+	printk("sendport=%d\n",sendport);
 	#ifdef ONU_STYLE
 	if(vid)
 	{
