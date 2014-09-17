@@ -1133,19 +1133,18 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 
     ptag = (cpu_tag_t *)(pSkb->data+(2 * MAC_ADDR_LEN));
 
-    
-    if(ntohs(ptag->rtl_eth_type) != 0x88E1){//if it is not MME packet
+    if (ntohs(ptag->rtl_eth_type) != 0x88E1){//if it is not MME packet
         //printk("eth type=%x\n",ntohs(ptag->rtl_eth_type));
         return;
     }
 
-    for(i=0; i<CLT_PORT_MAX; i++){
+    for (i=0; i<CLT_PORT_MAX; i++){
         if(cable_phy[i] == phy){
             break;
         }
     }
 
-    if(i == CLT_PORT_MAX) { //if it is not from cable,return.
+    if (i == CLT_PORT_MAX) { //if it is not from cable,return.
         //printk("phy = %d\n",phy);
         return; 
     }
@@ -1240,6 +1239,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		DEVPRIV(skb->dev)->net_stats.rx_dropped++;
 #else
 	{
+                
         skb_push_cputag (skb, pRxInfo->opts3.bit.src_port_num);
         
 		skb->protocol = eth_type_trans (skb, skb->dev);
@@ -1247,8 +1247,9 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
         
         //printk("skb->protocol=%x\n",skb->protocol);
 
-		if (netif_rx(skb) == NET_RX_DROP)
+		if (netif_rx(skb) == NET_RX_DROP){
 			DEVPRIV(skb->dev)->net_stats.rx_dropped++;
+       }
 	}
 #endif
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
@@ -2197,7 +2198,6 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
-	printk("sendport=%d\n",sendport);
 	#ifdef ONU_STYLE
 	if(vid)
 	{

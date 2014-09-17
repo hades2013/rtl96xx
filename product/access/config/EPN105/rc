@@ -68,8 +68,9 @@ echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
 echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
 ulimit -c 4096
 ifconfig eth0 up
-vconfig add eth0 1
-ifconfig eth0.1 192.168.0.123
+ifconfig eth0 192.168.0.100
+#vconfig add eth0 1
+#ifconfig eth0.1 192.168.0.123
 
 mkdir -p /etc/snmp
 
