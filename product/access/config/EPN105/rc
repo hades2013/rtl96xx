@@ -70,6 +70,20 @@ ulimit -c 4096
 ifconfig eth0 up
 vconfig add eth0 1
 ifconfig eth0.1 192.168.0.123
+
+mkdir -p /etc/snmp
+
+echo "Preparing web pages..."
+
+mkdir -p /tmp/www
+if [ -f /www.tar ];then
+echo "Found www.tar"
+tar xf /www.tar -C /tmp/www
+elif [ -f /www.tar.gz ];then
+echo "Found www.tar.gz"
+tar xf /www.tar.gz -C /tmp/www
+fi
+
 #=================== install modules ============================
 #insmod /modules/opl_reg_mmap.ko
 #insmod /modules/opl_minte.ko
@@ -79,4 +93,10 @@ ifconfig eth0.1 192.168.0.123
 insmod /usr/lib/ifm.ko
 #master d&
 ponmonitor &
+
+if [ -x /usr/sbin/master ];then
+master
+fi
+
+
 
