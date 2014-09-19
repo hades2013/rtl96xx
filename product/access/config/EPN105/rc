@@ -26,7 +26,7 @@ mount -t proc proc /proc
 # insert kernel module if exist
 # default path is /lib/modules/X.X.XX/kernel 
 #
-cd /lib/modules/X.X.XX/kernel
+#cd /lib/modules/X.X.XX/kernel
 
 if test -f "drivers/net/switch/rtcore/rtcore.ko"; then
 	insmod drivers/net/switch/rtcore/rtcore.ko
@@ -54,7 +54,7 @@ if test -f "net/switch/rtdrv/rtdrv.ko"; then
 fi
 
 cd /
-mount -t jffs2 -o rw,sync /dev/mtdblock5 /mnt
+# mount -t jffs2 -o rw,sync /dev/mtdblock5 /mnt
 #
 # network interface configuration 
 #
