@@ -2,9 +2,16 @@
 编译：
 
   1. 进入目录：product/access
-  2. 确保rootfs的内容是正确的，如果不正确，需要解压rootfs.tgz到rootfs目录
-     或者把rootfs目录删除，然后运行：make rootfs
-  3. make clean;make EPN105
+
+  2. make EPN105
+
+     如果执行错误，运行make clean后再执行make EPN105
+
+     编译过程中，如果提示yaffs2 file system support (YAFFS_FS) [N/m/y/?] (NEW) 选N，
+     我们不需要这个文件系统，我们用的是squashfs文件系统
+
+  3. 如果之前已经执行过make EPN105，那么后面需要编译是只需要执行make all
+
 
 如果编译过程中报错，需要手动解决，一般情况下只需要增加几个文件夹：
   rm app/bin -rf
@@ -117,6 +124,12 @@ image: makeapp
 	fi
 
 
+
+5. 在文件系统product/access/config/EPN105/rootfs.tgz中增加mtd8 mtd8ro mtdblock8
+
+   mknod -m 755 mtd8 c 90 16 
+   mknod -m 755 mtd8ro c 90 17
+   mknod -m 755 mtdblock8 c 31 8
 
 
 
