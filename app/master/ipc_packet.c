@@ -1309,7 +1309,7 @@ static void ipc_sys_info(int ipc_fd, ipc_sys_info_req_t *req)
 
 	memcpy(&ack.info, &sys_info, sizeof(ack.info));
 	// get uptime
-	ack.info.uptime = sys_get_uptime();
+	ack.info.uptime = sys_os_get_uptime();
 //	ack.info.online_cnu_num = 2;
 	
 	ack.hdr.status = IPC_STATUS_OK;

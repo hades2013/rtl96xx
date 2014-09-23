@@ -1932,7 +1932,7 @@ extern int sys_ip_dhcpc_event_apply(sys_dhcpc_t *dhcpc);
 extern int sys_admin_update(sys_admin_t *cfg);
 extern int sys_admin_apply(int apply_options);
 extern int sys_admin_commit(int apply_options);
-//extern uint32_t sys_get_uptime(void);
+//extern uint32_t sys_os_get_uptime(void);
 extern void sys_get_time(struct tm *tm);
 extern void sys_info_mac_reload(void);
 extern void sys_mac_update(ethernet_addr_t *newmac);

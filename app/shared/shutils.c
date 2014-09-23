@@ -488,7 +488,7 @@ int setdown(char * dev_name)
 }
 
 /*begin add by zhouguanhua 2013/6/5*/
-UINT32 sys_get_uptime(void)
+UINT32 sys_os_get_uptime(void)
 {
 	FILE *fp;
 	char val[64];

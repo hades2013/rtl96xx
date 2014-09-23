@@ -83,7 +83,7 @@ int get_info_val(sys_info_t *info)
     } 
 
     //uptime
-    info->uptime = sys_get_uptime();  
+    info->uptime = sys_os_get_uptime();  
     return IPC_STATUS_OK;
 }
 /*add by zhouguanhua 2013/6/5*/

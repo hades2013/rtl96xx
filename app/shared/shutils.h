@@ -14,7 +14,7 @@
 
 extern int _eval(char *const argv[], char *path, int timeout, pid_t *ppid);
 extern pid_t get_pid_by_name(char *pname);
-extern UINT32 sys_get_uptime(void);
+extern UINT32 sys_os_get_uptime(void);
 extern CHAR *version_string(void);
 extern UINT32 version_count(void);
 extern CHAR *version_date(void);

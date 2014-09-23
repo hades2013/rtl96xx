@@ -1100,7 +1100,7 @@ int get_info_val(sys_info_t *info)
         return IPC_STATUS_FAIL;
 	}
     //uptime
-    info->uptime = sys_get_uptime();  
+    info->uptime = sys_os_get_uptime();  
 
     //mvlan
     memset(val, 0, sizeof(val));  
