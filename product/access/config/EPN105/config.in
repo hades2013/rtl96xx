@@ -91,7 +91,7 @@ config CONFIG_COPYRIGHT_TIME
 	default '2014'
 config CONFIG_COPYRIGHT_STRING
 	string 'CopyRight String'
-	default 'Copyright (c) 2014 Huanshun Network Co., Ltd.'
+	default 'Copyright (c) 2014 Hexicom Network Co., Ltd.'
 config CONFIG_RELEASE_VER
 	string 'Release Version'
 	default 'EPN105V100R006'

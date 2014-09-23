@@ -78,7 +78,7 @@ $root
     snmp_engineID=80001f88803cd4279a386d4384
     snmp_max_packet_len=1500
     snmp_location=China
-    snmp_contact=R&D Ningbo China, Huanshun Network Co., Ltd.
+    snmp_contact=R&D Ningbo China, Hexicom Network Co., Ltd.
     snmp_version=V2c
     snmp_trust_host=default
     snmp_comm_current_count=1
