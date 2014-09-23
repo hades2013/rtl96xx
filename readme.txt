@@ -132,5 +132,38 @@ image: makeapp
    mknod -m 755 mtdblock8 c 31 8
 
 
+6. kernel分区大小设定：
+   在product/access/config/EPN105/rule.mk文件中：
+
+    dd bs=65536 count=18 if=$(RELEASE_DIR)/$(CONFIG_RELEASE_VER).bin of=$(RELEASE_DIR)/linux.bin
+
+    修改成：
+
+    dd bs=65536 count=22 if=$(RELEASE_DIR)/$(CONFIG_RELEASE_VER).bin of=$(RELEASE_DIR)/linux.bin
+
+
+    这样修改后，通过页面升级后，可以正常重启。
+
+    如果需要修改kernel分区的大小，需要同步修改这里的count，
+
+   现在系统的分区是：
+    0x00000000-0x00040000   ---boot      size=0x40000
+    0x00040000-0x00050000   ---bootenv   size=0x10000
+    0x00050000-0x00060000   ---expcfg    size=0x10000
+    0x00060000-0x001c0000   ---kernel1   size=0x160000
+    0x001c0000-0x003f0000   ---rootfs1   size=0x230000
+    0x003f0000-0x00430000   ---nvram1    size=0x40000
+    0x00430000-0x00470000   ---nvram2    size-0x40000
+    0x00470000-0x005d0000   ---kernel2   size=0x160000
+    0x005d0000-0x00800000   ---rootfs2   size=0x230000
+
+   由以上分区，我们设定kernel的大小为0x160000，所以
+
+   bs*count = 65536*22 = 0x160000
+
+
+
+   
+
 
  
