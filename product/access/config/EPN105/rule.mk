@@ -158,7 +158,7 @@ app: mksquashfs_lzma
         bash ${TOOLS_DIR}/mk_app.sh $(RELEASE_DIR) $(CONFIG_RELEASE_VER) $(TOOLS_DIR) 0;\
 	fi	
 #   todo: create linux.bin by mk_app.sh 	
-	dd bs=65536 count=18 if=$(RELEASE_DIR)/$(CONFIG_RELEASE_VER).bin of=$(RELEASE_DIR)/linux.bin
+	dd bs=65536 count=22 if=$(RELEASE_DIR)/$(CONFIG_RELEASE_VER).bin of=$(RELEASE_DIR)/linux.bin
 	@echo "make app finish .."
 image: makeapp
 	cp -f $(PRODUCTDIR)/release/$(ENV_PRO)/u-boot.bin ./u-boot.bin
