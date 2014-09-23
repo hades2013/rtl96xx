@@ -431,7 +431,9 @@ typedef struct tagDrvReq{
     #define p_autoneg         para2_u.uiValue
     #define p_txrx         para2_u.uiValue
     #define aggr_mode     para2_u.uiValue
+    #ifndef BOARD_EPN105
     #define vlan_mode     para2_u.uiValue
+    #endif
     #define p_ledstate    para2_u.uiValue
     #define p_frame_len  para2_u.uiValue
     #define p_msg_len      para2_u.uiValue

@@ -163,6 +163,19 @@ image: makeapp
    bs*count = 65536*22 = 0x160000
 
 
+7. 几处定义与应用代码冲突，解决办法是增加#ifndef BOARD_EPN105
+   见文件：
+   rtl9607/app/include/lw_drv_req.h
+
+       #ifndef BOARD_EPN105
+       #define vlan_mode     para2_u.uiValue
+       #endif
+
+   rtl9607/app/include/lw_drv_pub.h
+
+	#ifndef BOARD_EPN105
+	#define LINK_TYPE_ACCESS 0
+ 	....
 
    
 

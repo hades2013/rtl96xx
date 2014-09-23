@@ -1090,6 +1090,8 @@ typedef enum {
     QVLAN_EG_END
 } PortEGMode_t;
 
+#ifndef BOARD_EPN105
+
 #define LINK_TYPE_ACCESS 0
 #define LINK_TYPE_TRUNK  1
 #define LINK_TYPE_HYBRID 2
@@ -1125,6 +1127,11 @@ vlan_flag_t;
 #ifndef __packed 
 #define __packed __attribute__((__packed__))
 #endif 
+
+
+
+
+
 
 typedef struct __packed{
 	UINT16 start;
@@ -1179,6 +1186,8 @@ typedef struct __packed {
 	}ports[MAX_PORT_NUM+1];
 }
 switch_vlan_mode_t;
+
+#endif
 
 /*Begin add by huangmingjian 2013-09-08*/
 typedef struct __packed {
