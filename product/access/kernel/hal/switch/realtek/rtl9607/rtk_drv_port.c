@@ -1481,7 +1481,7 @@ DRV_RET_E Hal_GetPortSpeed(port_num_t lgcPort, UINT32 *puiSpeed)
     rtk_port_speed_t enSpeed;
     rtk_port_duplex_t enDuplex;
    
-   
+    #if 0
     if(!IsValidLgcPort(lgcPort))
     {
         return DRV_INVALID_LPORT;
@@ -1491,6 +1491,9 @@ DRV_RET_E Hal_GetPortSpeed(port_num_t lgcPort, UINT32 *puiSpeed)
         return DRV_ERR_PARA;
     }
     phyid = PortLogic2PhyID(lgcPort);
+    #endif
+    
+    phyid = lgcPort;
    
     iRv = rtk_port_speedDuplex_get(PORTID(phyid), &enSpeed, &enDuplex);
     if(RT_ERR_OK == iRv)
@@ -1516,7 +1519,7 @@ DRV_RET_E Hal_GetPortSpeed(port_num_t lgcPort, UINT32 *puiSpeed)
                 return DRV_SDK_GEN_ERROR;                           
         }
     }  
-    
+    //printk("%s,%s,%d  phyid=%d,iRv=%d,enSpeed=%d\n",__FILE__,__FUNCTION__,__LINE__,phyid,iRv,enSpeed);
     return ErrorSdk2Drv(iRv);
 }
 
@@ -1534,6 +1537,7 @@ DRV_RET_E Hal_GetPortDuplex(port_num_t lgcPort, UINT32 *puiDuplex)
     rtk_port_speed_t enSpeed;
     rtk_port_duplex_t enDuplex;
    
+    #if 0
     if(!IsValidLgcPort(lgcPort))
     {
         return DRV_INVALID_LPORT;
@@ -1542,7 +1546,9 @@ DRV_RET_E Hal_GetPortDuplex(port_num_t lgcPort, UINT32 *puiDuplex)
     {
         return DRV_ERR_PARA;
     }
-    phyid = PortLogic2PhyID(lgcPort);      
+    phyid = PortLogic2PhyID(lgcPort);    
+    #endif
+    phyid = lgcPort;
    
     iRv = rtk_port_speedDuplex_get(PORTID(phyid), &enSpeed, &enDuplex);
     
@@ -1564,6 +1570,7 @@ DRV_RET_E Hal_GetPortDuplex(port_num_t lgcPort, UINT32 *puiDuplex)
                  return DRV_SDK_GEN_ERROR;                           
         }
     }
+    //printk("%s,%s,%d  phyid=%d,iRv=%d,enDuplex=%d\n",__FILE__,__FUNCTION__,__LINE__,phyid,iRv,enDuplex);
     
     return ErrorSdk2Drv(iRv);
 }
