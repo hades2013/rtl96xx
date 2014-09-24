@@ -1226,16 +1226,19 @@ DRV_RET_E Hal_GetPortCurrentLink(port_num_t lgcPort, UINT32 *puiLink)
    
    
     int32 iRv = RT_ERR_OK;
-    
+    //printk("%s,%s,%d lgcPort=%d\n",__FILE__,__FUNCTION__,__LINE__,lgcPort);
     if(!IsValidLgcPort(lgcPort))
     {
-        return DRV_INVALID_LPORT;
+        //return DRV_INVALID_LPORT;
     }
     if(puiLink == NULL)
     {
-        return DRV_ERR_PARA;
+        //return DRV_ERR_PARA;
     }
-    phyid = PortLogic2PhyID(lgcPort);  
+    //phyid = PortLogic2PhyID(lgcPort); 
+
+
+    phyid = lgcPort;
     
     iRv=rtk_port_link_get(PORTID(phyid),&enStatus);    
 
@@ -1252,6 +1255,7 @@ DRV_RET_E Hal_GetPortCurrentLink(port_num_t lgcPort, UINT32 *puiLink)
         }
         
     }
+    //printk("%s,%s,%d phyid=%d,iRv=%d,enStatus=%d\n",__FILE__,__FUNCTION__,__LINE__,phyid,iRv,enStatus);
     return ErrorSdk2Drv(iRv);
 
 }
