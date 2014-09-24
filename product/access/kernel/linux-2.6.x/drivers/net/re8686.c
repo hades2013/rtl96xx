@@ -1214,8 +1214,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
 	skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);	
 
-    //printk("%s %d l2_vlan=%d, l2_port=%d\n", 
-			//__func__, __LINE__, skb->l2_vlan,skb->l2_port);
+    //printk("%s %d l2_vlan=%d, logic port=%d phy=%d\n", 
+			//__func__, __LINE__, skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
 #endif
 	
 	updateRxStatic(cp, skb);

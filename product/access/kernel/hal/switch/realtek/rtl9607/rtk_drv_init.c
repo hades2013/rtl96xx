@@ -159,6 +159,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_SetIgmpPktAction=Hal_SetIgmpPktAction;
 	g_LW_Drv_Ops.p_Hal_SetPortIsolateMask=Hal_SetPortIsolateMask;
 	g_LW_Drv_Ops.p_Hal_SetMirrorGroup=Hal_SetMirrorGroup;
+    g_LW_Drv_Ops.p_Hal_GetMibPortStatisticsRaw=Hal_GetMibPortStatisticsRaw;
 	g_LW_Drv_Ops.p_Hal_GetMibPortStatistics=Hal_GetMibPortStatistics;
 	g_LW_Drv_Ops.p_Hal_SetMibCountSync=Hal_SetMibCountSync;
 	g_LW_Drv_Ops.p_Hal_SetMibCountReset=Hal_SetMibCountReset;

@@ -565,6 +565,11 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 			else
 				return DRV_NULL_POINTER;
         /*drv_statistics*/
+        case DRV_CMD_GET_MIB_COUNT_RAW:
+			if(g_LW_Drv_Ops.p_Hal_GetMibPortStatisticsRaw!=NULL)
+        	    return g_LW_Drv_Ops.p_Hal_GetMibPortStatisticsRaw(pstDrvReq->para1_u.lgcPort, pstDrvReq->para2_u.mibCountType, &pstDrvReq->para3_u.ui64Value);
+			else
+				return DRV_NULL_POINTER;
         case DRV_CMD_GET_MIB_COUNT:
 			if(g_LW_Drv_Ops.p_Hal_GetMibPortStatistics!=NULL)
         	    return g_LW_Drv_Ops.p_Hal_GetMibPortStatistics(pstDrvReq->para1_u.lgcPort, pstDrvReq->para2_u.mibCountType, &pstDrvReq->para3_u.ui64Value);

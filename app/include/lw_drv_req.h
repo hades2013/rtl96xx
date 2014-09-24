@@ -1098,6 +1098,10 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
 
 /*  */
 
+#define Ioctl_GetMibCountByPortRaw(_lport, _type, _pui64Value)\
+    Ioctl_GetMIbCountByPort(DRV_CMD_GET_MIB_COUNT_RAW, (port_num_t)_lport, (UINT32)_type, (UINT64 *)_pui64Value)
+
+
 
 /* 014325 */
 /*  */

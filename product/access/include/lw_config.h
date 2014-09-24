@@ -51,7 +51,7 @@
 
 #define CONFIG_COPYRIGHT_TIME "2014"
 
-#define CONFIG_COPYRIGHT_STRING "Copyright (c) 2014 Huanshun Network Co., Ltd."
+#define CONFIG_COPYRIGHT_STRING "Copyright (c) 2014 Hexicom Network Co., Ltd."
 
 #define CONFIG_RELEASE_VER "EPN105V100R006"
 

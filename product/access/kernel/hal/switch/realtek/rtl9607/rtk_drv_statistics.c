@@ -50,6 +50,29 @@
  * ∫Í∂®“Â                                       *
 *----------------------------------------------*/
 
+DRV_RET_E Hal_GetMibPortStatisticsRaw(port_num_t lport, UINT32 mibType, UINT64 *p_ullStat)
+{
+    UINT64 ullValue = 0;
+    rtk_port_t port = 0;
+    
+    if(NULL == p_ullStat)
+    {
+        return DRV_ERR_PARA;
+    }
+    *p_ullStat = 0;
+    //port = PortLogic2PhyPortId(lport);
+    
+    port = lport;//in epn105,we import phy id
+    
+    if(RT_ERR_OK == rtk_stat_port_get(port, mibType, &ullValue))
+    {
+        *p_ullStat = ullValue;
+        return DRV_OK;
+    }
+    
+    return DRV_ERR_UNKNOW;
+}
+
 
 /*****************************************************************************
     Func Name:  Hal_GetMibPortStatistics
