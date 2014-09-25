@@ -60,10 +60,8 @@ DRV_RET_E Hal_GetMibPortStatisticsRaw(port_num_t lport, UINT32 mibType, UINT64 *
         return DRV_ERR_PARA;
     }
     *p_ullStat = 0;
-    //port = PortLogic2PhyPortId(lport);
-    
-    port = lport;//in epn105,we import phy id
-    
+    port = PortLogic2PhyPortId(lport);
+        
     if(RT_ERR_OK == rtk_stat_port_get(port, mibType, &ullValue))
     {
         *p_ullStat = ullValue;

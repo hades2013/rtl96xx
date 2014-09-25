@@ -227,7 +227,9 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_SetPortIsolateMask)(logic_pmask_t *pstPortMask);
 	
 	DRV_RET_E (*p_Hal_SetMirrorGroup)(port_num_t mirrorDestPort, logic_pmask_t ingressMask, logic_pmask_t egressMask);
-	
+
+    DRV_RET_E (*p_Hal_GetMibPortStatisticsRaw)(port_num_t lport, UINT32 mibType, UINT64 *p_ullStat);
+        
 	DRV_RET_E (*p_Hal_GetMibPortStatistics)(port_num_t lport, MIB_IfStatType_t PktType, UINT64 *p_ullStat);
 	
 	DRV_RET_E (*p_Hal_SetMibCountSync)(void);

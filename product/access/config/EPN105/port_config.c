@@ -22,7 +22,7 @@ PORT_TYPE_S g_szPortType[LOGIC_PORT_NO+3] = {
 /* 5 */    {TO_USERPORT(1, 0, 5),  TOPHYID(0,5),     PORT_TYPE_DEF(0,TP_CABLE, UD_DOWNLINK, SP_1000)},
 /* 6 */    {TO_USERPORT(1, 0, 6),  TOPHYID(0,4),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
 /* rtl9607 CPU port is mac 6 and it's port id is port 6. */
-/*LGC_CPU*/{INVALID_PORT,          TOPHYID(0,6),     PORT_TYPE_DEF(0, TP_CPU, 0, 0)}
+/*LGC_CPU*/{TO_USERPORT(1, 0, 7),  TOPHYID(0,6),     PORT_TYPE_DEF(0, TP_CPU, 0, 0)}
 };
 
 /*只有端口为光电复用口才会添加到以下结构中*/
