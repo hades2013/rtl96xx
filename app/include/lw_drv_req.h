@@ -860,6 +860,15 @@ DRV_RET_E Ioctl_SetLookupMissFloodPortMask(DRV_CMD_E ioctlCmd, UINT32 type, logi
 #define Ioctl_SetStormCtrlPort(_type, _lPortMask, _pstorm)\
     Ioctl_SetPortStormlimit(DRV_CMD_SET_RATELIMIT_STORM, _type, _lPortMask, _pstorm)
 
+/* using Ioctl_SetPortRatelimit to pass parameters */
+#define Ioctl_SetPortStormRateLimit(_stormType, _lPortMask, _ulKBps)\
+    Ioctl_SetPortRatelimit(DRV_CMD_SET_RATELIMIT_STORM_PORT, _stormType, _lPortMask, _ulKBps)
+
+DRV_RET_E Ioctl_EocLowLevelFunction(DRV_CMD_E ioctlCmd, eoc_low_level_t *peocLowLevel);
+
+#define Ioctl_SetEocLowLevel(peocLowLevel)\
+    Ioctl_EocLowLevelFunction(DRV_CMD_SET_EOC_LOW_LEVEL_FUNCTION, peocLowLevel)
+
 /***************************************************************************/
 /***drv_qos ioctl*/
 /***************************************************************************/
@@ -1101,6 +1110,8 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
 #define Ioctl_GetMibCountByPortRaw(_lport, _type, _pui64Value)\
     Ioctl_GetMIbCountByPort(DRV_CMD_GET_MIB_COUNT_RAW, (port_num_t)_lport, (UINT32)_type, (UINT64 *)_pui64Value)
 
+#define Ioctl_SetVlanFilter(_vlan_filter)\
+    Ioctl_SetUnionUint32(DRV_CMD_SET_VLAN_FILTER, (UINT32)_vlan_filter)
 
 
 /* 014325 */

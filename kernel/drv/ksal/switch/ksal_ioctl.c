@@ -609,10 +609,21 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 			else
 				return DRV_NULL_POINTER;
         case DRV_CMD_SET_RATELIMIT_STORM:
-			if(g_LW_Drv_Ops.p_Hal_SetRatelimitStormCtl!=NULL)
-	            return g_LW_Drv_Ops.p_Hal_SetRatelimitStormCtl(pstDrvReq->para1_u.stormType, pstDrvReq->para2_u.lgcMask, pstDrvReq->para3_u.stStorm);
+            if(g_LW_Drv_Ops.p_Hal_SetRatelimitStormCtl!=NULL)
+                return g_LW_Drv_Ops.p_Hal_SetRatelimitStormCtl(pstDrvReq->para1_u.stormType, pstDrvReq->para2_u.lgcMask, pstDrvReq->para3_u.stStorm);
+            else
+                return DRV_NULL_POINTER;
+        case DRV_CMD_SET_RATELIMIT_STORM_PORT:
+			if(g_LW_Drv_Ops.p_Hal_SetRatelimitStormByPort!=NULL)
+        	    return g_LW_Drv_Ops.p_Hal_SetRatelimitStormByPort(pstDrvReq->para1_u.uiValue, pstDrvReq->para2_u.lgcMask, pstDrvReq->para3_u.uiValue);
 			else
 				return DRV_NULL_POINTER;
+
+        case DRV_CMD_SET_EOC_LOW_LEVEL_FUNCTION:
+            if(g_LW_Drv_Ops.p_Hal_SetEocLowLevelFunction!=NULL)
+                return g_LW_Drv_Ops.p_Hal_SetEocLowLevelFunction(&pstDrvReq->para3_u.eocLowLevel);
+            else
+                return DRV_NULL_POINTER;
         /*drv_qos*/
         case DRV_CMD_SET_QOS_INIT:
 			if(g_LW_Drv_Ops.p_Hal_SetQosInit!=NULL)
@@ -1056,6 +1067,11 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 		case DRV_CMD_PORTS_INIT:
 			if(g_LW_Drv_Ops.p_Hal_PortInit!=NULL)
             	return g_LW_Drv_Ops.p_Hal_PortInit();
+			else
+				return DRV_NULL_POINTER;
+        case DRV_CMD_SET_VLAN_FILTER:
+            if(g_LW_Drv_Ops.p_Hal_SetVlanFilter!=NULL)
+            	return g_LW_Drv_Ops.p_Hal_SetVlanFilter(pstDrvReq->para1_u.uiValue);
 			else
 				return DRV_NULL_POINTER;
 		case DRV_CMD_SET_MANAGE_VLAN:

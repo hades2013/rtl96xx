@@ -239,9 +239,13 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_GetPortCounter)(port_num_t lport, CounterName_E counterName, UINT64 *returnValue);
 	
 	DRV_RET_E (*p_Hal_GetPortStatistics)(port_num_t lport, stat_reg_t statisticsName, UINT64 *returnValue);
+
+    DRV_RET_E (*p_Hal_SetEocLowLevelFunction)(eoc_low_level_t *peocLowLevel);
 	
 	DRV_RET_E (*p_Hal_SetRatelimitInit)(void);
-	
+
+    DRV_RET_E (*p_Hal_SetRatelimitStormByPort)(PORT_STORM_TYPE_E stormType, logic_pmask_t lPortMask, UINT32 ulKBps);
+
 	DRV_RET_E (*p_Hal_SetRatelimitByPort)(UINT32 direction, logic_pmask_t lPortMask, UINT32 ulKBps);
 	
 	DRV_RET_E (*p_Hal_SetRatelimitStormCtl)(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortMask, STORM_CTLRATE_S stStorm);
@@ -368,6 +372,8 @@ typedef struct tagLW_DRV_OP_S
 	
 	DRV_RET_E (*p_Hal_PortInit)(void);
 
+    DRV_RET_E (*p_Hal_SetVlanFilter)(BOOL bEnable);
+    
 	DRV_RET_E (*p_Hal_SetManageVlan)(unsigned int uiVlanIndex);
 
 	/*Begin add by shipeng 2013-11-11*/
@@ -750,6 +756,8 @@ DRV_RET_E Hal_GetPortStatistics(port_num_t lport, stat_reg_t statisticsName, UIN
 DRV_RET_E Hal_SetRatelimitInit(void);
 DRV_RET_E Hal_SetRatelimitByPort(UINT32 direction, logic_pmask_t lPortMask, UINT32 ulKBps);
 DRV_RET_E Hal_SetRatelimitStormCtl(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortMask, STORM_CTLRATE_S stStorm);
+DRV_RET_E Hal_SetRatelimitStormByPort(PORT_STORM_TYPE_E stormType, logic_pmask_t lPortMask, UINT32 ulKBps);
+
 
 /*hal drv qos*/
 DRV_RET_E Hal_SetQosInit(void);

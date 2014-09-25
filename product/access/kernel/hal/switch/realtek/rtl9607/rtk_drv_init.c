@@ -165,7 +165,9 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_SetMibCountReset=Hal_SetMibCountReset;
 	g_LW_Drv_Ops.p_Hal_GetPortCounter=Hal_GetPortCounter;
 	g_LW_Drv_Ops.p_Hal_GetPortStatistics=Hal_GetPortStatistics;
+    g_LW_Drv_Ops.p_Hal_SetEocLowLevelFunction=Hal_SetEocLowLevelFunction;
 	g_LW_Drv_Ops.p_Hal_SetRatelimitInit=Hal_SetRatelimitInit;
+    g_LW_Drv_Ops.p_Hal_SetRatelimitStormByPort=Hal_SetRatelimitStormByPort;
 	g_LW_Drv_Ops.p_Hal_SetRatelimitByPort=Hal_SetRatelimitByPort;
 	g_LW_Drv_Ops.p_Hal_SetRatelimitStormCtl=Hal_SetRatelimitStormCtl;
 	g_LW_Drv_Ops.p_Hal_SetQosInit=Hal_SetQosInit;
@@ -235,6 +237,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_AddC2sEntry2Port=Hal_AddC2sEntry2Port;
 	g_LW_Drv_Ops.p_Hal_DelC2sEntryFromPort=Hal_DelC2sEntryFromPort;
 	g_LW_Drv_Ops.p_Hal_PortInit=Hal_PortInit;
+    g_LW_Drv_Ops.p_Hal_SetVlanFilter=Hal_SetVlanFilter;
 	g_LW_Drv_Ops.p_Hal_SetManageVlan=Hal_SetManageVlan;
 	/*Begin add by shipeng 2013-11-11*/
 	g_LW_Drv_Ops.p_Hal_SetWirelessUpServiceVlan=Hal_SetWirelessUpServiceVlan;

@@ -177,7 +177,6 @@ static DRV_RET_E Hal_SetRatelimitCpu(void)
     
     return DRV_OK;
 }
-
 /*****************************************************************************
     Func Name:  Hal_SetRatelimitByPort
   Description:  set rate limit by port
@@ -435,10 +434,11 @@ DRV_RET_E Hal_SetRatelimitStormCtl(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortM
     
     ulRate = stStorm.value;
     
+    printk("[%s %s %d] ctlType=%d, value=%d, rateType=%d\n", __FILE__,__FUNCTION__, __LINE__, ctlType, stStorm.value, stStorm.rateType);
+    
     switch(ctlType)
     {
         case STORM_DLF_CTRL:
-			//printk("%s %d %d %d\n", __FUNCTION__, __LINE__, stStorm.value, stStorm.rateType);
             IfLgcMaskSet(&lPortMask, lport)
             {
                 phyPort = PortLogic2PhyPortId(lport);
@@ -643,6 +643,173 @@ DRV_RET_E Hal_SetRatelimitStormCtl(STORM_CTLTYPE_E ctlType, logic_pmask_t lPortM
 
     return DRV_OK;
 }
+
+DRV_RET_E Hal_SetRatelimitStormByPort(PORT_STORM_TYPE_E stormType, logic_pmask_t lPortMask, UINT32 ulKBps)
+{
+    port_num_t lport;
+    rtk_port_t phyPort;
+    UINT32 ulRate;
+    rtk_api_ret_t rtkApiRet;
+
+    STORM_CTLRATE_S stStorm;
+    STORM_CTLTYPE_E stStormType;
+
+    stStorm.value = ulKBps;
+    stStorm.rateType = STORM_RATE_KBPS;//we use "kbps"
+    
+    ulRate = stStorm.value;
+
+    switch(stormType){
+        
+        case PORT_STORM_UNKNOWN_UNICAST:
+            
+            IfLgcMaskSet(&lPortMask, lport)
+            {
+                phyPort = PortLogic2PhyPortId(lport);
+                if((0 == stStorm.value) ||
+                   ((100 == stStorm.value) && (stStorm.rateType == STORM_RATE_PERCENT))) 
+                {
+                    ulRate = QOS_RATE_INPUT_MAX;
+                }
+                else
+                {
+                    switch (stStorm.rateType)
+                    {
+                        case STORM_RATE_KBPS:
+                            break;
+                        case STORM_RATE_PERCENT:
+                            ulRate = _Hal_GetPortRateByPercentage(lport, stStorm.value);
+                            break;
+                        default:
+                            return DRV_ERR_PARA;
+                    } 
+                }
+
+                /*Exclude ifg and use mode0(mode1 uses share metre).*/
+                rtkApiRet = Hal_storm_controlRate_set(phyPort, 
+                                                      STORM_GROUP_UNKNOWN_UNICAST, 
+                                                      ulRate, 
+                                                      DISABLED);
+                if (DRV_OK != rtkApiRet)
+                {                	
+                    return DRV_SDK_GEN_ERROR;
+                }
+            }
+            break;
+
+        case PORT_STORM_UNKNOWN_MULTICAST:
+            IfLgcMaskSet(&lPortMask, lport)
+            {
+                phyPort = PortLogic2PhyPortId(lport);
+                if((0 == stStorm.value) ||
+                   ((100 == stStorm.value) && (stStorm.rateType == STORM_RATE_PERCENT)))
+                {
+                    ulRate = QOS_RATE_INPUT_MAX;
+                }
+                else
+                {
+                    switch (stStorm.rateType)
+                    {
+                        case STORM_RATE_KBPS:
+                            break;
+                        case STORM_RATE_PERCENT:
+                            ulRate = _Hal_GetPortRateByPercentage(lport, stStorm.value);
+                            break;
+                        default:
+                            return DRV_ERR_PARA;
+                    }
+                }
+
+                /*Exclude ifg and use mode0(mode1 uses share metre).*/
+                rtkApiRet = Hal_storm_controlRate_set(phyPort, 
+                                                      STORM_GROUP_UNKNOWN_MULTICAST, 
+                                                      ulRate, 
+                                                      DISABLED);
+                if (DRV_OK != rtkApiRet)
+                {
+                    return DRV_SDK_GEN_ERROR;
+                }
+            }
+            break;
+        case PORT_STORM_MULTICAST:
+            IfLgcMaskSet(&lPortMask, lport)
+            {
+                phyPort = PortLogic2PhyPortId(lport);
+                if((0 == stStorm.value) ||
+                   ((100 == stStorm.value) && (stStorm.rateType == STORM_RATE_PERCENT)))
+                {
+                    ulRate = QOS_RATE_INPUT_MAX;
+                }
+                else
+                {
+                    switch (stStorm.rateType)
+                    {
+                        case STORM_RATE_KBPS:
+                            break;
+                        case STORM_RATE_PERCENT:
+                            ulRate = _Hal_GetPortRateByPercentage(lport, stStorm.value);
+                            break;
+                        default:
+                            return DRV_ERR_PARA;
+                    }
+                }
+
+                
+                /*Exclude ifg and use mode0(mode1 uses share metre).*/
+                rtkApiRet = Hal_storm_controlRate_set(phyPort, 
+                                                      STORM_GROUP_MULTICAST, 
+                                                      ulRate, 
+                                                      DISABLED);
+                if (DRV_OK != rtkApiRet)
+                {
+                    return DRV_SDK_GEN_ERROR;
+                }
+            }
+            break;
+
+        case PORT_STORM_BROADCAST:
+            IfLgcMaskSet(&lPortMask, lport)
+            {
+                phyPort = PortLogic2PhyPortId(lport);
+                if((0 == stStorm.value) ||
+                   ((100 == stStorm.value) && (stStorm.rateType == STORM_RATE_PERCENT)))
+                {
+                    ulRate = QOS_RATE_INPUT_MAX;
+                }
+                else
+                {
+                    switch (stStorm.rateType)
+                    {
+                        case STORM_RATE_KBPS:
+                            break;
+                        case STORM_RATE_PERCENT:
+                            ulRate = _Hal_GetPortRateByPercentage(lport, stStorm.value);
+                            break;
+                        default:
+                            return DRV_ERR_PARA;
+                    }
+                }
+				
+                /*Exclude ifg and use mode0(mode1 uses share metre).*/
+                rtkApiRet = Hal_storm_controlRate_set(phyPort, 
+                                                      STORM_GROUP_BROADCAST, 
+                                                      ulRate, 
+                                                      DISABLED);
+                if (DRV_OK != rtkApiRet)
+                {
+                    return DRV_SDK_GEN_ERROR;
+                }
+            }
+            break;
+        default:
+            return DRV_ERR_PARA;
+            break;
+            
+    }
+
+    return DRV_OK;
+}
+
 
 /*****************************************************************************
     Func Name: Hal_getEmptyShareMeterIndx

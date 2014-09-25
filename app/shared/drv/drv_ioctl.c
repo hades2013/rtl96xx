@@ -1732,6 +1732,20 @@ DRV_RET_E Ioctl_SetLookupMissFloodPortMask(DRV_CMD_E ioctlCmd, UINT32 type, logi
 /*End add by huangmingjian 2013-09-24*/
 
 
+DRV_RET_E Ioctl_EocLowLevelFunction(DRV_CMD_E ioctlCmd, eoc_low_level_t *peocLowLevel)
+{
+    DRV_REQ_S stDrv; 
+    DRV_RET_E rv=DRV_ERR_PARA;
+
+    memset(&stDrv,0,sizeof(stDrv));
+
+    stDrv.cmd=ioctlCmd;
+    memcpy(&(stDrv.para3_u.eocLowLevel), peocLowLevel, sizeof(eoc_low_level_t));
+    rv=Drv_IoctlCmd(DEV_SWTICH,&stDrv);
+    
+    return rv;
+}
+
 #ifdef  __cplusplus
 }
 #endif  /* end of __cplusplus */

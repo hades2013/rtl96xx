@@ -69,6 +69,44 @@ static UINT32 _hal_vlan_num = 1;
 #define SPIN_HAL_MAC_LOCK       spin_lock(&_spin_hal_vlan_lock)
 #define SPIN_HAL_MAC_UNLOCK     spin_unlock(&_spin_hal_vlan_lock)
 
+/****************************************************************************
+
+     Func Name:  Hal_SetVlanFilter
+   Description:  Set 8021.Q tag vlan enable or disable
+         Input:  1 or 0
+        Output: 
+        Return:  DRV_ERR_PARA
+                 DRV_OK
+       Caution: 
+ ------------------------------------------------------------------------------
+   Modification History                                                      
+   DATE        NAME             DESCRIPTION                                  
+   --------------------------------------------------------------------------
+
+ ****************************************************************************/
+ 
+DRV_RET_E Hal_SetVlanFilter(BOOL bEnable)
+{
+
+    rtk_enable_t tdEnable;
+    
+    if(((TRUE != bEnable) && (FALSE != bEnable)))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    tdEnable = (TRUE == bEnable) ? ENABLED : DISABLED;
+    
+    if (RT_ERR_OK != rtk_vlan_vlanFunctionEnable_set(tdEnable))
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    return DRV_OK;
+
+}
+
+
 /*****************************************************************************
     Func Name:  Hal_GetVlanExistNum
   Description:  get total exist vlan entry number
