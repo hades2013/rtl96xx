@@ -67,10 +67,20 @@ echo 10 >/proc/sys/net/ipv4/tcp_keepalive_intvl
 echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
 echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
 ulimit -c 4096
-ifconfig eth0 up
-ifconfig eth0 192.168.0.100
-#vconfig add eth0 1
-#ifconfig eth0.1 192.168.0.123
+
+
+ifconfig eth0 0.0.0.0 up
+#ifconfig eth0 192.168.0.100
+
+
+vconfig add eth0 1
+ifconfig eth0.1 0.0.0.0
+
+brctl addbr br0
+brctl addif br0 eth0.1
+brctl addif br0 eth0
+ifconfig br0 up 192.168.0.100 
+ifconfig br0 mtu 1496
 
 mkdir -p /etc/snmp
 

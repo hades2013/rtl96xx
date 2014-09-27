@@ -158,6 +158,8 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_SetVlanMemberAdd)(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
 	
 	DRV_RET_E (*p_Hal_SetVlanPvid)(UINT32 ulLgcPortNumber, UINT32 ulPvid);
+    
+    DRV_RET_E (*p_Hal_GetVlanPvid)(UINT32 ulLgcPortNumber, UINT32 *ulPvid);
 	
 	DRV_RET_E (*p_Hal_SetVlanPortVlanMember)(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask);
 	
@@ -671,6 +673,7 @@ DRV_RET_E Hal_SetVlanMemberRemove(UINT32 ulVlanId, logic_pmask_t stLgcMask);
 DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
 DRV_RET_E Hal_SetMcVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
 DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid);
+DRV_RET_E Hal_GetVlanPvid(UINT32 ulLgcPortNumber, UINT32 *ulPvid);
 DRV_RET_E Hal_SetVlanPortVlanMember(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask);
 DRV_RET_E Hal_GetVlanMember(UINT32 ulVlanId, logic_pmask_t * pstLgcMask, logic_pmask_t * pstLgcMaskUntag);
 DRV_RET_E Hal_AddCpuToVlanMember(UINT32 ulVlanId);

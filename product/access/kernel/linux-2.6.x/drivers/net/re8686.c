@@ -521,7 +521,7 @@ extern atomic_t re8670_rxskb_num;
 #if defined(CONFIG_DUALBAND_CONCURRENT)
 #define SKB_BUF_SIZE  1800
 #else
-#define SKB_BUF_SIZE  1600
+#define SKB_BUF_SIZE  1700
 #endif
 
 unsigned int iocmd_reg=CMD_CONFIG;//=0x4009113d;	//shlee 8672
@@ -1169,6 +1169,9 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	if(!memcmp(src_mac, skb->data + ETH_ALEN, ETH_ALEN))
 		skb->dev = rtl8686_dev_table[vwlan_dev_idx].dev_instant;
 #endif
+
+    //printk("[name=%s]\n",skb->dev->name);
+
 	skb->vlan_tci = (pRxInfo->opts2.bit.ctagva) ? VTAG2VLANTCI(pRxInfo->opts2.bit.cvlan_tag) : 0;
 	ETHDBG_PRINT(RTL8686_SKB_RX, "This packet comes from %s(vlan %u)\n", skb->dev->name, skb->vlan_tci);
 	skb->from_dev=skb->dev;
@@ -1185,6 +1188,14 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	skb->mark = (skb->vlan_tci & 0xFFF);
 	//printk("%s %d switch_port: %s vlan_tci=0x%x mark=0x%x\n", 
 			//__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
+			
+#ifdef CONFIG_L2_HANDLE	
+        //skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
+        //skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
+    
+        //printk("%s %d vlan=%d, logic port=%d phy=%d\n", 
+                //__func__, __LINE__, skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
+#endif
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
 #if CP_VLAN_TAG_USED
@@ -1192,7 +1203,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		skb->vlan_tci = s_ui_management_vlan;
 #else
 	if((skb->vlan_tci & VLAN_VID_MASK)!=0)
-	{
+	{   
 		skb_push_qtag(skb,skb->vlan_tci & VLAN_VID_MASK,0);
 	}
 	else
@@ -1214,7 +1225,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
 	skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);	
 
-    //printk("%s %d l2_vlan=%d, logic port=%d phy=%d\n", 
+    //printk("%s %d vlan=%d, logic port=%d phy=%d\n", 
 			//__func__, __LINE__, skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
 #endif
 	
@@ -1245,9 +1256,11 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		skb->protocol = eth_type_trans (skb, skb->dev);
 		skb->vlan_tci = 0;
         
-        //printk("skb->protocol=%x\n",skb->protocol);
+        //printk("skb->protocol=%x\n",ntohs(skb->protocol));
+        //printk("333 skb->head=%p,skb->data=%p\n",skb->head,skb->data);
 
 		if (netif_rx(skb) == NET_RX_DROP){
+            printk("%s,%s,%d rx drop\n",__FILE__,__FUNCTION__,__LINE__);
 			DEVPRIV(skb->dev)->net_stats.rx_dropped++;
        }
 	}
@@ -1457,7 +1470,6 @@ static void re8670_rx (struct re_private *cp)
 				dma_cache_wback_inv((unsigned long)skb->data,buflen);
 				goto rx_next;
 			}
-
 			/* Handle checksum offloading for incoming packets. */
 			if (re8670_rx_csum_ok(&rxInfo))
 				skb->ip_summed = CHECKSUM_UNNECESSARY;

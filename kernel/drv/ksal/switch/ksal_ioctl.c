@@ -365,6 +365,12 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
             	return g_LW_Drv_Ops.p_Hal_SetVlanPvid(pstDrvReq->para1_u.uiValue, pstDrvReq->para2_u.uiValue);
 			else
 				return DRV_NULL_POINTER;
+
+        case DRV_CMD_GET_VLAN_PVID:
+            if(g_LW_Drv_Ops.p_Hal_GetVlanPvid!=NULL)
+                return g_LW_Drv_Ops.p_Hal_GetVlanPvid(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
+            else
+                return DRV_NULL_POINTER;
         case DRV_CMD_SET_VLAN_PORT_VLAN_MEMBER:
 			if(g_LW_Drv_Ops.p_Hal_SetVlanPortVlanMember!=NULL)
             	return g_LW_Drv_Ops.p_Hal_SetVlanPortVlanMember(pstDrvReq->para1_u.uiValue, 

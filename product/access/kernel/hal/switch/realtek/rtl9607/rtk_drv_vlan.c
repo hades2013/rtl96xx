@@ -69,43 +69,6 @@ static UINT32 _hal_vlan_num = 1;
 #define SPIN_HAL_MAC_LOCK       spin_lock(&_spin_hal_vlan_lock)
 #define SPIN_HAL_MAC_UNLOCK     spin_unlock(&_spin_hal_vlan_lock)
 
-/****************************************************************************
-
-     Func Name:  Hal_SetVlanFilter
-   Description:  Set 8021.Q tag vlan enable or disable
-         Input:  1 or 0
-        Output: 
-        Return:  DRV_ERR_PARA
-                 DRV_OK
-       Caution: 
- ------------------------------------------------------------------------------
-   Modification History                                                      
-   DATE        NAME             DESCRIPTION                                  
-   --------------------------------------------------------------------------
-
- ****************************************************************************/
- 
-DRV_RET_E Hal_SetVlanFilter(BOOL bEnable)
-{
-
-    rtk_enable_t tdEnable;
-    
-    if(((TRUE != bEnable) && (FALSE != bEnable)))
-    {
-        return DRV_ERR_PARA;
-    }
-
-    tdEnable = (TRUE == bEnable) ? ENABLED : DISABLED;
-    
-    if (RT_ERR_OK != rtk_vlan_vlanFunctionEnable_set(tdEnable))
-    {
-        return DRV_ERR_UNKNOW;
-    }
-
-    return DRV_OK;
-
-}
-
 
 /*****************************************************************************
     Func Name:  Hal_GetVlanExistNum
@@ -247,6 +210,45 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
     
     return DRV_OK;
 }
+
+/****************************************************************************
+
+     Func Name:  Hal_SetVlanFilter
+   Description:  Set 8021.Q tag vlan enable or disable
+         Input:  1 or 0
+        Output: 
+        Return:  DRV_ERR_PARA
+                 DRV_OK
+       Caution: 
+ ------------------------------------------------------------------------------
+   Modification History                                                      
+   DATE        NAME             DESCRIPTION                                  
+   --------------------------------------------------------------------------
+
+ ****************************************************************************/
+ 
+DRV_RET_E Hal_SetVlanFilter(BOOL bEnable)
+{
+
+    rtk_enable_t tdEnable;
+    
+    if(((TRUE != bEnable) && (FALSE != bEnable)))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    tdEnable = (TRUE == bEnable) ? QVLAN : PVLAN;
+    
+    //if (RT_ERR_OK != rtk_vlan_vlanFunctionEnable_set(tdEnable))
+    if (RT_ERR_OK != Hal_SetVlanMode(tdEnable))
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    return DRV_OK;
+
+}
+
 
 /*****************************************************************************
     Func Name:  Hal_SetVlanEntryCreate
@@ -1214,6 +1216,45 @@ DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid)
 		return DRV_SDK_GEN_ERROR;
 	}
     
+    return DRV_OK;
+}
+
+/*****************************************************************************
+    Func Name:  Hal_SetValnPvid
+  Description:  set port pvid
+        Input:  ulLgcPortNumber
+                ulPvid
+       Output: 
+       Return:  DRV_ERR_PARA
+                DRV_ERR_UNKNOW
+                DRV_OK
+      Caution: 
+------------------------------------------------------------------------------
+  Modification History                                                      
+  DATE        NAME             DESCRIPTION                                  
+  --------------------------------------------------------------------------
+
+*****************************************************************************/
+DRV_RET_E Hal_GetVlanPvid(UINT32 ulLgcPortNumber, UINT32 *ulPvid)
+{
+    rtk_api_ret_t ret;
+
+    if(!IsValidLgcPort(ulLgcPortNumber))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    *ulPvid = 0;
+    
+    ret = rtk_vlan_portPvid_get(PortLogic2PhyPortId(ulLgcPortNumber), ulPvid);
+	if (RT_ERR_OK != ret)
+	{
+		return DRV_SDK_GEN_ERROR;
+	}
+    
+    *ulPvid &= 0x0FFF;
+    
+    //printk("phy=%d,pvid=%d\n",PortLogic2PhyPortId(ulLgcPortNumber),*ulPvid);
     return DRV_OK;
 }
 

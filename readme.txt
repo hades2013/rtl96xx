@@ -177,7 +177,76 @@ image: makeapp
 	#define LINK_TYPE_ACCESS 0
  	....
 
-   
+8. 应用程序传入kernel的phy并不是真正的phy,而是kernel定义的logic phy：
+
+#define    CPU_PORT_NUMBER     7  //to kernel : 7,and true phy - 6
+#define    ETH0_PORT_NUMBER    1  //to kernel : 1,and true phy - 0
+#define    ETH1_PORT_NUMBER    3  //to kernel : 3,and true phy - 2
+#define    ETH2_PORT_NUMBER    4  //to kernel : 4,and true phy - 3
+
+#define    CLT0_PORT_NUMBER    5  //to kernel : 5,and true phy - 5
+
+------------------------------------------------------------------
+inline int toLogicPort(int phy)//phy是由kernel直接传上来的真正的phy,
+{
+	int portmap[] = {
+		ETH0_PORT_NUMBER, // phy 0 
+		0, // phy 1
+        	ETH1_PORT_NUMBER, // phy 2
+        	ETH2_PORT_NUMBER, // phy 3
+		0, // phy 4
+		CLT0_PORT_NUMBER, // phy 5
+		CPU_PORT_NUMBER,  // phy 6 	
+	};
+
+	if (phy < sizeof(portmap)/sizeof(portmap[0])){
+		return portmap[phy];
+	}
+	return 0;
+}
 
 
+在kernel的定义：
+
+PORT_TYPE_S g_szPortType[LOGIC_PORT_NO+3] = {
+/* 0 */    {INVALID_PORT, INVALID_PORT, 0},
+/* 1 */    {TO_USERPORT(1, 0, 1),  TOPHYID(0,0),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
+/* 2 */    {TO_USERPORT(1, 0, 2),  TOPHYID(0,1),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
+/* 3 */    {TO_USERPORT(1, 0, 3),  TOPHYID(0,2),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
+/* 4 */    {TO_USERPORT(1, 0, 4),  TOPHYID(0,3),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
+/* 5 */    {TO_USERPORT(1, 0, 5),  TOPHYID(0,5),     PORT_TYPE_DEF(0,TP_CABLE, UD_DOWNLINK, SP_1000)},
+/* 6 */    {TO_USERPORT(1, 0, 6),  TOPHYID(0,4),     PORT_TYPE_DEF(0,TP_COPPER, UD_DOWNLINK, SP_1000)},
+/* rtl9607 CPU port is mac 6 and it's port id is port 6. */
+/*LGC_CPU*/{TO_USERPORT(1, 0, 7),  TOPHYID(0,6),     PORT_TYPE_DEF(0, TP_CPU, 0, 0)}
+};
+
+
+
+9.  在rc脚本中，已经启用了br0，所以在master进程中，可以通过br0获取mac和MME报文也可以通过这个br0
+
+	ifconfig eth0 up
+	brctl addbr br0
+
+	vconfig add eth0 1
+	brctl addif br0 eth0.1
+	ifconfig eth0.1 0.0.0.0
+	ifconfig br0 up 192.168.0.100 
+	ifconfig br0 mtu 1496
+
+
+10. rtl9607/app/share/Makefile文件中增加：
+
+    	LIB_SWAPI = libswapi.a
+
+	SW_SRCS += $(shell find ./drv -name \*.c)
+	OBJS_SW += $(SW_SRCS:.c=.o)
  
+swapi:
+	$(AR) -r $(LIB_SWAPI) $(OBJS_SW)
+
+
+
+11. 增加 #define Ioctl_GetVlanPvid(_port_number, _pvid)
+
+
+

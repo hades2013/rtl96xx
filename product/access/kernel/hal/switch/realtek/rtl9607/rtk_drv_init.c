@@ -124,6 +124,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_SetVlanMemberRemove=Hal_SetVlanMemberRemove;
 	g_LW_Drv_Ops.p_Hal_SetVlanMemberAdd=Hal_SetVlanMemberAdd;
 	g_LW_Drv_Ops.p_Hal_SetVlanPvid=Hal_SetVlanPvid;
+    g_LW_Drv_Ops.p_Hal_GetVlanPvid=Hal_GetVlanPvid;
 	g_LW_Drv_Ops.p_Hal_SetVlanPortVlanMember=Hal_SetVlanPortVlanMember;
 	g_LW_Drv_Ops.p_Hal_GetVlanMember=Hal_GetVlanMember;
 	g_LW_Drv_Ops.p_Hal_AddCpuToVlanMember=Hal_AddCpuToVlanMember;
