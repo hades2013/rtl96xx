@@ -143,6 +143,7 @@ typedef enum tagDrv_cmd{
     DRV_CMD_GET_VLAN_NUM,
     DRV_CMD_SET_VLANMODE,
     DRV_CMD_SET_VLAN_ENTRY_CREATE,
+    DRV_CMD_GET_VLAN_CHECK_EXIST,
     DRV_CMD_SET_VLAN_ENTRY_DELETE,
     DRV_CMD_SET_VLAN_MEMBER_REMOVE,
     DRV_CMD_SET_VLAN_MEMBER_ADD,
@@ -687,7 +688,17 @@ DRV_RET_E Ioctl_SetLookupMissFloodPortMask(DRV_CMD_E ioctlCmd, UINT32 type, logi
     
 #define Ioctl_SetVlanEntryCreate(_vlan_id)\
     Ioctl_SetUnionUint32(DRV_CMD_SET_VLAN_ENTRY_CREATE, (UINT32)_vlan_id)
-    
+
+#define Ioctl_CheckVlanCheckExist(_vlan_id)\
+    Ioctl_SetUnionUint32(DRV_CMD_GET_VLAN_CHECK_EXIST, (UINT32)_vlan_id)
+/*  
+*  Ioctl_CheckVlanCheckExist
+*
+*  return :  
+*            DRV_OK                            -- _vlan_id exist
+*            DRV_ERR_VLAN_NOT_EXIST -- _vlan_id not exist
+*/
+
 #define Ioctl_SetVlanEntryDelete(_vlan_id)\
     Ioctl_SetUnionUint32(DRV_CMD_SET_VLAN_ENTRY_DELETE, (UINT32)_vlan_id)
     

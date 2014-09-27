@@ -152,6 +152,7 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_SetVlanMode)(UINT32 ulMode);
 	
 	DRV_RET_E (*p_Hal_SetVlanEntryCreate)(UINT32 ulVlanId);
+    DRV_RET_E (*p_Hal_CheckVlanExist)(UINT32 ulVlanId);
 	DRV_RET_E (*p_Hal_SetVlanEntryDelete)(UINT32 ulVlanId);	
 	DRV_RET_E (*p_Hal_SetVlanMemberRemove)(UINT32 ulVlanId, logic_pmask_t stLgcMask);
 	
@@ -668,6 +669,7 @@ DRV_RET_E Hal_SetAggrGroup(agg_grp_num_t grpNum, logic_pmask_t stLgcMask);
 DRV_RET_E Hal_GetVlanExistNum(UINT32 *puiNum);
 DRV_RET_E Hal_SetVlanMode(UINT32 ulMode);
 DRV_RET_E Hal_SetVlanEntryCreate(UINT32 ulVlanEntry);
+DRV_RET_E Hal_CheckVlanExist(UINT32 ulVlanId);
 DRV_RET_E Hal_SetVlanEntryDelete(UINT32 ulVlanEntry);
 DRV_RET_E Hal_SetVlanMemberRemove(UINT32 ulVlanId, logic_pmask_t stLgcMask);
 DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);

@@ -285,6 +285,28 @@ rtk_vlan_init(void);
 extern int32
 rtk_vlan_create(rtk_vlan_t vid);
 
+/* Module Name    : Vlan                                  */
+/* Sub-module Name: Vlan table configure and modification */
+
+/* Function Name:
+ *      rtk_vlan_existCheck
+ * Description:
+ *      Checkout whether vlan id exist or not.
+ * Input:
+ *      vid  - vlan id to be checked
+ * Output:
+ *      None
+ * Return:
+ *      RT_ERR_OK        --existed
+ *      RT_ERR_FAILED  --not existed
+ *      RT_ERR_DRIVER_NOT_FOUND   --not found driver
+ * Note:
+ */
+
+extern int32
+rtk_vlan_existCheck(rtk_vlan_t vid);
+
+
 /* Function Name:
  *      rtk_vlan_destroy
  * Description:

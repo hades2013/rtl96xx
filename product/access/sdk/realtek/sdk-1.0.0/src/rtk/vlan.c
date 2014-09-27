@@ -107,6 +107,37 @@ rtk_vlan_create(rtk_vlan_t vid)
     return ret;
 } /* end of rtk_vlan_create */
 
+/* Module Name    : Vlan                                  */
+/* Sub-module Name: Vlan table configure and modification */
+
+/* Function Name:
+ *      rtk_vlan_existCheck
+ * Description:
+ *      Checkout whether vlan id exist or not.
+ * Input:
+ *      vid  - vlan id to be checked
+ * Output:
+ *      None
+ * Return:
+ *      RT_ERR_OK        --existed
+ *      RT_ERR_FAILED  --not existed
+ *      RT_ERR_DRIVER_NOT_FOUND   --not found driver
+ * Note:
+ */
+
+int32
+rtk_vlan_existCheck(rtk_vlan_t vid)
+{
+    int32   ret;
+    if (NULL == RT_MAPPER->vlan_existCheck)
+        return RT_ERR_DRIVER_NOT_FOUND;
+    RTK_API_LOCK();
+    ret = RT_MAPPER->vlan_existCheck( vid);
+    RTK_API_UNLOCK();
+    return ret;
+}/* end of rtk_vlan_existCheck */
+
+
 /* Function Name:
  *      rtk_vlan_destroy
  * Description:
@@ -2071,6 +2102,7 @@ rtk_vlan_lutSvlanHashState_set(
     RTK_API_UNLOCK();
     return ret;
 }   /* end of rtk_vlan_lutSvlanHashState_set */
+
 
 
 /* Function Name:

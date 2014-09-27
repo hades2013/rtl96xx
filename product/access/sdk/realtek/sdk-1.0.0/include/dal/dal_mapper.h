@@ -81,6 +81,7 @@ typedef struct dal_mapper_s {
     /* VLAN */
     int32   (*vlan_init)(void);
     int32   (*vlan_create)(rtk_vlan_t);
+    int32   (*vlan_existCheck)(rtk_vlan_t);
     int32   (*vlan_destroy)(rtk_vlan_t);
     int32   (*vlan_destroyAll)(uint32);
     int32   (*vlan_fid_get)(rtk_vlan_t, rtk_fid_t *);

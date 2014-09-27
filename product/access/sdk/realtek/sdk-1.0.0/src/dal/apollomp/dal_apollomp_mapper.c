@@ -490,6 +490,7 @@ dal_mapper_t dal_apollomp_mapper =
      /* VLAN */
     .vlan_init                                  = dal_apollomp_vlan_init,
     .vlan_create                                = dal_apollomp_vlan_create,
+    .vlan_existCheck                            = dal_apollomp_vlan_existCheck,
     .vlan_destroy                               = dal_apollomp_vlan_destroy,
     .vlan_destroyAll                            = dal_apollomp_vlan_destroyAll,
     .vlan_fid_get                               = dal_apollomp_vlan_fid_get,

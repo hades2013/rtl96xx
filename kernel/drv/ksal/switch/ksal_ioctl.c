@@ -338,7 +338,14 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
             	return g_LW_Drv_Ops.p_Hal_SetVlanEntryCreate(pstDrvReq->para1_u.uiValue);
 			}
 			else
-				return DRV_NULL_POINTER;			
+				return DRV_NULL_POINTER;
+        case DRV_CMD_GET_VLAN_CHECK_EXIST:
+			if(g_LW_Drv_Ops.p_Hal_CheckVlanExist!=NULL)
+			{
+            	return g_LW_Drv_Ops.p_Hal_CheckVlanExist(pstDrvReq->para1_u.uiValue);
+			}
+			else
+				return DRV_NULL_POINTER;
         case DRV_CMD_SET_VLAN_ENTRY_DELETE:
 			if(g_LW_Drv_Ops.p_Hal_SetVlanEntryDelete!=NULL)
             	return g_LW_Drv_Ops.p_Hal_SetVlanEntryDelete(pstDrvReq->para1_u.uiValue);

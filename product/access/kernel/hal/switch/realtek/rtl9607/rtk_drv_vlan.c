@@ -305,6 +305,43 @@ DRV_RET_E Hal_SetVlanEntryCreate(UINT32 ulVlanId)
 }
 
 /*****************************************************************************
+    Func Name:  Hal_SetVlanEntryCreate
+  Description:  set vlan entry
+        Input:  ulVlanId     
+       Output: 
+       Return:  DRV_ERR_PARA
+                DRV_ERR_UNKNOW
+                DRV_OK
+      Caution: 
+------------------------------------------------------------------------------
+  Modification History                                                      
+  DATE        NAME             DESCRIPTION                                  
+  --------------------------------------------------------------------------
+
+*****************************************************************************/
+DRV_RET_E Hal_CheckVlanExist(UINT32 ulVlanId)
+{
+    UINT32 ulUnit;
+    rtk_api_ret_t ret;
+
+    if(!VALID_VLAN_ID(ulVlanId))
+    {
+        return DRV_ERR_VLAN_NOT_EXIST;
+    }
+
+    UnitFor(ulUnit)
+    {
+		/*checkout vlan if it is existed*/
+		ret = rtk_vlan_existCheck(ulVlanId);
+
+        return (RT_ERR_OK == ret) ? RT_ERR_OK : DRV_ERR_VLAN_NOT_EXIST;
+    }
+
+    return DRV_ERR_VLAN_NOT_EXIST;
+}
+
+
+/*****************************************************************************
     Func Name:  Hal_SetVlanEntryDelete
   Description:  vlan entry delete
         Input:  ulVlanId     

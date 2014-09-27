@@ -120,6 +120,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_GetVlanExistNum=Hal_GetVlanExistNum;
 	g_LW_Drv_Ops.p_Hal_SetVlanMode=Hal_SetVlanMode;
 	g_LW_Drv_Ops.p_Hal_SetVlanEntryCreate=Hal_SetVlanEntryCreate;
+	g_LW_Drv_Ops.p_Hal_CheckVlanExist=Hal_CheckVlanExist;
 	g_LW_Drv_Ops.p_Hal_SetVlanEntryDelete=Hal_SetVlanEntryDelete;	
 	g_LW_Drv_Ops.p_Hal_SetVlanMemberRemove=Hal_SetVlanMemberRemove;
 	g_LW_Drv_Ops.p_Hal_SetVlanMemberAdd=Hal_SetVlanMemberAdd;
