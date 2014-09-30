@@ -214,6 +214,7 @@ DRV_RET_E Hal_L2send(unsigned char *pMsg,UINT uiLen,l2_send_op *pOp)
     {
         return DRV_ERR_PARA;
     }
+    printk("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
 
     pSkb = alloc_skb(uiLen+RESERVE_SPACE,GFP_KERNEL);
     if(NULL == pSkb)

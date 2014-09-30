@@ -67,8 +67,8 @@ DRV_RET_E Hal_SetMirrorGroup(port_num_t mirrorDestPort, logic_pmask_t ingressMas
     MaskLogic2Phy(&ingressMask, &stIngressPhyMask);
     MaskLogic2Phy(&egressMask, &stEgressPhyMask);  
 
-    printk("===> Mirror Ingress Phy Mask:%08x\n", stIngressPhyMask.pmask[0]);
-    printk("===> Mirror  Egress Phy Mask:%08x\n", stEgressPhyMask.pmask[0]);
+    printk("\n===> Mirror Ingress Phy Mask:%08x\n", stIngressPhyMask.pmask[0]);
+    printk("\n===> Mirror Egress  Phy Mask:%08x\n", stEgressPhyMask.pmask[0]);
 
  /*
 

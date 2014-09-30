@@ -119,13 +119,17 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_SetAggrGroup=Hal_SetAggrGroup;
 	g_LW_Drv_Ops.p_Hal_GetVlanExistNum=Hal_GetVlanExistNum;
 	g_LW_Drv_Ops.p_Hal_SetVlanMode=Hal_SetVlanMode;
+    g_LW_Drv_Ops.p_Hal_GetVlanMode=Hal_GetVlanMode;
 	g_LW_Drv_Ops.p_Hal_SetVlanEntryCreate=Hal_SetVlanEntryCreate;
 	g_LW_Drv_Ops.p_Hal_CheckVlanExist=Hal_CheckVlanExist;
 	g_LW_Drv_Ops.p_Hal_SetVlanEntryDelete=Hal_SetVlanEntryDelete;	
 	g_LW_Drv_Ops.p_Hal_SetVlanMemberRemove=Hal_SetVlanMemberRemove;
 	g_LW_Drv_Ops.p_Hal_SetVlanMemberAdd=Hal_SetVlanMemberAdd;
+    g_LW_Drv_Ops.p_Hal_SetVlanMember=Hal_SetVlanMember;
 	g_LW_Drv_Ops.p_Hal_SetVlanPvid=Hal_SetVlanPvid;
     g_LW_Drv_Ops.p_Hal_GetVlanPvid=Hal_GetVlanPvid;
+    g_LW_Drv_Ops.p_Hal_GetVlanPriority=Hal_GetVlanPriority;
+    g_LW_Drv_Ops.p_Hal_SetVlanPriority=Hal_SetVlanPriority;
 	g_LW_Drv_Ops.p_Hal_SetVlanPortVlanMember=Hal_SetVlanPortVlanMember;
 	g_LW_Drv_Ops.p_Hal_GetVlanMember=Hal_GetVlanMember;
 	g_LW_Drv_Ops.p_Hal_AddCpuToVlanMember=Hal_AddCpuToVlanMember;
@@ -220,7 +224,10 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_AclRuleForCtcMcVlanDelete=Hal_AclRuleForCtcMcVlanDelete;
 	g_LW_Drv_Ops.p_Hal_SetPortVlanIngressFilter=Hal_SetPortVlanIngressFilter;
 	g_LW_Drv_Ops.p_Hal_SetPortVlanIngressMode=Hal_SetPortVlanIngressMode;
+	g_LW_Drv_Ops.p_Hal_GetPortVlanIngressFilter=Hal_GetPortVlanIngressFilter;
+	g_LW_Drv_Ops.p_Hal_GetPortVlanIngressMode=Hal_GetPortVlanIngressMode;
 	g_LW_Drv_Ops.p_Hal_SetPortVlanEgressMode=Hal_SetPortVlanEgressMode;
+    g_LW_Drv_Ops.p_Hal_GetPortVlanEgressMode=Hal_GetPortVlanEgressMode;
 	g_LW_Drv_Ops.p_Hal_AclRuleEmptyNumGet=Hal_AclRuleEmptyNumGet;
 	g_LW_Drv_Ops.p_Hal_CfgPortCtcVlanGet=Hal_CfgPortCtcVlanGet;
 	g_LW_Drv_Ops.p_Hal_CfgPortCtcVlanSet=Hal_CfgPortCtcVlanSet;	
@@ -305,6 +312,9 @@ DRV_RET_E Hal_SwitchInit(void)
 	Hal_CpuRegAccessInit();	
 
 	Hal_Register();
+
+    
+    printk("\n\n\n\n\n liuanhua switch init ....\n\n\n\n\n\n\n");
 	
     //rtk_SmiInit();
     /*013987 */
@@ -398,10 +408,10 @@ DRV_RET_E Hal_SwitchInit(void)
     (void)rtk_vlan_init();	
     #ifdef ONU_STYLE
     /*Change TPID from 0x88a8 to 0x8100*/
-    (void)rtk_svlan_tpidEntry_set(0, 0x8100);
+    //(void)rtk_svlan_tpidEntry_set(0, 0x8100); //delete by luoruncai
 
     /*set uplink Port as service port*/
-    (void)rtk_svlan_servicePort_set(PHY_UPLINK_PORT, 1);
+    //(void)rtk_svlan_servicePort_set(PHY_UPLINK_PORT, 1); //delete by luoruncai
 	#endif
 	/*Begin modified by sunmingliang for bug 260*/
 	/*set vlan 0 learning mode ivl mode*/
@@ -418,13 +428,13 @@ DRV_RET_E Hal_SwitchInit(void)
 	(void)rtk_vlan_reservedVidAction_set(RESVID_ACTION_TAG,RESVID_ACTION_TAG);/*add by shipeng 2013-05-13*/
 	#ifdef ONU_STYLE
 	/*create svlan SVID 0*/
-	(void)rtk_svlan_create(0);/*add by shipeng 2013-04-28*/
+	//(void)rtk_svlan_create(0);/*add by shipeng 2013-04-28*/ //delete by luoruncai
 
     /*Unmatch packet assign to SVID 0*/
-   (void)rtk_svlan_unmatchAction_set(UNMATCH_ASSIGN,0);
+   //(void)rtk_svlan_unmatchAction_set(UNMATCH_ASSIGN,0); //delete by luoruncai
 		
     /*Untag packet assign to SVID 0*/
-    (void)rtk_svlan_untagAction_set(UNTAG_ASSIGN,0);
+    //(void)rtk_svlan_untagAction_set(UNTAG_ASSIGN,0); //delete by luoruncai
 	#endif
 	
     /*set cos to internal priority remarking*/
@@ -476,18 +486,18 @@ DRV_RET_E Hal_SwitchInit(void)
     (void)Hal_SetCpuHeader(FALSE);
 
 
-	(void)rtk_acl_init();/*add by shipeng 2013-05-22*/
-    (void)Hal_AclRuleInit();
+	//(void)rtk_acl_init();/*add by shipeng 2013-05-22*/  delete by luoruncai
+    //(void)Hal_AclRuleInit(); delete by luoruncai
 
 	#ifdef SWITCH_STYLE
-	(void)rtk_vlan_transparentEnable_set(ENABLED);
-	Hal_SetPortVlanIngressFilter(LOGIC_PON_PORT, FALSE);	
-	Hal_SetPortVlanIngressMode(LOGIC_PON_PORT, PORT_IN_FRAM_BOTH);
+	//(void)rtk_vlan_transparentEnable_set(ENABLED); delete by luoruncai
+	//Hal_SetPortVlanIngressFilter(LOGIC_PON_PORT, FALSE);	 delete by luoruncai
+	//Hal_SetPortVlanIngressMode(LOGIC_PON_PORT, PORT_IN_FRAM_BOTH); delete by luoruncai
 	/*remove vlan 0*/
-	(void)rtk_vlan_destroy(0);
+	//(void)rtk_vlan_destroy(0); delete by luoruncai
 	/*set pon port to all uni port and all uni port to pon port transparent*/
 	/*Modified by huangmingjian 2013-09-12 for let it to transfer untag packets on upstream*/	
-	#if 0
+	#if 0  //delete by luoruncai
 	for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
 	{
 		(void)_Hal_SetPortTransparent(LOGIC_UPPON_PORT, uiLPortIndex);
@@ -497,20 +507,20 @@ DRV_RET_E Hal_SwitchInit(void)
 	#endif
 
 	#ifdef ONU_STYLE
-	(void)rtk_vlan_transparentEnable_set(ENABLED);/*add by shipeng 2013-04-28*/
+	//(void)rtk_vlan_transparentEnable_set(ENABLED);/*add by shipeng 2013-04-28*/ //delete by luoruncai
     
     CTC_VLAN_CFG_S stVlanMode;
 
-    memset(&stVlanMode, 0, sizeof(stVlanMode));
-    stVlanMode.mode = CTC_VLAN_MODE_TRANSPARENT;
+   // memset(&stVlanMode, 0, sizeof(stVlanMode));
+    //stVlanMode.mode = CTC_VLAN_MODE_TRANSPARENT; //delete by luoruncai
     for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
     {
-        (void)Hal_SetPortTransparentMode(uiLPortIndex, &stVlanMode);
+    //    (void)Hal_SetPortTransparentMode(uiLPortIndex, &stVlanMode); //delete by luoruncai
     }
 
-	(void)rtk_classify_init();
+	//(void)rtk_classify_init(); //delete by luoruncai
 
-	(void)Hal_ClfRuleInit();
+	//(void)Hal_ClfRuleInit(); //delete by luoruncai
 
 	#endif
 
@@ -539,20 +549,20 @@ DRV_RET_E Hal_SwitchInit(void)
 	
 	(void)rtk_vlan_portIgrFilterEnable_set(PortLogic2PhyID(LOGIC_CPU_PORT), DISABLED);	
 	#ifdef ONU_STYLE
-	/*set cpu port to all uni port transparent*/   
-	for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
-    {
-    	(void)rtk_switch_portMask_Clear(&stPPortMask);
-    	(void)rtk_vlan_portEgrTagKeepType_get(PortLogic2PhyID(uiLPortIndex), &stPPortMask, &pType);
-		stPPortMask.bits[0] |= 1U << PortLogic2PhyID(LOGIC_CPU_PORT);
-        (void)rtk_vlan_portEgrTagKeepType_set(PortLogic2PhyID(uiLPortIndex),&stPPortMask,TAG_KEEP_TYPE_CONTENT);
-    }
+	/*set cpu port to all uni port transparent*/    //delete by luoruncai
+	//for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
+    //{
+    	//(void)rtk_switch_portMask_Clear(&stPPortMask);
+    	//(void)rtk_vlan_portEgrTagKeepType_get(PortLogic2PhyID(uiLPortIndex), &stPPortMask, &pType);
+		//stPPortMask.bits[0] |= 1U << PortLogic2PhyID(LOGIC_CPU_PORT);
+        //(void)rtk_vlan_portEgrTagKeepType_set(PortLogic2PhyID(uiLPortIndex),&stPPortMask,TAG_KEEP_TYPE_CONTENT);
+    //}
 	#endif
-	/*set cpu port to pon port transparent*/
-	(void)rtk_switch_portMask_Clear(&stPPortMask);
-	(void)rtk_vlan_portEgrTagKeepType_get(PortLogic2PhyID(LOGIC_PON_PORT), &stPPortMask, &pType);
-	stPPortMask.bits[0] |= 1U << PortLogic2PhyID(LOGIC_CPU_PORT);
-    (void)rtk_vlan_portEgrTagKeepType_set(PortLogic2PhyID(LOGIC_PON_PORT),&stPPortMask,TAG_KEEP_TYPE_CONTENT);	
+	/*set cpu port to pon port transparent*/  //delete by luoruncai
+	//(void)rtk_switch_portMask_Clear(&stPPortMask);
+	//(void)rtk_vlan_portEgrTagKeepType_get(PortLogic2PhyID(LOGIC_PON_PORT), &stPPortMask, &pType);
+	//stPPortMask.bits[0] |= 1U << PortLogic2PhyID(LOGIC_CPU_PORT);
+    //(void)rtk_vlan_portEgrTagKeepType_set(PortLogic2PhyID(LOGIC_PON_PORT),&stPPortMask,TAG_KEEP_TYPE_CONTENT);	
 
 	#ifdef CONFIG_PRODUCT_5500
 	rtk_port_macAbility_t ext_macAbility;
@@ -598,7 +608,7 @@ DRV_RET_E Hal_SwitchInit(void)
 	l2Addr.flags |= RTK_L2_UCAST_FLAG_STATIC;
 	rtk_l2_addr_add(&l2Addr);
 
-	Hal_CpuRegWrite(0xBB023078, 0x0);/*Set backpressure off by shipeng 2013-11-05*/
+	//Hal_CpuRegWrite(0xBB023078, 0x0);/*Set backpressure off by shipeng 2013-11-05*/  //delete by luoruncai
 	
 	_Hal_PortMonitorInit();
 /*Begin add by huangmingjian 2014-01-13*/
@@ -625,7 +635,7 @@ DRV_RET_E Hal_SwitchInit(void)
 	uiPPortMask |= (1U << 5);
 	
 	flood_portmask.bits[0] = uiPPortMask;
-	dal_apollomp_l2_lookupMissFloodPortMask_set(DLF_TYPE_UCAST, &flood_portmask);
+	//dal_apollomp_l2_lookupMissFloodPortMask_set(DLF_TYPE_UCAST, &flood_portmask);
 
 	(void)ioal_mem32_write(0x1c0d4, 0x0);/* flowctrl set egress port 0 queue-id 0 queue-drop state enable??*/
 	

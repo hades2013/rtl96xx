@@ -527,7 +527,7 @@ extern atomic_t re8670_rxskb_num;
 unsigned int iocmd_reg=CMD_CONFIG;//=0x4009113d;	//shlee 8672
 unsigned int iocmd1_reg=CMD1_CONFIG | (RX_NOT_ONLY_RING1<<25);   
 
-__DRAM unsigned int debug_enable=0;//(1<<4)|(1<<0);
+__DRAM unsigned int debug_enable=0;
 static unsigned int tx_ring_show_bitmap=((1<<MAX_TXRING_NUM)-1);
 static unsigned int rx_ring_show_bitmap=((1<<MAX_RXRING_NUM)-1);
 
@@ -1020,7 +1020,7 @@ static inline void _tx_additional_setting(struct sk_buff *skb, struct net_device
 		}		
 #endif
 	}
-	
+	printk("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
 	/*should we check vlan_tci means vlan 0 or no vlan?*/
 	if((skb->dev->priv_flags & IFF_DOMAIN_WAN) && skb->vlan_tci){
 		pTxInfo->opts2.bit.tx_vlan_action = TXD_VLAN_REMARKING;
@@ -1190,11 +1190,11 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 			//__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
 			
 #ifdef CONFIG_L2_HANDLE	
-        //skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
-        //skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
+        skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
+        skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
     
-        //printk("%s %d vlan=%d, logic port=%d phy=%d\n", 
-                //__func__, __LINE__, skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
+        printk("%s %d management_vlan=%d,vlan=%d, logic port=%d phy=%d\n", 
+                __func__, __LINE__, s_ui_management_vlan,skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
 #endif
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
@@ -2210,13 +2210,19 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
+
+    printk("\n vid=%d,vlan=%d,management_vlan=%d \n",vid,
+        ((0x81 == skb->data[12]) && (0x00 == skb->data[13])) ? (((skb->data[14] & 0xF) << 8) + skb->data[15]) : 0,
+        s_ui_management_vlan);
+
 	#ifdef ONU_STYLE
 	if(vid)
 	{
 			
 			 if((0x81 == skb->data[12]) && (0x00 == skb->data[13])){
-				 skb->data[15] = vid & 0xFF;
-				 skb->data[14] = (vid >> 8) & 0xF; //use pri=0
+                
+			    skb->data[15] = vid & 0xFF;
+			    skb->data[14] = (vid >> 8) & 0xF; //use pri=0
 			 }
 			 else
 			 {
@@ -2230,10 +2236,10 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 	//	 if( !((skb->data[0]==0xff)&&(skb->data[1]==0xff)&&(skb->data[2]==0xff)
 	///	 	&&(skb->data[3]==0xff)&&(skb->data[4]==0xff)&&(skb->data[5]==0xff)))
 		 	{
-				 if(((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
-				 	&&(wireless_up_service_vlan!=(((skb->data[14] & 0xF) << 8) + skb->data[15])))
+				 if(((0x81 == skb->data[12]) && (0x00 == skb->data[13]))/*
+				 	&&(wireless_up_service_vlan!=(((skb->data[14] & 0xF) << 8) + skb->data[15]))*/)
 				 {	
-				 	//printk("wireless_up_service_vlan %d,vlan =%d\n",wireless_up_service_vlan,(((skb->data[14] & 0xF) << 8) + skb->data[15]));
+				 	 //printk("\n\n\n wireless_up_service_vlan %d,vlan =%d \n\n",wireless_up_service_vlan,(((skb->data[14] & 0xF) << 8) + skb->data[15]));
 					 memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
 				 }
 		 	}
@@ -2272,6 +2278,16 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 	}
 
 	#endif
+
+    //if ((0x81 == skb->data[12]) && (0x00 == skb->data[13])){
+        //vid = (((skb->data[14] & 0xF) << 8) + skb->data[15]);
+        //if(vid == s_ui_management_vlan){
+            //printk("management_vlan to 1\n");
+            //if packets from management port, move tag before send it,because eth port cannot remove tag which packet is from cpu port in EPN105 board
+            //memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
+        //}
+    //}
+
 	
 	ETHDBG_PRINT( RTL8686_SKB_TX, "tx %s\n", dev->name );
 	SKB_DBG(skb, debug_enable, RTL8686_SKB_TX);

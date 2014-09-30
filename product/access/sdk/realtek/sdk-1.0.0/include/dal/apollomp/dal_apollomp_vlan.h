@@ -39,8 +39,8 @@
 /*
  * Symbol Definition
  */
-//#define DAL_APOLLOMP_DEFAULT_VLAN_ID  (1)
-#define DAL_APOLLOMP_DEFAULT_VLAN_ID  (0)
+#define DAL_APOLLOMP_DEFAULT_VLAN_ID  (1)
+//#define DAL_APOLLOMP_DEFAULT_VLAN_ID  (0)
 #define DAL_APOLLOMP_MAX_NUM_MBR_CFG  (32)
 
 /*

@@ -125,13 +125,6 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
         case PVLAN:
             /*port-based VLAN*/
             /*Disable 1q vlan*/
-			#if 0
-            ret = rtl8367b_setAsicVlanFilter(DISABLED);
-            if (RT_ERR_OK != ret)
-            {
-                return DRV_SDK_GEN_ERROR;
-            }
-			#endif
             
             /*打开per-port设定VLAN tag ignore，这样不会参考Tag中的VLAN 
             ID（所有封包仅参考port based vlan，default vlan）*/
@@ -152,18 +145,15 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
                 }
             }
 			rtk_vlan_vlanFunctionEnable_set(ENABLED);
+            
+            //rtk_vlan_transparentEnable_set(DISABLED);
+            
 			g_vlan_mode=PVLAN;
             break;
         case QVLAN:
             /*802.1q VLAN*/
             /*Enable 1q vlan*/
-			#if 0
-            ret = rtl8367b_setAsicVlanFilter(ENABLED);
-            if (RT_ERR_OK != ret)
-            {
-                return DRV_SDK_GEN_ERROR;
-            }
-			#endif
+
             rtk_vlan_vlanFunctionEnable_set(ENABLED);
             LgcPortFor(ulPPort)
             {
@@ -181,6 +171,8 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
                     return DRV_SDK_GEN_ERROR;
                 }
             }
+
+            #if 0
 			for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
 		    {
 		    	(void)rtk_switch_portMask_Clear(&stPPortMask);
@@ -188,11 +180,16 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
 				stPPortMask.bits[0] &= ~(1U << PortLogic2PhyID(LOGIC_CPU_PORT));
 		        (void)rtk_vlan_portEgrTagKeepType_set(PortLogic2PhyID(uiLPortIndex),&stPPortMask,TAG_KEEP_TYPE_CONTENT);
 		    }
+            #endif
+
+            //rtk_vlan_transparentEnable_set(DISABLED);
+
 			g_vlan_mode=QVLAN;
             break;
 		case TRSPVLAN:
 			{
 				rtk_vlan_vlanFunctionEnable_set(DISABLED);
+                
 			}
 			for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
 		    {
@@ -210,6 +207,13 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
     
     return DRV_OK;
 }
+
+DRV_RET_E Hal_GetVlanMode(UINT32 *ulMode)
+{
+    *ulMode = g_vlan_mode;
+    return DRV_OK;
+}
+
 
 /****************************************************************************
 
@@ -543,6 +547,75 @@ DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_p
 
     return DRV_OK;
 }
+
+/*****************************************************************************
+    Func Name:  Hal_SetVlanMember
+  Description:  SetVlanMember
+        Input:  ulVlanId
+                stLgcMask
+                stLgcMaskUntag
+       Output: 
+       Return:  DRV_ERR_PARA
+                DRV_OK
+      Caution: 
+------------------------------------------------------------------------------
+  Modification History                                                      
+  DATE        NAME             DESCRIPTION                                  
+  --------------------------------------------------------------------------
+
+*****************************************************************************/
+DRV_RET_E Hal_SetVlanMember(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag)
+{
+    UINT32 ulUnit;
+    phy_pmask_t stPhyMask, stPhyMaskUntag, stPhyMaskTmp, stPhyMaskUntagTmp;
+    rtk_api_ret_t ret;
+
+    if ((0 != ulVlanId) && (!VALID_VLAN_ID(ulVlanId)))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    ClrPhyMaskAll(&stPhyMask);
+    ClrPhyMaskAll(&stPhyMaskUntag);
+    ClrPhyMaskAll(&stPhyMaskTmp);
+    ClrPhyMaskAll(&stPhyMaskUntagTmp);
+	#if 0
+	if(!TstPhyMaskBit(PortLogic2PhyID(LOGIC_CPU_PORT), &stLgcMask))
+	{
+		SetLgcMaskBit(LOGIC_CPU_PORT, &stLgcMaskUntag);//for copy bug
+	}
+  	#endif
+    MaskLogic2Phy(&stLgcMask, &stPhyMask);
+    MaskLogic2Phy(&stLgcMaskUntag, &stPhyMaskUntag);
+    
+    UnitFor(ulUnit)
+    {
+    	
+		//ret = rtk_vlan_port_get((rtk_vlan_t)ulVlanId, &(stPhyMaskTmp.pmask[ulUnit]), &(stPhyMaskUntagTmp.pmask[ulUnit]));
+		//if (RT_ERR_OK != ret)
+        //{
+           // return DRV_SDK_GEN_ERROR;
+        //}
+   
+    
+        MaskLogic2Phy(&stLgcMask, &stPhyMask);
+        MaskLogic2Phy(&stLgcMaskUntag, &stPhyMaskUntag);
+    
+        #if 0
+        printk("\nvid:%d, mem mask:0x%04X, untagged:0x%04X.\n",ulVlanId,
+                 stPhyMask.pmask[ulUnit].bits[0],
+                 stPhyMaskUntag.pmask[ulUnit].bits[0]);
+        #endif
+		ret = rtk_vlan_port_set(ulVlanId, &(stPhyMask.pmask[ulUnit]), &(stPhyMaskUntag.pmask[ulUnit]));
+		if (RT_ERR_OK != ret)
+        {
+            return DRV_SDK_GEN_ERROR;
+        }
+    }
+
+    return DRV_OK;
+}
+
 
 /*****************************************************************************
     Func Name: Hal_SetMcVlanMemberAdd
@@ -1257,8 +1330,8 @@ DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid)
 }
 
 /*****************************************************************************
-    Func Name:  Hal_SetValnPvid
-  Description:  set port pvid
+    Func Name:  Hal_GetVlanPvid
+  Description:  get port pvid
         Input:  ulLgcPortNumber
                 ulPvid
        Output: 
@@ -1292,6 +1365,40 @@ DRV_RET_E Hal_GetVlanPvid(UINT32 ulLgcPortNumber, UINT32 *ulPvid)
     *ulPvid &= 0x0FFF;
     
     //printk("phy=%d,pvid=%d\n",PortLogic2PhyPortId(ulLgcPortNumber),*ulPvid);
+    return DRV_OK;
+}
+
+DRV_RET_E Hal_GetVlanPriority(UINT32 ulLgcPortNumber, UINT32 *ulPri)
+{
+    rtk_api_ret_t ret;
+
+    if(!IsValidLgcPort(ulLgcPortNumber))
+    {
+        return DRV_ERR_PARA;
+    }
+    
+	ret = rtk_qos_portPri_get(PortLogic2PhyPortId(ulLgcPortNumber), ulPri);
+	if (RT_ERR_OK != ret)
+	{
+		return DRV_SDK_GEN_ERROR;
+	}
+    return DRV_OK;
+}
+
+DRV_RET_E Hal_SetVlanPriority(UINT32 ulLgcPortNumber, UINT32 ulPri)
+{
+    rtk_api_ret_t ret;
+
+    if(!IsValidLgcPort(ulLgcPortNumber))
+    {
+        return DRV_ERR_PARA;
+    }
+    
+	ret = rtk_qos_portPri_set(PortLogic2PhyPortId(ulLgcPortNumber), ulPri);
+	if (RT_ERR_OK != ret)
+	{
+		return DRV_SDK_GEN_ERROR;
+	}
     return DRV_OK;
 }
 
@@ -1894,6 +2001,74 @@ DRV_RET_E Hal_DelPortBaseVlanMemByIndx(UINT32 uiEntryId, logic_pmask_t stLgcMask
     return DRV_OK;
 }
 
+DRV_RET_E Hal_GetPortVlanIngressFilter(UINT32 uiLPort, UINT32* bEnable)
+{
+    UINT32 uiPPort;
+    rtk_enable_t tdEnable;
+    
+    if(!IsValidLgcPort(uiLPort))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    uiPPort = PortLogic2PhyID(uiLPort);
+
+    * bEnable = FALSE;
+    
+    if (RT_ERR_OK != rtk_vlan_portIgrFilterEnable_get(uiPPort, &tdEnable))
+    {
+        return DRV_ERR_UNKNOW;
+    }
+    
+    * bEnable = (tdEnable == ENABLED) ? TRUE : FALSE;
+
+    return DRV_OK;
+}
+
+DRV_RET_E Hal_GetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E  *enIngressMode)
+{
+    UINT32 uiPPort;
+    ret_t  RetVal = RT_ERR_OK;
+    rtk_vlan_acceptFrameType_t enAccFrameType;
+    
+    if(!IsValidLgcPort(uiLPort))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    uiPPort = PortLogic2PhyID(uiLPort);
+    if (INVALID_PORT == uiPPort)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    *enIngressMode = PORT_IN_FRAM_BOTH;
+
+    RetVal = rtk_vlan_portAcceptFrameType_get(uiPPort, &enAccFrameType);
+    
+    if (RT_ERR_OK != RetVal)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+	switch(enAccFrameType)
+    {
+        case ACCEPT_FRAME_TYPE_ALL:
+            *enIngressMode = PORT_IN_FRAM_BOTH;
+            break;
+        case ACCEPT_FRAME_TYPE_UNTAG_ONLY:
+            *enIngressMode = PORT_IN_FRAM_UNTAGGED_ONLY;
+            break;
+        case ACCEPT_FRAME_TYPE_TAG_ONLY:
+            *enIngressMode = PORT_IN_FRAM_TAGGED_ONLY;
+            break;
+        default:
+            return DRV_ERR_PARA;
+    }
+    
+    return DRV_OK;
+}
+
 /*****************************************************************************
     Func Name: Hal_SetPortVlanIngressFilter
   Description: Enable or disable port vlan ingress filter.
@@ -1997,6 +2172,52 @@ DRV_RET_E Hal_SetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E enIngr
 
     return DRV_OK;
 }
+
+DRV_RET_E Hal_GetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E* enEgressMode)
+{
+    UINT32 uiPPort;
+    ret_t  RetVal = RT_ERR_OK;
+    rtk_vlan_tagMode_t enEgTagMode;
+    
+    if(!IsValidLgcPort(uiLPort))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    uiPPort = PortLogic2PhyID(uiLPort);
+    if (INVALID_PORT == uiPPort)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+    RetVal = rtk_vlan_tagMode_get(uiPPort, &enEgTagMode);
+    
+    if (RT_ERR_OK != RetVal)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    switch(enEgTagMode)
+    {
+        case VLAN_TAG_MODE_ORIGINAL:
+            *enEgressMode = PORT_EG_TAG_MODE_ORI;
+            break;
+
+        case VLAN_TAG_MODE_KEEP_FORMAT:
+            *enEgressMode = PORT_EG_TAG_MODE_KEEP;
+            break;
+
+        case VLAN_TAG_MODE_PRI:
+            *enEgressMode = PORT_EG_TAG_MODE_PRI_TAG;
+            break;
+
+        default:
+            return DRV_ERR_PARA;
+    }
+    
+    return DRV_OK;
+}
+
+
 
 /*****************************************************************************
     Func Name: Hal_SetPortVlanEgressMode
@@ -3555,7 +3776,8 @@ DRV_RET_E Hal_SetPortTagMode(UINT32 uiLPort, CTC_VLAN_CFG_S *pstVlanMode)
             printk("\nf:%s,l:%d\n",__func__,__LINE__);
             return DRV_ERR_UNKNOW;
         }
-
+        printk("\nf:%s,l:%d mode=%d\n",__func__,__LINE__,stCtcVlanMode.mode);
+        
         if ((CTC_VLAN_MODE_TRANSPARENT == stCtcVlanMode.mode) ||
             (CTC_VLAN_MODE_QINQ == stCtcVlanMode.mode))
         {
@@ -3695,6 +3917,7 @@ DRV_RET_E Hal_ResetPortTagMode(UINT32 uiLPort)
             return DRV_ERR_UNKNOW;
         }
 
+        printk("\nf:%s,l:%d mode=%d\n",__func__,__LINE__,stCtcVlanMode.mode);
         if ((CTC_VLAN_MODE_TRANSPARENT == stCtcVlanMode.mode) ||
             (CTC_VLAN_MODE_QINQ == stCtcVlanMode.mode))
         {

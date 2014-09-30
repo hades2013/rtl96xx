@@ -332,6 +332,13 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 			}
 			else
 				return DRV_NULL_POINTER;
+        case DRV_CMD_GET_VLANMODE:
+            if(g_LW_Drv_Ops.p_Hal_GetVlanMode!=NULL)
+            {
+                return g_LW_Drv_Ops.p_Hal_GetVlanMode(&(pstDrvReq->para1_u.uiValue));
+            }
+            else
+                return DRV_NULL_POINTER;
         case DRV_CMD_SET_VLAN_ENTRY_CREATE:
 			if(g_LW_Drv_Ops.p_Hal_SetVlanEntryCreate!=NULL)
 			{
@@ -367,6 +374,14 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 			}
 			else
 				return DRV_NULL_POINTER;
+        case DRV_CMD_SET_VLAN_MEMBER:
+            if(g_LW_Drv_Ops.p_Hal_SetVlanMember!=NULL)
+            {
+                return g_LW_Drv_Ops.p_Hal_SetVlanMember(pstDrvReq->para1_u.uiValue, 
+                    pstDrvReq->para2_u.lgcMask, pstDrvReq->para3_u.lgcMask);
+            }
+            else
+                return DRV_NULL_POINTER;
         case DRV_CMD_SET_VLAN_PVID:
 			if(g_LW_Drv_Ops.p_Hal_SetVlanPvid!=NULL)
             	return g_LW_Drv_Ops.p_Hal_SetVlanPvid(pstDrvReq->para1_u.uiValue, pstDrvReq->para2_u.uiValue);
@@ -376,6 +391,16 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
         case DRV_CMD_GET_VLAN_PVID:
             if(g_LW_Drv_Ops.p_Hal_GetVlanPvid!=NULL)
                 return g_LW_Drv_Ops.p_Hal_GetVlanPvid(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
+            else
+                return DRV_NULL_POINTER;
+        case DRV_CMD_GET_VLAN_PRIORITY:
+            if(g_LW_Drv_Ops.p_Hal_GetVlanPriority!=NULL)
+                return g_LW_Drv_Ops.p_Hal_GetVlanPriority(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
+            else
+                return DRV_NULL_POINTER;
+        case DRV_CMD_SET_VLAN_PRIORITY:
+            if(g_LW_Drv_Ops.p_Hal_SetVlanPriority!=NULL)
+                return g_LW_Drv_Ops.p_Hal_SetVlanPriority(pstDrvReq->para1_u.uiValue, pstDrvReq->para2_u.uiValue);
             else
                 return DRV_NULL_POINTER;
         case DRV_CMD_SET_VLAN_PORT_VLAN_MEMBER:
@@ -997,9 +1022,24 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
         	    return g_LW_Drv_Ops.p_Hal_SetPortVlanIngressMode(pstDrvReq->p_lport, (PORT_INGRESS_MODE_E)(pstDrvReq->para2_u.uiValue));
 			else
 				return DRV_NULL_POINTER;
+        case DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_FILTER:
+            if(g_LW_Drv_Ops.p_Hal_GetPortVlanIngressFilter!=NULL)
+                return g_LW_Drv_Ops.p_Hal_GetPortVlanIngressFilter(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
+            else
+                return DRV_NULL_POINTER;
+        case DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_RECIEVE:
+            if(g_LW_Drv_Ops.p_Hal_GetPortVlanIngressMode!=NULL)
+                return g_LW_Drv_Ops.p_Hal_GetPortVlanIngressMode(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
+            else
+                return DRV_NULL_POINTER;
         case DRV_CMD_CTC_PORT_EGRESS_VLAN_FILTER:
 			if(g_LW_Drv_Ops.p_Hal_SetPortVlanEgressMode!=NULL)
 	            return g_LW_Drv_Ops.p_Hal_SetPortVlanEgressMode(pstDrvReq->para1_u.uiValue, (PORT_EGRESS_MODE_E)(pstDrvReq->para2_u.uiValue));
+			else
+				return DRV_NULL_POINTER;
+        case DRV_CMD_CTC_GET_PORT_EGRESS_VLAN_FILTER:
+			if(g_LW_Drv_Ops.p_Hal_GetPortVlanEgressMode!=NULL)
+	            return g_LW_Drv_Ops.p_Hal_GetPortVlanEgressMode(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
 			else
 				return DRV_NULL_POINTER;
         case DRV_CMD_CTC_GET_EMPTY_ACL_RULE_NUM:

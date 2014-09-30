@@ -150,6 +150,7 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_GetVlanExistNum)(UINT32 *puiNum);
 	
 	DRV_RET_E (*p_Hal_SetVlanMode)(UINT32 ulMode);
+    DRV_RET_E (*p_Hal_GetVlanMode)(UINT32* ulMode);
 	
 	DRV_RET_E (*p_Hal_SetVlanEntryCreate)(UINT32 ulVlanId);
     DRV_RET_E (*p_Hal_CheckVlanExist)(UINT32 ulVlanId);
@@ -157,10 +158,16 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_SetVlanMemberRemove)(UINT32 ulVlanId, logic_pmask_t stLgcMask);
 	
 	DRV_RET_E (*p_Hal_SetVlanMemberAdd)(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
+
+    DRV_RET_E (*p_Hal_SetVlanMember)(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
 	
 	DRV_RET_E (*p_Hal_SetVlanPvid)(UINT32 ulLgcPortNumber, UINT32 ulPvid);
     
-    DRV_RET_E (*p_Hal_GetVlanPvid)(UINT32 ulLgcPortNumber, UINT32 *ulPvid);
+    DRV_RET_E (*p_Hal_GetVlanPvid)(UINT32 ulLgcPortNumber, UINT32* ulPri);
+
+    DRV_RET_E (*p_Hal_SetVlanPriority)(UINT32 ulLgcPortNumber, UINT32 ulPri);
+    
+    DRV_RET_E (*p_Hal_GetVlanPriority)(UINT32 ulLgcPortNumber, UINT32 *pri);
 	
 	DRV_RET_E (*p_Hal_SetVlanPortVlanMember)(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask);
 	
@@ -347,9 +354,14 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_SetPortVlanIngressFilter)(UINT32 uiLPort, BOOL bEnable);
 	
 	DRV_RET_E (*p_Hal_SetPortVlanIngressMode)( UINT32 uiLPort, PORT_INGRESS_MODE_E enIngressMode);
+
+    DRV_RET_E (*p_Hal_GetPortVlanIngressFilter)(UINT32 uiLPort, UINT32* bEnable);
+
+    DRV_RET_E (*p_Hal_GetPortVlanIngressMode)( UINT32 uiLPort, PORT_INGRESS_MODE_E * enIngressMode);
 	
 	DRV_RET_E (*p_Hal_SetPortVlanEgressMode)( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgressMode);
-	
+    
+	DRV_RET_E (*p_Hal_GetPortVlanEgressMode)( UINT32 uiLPort, PORT_EGRESS_MODE_E* enEgressMode);
 	
 	DRV_RET_E (*p_Hal_AclRuleEmptyNumGet)(UINT32 *pAclEmptyNum);
 	
@@ -668,14 +680,18 @@ DRV_RET_E Hal_SetAggrGroup(agg_grp_num_t grpNum, logic_pmask_t stLgcMask);
 /*hal drv vlan*/
 DRV_RET_E Hal_GetVlanExistNum(UINT32 *puiNum);
 DRV_RET_E Hal_SetVlanMode(UINT32 ulMode);
+DRV_RET_E Hal_GetVlanMode(UINT32 *ulMode);
 DRV_RET_E Hal_SetVlanEntryCreate(UINT32 ulVlanEntry);
 DRV_RET_E Hal_CheckVlanExist(UINT32 ulVlanId);
 DRV_RET_E Hal_SetVlanEntryDelete(UINT32 ulVlanEntry);
 DRV_RET_E Hal_SetVlanMemberRemove(UINT32 ulVlanId, logic_pmask_t stLgcMask);
 DRV_RET_E Hal_SetVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
+DRV_RET_E Hal_SetVlanMember(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
 DRV_RET_E Hal_SetMcVlanMemberAdd(UINT32 ulVlanId, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag);
 DRV_RET_E Hal_SetVlanPvid(UINT32 ulLgcPortNumber, UINT32 ulPvid);
 DRV_RET_E Hal_GetVlanPvid(UINT32 ulLgcPortNumber, UINT32 *ulPvid);
+DRV_RET_E Hal_GetVlanPriority(UINT32 ulLgcPortNumber, UINT32 *ulPri);
+DRV_RET_E Hal_SetVlanPriority(UINT32 ulLgcPortNumber, UINT32 ulPri);
 DRV_RET_E Hal_SetVlanPortVlanMember(UINT32 ulLgcPortNumber, logic_pmask_t stLgcMask);
 DRV_RET_E Hal_GetVlanMember(UINT32 ulVlanId, logic_pmask_t * pstLgcMask, logic_pmask_t * pstLgcMaskUntag);
 DRV_RET_E Hal_AddCpuToVlanMember(UINT32 ulVlanId);
@@ -696,7 +712,10 @@ DRV_RET_E Hal_DelPortBaseVlanMemByIndx(UINT32 uiEntryId, logic_pmask_t stLgcMask
 DRV_RET_E Hal_ClrPortBaseVlanEntryByVid(UINT32 uiVlanId);
 DRV_RET_E Hal_SetPortVlanIngressFilter(UINT32 uiLPort, BOOL bEnable);
 DRV_RET_E Hal_SetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E enIngressMode);
+DRV_RET_E Hal_GetPortVlanIngressFilter(UINT32 uiLPort, UINT32* bEnable);
+DRV_RET_E Hal_GetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E  *enIngressMode);
 DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgressMode);
+DRV_RET_E Hal_GetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E* enEgressMode);
 DRV_RET_E Hal_AclRuleEmptyNumGet(UINT32 *pAclEmptyNum);
 DRV_RET_E Hal_CtcVlanEnoughVlanIdxEntryCheck(CTC_VLAN_CFG_S *pstVlanMode, UINT32 *pbEnough);
 //#ifdef CTC_MULTICAST_SURPORT

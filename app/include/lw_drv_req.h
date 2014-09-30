@@ -142,13 +142,17 @@ typedef enum tagDrv_cmd{
 	/*End add by shipeng 2013-11-11*/
     DRV_CMD_GET_VLAN_NUM,
     DRV_CMD_SET_VLANMODE,
+    DRV_CMD_GET_VLANMODE,
     DRV_CMD_SET_VLAN_ENTRY_CREATE,
     DRV_CMD_GET_VLAN_CHECK_EXIST,
     DRV_CMD_SET_VLAN_ENTRY_DELETE,
     DRV_CMD_SET_VLAN_MEMBER_REMOVE,
     DRV_CMD_SET_VLAN_MEMBER_ADD,
+    DRV_CMD_SET_VLAN_MEMBER,
     DRV_CMD_SET_VLAN_PVID,
     DRV_CMD_GET_VLAN_PVID,
+    DRV_CMD_SET_VLAN_PRIORITY,
+    DRV_CMD_GET_VLAN_PRIORITY,
     DRV_CMD_SET_VLAN_PORT_VLAN_MEMBER,
     DRV_CMD_GET_VLAN_MEMBER, 
     DRV_CMD_SET_CPU_IN_VLAN,
@@ -292,7 +296,10 @@ typedef enum tagDrv_cmd{
     DRV_CMD_CTC_ACL_FOR_MC_VLAN_DELETE,  
     DRV_CMD_CTC_PORT_INGRESS_VLAN_FILTER,
     DRV_CMD_CTC_PORT_INGRESS_VLAN_RECIEVE,
+    DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_FILTER,
+    DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_RECIEVE,
     DRV_CMD_CTC_PORT_EGRESS_VLAN_FILTER,
+    DRV_CMD_CTC_GET_PORT_EGRESS_VLAN_FILTER,
     DRV_CMD_CTC_GET_EMPTY_ACL_RULE_NUM,
     DRV_CMD_CTC_GET_PORT_VLAN_CFG,
     DRV_CMD_CTC_SET_PORT_VLAN_CFG,
@@ -685,7 +692,10 @@ DRV_RET_E Ioctl_SetLookupMissFloodPortMask(DRV_CMD_E ioctlCmd, UINT32 type, logi
 
 #define Ioctl_SetVlanMode(_vlan_mode)\
     Ioctl_SetUnionUint32(DRV_CMD_SET_VLANMODE, (UINT32)_vlan_mode)
-    
+
+#define Ioctl_GetVlanMode(_vlan_mode)\
+    Ioctl_GetUnionUint32(DRV_CMD_GET_VLANMODE, (UINT32 *)_vlan_mode)
+
 #define Ioctl_SetVlanEntryCreate(_vlan_id)\
     Ioctl_SetUnionUint32(DRV_CMD_SET_VLAN_ENTRY_CREATE, (UINT32)_vlan_id)
 
@@ -708,11 +718,20 @@ DRV_RET_E Ioctl_SetLookupMissFloodPortMask(DRV_CMD_E ioctlCmd, UINT32 type, logi
 #define Ioctl_SetVlanMemberAdd(_vlan_id, _lport_mask, _lport_mask_untag)\
     Ioctl_SetUnionUint32LpmaskLpmask(DRV_CMD_SET_VLAN_MEMBER_ADD, (UINT32)_vlan_id,_lport_mask,_lport_mask_untag)
 
+#define Ioctl_SetVlanMember(_vlan_id, _lport_mask, _lport_mask_untag)\
+    Ioctl_SetUnionUint32LpmaskLpmask(DRV_CMD_SET_VLAN_MEMBER, (UINT32)_vlan_id,_lport_mask,_lport_mask_untag)
+
 #define Ioctl_SetVlanPvid(_port_number, _pvid)\
     Ioctl_SetUnionUint32Uint32(DRV_CMD_SET_VLAN_PVID, (UINT32)_port_number, (UINT32)_pvid)
 
 #define Ioctl_GetVlanPvid(_port_number, _pvid)\
     Ioctl_GetUnionUint32ByUint32(DRV_CMD_GET_VLAN_PVID, (UINT32)_port_number, (UINT32 *)_pvid)
+
+#define Ioctl_SetVlanPriority(_port_number, _pri)\
+    Ioctl_SetUnionUint32Uint32(DRV_CMD_SET_VLAN_PRIORITY, (UINT32)_port_number, (UINT32)_pri)
+
+#define Ioctl_GetVlanPriority(_port_number, _pri)\
+    Ioctl_GetUnionUint32ByUint32(DRV_CMD_GET_VLAN_PRIORITY, (UINT32)_port_number, (UINT32 *)_pri)
 
 #define Ioctl_SetVlanPortVlanMember(_port_number, _lport_mask)\
     Ioctl_SetUnionUint32Lpmask(DRV_CMD_SET_VLAN_PORT_VLAN_MEMBER, (UINT32)_port_number, _lport_mask)
@@ -1079,8 +1098,19 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
     Ioctl_CtcPortIngrVlanFilter(DRV_CMD_CTC_PORT_INGRESS_VLAN_FILTER, _uiLPort, _bEnable)
 #define Ioctl_ctc_port_ingress_vlan_rcv_mod(_uiLPort, _enMode)\
     Ioctl_CtcPortIngrVlanRcvMode(DRV_CMD_CTC_PORT_INGRESS_VLAN_RECIEVE, _uiLPort, _enMode)
+
+#define Ioctl_ctc_get_port_ingress_vlan_filter(_uiLPort, _bEnable)\
+    Ioctl_GetUnionUint32ByUint32(DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_FILTER, _uiLPort, (UINT32*)_bEnable)
+#define Ioctl_ctc_get_port_ingress_vlan_rcv_mod(_uiLPort, _enMode)\
+    Ioctl_GetUnionUint32ByUint32(DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_RECIEVE, _uiLPort, (PORT_INGRESS_MODE_E*)_enMode)
+
 #define Ioctl_ctc_port_egress_vlan_mode(_uiLPort, _enMode)\
     Ioctl_SetUnionUint32Uint32(DRV_CMD_CTC_PORT_EGRESS_VLAN_FILTER, _uiLPort, _enMode)
+    
+#define Ioctl_ctc_get_port_egress_vlan_mode(_uiLPort, _enMode)\
+    Ioctl_GetUnionUint32ByUint32(DRV_CMD_CTC_GET_PORT_EGRESS_VLAN_FILTER, _uiLPort, (PORT_EGRESS_MODE_E*)_enMode)
+
+
 #define Ioctl_ctc_get_empty_acl_num(_puiNum)\
     Ioctl_GetUnionUint32(DRV_CMD_CTC_GET_EMPTY_ACL_RULE_NUM, _puiNum)
 #define Ioctl_ctc_restart_autoneg(_uiLPort)\
@@ -1112,10 +1142,9 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
 
 #define Ioctl_GetSingleDbgReg(_RgAdd, _pulData)\
     Ioctl_GetUnionUint32ByUint32(DRV_CMD_SINGLE_DBG_REG_GET, _RgAdd, (UINT32*)_pulData)
+    
 #define Ioctl_SetSingleDbgReg(_RgAdd, _ulData)\
     Ioctl_SetUnionUint32Uint32(DRV_CMD_SINGLE_DBG_REG_SET, _RgAdd, _ulData)
-
-
 
 #define Ioctl_SetVlanPortEgressMode(_port_number, _enMode)\
     Ioctl_SetUnionUint32Uint32(DRV_CMD_PORT_EGRESS_MODE, (UINT32)_port_number, _enMode)
