@@ -486,8 +486,8 @@ DRV_RET_E Hal_SwitchInit(void)
     (void)Hal_SetCpuHeader(FALSE);
 
 
-	//(void)rtk_acl_init();/*add by shipeng 2013-05-22*/  delete by luoruncai
-    //(void)Hal_AclRuleInit(); delete by luoruncai
+	(void)rtk_acl_init();/*add by shipeng 2013-05-22*/
+    (void)Hal_AclRuleInit();
 
 	#ifdef SWITCH_STYLE
 	//(void)rtk_vlan_transparentEnable_set(ENABLED); delete by luoruncai

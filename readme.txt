@@ -249,4 +249,30 @@ swapi:
 11. 增加 #define Ioctl_GetVlanPvid(_port_number, _pvid)
 
 
+vlan逻辑：
+802.1Q vlan:
+	access口（注：只允许tag==pvid==mgmt vlan或者不带tag的报文通过）：
+	ingress:untag
+	egress :untag
+	
+	trunk口：
+	ingress： untag报文会加上tag为端口pvid; tag报文不做处理，tag依然为原tag。
+	egress :  tag==pvid时，去掉tag,并转发； 
+			  tag!=pvid有两种情况，1.如果该trunk口不在该报文的vlan tag所对应的vlan中，则丢弃。
+								   2.如果该trunk口在该报文的vlan tag所对应的vlan中，则不做处理，tag依然为原tag并转发。
+	
+	hybrid口：与trunk口逻辑基本相同，只是trunk口只有当报文中的tag==pvid时，出口逻辑才为untag； 而hybrid口，可以设一组vlan，只要报文中的tag在这一组vlan中，
+			  出口逻辑就是untag。
+			  
+
+透传模式：
+	透传模式为端口vlan模式，只要两个端口在同一vlan中即可通信，但由于管理口只允许一个vlan即管理vlan通信，所以业务口与管理口的通信必须使进入switch的报文的
+	tag==mgmt vlan。
+	
+
+cpu口逻辑：
+	cpu口逻辑是自定义的，其pvid固定为1，并且好的做法是只允许mgmt vlan的报文通过。
+	ingress： untag报文加上tag为pvid，tag报文不做处理，转发。事实上只要到br0的报文都会加上tag的mgmt vlan。
+	egress ： 好的做法是设置访问控制列表（ACL），只转发tag==mgmt vlan的报文以及mme的报文，但目前由于有些报文在经过管理口的时候，并未加上tag，所以在cpu的
+			  驱动代码中加上了tag为对应端口的pvid。所以目前的出口逻辑是允许任何报文通过，并不做处理。
 

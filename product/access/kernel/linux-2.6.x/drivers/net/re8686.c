@@ -1164,7 +1164,9 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 __IRAM_NIC
 int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *pRxInfo)
 {	
-	skb->dev = decideRxDevice(cp, pRxInfo);
+    uint32 pvid;
+    skb->dev = decideRxDevice(cp, pRxInfo);
+
 #ifdef CONFIG_DUALBAND_CONCURRENT
 	if(!memcmp(src_mac, skb->data + ETH_ALEN, ETH_ALEN))
 		skb->dev = rtl8686_dev_table[vwlan_dev_idx].dev_instant;
@@ -1212,6 +1214,15 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		//skb->vlan_tci = s_ui_management_vlan;
 	}
 #endif
+
+    /*add by an,if have no tag ,add tag with the port's pvid.*/
+    rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
+    if(((skb->vlan_tci & VLAN_VID_MASK)==0) && pRxInfo->opts3.bit.src_port_num != 5)
+	{   
+		skb_push_qtag(skb,pvid,0);
+		skb->vlan_tci = pvid;
+	}
+    
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
 	
 	//if(skb->vlan_tci==0)
