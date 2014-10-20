@@ -14,11 +14,11 @@
 //usage:       "[-c|--continue] [-s|--spider] [-q|--quiet] [-O|--output-document FILE]\n"
 //usage:       "	[--header 'header: value'] [-Y|--proxy on/off] [-P DIR]\n"
 //usage:       "	[--no-check-certificate] [-U|--user-agent AGENT]"
-//usage:			IF_FEATURE_WGET_TIMEOUT(" [-T SEC]") " URL..."
+//usage:			IF_FEATURE_WGET_TIMEOUT(" [-T SEC]") " [-p FILE] URL..."
 //usage:	)
 //usage:	IF_NOT_FEATURE_WGET_LONG_OPTIONS(
 //usage:       "[-csq] [-O FILE] [-Y on/off] [-P DIR] [-U AGENT]"
-//usage:			IF_FEATURE_WGET_TIMEOUT(" [-T SEC]") " URL..."
+//usage:			IF_FEATURE_WGET_TIMEOUT(" [-T SEC]") " [-p FILE] URL..."
 //usage:	)
 //usage:#define wget_full_usage "\n\n"
 //usage:       "Retrieve files via HTTP or FTP\n"
@@ -32,6 +32,8 @@
 //usage:     "\n	-O FILE	Save to FILE ('-' for stdout)"
 //usage:     "\n	-U STR	Use STR for User-Agent header"
 //usage:     "\n	-Y	Use proxy ('on' or 'off')"
+//usage:     "\n	-p FILE	Write pid to FILE"
+
 
 #include "libbb.h"
 
@@ -70,6 +72,7 @@ struct globals {
 	unsigned timeout_seconds;
 #endif
 	int output_fd;
+	char * fname_pid;
 	int o_flags;
 	smallint chunked;         /* chunked transfer encoding */
 	smallint got_clen;        /* got content-length: from server  */
@@ -97,7 +100,7 @@ enum {
 	WGET_OPT_PROXY      = (1 << 5),
 	WGET_OPT_USER_AGENT = (1 << 6),
 	WGET_OPT_NETWORK_READ_TIMEOUT = (1 << 7),
-	WGET_OPT_RETRIES    = (1 << 8),
+	WGET_OPT_OUTPID     = (1 << 8),
 	WGET_OPT_PASSIVE    = (1 << 9),
 	WGET_OPT_HEADER     = (1 << 10) * ENABLE_FEATURE_WGET_LONG_OPTIONS,
 	WGET_OPT_POST_DATA  = (1 << 11) * ENABLE_FEATURE_WGET_LONG_OPTIONS,
@@ -873,7 +876,7 @@ int wget_main(int argc UNUSED_PARAM, char **argv)
 		/* Ignored: */
 		// "tries\0"            Required_argument "t"
 		/* Ignored (we always use PASV): */
-		"passive-ftp\0"      No_argument       "\xff"
+		"passive-ftp\0"      No_argument       "\xfd"
 		"header\0"           Required_argument "\xfe"
 		"post-data\0"        Required_argument "\xfd"
 		/* Ignored (we don't do ssl) */
@@ -890,16 +893,17 @@ int wget_main(int argc UNUSED_PARAM, char **argv)
 	IF_FEATURE_WGET_TIMEOUT(G.timeout_seconds = 900;)
 	G.proxy_flag = "on";   /* use proxies if env vars are set */
 	G.user_agent = "Wget"; /* "User-Agent" header field */
-
+	G.fname_pid = NULL;
+	
 #if ENABLE_FEATURE_WGET_LONG_OPTIONS
 	applet_long_options = wget_longopts;
 #endif
 	opt_complementary = "-1" IF_FEATURE_WGET_TIMEOUT(":T+") IF_FEATURE_WGET_LONG_OPTIONS(":\xfe::");
-	getopt32(argv, "csqO:P:Y:U:T:" /*ignored:*/ "t:",
+	getopt32(argv, "csqO:P:Y:U:T:" /*ignored:*/ "p:",
 		&G.fname_out, &G.dir_prefix,
 		&G.proxy_flag, &G.user_agent,
 		IF_FEATURE_WGET_TIMEOUT(&G.timeout_seconds) IF_NOT_FEATURE_WGET_TIMEOUT(NULL),
-		NULL /* -t RETRIES */
+		&G.fname_pid//NULL /* -t RETRIES */
 		IF_FEATURE_WGET_LONG_OPTIONS(, &headers_llist)
 		IF_FEATURE_WGET_LONG_OPTIONS(, &G.post_data)
 	);
@@ -920,6 +924,14 @@ int wget_main(int argc UNUSED_PARAM, char **argv)
 		}
 	}
 #endif
+	
+	if (G.fname_pid){
+		FILE *fp = fopen(G.fname_pid, "w");
+		if (fp){
+			fprintf(fp, "%d", getpid());
+			fclose(fp);
+		}
+	}
 
 	G.output_fd = -1;
 	G.o_flags = O_WRONLY | O_CREAT | O_TRUNC | O_EXCL;
