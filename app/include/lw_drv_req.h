@@ -300,6 +300,7 @@ typedef enum tagDrv_cmd{
     DRV_CMD_CTC_GET_PORT_INGRESS_VLAN_RECIEVE,
     DRV_CMD_CTC_PORT_EGRESS_VLAN_FILTER,
     DRV_CMD_CTC_GET_PORT_EGRESS_VLAN_FILTER,
+    DRV_CMD_CTC_GET_PORT_EGRESS_TAG_KEEP_TYPE,
     DRV_CMD_CTC_GET_EMPTY_ACL_RULE_NUM,
     DRV_CMD_CTC_GET_PORT_VLAN_CFG,
     DRV_CMD_CTC_SET_PORT_VLAN_CFG,
@@ -488,6 +489,7 @@ DRV_RET_E Ioctl_SetUnionUint32Uint32Uint32(DRV_CMD_E ioctlCmd, UINT32 uiValue, U
 DRV_RET_E Ioctl_GetUnionUint32ByUint32(DRV_CMD_E ioctlCmd, UINT32 uiValue, UINT32 *uiValue2);
 DRV_RET_E Ioctl_SetUnionUint32Lpmask(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic_pmask_t stLpMask);
 DRV_RET_E Ioctl_GetUnionUint32MaskMask(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic_pmask_t * pMask, logic_pmask_t * pMask2);
+DRV_RET_E Ioctl_GetUnionUint32MaskUint32(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic_pmask_t *pMask, UINT32 *puivalue);
 DRV_RET_E Ioctl_SetUnionUint32LpmaskLpmask(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic_pmask_t stLpMask, logic_pmask_t stLpMask2);
 DRV_RET_E Ioctl_SetUnionLportLpmaskLpmask(DRV_CMD_E ioctlCmd, port_num_t lport, logic_pmask_t stLpMask, logic_pmask_t stLpMask2);
 DRV_RET_E Ioctl_SetUnionUint32MacAdd(DRV_CMD_E ioctlCmd, UINT32 uiValue, mac_address_t mac_address);
@@ -1110,6 +1112,8 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
 #define Ioctl_ctc_get_port_egress_vlan_mode(_uiLPort, _enMode)\
     Ioctl_GetUnionUint32ByUint32(DRV_CMD_CTC_GET_PORT_EGRESS_VLAN_FILTER, _uiLPort, (PORT_EGRESS_MODE_E*)_enMode)
 
+#define Ioctl_ctc_get_port_egress_tag_keep_type(_uiLPort, _lport_mask, _uivalue)\
+    Ioctl_GetUnionUint32MaskUint32(DRV_CMD_CTC_GET_PORT_EGRESS_TAG_KEEP_TYPE, (UINT32)_uiLPort,(logic_pmask_t *)_lport_mask,(UINT32 *)_uivalue)
 
 #define Ioctl_ctc_get_empty_acl_num(_puiNum)\
     Ioctl_GetUnionUint32(DRV_CMD_CTC_GET_EMPTY_ACL_RULE_NUM, _puiNum)

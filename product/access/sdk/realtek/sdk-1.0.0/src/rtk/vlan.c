@@ -1758,7 +1758,7 @@ rtk_vlan_portEgrTagKeepType_set(rtk_port_t egr_port, rtk_portmask_t *pIgr_portma
     if (NULL == RT_MAPPER->vlan_portEgrTagKeepType_set)
         return RT_ERR_DRIVER_NOT_FOUND;
     RTK_API_LOCK();
-    ret = RT_MAPPER->vlan_portEgrTagKeepType_set( egr_port, pIgr_portmask, type);
+    //ret = RT_MAPPER->vlan_portEgrTagKeepType_set( egr_port, pIgr_portmask, type);
     RTK_API_UNLOCK();
     return ret;
 } /* end of rtk_vlan_portEgrTagKeepType_set */
@@ -1813,7 +1813,7 @@ rtk_vlan_transparentEnable_set(rtk_enable_t enable)
     if (NULL == RT_MAPPER->vlan_transparentEnable_set)
         return RT_ERR_DRIVER_NOT_FOUND;
     RTK_API_LOCK();
-    ret = RT_MAPPER->vlan_transparentEnable_set( enable);
+    //ret = RT_MAPPER->vlan_transparentEnable_set( enable);
     RTK_API_UNLOCK();
     return ret;
 } /* end of rtk_vlan_transparentEnable_set */

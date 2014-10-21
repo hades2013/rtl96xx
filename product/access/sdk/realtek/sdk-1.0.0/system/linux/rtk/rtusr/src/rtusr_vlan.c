@@ -1873,7 +1873,7 @@ rtk_vlan_portEgrTagKeepType_set(rtk_port_t egr_port, rtk_portmask_t *pIgr_portma
     osal_memcpy(&vlan_cfg.egr_port, &egr_port, sizeof(rtk_port_t));
     osal_memcpy(&vlan_cfg.igr_portmask, pIgr_portmask, sizeof(rtk_portmask_t));
     osal_memcpy(&vlan_cfg.type, &type, sizeof(rtk_vlan_tagKeepType_t));
-    SETSOCKOPT(RTDRV_VLAN_PORTEGRTAGKEEPTYPE_SET, &vlan_cfg, rtdrv_vlanCfg_t, 1);
+    //SETSOCKOPT(RTDRV_VLAN_PORTEGRTAGKEEPTYPE_SET, &vlan_cfg, rtdrv_vlanCfg_t, 1);
 
     return RT_ERR_OK;
 }   /* end of rtk_vlan_portEgrTagKeepType_set */
@@ -1932,7 +1932,7 @@ rtk_vlan_transparentEnable_set(rtk_enable_t enable)
 
     /* function body */
     osal_memcpy(&vlan_cfg.enable, &enable, sizeof(rtk_enable_t));
-    SETSOCKOPT(RTDRV_VLAN_TRANSPARENTENABLE_SET, &vlan_cfg, rtdrv_vlanCfg_t, 1);
+    //SETSOCKOPT(RTDRV_VLAN_TRANSPARENTENABLE_SET, &vlan_cfg, rtdrv_vlanCfg_t, 1);
 
     return RT_ERR_OK;
 }   /* end of rtk_vlan_transparentEnable_set */

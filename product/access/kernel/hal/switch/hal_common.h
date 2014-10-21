@@ -362,6 +362,8 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_SetPortVlanEgressMode)( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgressMode);
     
 	DRV_RET_E (*p_Hal_GetPortVlanEgressMode)( UINT32 uiLPort, PORT_EGRESS_MODE_E* enEgressMode);
+
+    DRV_RET_E (*p_Hal_GetPortEgrTagKeepType)( UINT32 uiEgLPort, logic_pmask_t *pstIgrLgcMask, UINT32/*rtk_vlan_tagKeepType_t*/ * pType);
 	
 	DRV_RET_E (*p_Hal_AclRuleEmptyNumGet)(UINT32 *pAclEmptyNum);
 	
@@ -716,6 +718,7 @@ DRV_RET_E Hal_GetPortVlanIngressFilter(UINT32 uiLPort, UINT32* bEnable);
 DRV_RET_E Hal_GetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E  *enIngressMode);
 DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgressMode);
 DRV_RET_E Hal_GetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E* enEgressMode);
+DRV_RET_E Hal_GetPortEgrTagKeepType(UINT32 uiEgLPort, logic_pmask_t *pstIgrLgcMask, UINT32/*rtk_vlan_tagKeepType_t*/ * pType);
 DRV_RET_E Hal_AclRuleEmptyNumGet(UINT32 *pAclEmptyNum);
 DRV_RET_E Hal_CtcVlanEnoughVlanIdxEntryCheck(CTC_VLAN_CFG_S *pstVlanMode, UINT32 *pbEnough);
 //#ifdef CTC_MULTICAST_SURPORT

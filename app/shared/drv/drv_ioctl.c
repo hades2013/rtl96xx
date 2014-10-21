@@ -815,6 +815,25 @@ DRV_RET_E Ioctl_GetUnionUint32MaskMask(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic
     return rv;
 }
 
+DRV_RET_E Ioctl_GetUnionUint32MaskUint32(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic_pmask_t *pMask, UINT32 *puivalue)
+{
+    DRV_REQ_S stDrv; 
+    DRV_RET_E rv=DRV_ERR_PARA;
+
+    memset(&stDrv,0,sizeof(stDrv));  
+    stDrv.cmd=ioctlCmd;
+    stDrv.para1_u.uiValue = uiValue;
+    rv=Drv_IoctlCmd(DEV_SWTICH,&stDrv);
+    if(DRV_OK == rv)
+    {
+        memcpy((VOID *)pMask,(CONST VOID *)&(stDrv.para2_u.lgcMask),sizeof(logic_pmask_t));
+        memcpy((VOID *)puivalue,(CONST VOID *)&(stDrv.para3_u.uiValue),sizeof(UINT32));
+    }
+
+    return rv;
+}
+
+
 DRV_RET_E Ioctl_SetUnionUint32LpmaskLpmask(DRV_CMD_E ioctlCmd, UINT32 uiValue, logic_pmask_t stLpMask, logic_pmask_t stLpMask2)
 {
     DRV_REQ_S stDrv; 

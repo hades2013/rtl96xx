@@ -43,8 +43,8 @@ port_num_t g_szPhyToLogicMap[PHY_PORT_NO] = {
 /*1*/ 2,
 /*2*/ 3,
 /*3*/ 4,
-/*4*/ 5,
-/*5*/ 6,
+/*4*/ 6,//5
+/*5*/ 5,//6
 /*6*/ LOGIC_CPU_PORT
 };
 

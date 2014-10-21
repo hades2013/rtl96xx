@@ -145,9 +145,7 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
                 }
             }
 			rtk_vlan_vlanFunctionEnable_set(ENABLED);
-            
-            //rtk_vlan_transparentEnable_set(DISABLED);
-            
+                        
 			g_vlan_mode=PVLAN;
             break;
         case QVLAN:
@@ -182,7 +180,6 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
 		    }
             #endif
 
-            //rtk_vlan_transparentEnable_set(DISABLED);
 
 			g_vlan_mode=QVLAN;
             break;
@@ -2250,7 +2247,7 @@ DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgress
     {
         return DRV_ERR_UNKNOW;
     }
-
+    
 	switch(enEgressMode)
     {
         case PORT_EG_TAG_MODE_ORI:
@@ -2268,7 +2265,7 @@ DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgress
         default:
             return DRV_ERR_PARA;
     }
-    
+    //printk("\n\n phy=%d,enEgTagMode=%d \n\n",uiPPort,enEgTagMode);
     RetVal = rtk_vlan_tagMode_set(uiPPort, enEgTagMode);
     if (RT_ERR_OK != RetVal)
     {
@@ -2426,6 +2423,40 @@ DRV_RET_E _Hal_CheckTranslPairUsed(UINT32 uiLPort, UINT32 uiCvid, UINT32 uiSvid,
 
     return DRV_OK;
 }
+
+DRV_RET_E Hal_GetPortEgrTagKeepType(UINT32 uiEgLPort, logic_pmask_t *pstIgrLgcMask, rtk_vlan_tagKeepType_t * pType)
+{
+    UINT32 uiEgPPort;
+    ret_t  RetVal = RT_ERR_OK;
+    rtk_api_ret_t tdRet;
+
+    phy_pmask_t stPhyMask;
+    
+    if (!IsValidLgcPort(uiEgLPort))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    uiEgPPort = PortLogic2PhyID(uiEgLPort);	
+    
+    if (INVALID_PORT == uiEgPPort)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+    
+	rtk_switch_portMask_Clear(&stPhyMask.pmask[0]);
+    
+	tdRet = rtk_vlan_portEgrTagKeepType_get(uiEgPPort, &stPhyMask.pmask[0], pType);
+    if (RT_ERR_OK != tdRet)
+    {
+        return DRV_SDK_GEN_ERROR;
+    }
+
+    MaskPhy2Logic(&stPhyMask, pstIgrLgcMask);
+    
+    return DRV_OK;
+}
+
 
 /*****************************************************************************
     Func Name: _Hal_SetPortTransparent

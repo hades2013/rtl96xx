@@ -2183,7 +2183,7 @@ DRV_RET_E Hal_SetPortTransparentMode(UINT32 uiLPort, CTC_VLAN_CFG_S *pstVlanMode
     {
         return DRV_SDK_GEN_ERROR;
     }
-    
+
     /*Keep transparent Port upstream packet format, packet from transparent Port 
       will not add S-tag in uplink port. */
     enRet = _Hal_SetPortTransparent(LOGIC_UPPON_PORT, uiLPort);

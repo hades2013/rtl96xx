@@ -527,7 +527,7 @@ extern atomic_t re8670_rxskb_num;
 unsigned int iocmd_reg=CMD_CONFIG;//=0x4009113d;	//shlee 8672
 unsigned int iocmd1_reg=CMD1_CONFIG | (RX_NOT_ONLY_RING1<<25);   
 
-__DRAM unsigned int debug_enable=0;
+__DRAM unsigned int debug_enable=(1<<4);
 static unsigned int tx_ring_show_bitmap=((1<<MAX_TXRING_NUM)-1);
 static unsigned int rx_ring_show_bitmap=((1<<MAX_RXRING_NUM)-1);
 
@@ -1164,7 +1164,6 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 __IRAM_NIC
 int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *pRxInfo)
 {	
-    uint32 pvid;
     skb->dev = decideRxDevice(cp, pRxInfo);
 
 #ifdef CONFIG_DUALBAND_CONCURRENT
@@ -1192,11 +1191,13 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 			//__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
 			
 #ifdef CONFIG_L2_HANDLE	
-        skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
-        skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
-    
-        printk("%s %d management_vlan=%d,vlan=%d, logic port=%d phy=%d\n", 
-                __func__, __LINE__, s_ui_management_vlan,skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
+    skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
+    skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
+    {
+        struct ethhdr *eth = (struct ethhdr *)skb->data;
+        printk("%s %d proto=%.4x,management_vlan=%d,vlan=%d, logic port=%d phy=%d\n", 
+                __func__, __LINE__, ntohs(eth->h_proto),s_ui_management_vlan,skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
+    }
 #endif
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
@@ -1210,18 +1211,21 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	}
 	else
 	{
+#if 1
+        uint32 pvid;
+        if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
+        {   
+            rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
+            skb_push_qtag(skb,pvid,0);
+            skb->vlan_tci = pvid;
+        }
+#endif
  		//skb_push_qtag(skb,s_ui_management_vlan,0);
 		//skb->vlan_tci = s_ui_management_vlan;
 	}
 #endif
 
     /*add by an,if have no tag ,add tag with the port's pvid.*/
-    rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
-    if(((skb->vlan_tci & VLAN_VID_MASK)==0) && pRxInfo->opts3.bit.src_port_num != 5)
-	{   
-		skb_push_qtag(skb,pvid,0);
-		skb->vlan_tci = pvid;
-	}
     
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
 	
@@ -2222,7 +2226,7 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
 
-    printk("\n vid=%d,vlan=%d,management_vlan=%d \n",vid,
+    printk("\n re8670_start_xmit vid=%d,vlan=%d,management_vlan=%d \n",vid,
         ((0x81 == skb->data[12]) && (0x00 == skb->data[13])) ? (((skb->data[14] & 0xF) << 8) + skb->data[15]) : 0,
         s_ui_management_vlan);
 

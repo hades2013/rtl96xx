@@ -2633,7 +2633,7 @@ typedef struct  vlan_port_base_entry
 #elif defined(CONFIG_PRODUCT_EPN104N) || defined (CONFIG_PRODUCT_5500) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_GPN104N)
 #define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 1
 #elif defined(CONFIG_PRODUCT_EPN105)
-#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 0
+#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 1
 #else 
 #define LOGIC_PON_PORT     INVALID_PORT  
 #endif

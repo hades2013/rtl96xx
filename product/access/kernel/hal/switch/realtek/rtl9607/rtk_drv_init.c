@@ -228,6 +228,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_GetPortVlanIngressMode=Hal_GetPortVlanIngressMode;
 	g_LW_Drv_Ops.p_Hal_SetPortVlanEgressMode=Hal_SetPortVlanEgressMode;
     g_LW_Drv_Ops.p_Hal_GetPortVlanEgressMode=Hal_GetPortVlanEgressMode;
+    g_LW_Drv_Ops.p_Hal_GetPortEgrTagKeepType=Hal_GetPortEgrTagKeepType;
 	g_LW_Drv_Ops.p_Hal_AclRuleEmptyNumGet=Hal_AclRuleEmptyNumGet;
 	g_LW_Drv_Ops.p_Hal_CfgPortCtcVlanGet=Hal_CfgPortCtcVlanGet;
 	g_LW_Drv_Ops.p_Hal_CfgPortCtcVlanSet=Hal_CfgPortCtcVlanSet;	
@@ -513,10 +514,10 @@ DRV_RET_E Hal_SwitchInit(void)
 
    // memset(&stVlanMode, 0, sizeof(stVlanMode));
     //stVlanMode.mode = CTC_VLAN_MODE_TRANSPARENT; //delete by luoruncai
-    for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
-    {
+    //for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)
+    //{
     //    (void)Hal_SetPortTransparentMode(uiLPortIndex, &stVlanMode); //delete by luoruncai
-    }
+    //}
 
 	//(void)rtk_classify_init(); //delete by luoruncai
 

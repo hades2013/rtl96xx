@@ -1042,6 +1042,13 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 	            return g_LW_Drv_Ops.p_Hal_GetPortVlanEgressMode(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.uiValue));
 			else
 				return DRV_NULL_POINTER;
+
+        case DRV_CMD_CTC_GET_PORT_EGRESS_TAG_KEEP_TYPE:
+			if(g_LW_Drv_Ops.p_Hal_GetPortEgrTagKeepType!=NULL)
+	            return g_LW_Drv_Ops.p_Hal_GetPortEgrTagKeepType(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.lgcMask), &(pstDrvReq->para3_u.uiValue));
+			else
+				return DRV_NULL_POINTER;
+            
         case DRV_CMD_CTC_GET_EMPTY_ACL_RULE_NUM:
 			if(g_LW_Drv_Ops.p_Hal_AclRuleEmptyNumGet!=NULL)
         	    return g_LW_Drv_Ops.p_Hal_AclRuleEmptyNumGet(&(pstDrvReq->para1_u.uiValue));

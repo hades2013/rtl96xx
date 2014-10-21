@@ -36,7 +36,7 @@ extern "C"{
 #define MAX_PORT_NUM   5
 #define LOGIC_PORT_NO   MAX_PORT_NUM
 #define LOGIC_CPU_PORT  (LOGIC_PORT_NO + 2)
-#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 0
+#define LOGIC_PON_PORT 	  LOGIC_PORT_NO + 1
 
 #ifdef  __cplusplus
 }
