@@ -527,7 +527,7 @@ extern atomic_t re8670_rxskb_num;
 unsigned int iocmd_reg=CMD_CONFIG;//=0x4009113d;	//shlee 8672
 unsigned int iocmd1_reg=CMD1_CONFIG | (RX_NOT_ONLY_RING1<<25);   
 
-__DRAM unsigned int debug_enable=(1<<4);
+__DRAM unsigned int debug_enable=0;
 static unsigned int tx_ring_show_bitmap=((1<<MAX_TXRING_NUM)-1);
 static unsigned int rx_ring_show_bitmap=((1<<MAX_RXRING_NUM)-1);
 

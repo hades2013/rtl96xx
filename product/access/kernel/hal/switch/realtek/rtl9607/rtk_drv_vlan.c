@@ -239,7 +239,7 @@ DRV_RET_E Hal_SetVlanFilter(BOOL bEnable)
     }
 
     tdEnable = (TRUE == bEnable) ? QVLAN : PVLAN;
-    
+
     //if (RT_ERR_OK != rtk_vlan_vlanFunctionEnable_set(tdEnable))
     if (RT_ERR_OK != Hal_SetVlanMode(tdEnable))
     {
@@ -2235,7 +2235,7 @@ DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgress
     UINT32 uiPPort;
     ret_t  RetVal = RT_ERR_OK;
     rtk_vlan_tagMode_t enEgTagMode;
-    
+        
     if((!IsValidLgcPort(uiLPort)) ||
         (PORT_EG_TAG_MODE_END <= enEgressMode))
     {
@@ -2265,7 +2265,6 @@ DRV_RET_E Hal_SetPortVlanEgressMode( UINT32 uiLPort, PORT_EGRESS_MODE_E enEgress
         default:
             return DRV_ERR_PARA;
     }
-    //printk("\n\n phy=%d,enEgTagMode=%d \n\n",uiPPort,enEgTagMode);
     RetVal = rtk_vlan_tagMode_set(uiPPort, enEgTagMode);
     if (RT_ERR_OK != RetVal)
     {
