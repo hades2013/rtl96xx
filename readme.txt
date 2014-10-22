@@ -270,6 +270,9 @@ vlan逻辑：
 	tag==mgmt vlan。
 
         当我们修改管理vlan时，通过管理口可以直接登录cpu,也通过 携带管理vlan的网卡从 业务口登录cpu
+        透传模式下：
+		管理口的出口逻辑 untag
+		管理口的入口逻辑 没有tag的加上pvid,有tag的直接通过
 	
 
 cpu口逻辑：

@@ -120,6 +120,8 @@ DRV_RET_E Hal_SetVlanMode(UINT32 ulMode)
 	UINT32 uiLPortIndex;
 	rtk_portmask_t stPPortMask;
 	rtk_vlan_tagKeepType_t pType = TAG_KEEP_TYPE_CONTENT;
+
+    printk("\n\n Hal_SetVlanMode=%d\n",ulMode);
     switch (ulMode)
     {
         case PVLAN:
@@ -2047,6 +2049,7 @@ DRV_RET_E Hal_GetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E  *enIn
     {
         return DRV_ERR_UNKNOW;
     }
+    printk("\n phy=%d get ingress mode: %d\n",uiPPort,enAccFrameType);
 
 	switch(enAccFrameType)
     {
@@ -2160,6 +2163,7 @@ DRV_RET_E Hal_SetPortVlanIngressMode( UINT32 uiLPort, PORT_INGRESS_MODE_E enIngr
         default:
             return DRV_ERR_PARA;
     }
+    printk("\n\n phy=%d set ingress mode: %d\n\n",uiPPort,enAccFrameType);
     
     RetVal = rtk_vlan_portAcceptFrameType_set(uiPPort, enAccFrameType);
     if (RT_ERR_OK != RetVal)

@@ -492,7 +492,7 @@ DRV_RET_E Hal_SwitchInit(void)
 
 	#ifdef SWITCH_STYLE
 	//(void)rtk_vlan_transparentEnable_set(ENABLED); delete by luoruncai
-	//Hal_SetPortVlanIngressFilter(LOGIC_PON_PORT, FALSE);	 delete by luoruncai
+erw3r	//Hal_SetPortVlanIngressFilter(LOGIC_PON_PORT, FALSE);	 delete by luoruncai
 	//Hal_SetPortVlanIngressMode(LOGIC_PON_PORT, PORT_IN_FRAM_BOTH); delete by luoruncai
 	/*remove vlan 0*/
 	//(void)rtk_vlan_destroy(0); delete by luoruncai
@@ -531,7 +531,7 @@ DRV_RET_E Hal_SwitchInit(void)
 	ClrLgcMaskAll(&stLgcMaskUntag);
     SetLgcMaskBit(LOGIC_CPU_PORT, &stLgcMask);
 	#if defined(CONFIG_PRODUCT_EPN104N)|| defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
-	Hal_SetVlanMemberRemove(0, stLgcMask);
+	//Hal_SetVlanMemberRemove(0, stLgcMask);
 	#elif defined(CONFIG_PRODUCT_EPN104W)
 	#if 1
 	Hal_SetVlanMemberRemove(0, stLgcMask);

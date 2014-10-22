@@ -2770,6 +2770,779 @@ DEFUN_HIDDEN (show_laser_parameter,
 #endif
 /*Begin add by huangmingjian 2014-01-13*/
 
+#if defined(CONFIG_PRODUCT_EPN105) 
+
+#include <lw_config.h>
+#include <drv_wtd_user.h>
+#include <lw_type.h>
+#include <lw_drv_pub.h>
+#include <lw_drv_req.h>
+
+#define    CPU_PORT_NUMBER     7  //to kernel : 7,and true phy - 6
+#define    ETH0_PORT_NUMBER    1  //to kernel : 1,and true phy - 0
+#define    ETH1_PORT_NUMBER    3  //to kernel : 3,and true phy - 2
+#define    ETH2_PORT_NUMBER    4  //to kernel : 4,and true phy - 3
+
+#define    CLT0_PORT_NUMBER    5  //to kernel : 5,and true phy - 5
+
+
+/* Ethernet port define */
+#define ETH_PORTS_NUM     3
+#define ETH_PHY_LIST          ETH0_PORT_NUMBER, ETH1_PORT_NUMBER,ETH2_PORT_NUMBER
+#define ETH_IFNAME_LIST     IFNAME_ETH0, IFNAME_ETH1,IFNAME_ETH2
+#define ETH_IFNAME_STRING  ","IFNAME_ETH0","IFNAME_ETH1","IFNAME_ETH2
+#define ETH_PORTMASK_LIST  (1 << ETH0_PORT_NUMBER) | (1 << ETH1_PORT_NUMBER) | (1 << ETH2_PORT_NUMBER)
+
+#define    MAX_CLT_CHANNEL        1
+#define CLT_PHY_LIST          CLT0_PORT_NUMBER
+#define CLT_IFNAME_LIST     IFNAME_CAB0
+#define CLT_IFNAME_STRING  ","IFNAME_CAB0
+#define CLT_PORTMASK_LIST  (1 << CLT0_PORT_NUMBER)
+#define CLT_LOCAL_PORTMASK  CLT_PORTMASK_LIST
+
+int parse_interface_name(const char *in, const char *type)
+{    
+    int ifeth[] = {ETH_PHY_LIST};
+    int ifcab[] = {CLT_PHY_LIST};
+    int ifcpu[] = {CPU_PORT_NUMBER};
+    
+    int i, slot, ifid;
+
+    unsigned long ports = 0;
+    
+    /*check */
+    if (!in[0] || !isdigit(in[0])){
+        return 0;
+    }
+    if (!in[1] || in[1] != '/'){
+        return 0;
+    }
+    if (!in[2] || !isdigit(in[2])){
+        return 0;
+    }    
+    // get 
+    
+    i = sscanf(in, "%d/%d", &slot, &ifid);
+
+    if ((slot != 1) || (i != 2) || (ifid < 1)){
+        return 0;
+    }
+
+    ifid -= 1;
+    
+    if (!strcmp(type, "ethernet")){
+        if (ifid < sizeof(ifeth)/sizeof(ifeth[0])){
+            ports |= (1 << ifeth[ifid]);
+        }        
+    }else if (!strcmp(type, "cable")){
+        if (ifid < sizeof(ifcab)/sizeof(ifcab[0])){
+            ports |= (1 << ifcab[ifid]);
+        }                    
+    }else if (!strcmp(type, "cpu")){
+        if (ifid < sizeof(ifcpu)/sizeof(ifcpu[0])){
+            ports |= (1 << ifcpu[ifid]);
+        }            
+    }
+
+    return ports;
+}
+
+static char *logic_port_string(logic_pmask_t port_mask)
+{
+    static char buf[80]={0};
+    int clt_phys[] = {CLT_PHY_LIST};
+    int eth_phys[] = {ETH_PHY_LIST};
+    int i, len = 0;
+    buf[0] = 0;
+
+    if (TstLgcMaskBit(CPU_PORT_NUMBER, &port_mask)){
+        len += sprintf(buf + len, "CPU ");
+    }
+    
+    for (i = 0; i < sizeof(clt_phys)/ sizeof(clt_phys[0]); i ++){
+        if (TstLgcMaskBit(clt_phys[i], &port_mask)){
+            len += sprintf(buf + len, "Cable 1/%d ", i + 1);
+        }
+    }
+    for (i = 0; i < sizeof(eth_phys)/ sizeof(eth_phys[0]); i ++){
+        if (TstLgcMaskBit(eth_phys[i], &port_mask)){
+            len += sprintf(buf + len, "Ethernet 1/%d ", i + 1);
+        }
+    }
+    
+    return buf[0] ? buf : "null";
+}
+
+
+DEFUN (rtl9607_pvid_get,
+        rtl9607_pvid_get_cmd,
+        "rtl9607 pvid dump",
+        "Dump rtl9607 switch pvid\n"
+        "Dump rtl9607 switch pvid\n"
+        "Dump rtl9607 switch pvid\n"
+        )
+{
+    uint32_t i,j;
+    DRV_RET_E ret;
+
+    int ifphy[]={CPU_PORT_NUMBER,CLT_PHY_LIST,ETH_PHY_LIST};
+    int cltif[]={CLT_PHY_LIST};
+    int ethif[]={ETH_PHY_LIST};
+    int pvid[32]={0},priority[32]={0};
+    
+    char ifname[][10] = {"cpu",CLT_IFNAME_LIST,ETH_IFNAME_LIST};
+
+    Ioctl_GetVlanExistNum(&i);
+
+    vty_out(vty,"system vlan number is %d!%s",i,VTY_NEWLINE);
+
+    vty_out(vty,"Interface Pvid Priority%s",VTY_NEWLINE);
+    
+    for (i=0; i<sizeof(ifphy)/sizeof(ifphy[0]); i++){
+        
+        if (ret = Ioctl_GetVlanPvid(ifphy[i], &pvid[i])){
+            vty_out(vty,"port: %s,get pvid error=%d !%s",ifname[i],ret,VTY_NEWLINE);
+        }
+
+        if (ret = Ioctl_GetVlanPriority(ifphy[i],&priority)){
+            vty_out(vty,"port: %s,priority get error %d!%s",ifname[i],ret,VTY_NEWLINE);
+        }
+        
+        vty_out(vty,"%-9s %-4d %d%s",ifname[i],pvid[i],priority[i],VTY_NEWLINE);
+    }
+
+    return CMD_SUCCESS;
+}
+
+DEFUN (rtl9607_priority_set,
+        rtl9607_priority_set_cmd,
+        "rtl9607 priority set (ethernet|cable|cpu) IFNAME VID",
+        "Set rtl9607 switch priority\n"
+        "Set rtl9607 switch priority\n"
+        "Set rtl9607 switch priority\n"
+        "Set ethernet port priority\n"
+        "Set cable port priority\n"
+        "Set cpu port priority\n"
+        "Input port number\n"
+        "Input priority\n"
+        )
+{
+    DRV_RET_E ret;
+    uint32_t i,port,priority = strtoul(argv[2],NULL,0);
+
+    port = parse_interface_name(argv[1], argv[0]);
+    if (port == 0){
+        vty_out(vty, "%% Invalid interface name%s", VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    // turn to port number
+    for (i = 0; i < 32; i ++){
+        if (port & (1 << i)){
+            port = i;
+            break;
+        }
+    }
+
+    ret = Ioctl_SetVlanPriority(port, priority);
+
+    if (ret != DRV_OK){
+        vty_out(vty,"%s %s set error=%d !%s",argv[0],argv[1],ret,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+    
+    vty_out(vty,"%s %s priority=%d%s",argv[0],argv[1],priority,VTY_NEWLINE);
+    
+    Ioctl_GetVlanExistNum(&i);
+
+    vty_out(vty,"system vlan number is %d!%s",i,VTY_NEWLINE);
+
+    return CMD_SUCCESS;
+}
+
+
+DEFUN (rtl9607_pvid_set,
+        rtl9607_pvid_set_cmd,
+        "rtl9607 pvid set (ethernet|cable|cpu) IFNAME VID",
+        "Set rtl9607 switch pvid\n"
+        "Set rtl9607 switch pvid\n"
+        "Set rtl9607 switch pvid\n"
+        "Set ethernet port pvid\n"
+        "Set cable port pvid\n"
+        "Set cpu port pvid\n"
+        "Input port number\n"
+        "Input vid\n"
+        )
+{
+    DRV_RET_E ret;
+    uint32_t i,port,pvid = strtoul(argv[2],NULL,0);
+
+    port = parse_interface_name(argv[1], argv[0]);
+    if (port == 0){
+        vty_out(vty, "%% Invalid interface name%s", VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    // turn to port number
+    for (i = 0; i < 32; i ++){
+        if (port & (1 << i)){
+            port = i;
+            break;
+        }
+    }
+
+    ret = Ioctl_SetVlanPvid(port, pvid);
+
+    if(ret != DRV_OK){
+        vty_out(vty,"%s %s set error=%d !%s",argv[0],argv[1],ret,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+    
+    vty_out(vty,"%s %s PVID=%d%s",argv[0],argv[1],pvid,VTY_NEWLINE);
+    
+    Ioctl_GetVlanExistNum(&i);
+
+    vty_out(vty,"system vlan number is %d!%s",i,VTY_NEWLINE);
+
+    return CMD_SUCCESS;
+}
+
+
+DEFUN (rtl9607_vlan_mem,
+        rtl9607_vlan_mem_cmd,
+        "rtl9607 vlan VID tag TAGMEM untag UNTAGMEM",
+        "Set rtl9607 vlan tag and untag member\n"
+        "Set rtl9607 vlan tag and untag member\n"
+        "Input vid\n"
+        "Tag member\n"
+        "Tag member,eg - eth0,eth1,cpu,cab0\n"
+        "unTag member\n"
+        "unTag member,eg - cpu,cab0,eth0\n"
+        )
+{
+    DRV_RET_E ret;
+    uint32_t i,port,vid = strtoul(argv[0],NULL,0);
+    int ifeth[] = {ETH_PHY_LIST};
+    int ifcab[] = {CLT_PHY_LIST};
+    int ifcpu[] = {CPU_PORT_NUMBER};
+    
+    char ifethname[][10] = {ETH_IFNAME_LIST};
+    char ifcabname[][10] = {CLT_IFNAME_LIST};
+
+    logic_pmask_t tag_mask, untag_mask;
+
+    if (!in_range(vid,1,4095)){
+        vty_out(vty,"error vid=%d !%s",vid,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    ClrLgcMaskAll(&tag_mask);
+    ClrLgcMaskAll(&untag_mask);
+
+    if (strstr(argv[1],"cpu")){
+        SetLgcMaskBit(CPU_PORT_NUMBER, &tag_mask); 
+    }else{
+        if (strstr(argv[2],"cpu")){
+            SetLgcMaskBit(CPU_PORT_NUMBER, &untag_mask); 
+        }
+    }
+
+    for (i=0; i<sizeof(ifcab)/sizeof(ifcab[0]); i++){
+        if (strstr(argv[1],ifcabname[i])){
+            SetLgcMaskBit(ifcab[i], &tag_mask); 
+        }else{
+            if (strstr(argv[2],ifcabname[i])){
+                SetLgcMaskBit(ifcab[i], &untag_mask); 
+            }
+        }
+    }
+
+    for (i=0; i<sizeof(ifeth)/sizeof(ifeth[0]); i++){
+        if (strstr(argv[1],ifethname[i])){
+            SetLgcMaskBit(ifeth[i], &tag_mask); 
+        }else{
+            if (strstr(argv[2],ifethname[i])){
+                SetLgcMaskBit(ifeth[i], &untag_mask); 
+            }
+        }
+    }
+
+    ret = Ioctl_SetVlanMember(vid,tag_mask,untag_mask);
+
+    if(ret != DRV_OK){
+        vty_out(vty,"set error=%d !%s",ret,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+        
+    Ioctl_GetVlanExistNum(&i);
+
+    vty_out(vty,"system vlan number is %d!%s",i,VTY_NEWLINE);
+
+    return CMD_SUCCESS;
+}
+
+
+DEFUN (rtl9607_vlan_add_del,
+        rtl9607_vlan_add_del_cmd,
+        "rtl9607 vlan (create|delete) VID",
+        "Rtl9607 vlan function\n"
+        "Rtl9607 vlan function\n"
+        "Create vlan id\n"
+        "Delete vlan id\n"
+        "Input vid\n"
+        )
+{
+    DRV_RET_E ret;
+    uint32_t i,vid = strtoul(argv[1],NULL,0);
+
+    if (!in_range(vid,1,4095)){
+        vty_out(vty,"error vid %d !%s",vid,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    if (strstr(argv[0],"create")){
+        ret = Ioctl_SetVlanEntryCreate(vid);
+    }else{
+        ret = Ioctl_SetVlanEntryDelete(vid);
+    }
+    
+    if (ret != DRV_OK){
+        vty_out(vty,"%s %s error=%d !%s",argv[0],argv[1],ret,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+    
+    Ioctl_GetVlanExistNum(&i);
+
+    vty_out(vty,"system vlan number is %d!%s",i,VTY_NEWLINE);
+
+    return CMD_SUCCESS;
+}
+
+static char *vlan_member_string(uint32_t member)
+{
+    static char buf[80];
+    int if_phys[] = {CPU_PORT_NUMBER, CLT_PHY_LIST, ETH_PHY_LIST};
+    char* if_names[] = {IFNAME_CPU0, CLT_IFNAME_LIST, ETH_IFNAME_LIST};
+    int i, len = 0;
+    buf[0] = 0;
+    for (i = 0; i < sizeof(if_phys)/ sizeof(if_phys[0]); i ++){
+        if (member & (1 << (if_phys[i]-1))){
+            len += sprintf(buf + len, "%s%s", (len != 0) ? "," : "", if_names[i]);
+        }
+    }    
+    return buf;
+}
+
+DEFUN (rtl9607_vlan_dump,
+        rtl9607_vlan_dump_cmd,
+        "rtl9607 vlan dump",
+        "rtl9607 show all vlan\n"
+        "rtl9607 show all vlan\n"
+        "rtl9607 show all vlan\n"
+        )
+{
+    DRV_RET_E ret;
+    uint32_t i;
+    int tagMask,untagMask;
+    char s1[80], s2[80];
+    int mode ;// ==1 QVLAN , 2 PVLAN, 3 TRANSPARENT
+
+    if(!Ioctl_GetVlanMode(&mode))
+        
+    vty_out(vty,"system vlan mode is %d(1 QVLAN , 2 PVLAN, 3 TRANSPARENT)!%s%s",mode,VTY_NEWLINE,VTY_NEWLINE);
+    
+    Ioctl_GetVlanExistNum(&i);
+
+    vty_out(vty,"system vlan number is %d!%s%s",i,VTY_NEWLINE,VTY_NEWLINE);
+
+    if(i>0){
+        vty_out(vty,"vlan | tagMask                  | untagMask %s%s",VTY_NEWLINE,VTY_NEWLINE);
+    }
+
+    for (i=0; i<4096; i++){
+        
+        if (Ioctl_CheckVlanCheckExist(i) != DRV_OK) continue;
+
+        tagMask = untagMask = 0;
+        if (Ioctl_GetVlanMember(i,&tagMask,&untagMask) == DRV_OK){
+            strcpy(s1, vlan_member_string(tagMask));
+            strcpy(s2, vlan_member_string(untagMask));
+            vty_out(vty,"%-4d | %-24s | %s%s",i,s1,s2,VTY_NEWLINE);
+        }
+    }
+
+    return CMD_SUCCESS;
+}
+
+DEFUN (rtl9607_port_dump,
+        rtl9607_port_dump_cmd,
+        "rtl9607 port dump",
+        "rtl9607 port all dump\n"
+        "rtl9607 port all dump\n"
+        "rtl9607 port all dump\n"
+        )
+{
+    DRV_RET_E ret;
+    uint32_t i;
+    int enable;
+    PORT_INGRESS_MODE_E mode;
+    PORT_EGRESS_MODE_E egMode;
+
+    int keeptype;
+    logic_pmask_t port_mask;
+
+    int port[] = {CPU_PORT_NUMBER, ETH_PHY_LIST, CLT_PHY_LIST};
+    char ifname[][10] = {"cpu",ETH_IFNAME_LIST,CLT_IFNAME_LIST};
+    
+    for (i=0; i<sizeof(port)/sizeof(port[0]); i++){
+        
+        if (Ioctl_ctc_get_port_ingress_vlan_filter(port[i],&enable) != DRV_OK){
+            vty_out(vty,"port %s get ingress filter failed! ret = %d %s",ifname[i],ret,VTY_NEWLINE);
+            continue;
+        }
+
+        vty_out(vty,"port: %s,ingress vlan filter is %s %s",ifname[i],
+            enable ? "enable" : "disable", enable ? "" : VTY_NEWLINE);
+
+        if (enable){
+            if (Ioctl_ctc_get_port_ingress_vlan_rcv_mod(port[i],&mode) != DRV_OK){
+                vty_out(vty,"ingress mode get error!%s",VTY_NEWLINE);
+            }else{
+                vty_out(vty,"ingress mode is %d %s",mode,VTY_NEWLINE);
+            }
+        }
+
+        if(Ioctl_ctc_get_port_egress_vlan_mode(port[i],&egMode)){
+            vty_out(vty,"port: %s,engress mode get error!%s",ifname[i],VTY_NEWLINE);
+        }else{
+            vty_out(vty,"port: %s,engress mode is %d!%s",ifname[i],egMode,VTY_NEWLINE);
+        }
+
+        if(!Ioctl_ctc_get_port_egress_tag_keep_type(port[i], &port_mask, &keeptype)){
+
+            logic_port_string(port_mask);
+
+            vty_out(vty,"port: %s, egress tag keep type setting: ingress port:%s, keeptype:%d %s",
+                ifname[i],logic_port_string(port_mask),keeptype,VTY_NEWLINE);
+        }else{
+            vty_out(vty,"port: %s,engress tag keep type get error!%s",ifname[i],VTY_NEWLINE);
+        }
+        
+        vty_out(vty,"--------------------------------------------------%s",VTY_NEWLINE);
+    }
+
+    return CMD_SUCCESS;
+}
+
+// nameList: cab0,cab1,eth0,eh1,cpu.....
+static void parse_port_list(logic_pmask_t *tag_mask, char *nameList)
+{
+    int ifeth[] = {ETH_PHY_LIST};
+    int ifcab[] = {CLT_PHY_LIST};
+    int ifcpu[] = {CPU_PORT_NUMBER};
+    
+    char ifethname[][10] = {ETH_IFNAME_LIST};
+    char ifcabname[][10] = {CLT_IFNAME_LIST};
+
+    int i;
+
+    if(!tag_mask || !nameList || nameList[0] == 0)
+        return;
+
+    ClrLgcMaskAll(tag_mask);
+
+    if (strstr(nameList,"cpu")){
+        SetLgcMaskBit(CPU_PORT_NUMBER, tag_mask); 
+    }
+    
+    for (i=0; i<sizeof(ifcab)/sizeof(ifcab[0]); i++){
+        if (strstr(nameList, ifcabname[i])){
+            SetLgcMaskBit(ifcab[i], tag_mask); 
+        }
+    }
+
+    for (i=0; i<sizeof(ifeth)/sizeof(ifeth[0]); i++){
+        if (strstr(nameList, ifethname[i])){
+            SetLgcMaskBit(ifeth[i], tag_mask); 
+        }
+    }
+}
+
+DEFUN (rtl9607_port_ingress_set,
+        rtl9607_port_ingress_set_cmd,
+        "rtl9607 port ingress (enable|disable) PORTLIST",
+        "rtl9607 port ingress\n"
+        "rtl9607 port ingress\n"
+        "rtl9607 port ingress\n"
+        "rtl9607 enable port ingress\n"
+        "rtl9607 disable port ingress\n"
+        "rtl9607 port list,eg:cab0,cpu,eth0,eth1\n"
+        )
+{
+    int enable = strstr(argv[0],"enable") ? 1 : 0;
+    logic_pmask_t tag_mask;
+    int i,lport;
+    DRV_RET_E ret;
+
+    int ifeth[] = {ETH_PHY_LIST};
+    int ifcab[] = {CLT_PHY_LIST};
+    int ifcpu[] = {CPU_PORT_NUMBER};
+    
+    char ifethname[][10] = {ETH_IFNAME_LIST};
+    char ifcabname[][10] = {CLT_IFNAME_LIST};
+
+    if (strstr(argv[1], "cpu")){
+        ret = Ioctl_ctc_port_ingress_vlan_filter(CPU_PORT_NUMBER, enable);
+        if(ret){
+            vty_out(vty,"set port:cpu ingress %s error=%d !%s",argv[0],ret,VTY_NEWLINE);
+        }
+    }
+
+    for (i=0; i<sizeof(ifcab)/sizeof(ifcab[0]); i++){
+        if (strstr(argv[1], ifcabname[i])){
+            ret = Ioctl_ctc_port_ingress_vlan_filter(ifcab[i], enable);
+            if(ret){
+                vty_out(vty,"set port:%s ingress %s error=%d !%s",ifcabname[i],argv[0],ret,VTY_NEWLINE);
+            }
+        }
+    }
+
+    for (i=0; i<sizeof(ifeth)/sizeof(ifeth[0]); i++){
+        if (strstr(argv[1], ifethname[i])){
+            ret = Ioctl_ctc_port_ingress_vlan_filter(ifeth[i], enable);
+            if(ret){
+                vty_out(vty,"set port:%s ingress %s error=%d !%s",ifethname[i],argv[0],ret,VTY_NEWLINE);
+            }
+        }
+    }
+    return CMD_SUCCESS;
+}
+
+DEFUN (rtl9607_port_egress_set,
+        rtl9607_port_egress_set_cmd,
+        "rtl9607 port (egress|ingress) mode <0-3> PORTLIST",
+        "rtl9607 port egress or ingress mode\n"
+        "rtl9607 port egress or ingress mode\n"
+        "rtl9607 port egress mode\n"
+        "rtl9607 port ingress mode\n"
+        "rtl9607 port mode\n"
+        "rtl9607 port egress or ingress mode 0~3\n"
+        "rtl9607 port list,eg:cab0,cpu,eth0,eth1\n"
+        )
+{
+    int type = strstr(argv[0],"egress") ? 1 : 0;
+    logic_pmask_t tag_mask;
+    int i,lport;
+    DRV_RET_E ret;
+    int mode = strtoul(argv[1],NULL,0);
+
+    int ifeth[] = {ETH_PHY_LIST};
+    int ifcab[] = {CLT_PHY_LIST};
+    int ifcpu[] = {CPU_PORT_NUMBER};
+    
+    char ifethname[][10] = {ETH_IFNAME_LIST};
+    char ifcabname[][10] = {CLT_IFNAME_LIST};
+
+    if(type){
+        if (strstr(argv[2], "cpu")){
+            ret = Ioctl_ctc_port_egress_vlan_mode(CPU_PORT_NUMBER, mode);
+            if(ret){
+                vty_out(vty,"set port:cpu egress mode %s error=%d !%s",argv[1],ret,VTY_NEWLINE);
+            }
+        }
+        
+        for (i=0; i<sizeof(ifcab)/sizeof(ifcab[0]); i++){
+            if (strstr(argv[2], ifcabname[i])){
+                ret = Ioctl_ctc_port_egress_vlan_mode(ifcab[i], mode);
+                if(ret){
+                    vty_out(vty,"set port:%s egress mode %s error=%d !%s",ifcabname[i],argv[1],ret,VTY_NEWLINE);
+                }
+            }
+        }
+        
+        for (i=0; i<sizeof(ifeth)/sizeof(ifeth[0]); i++){
+            if (strstr(argv[2], ifethname[i])){
+                ret = Ioctl_ctc_port_egress_vlan_mode(ifeth[i], mode);
+                if(ret){
+                    vty_out(vty,"set port:%s egress mode %s error=%d !%s",ifethname[i],argv[1],ret,VTY_NEWLINE);
+                }
+            }
+        }
+    }else{
+
+        if (strstr(argv[2], "cpu")){
+            ret = Ioctl_ctc_port_ingress_vlan_rcv_mod(CPU_PORT_NUMBER, mode);
+            if(ret){
+                vty_out(vty,"set port:cpu ingress mode %s error=%d !%s",argv[1],ret,VTY_NEWLINE);
+            }
+        }
+        
+        for (i=0; i<sizeof(ifcab)/sizeof(ifcab[0]); i++){
+            if (strstr(argv[2], ifcabname[i])){
+                ret = Ioctl_ctc_port_ingress_vlan_rcv_mod(ifcab[i], mode);
+                if(ret){
+                    vty_out(vty,"set port:%s ingress mode %s error=%d !%s",ifcabname[i],argv[1],ret,VTY_NEWLINE);
+                }
+            }
+        }
+        
+        for (i=0; i<sizeof(ifeth)/sizeof(ifeth[0]); i++){
+            if (strstr(argv[2], ifethname[i])){
+                ret = Ioctl_ctc_port_ingress_vlan_rcv_mod(ifeth[i], mode);
+                if (ret){
+                    vty_out(vty,"set port:%s ingress mode %s error=%d !%s",ifethname[i],argv[1],ret,VTY_NEWLINE);
+                }
+            }
+        }
+    }
+    return CMD_SUCCESS;
+}
+
+
+DEFUN (rtl9607_vlan_mode_set,
+        rtl9607_vlan_mode_set_cmd,
+        "rtl9607 vlan mode (qvlan|pvlan|transparent)",
+        "Set rtl9607 switch vlan mode\n"
+        "Set rtl9607 switch vlan mode\n"
+        "Set rtl9607 switch vlan mode\n"
+        "Set rtl9607 switch 8021Q vlan mode\n"
+        "Set rtl9607 switch Port vlan mode\n"
+        "Set rtl9607 switch Transparent mode\n"
+        )
+{
+
+    int mode = 1;
+    DRV_RET_E ret;
+
+    if(strstr(argv[0],"transparent")){
+        mode = 3;
+    }else if(strstr(argv[0],"pvlan")){
+        mode = 2;
+    }
+
+    ret = Ioctl_SetVlanMode(mode);//mode =1 802.1Q vlan ,mode =2 Port vlan, mode=3 Transparent 
+    
+    if (ret != DRV_OK){
+        vty_out(vty,"%s mode setting error=%d !%s",argv[0],ret,VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    return CMD_SUCCESS;
+}
+
+DEFUN (rtl9607_ifconfig,
+        rtl9607_ifconfig_cmd,
+        "ifconfig",
+        "ifconfig\n"
+        )
+{
+    vty_out(vty,"%s",VTY_NEWLINE);
+    system("ifconfig");
+    vty_out(vty,"%s",VTY_NEWLINE);
+    return CMD_SUCCESS;
+}
+
+DEFUN (rtl9607_mirror_set,
+        rtl9607_mirror_set_cmd,
+        "rtl9607 mirror source (ethernet|cable|cpu) IFNAME (all|tx|rx) monitor (ethernet|cable|cpu) IFNAME",
+        "rtl9607 switch debug entry\n"
+        "Set parameters of mirror function\n"
+        "Choose a source port\n"
+        STR(ethernet)
+        STR(cable)            
+        STR(cpu)
+        STR(ifname)
+        "Enable mirror function for RX and TX packets\n"
+        "Enable mirror function only for TX packets\n"
+        "Enable mirror function only for RX packets\n"
+        "Choose a monitor port\n"        
+        STR(ethernet)
+        STR(cable)            
+        STR(cpu)
+        STR(ifname)
+        )
+{
+    int ret, i;
+    int rx, tx;
+    uint32_t src, mon;
+    
+    logic_pmask_t lgcMask_rx;
+    logic_pmask_t lgcMask_tx;
+
+    ClrLgcMaskAll(&lgcMask_rx);
+    ClrLgcMaskAll(&lgcMask_tx);
+   
+    if (strstr(self->string, "disable")){
+        ret = Ioctl_SetMirrorGroup(0xff, lgcMask_rx, lgcMask_tx);
+        if (ret != 0) vty_out(vty,"Ioctl_SetMirrorGroup return %d%s", ret, VTY_NEWLINE);        
+        return CMD_SUCCESS;
+    }
+
+    
+    src = parse_interface_name(argv[1], argv[0]);
+    if (src == 0){
+        vty_out(vty, "%% Invalid interface name%s", VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    // turn to port number
+    for (i = 0; i < 32; i ++){
+        if (src & (1 << i)){
+            src = i;
+            break;
+        }
+    }
+
+    mon = parse_interface_name(argv[4], argv[3]);
+    if (mon == 0){
+        vty_out(vty, "%% Invalid interface name%s", VTY_NEWLINE);
+        return CMD_SUCCESS;
+    }
+
+    // turn to port number
+    for (i = 0; i < 32; i ++){
+        if (mon & (1 << i)){
+            mon = i;
+            break;
+        }
+    }    
+    
+    if (!strcmp(argv[2], "rx")){
+        rx = 1;
+        tx = 0;
+    }else if (!strcmp(argv[2], "tx")){
+        rx = 0;
+        tx = 1;
+    }else {
+        rx = 1;
+        tx = 1;
+    }
+   
+    vty_out(vty, "SRC:%d,MON:%d,TYPE:%s %s%s", src, mon, rx ? "rx" : "", tx ? "tx" : "", VTY_NEWLINE);
+        
+    if (rx){
+        SetLgcMaskBit(src, &lgcMask_rx);
+    }
+    
+    if (tx){
+        SetLgcMaskBit(src, &lgcMask_tx);
+    }
+           
+    ret = Ioctl_SetMirrorGroup(mon, lgcMask_rx, lgcMask_tx);
+    if (ret != 0) vty_out(vty,"Ioctl_SetMirrorGroup return %d%s", ret, VTY_NEWLINE);       
+
+    return CMD_SUCCESS;
+}
+
+ALIAS (rtl9607_mirror_set,
+        rtl9607_mirror_disable_cmd,
+        "rtl9607 mirror disable",
+        "rtl9607 switch debug entry\n"
+        "Set parameters of mirror function\n"
+        "Disable mirror function\n"
+        )
+
+#endif
 
 void cmd_interface_init(void)
 {
@@ -2873,6 +3646,27 @@ void cmd_interface_init(void)
 	install_element(VIEW_NODE, &show_laser_parameter_cmd);
 #endif
 /*Begin add by huangmingjian 2014-01-13*/
+
+
+#if  defined(CONFIG_PRODUCT_EPN105) 
+    install_element(CONFIG_NODE, &rtl9607_pvid_get_cmd);
+    install_element(CONFIG_NODE, &rtl9607_vlan_dump_cmd);
+
+    install_element(CONFIG_NODE, &rtl9607_pvid_set_cmd);
+    install_element(CONFIG_NODE, &rtl9607_priority_set_cmd);
+    install_element(CONFIG_NODE, &rtl9607_vlan_add_del_cmd);
+
+    install_element(CONFIG_NODE, &rtl9607_vlan_mode_set_cmd);
+    install_element(CONFIG_NODE, &rtl9607_vlan_mem_cmd);
+    install_element(CONFIG_NODE, &rtl9607_port_ingress_set_cmd);
+    install_element(CONFIG_NODE, &rtl9607_port_egress_set_cmd);
+    install_element(CONFIG_NODE, &rtl9607_port_dump_cmd);
+
+    install_element(CONFIG_NODE, &rtl9607_mirror_set_cmd);
+    install_element(CONFIG_NODE, &rtl9607_mirror_disable_cmd);
+
+    install_element(CONFIG_NODE, &rtl9607_ifconfig_cmd);
+#endif
 
 }
 
