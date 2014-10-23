@@ -1164,6 +1164,15 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 __IRAM_NIC
 int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *pRxInfo)
 {	
+#if 1
+    uint32 pvid = 0;
+    if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
+    {   
+        rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
+        //skb_push_qtag(skb,pvid,0);
+        //skb->vlan_tci = pvid;
+    }
+#endif
     skb->dev = decideRxDevice(cp, pRxInfo);
 
 #ifdef CONFIG_DUALBAND_CONCURRENT
@@ -1178,7 +1187,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	skb->from_dev=skb->dev;
 	//if(skb->data[12]==0x08&&skb->data[13]==0x00)
   //  printk("This arp packet comes from %s(vlan %u) %02x %02x %02x\n", skb->dev->name, skb->vlan_tci,skb->data[12],skb->data[13],skb->data[14]);
-	Drv_MT_AddEntry(skb->data,PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num),skb->vlan_tci & VLAN_VID_MASK);
+	Drv_MT_AddEntry(skb->data,PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num),
+	(skb->vlan_tci & VLAN_VID_MASK) ? (skb->vlan_tci & VLAN_VID_MASK) : pvid);
 #if 0//def CONFIG_APOLLO_ROMEDRIVER
 	rg_fwdengine_ret_code = rtk_rg_fwdEngineInput(skb,(void*)pRxInfo);
 	if(rg_fwdengine_ret_code != RG_FWDENGINE_RET_TO_PS)
@@ -1211,11 +1221,9 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	}
 	else
 	{
+	
 #if 1
-        uint32 pvid;
-        if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
-        {   
-            rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
+        if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pvid){
             skb_push_qtag(skb,pvid,0);
             skb->vlan_tci = pvid;
         }
