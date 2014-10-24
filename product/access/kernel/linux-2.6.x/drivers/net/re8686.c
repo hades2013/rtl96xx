@@ -1166,7 +1166,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 {	
 #if 1
     uint32 pvid = 0;
-    if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
+    if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
     {   
         rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
     }
@@ -1181,35 +1181,41 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
     //printk("[name=%s]\n",skb->dev->name);
 
 	skb->vlan_tci = (pRxInfo->opts2.bit.ctagva) ? VTAG2VLANTCI(pRxInfo->opts2.bit.cvlan_tag) : 0;
+
+    if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) && //from cable and vlan tag is not 0 and type is mme packet,remove tag
+        (skb->vlan_tci & VLAN_VID_MASK)               &&
+        (skb->data[12]== 0x88 && skb->data[13] == 0xE1)){
+        skb->vlan_tci = 0;
+    }
+
 	ETHDBG_PRINT(RTL8686_SKB_RX, "This packet comes from %s(vlan %u)\n", skb->dev->name, skb->vlan_tci);
 	skb->from_dev=skb->dev;
 	//if(skb->data[12]==0x08&&skb->data[13]==0x00)
   //  printk("This arp packet comes from %s(vlan %u) %02x %02x %02x\n", skb->dev->name, skb->vlan_tci,skb->data[12],skb->data[13],skb->data[14]);
 	Drv_MT_AddEntry(skb->data,PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num),
 	(skb->vlan_tci & VLAN_VID_MASK) ? (skb->vlan_tci & VLAN_VID_MASK) : pvid);
+    
 #if 0//def CONFIG_APOLLO_ROMEDRIVER
 	rg_fwdengine_ret_code = rtk_rg_fwdEngineInput(skb,(void*)pRxInfo);
 	if(rg_fwdengine_ret_code != RG_FWDENGINE_RET_TO_PS)
 		return RE8670_RX_STOP;
 #endif
-	/* switch_port is patched for iptables and ebtables rule matching */
-	skb->switch_port = getSwitchPort(cp, pRxInfo);
-	skb->mark = (skb->vlan_tci & 0xFFF);
-	//printk("%s %d switch_port: %s vlan_tci=0x%x mark=0x%x\n", 
-			//__func__, __LINE__, skb->switch_port, skb->vlan_tci, skb->mark);
-			
+
+#if 1 //for test
 #ifdef CONFIG_L2_HANDLE	
     skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
     skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
-    #if 0
     {
-        struct ethhdr *eth = (struct ethhdr *)skb->data;
-        printk("%s %d proto=%.4x,management_vlan=%d,vlan=%d, logic port=%d phy=%d\n", 
-                __func__, __LINE__, ntohs(eth->h_proto),s_ui_management_vlan,skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
+        //struct ethhdr *eth = (struct ethhdr *)skb->data;
+        printk("%s %d proto=%.2X%.2X,management_vlan=%d,vlan=%d, logic port=%d phy=%d\n", 
+                __func__, __LINE__, /*ntohs(eth->h_proto)*/ skb->data[12],skb->data[13],s_ui_management_vlan,skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
     }
-    #endif
 #endif
-
+#endif
+	/* switch_port is patched for iptables and ebtables rule matching */
+	skb->switch_port = getSwitchPort(cp, pRxInfo);
+    skb->mark = (skb->vlan_tci & VLAN_VID_MASK);
+			
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
 #if CP_VLAN_TAG_USED
 	if((skb->vlan_tci & VLAN_VID_MASK)==0)
@@ -1217,13 +1223,13 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 #else
 	if((skb->vlan_tci & VLAN_VID_MASK)!=0)
 	{   
-		skb_push_qtag(skb,skb->vlan_tci & VLAN_VID_MASK,0);
+	    skb_push_qtag(skb,skb->vlan_tci & VLAN_VID_MASK,0);
 	}
 	else
 	{
 	
 #if 1
-        if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pvid){
+        if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pvid){
             skb_push_qtag(skb,pvid,0);
             skb->vlan_tci = pvid;
         }
@@ -1245,11 +1251,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	//do we need any wan dev rx hacking here?(before pass to netif_rx)
 	
 #ifdef CONFIG_L2_HANDLE	
-	skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
+    skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
 	skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);	
-
-    //printk("%s %d vlan=%d, logic port=%d phy=%d\n", 
-			//__func__, __LINE__, skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
 #endif
 	
 	updateRxStatic(cp, skb);
@@ -1285,7 +1288,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		if (netif_rx(skb) == NET_RX_DROP){
             printk("%s,%s,%d rx drop\n",__FILE__,__FUNCTION__,__LINE__);
 			DEVPRIV(skb->dev)->net_stats.rx_dropped++;
-       }
+        }
 	}
 #endif
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
@@ -2233,25 +2236,30 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
-    #if 0
-    printk("\n re8670_start_xmit vid=%d,vlan=%d,management_vlan=%d \n",vid,
-        ((0x81 == skb->data[12]) && (0x00 == skb->data[13])) ? (((skb->data[14] & 0xF) << 8) + skb->data[15]) : 0,
-        s_ui_management_vlan);
+    
+    #if 1
+    if((0x81 == skb->data[12]) && (0x00 == skb->data[13])){
+        printk("\n re8670_start_xmit sendport=%d,vid=%d,vlan=%d,management_vlan=%d,potoc=%.4x \n",sendport,vid,
+            (((skb->data[14] & 0xF) << 8) + skb->data[15]),
+            s_ui_management_vlan,((skb->data[16] << 8) | skb->data[17]));
+    }else{
+        printk("\n re8670_start_xmit sendport=%d,vid=%d,potoc=%.4x,management_vlan=%d \n",sendport,vid,
+            ((skb->data[12] << 8) | skb->data[13]), s_ui_management_vlan);
+    }
     #endif
 
 	#ifdef ONU_STYLE
 	if(vid)
 	{
-			
-			 if((0x81 == skb->data[12]) && (0x00 == skb->data[13])){
-                
-			    skb->data[15] = vid & 0xFF;
-			    skb->data[14] = (vid >> 8) & 0xF; //use pri=0
-			 }
-			 else
-			 {
-				 skb_push_qtag(skb, vid, 0);//use pri=0
-			 }
+		 if((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
+         {
+		    skb->data[15] = vid & 0xFF;
+		    skb->data[14] = (vid >> 8) & 0xF; //use pri=0
+		 }
+		 else
+		 {
+			 skb_push_qtag(skb, vid, 0);//use pri=0
+		 }
 	 }
 	 else
 	 {

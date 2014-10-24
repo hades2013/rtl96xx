@@ -318,7 +318,22 @@ cpu口逻辑：
 
 
 
+11. 增加宏定义： CONFIG_PON
+    在clt502-dev/app目录下的Makefile 文件中增加这个定义，用来控制master代码的pon功能是否开启
 
+
+
+12. wifi终端的报文处理：
+
+    与wifi终端通信时，进入驱动的报文携带了tag=1的MME报文,把他剥离掉后传给netif_rx函数
+
+    即 rtl9607/product/access/kernel/linux-2.6.x/drivers/net/re8686.c文件中的 re8670_rx_skb 函数中增加：
+
+    if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) && //from cable and vlan tag is not 0 and type is mme packet,remove tag
+        (skb->vlan_tci & VLAN_VID_MASK)               &&
+        (skb->data[12]== 0x88 && skb->data[13] == 0xE1)){
+        skb->vlan_tci = 0;
+    }
 
 
 
