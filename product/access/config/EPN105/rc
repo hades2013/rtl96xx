@@ -102,9 +102,13 @@ fi
 #insmod /modules/opl_cpuif.ko
 #insmod /modules/opl_mem.ko
 #insmod /modules/opl_dal_driver.ko
-insmod /usr/lib/ifm.ko
+#insmod /usr/lib/ifm.ko
 #master d&
 ponmonitor &
+
+if [ -x /usr/sbin/eponoamd ];then
+eponoamd &
+fi
 
 if [ -x /usr/sbin/master ];then
 master

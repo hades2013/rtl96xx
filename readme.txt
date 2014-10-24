@@ -337,6 +337,18 @@ cpu口逻辑：
 
 
 
+13. PON口的处理：
+    
+    只需要将设置的所有vlan都加入PON的member中即可，参考clt502-dev/app/master/switch目录下的switch.c代码 对于下面3个定义的使用就知道了：
+    #define PON0_PORT_NUMBER    6  //to kernel : 6,and true phy - 4
+    #define PON_PHY_LIST          PON0_PORT_NUMBER
+    #define PON_IFNAME_LIST       IFNAME_PON0
+
+    这里并不是把4096个vlan都加入PON，而是设置了多少个vlan，就加入多少个到PON口。
+    也就是说，当我们设置CLT的通信VLAN为200，那么我们只需要设置业务口或者管理口的PVID为200即可。
+
+
+
 
 
 

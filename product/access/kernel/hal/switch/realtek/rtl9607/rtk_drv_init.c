@@ -458,7 +458,7 @@ DRV_RET_E Hal_SwitchInit(void)
  
 	LgcPortFor(i)
     {	
-    	if(PortLogic2PhyID(i) == 5)
+    	if(PortLogic2PhyID(i) == 5)//cable port setting
     	{
 			/*Cable Port , So Do Nothing*/
 			rtk_port_phyForceModeAbility_set(i,2,1,1);// cable port set to 1000M Speed , Full duplex , flowControl enable
@@ -549,6 +549,7 @@ erw3r	//Hal_SetPortVlanIngressFilter(LOGIC_PON_PORT, FALSE);	 delete by luorunca
 	#endif
 	
 	(void)rtk_vlan_portIgrFilterEnable_set(PortLogic2PhyID(LOGIC_CPU_PORT), DISABLED);	
+
 	#ifdef ONU_STYLE
 	/*set cpu port to all uni port transparent*/    //delete by luoruncai
 	//for (uiLPortIndex = 1; uiLPortIndex <= LOGIC_PORT_NO; uiLPortIndex++)

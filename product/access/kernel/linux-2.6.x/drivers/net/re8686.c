@@ -1201,7 +1201,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		return RE8670_RX_STOP;
 #endif
 
-#if 1 //for test
+#if 0 //for test
 #ifdef CONFIG_L2_HANDLE	
     skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
     skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
@@ -1228,7 +1228,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	else
 	{
 	
-#if 1
+#if 1 // add for cable port, luoruncai 20141024
         if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pvid){
             skb_push_qtag(skb,pvid,0);
             skb->vlan_tci = pvid;
@@ -2237,7 +2237,7 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
     
-    #if 1
+    #if 0
     if((0x81 == skb->data[12]) && (0x00 == skb->data[13])){
         printk("\n re8670_start_xmit sendport=%d,vid=%d,vlan=%d,management_vlan=%d,potoc=%.4x \n",sendport,vid,
             (((skb->data[14] & 0xF) << 8) + skb->data[15]),
