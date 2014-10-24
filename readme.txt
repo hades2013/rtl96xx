@@ -162,6 +162,10 @@ image: makeapp
 
    bs*count = 65536*22 = 0x160000
 
+   vtysh命令行中，可以用bootflag 1 / bootflag 0来设置启动分区
+   在文件系统中可以是修改/proc/manufactory/bootflag文件来控制启动分区
+   在boot下可以修改环境变量bootflag=0 ／ bootflag=1来控制启动分区
+
 
 7. 几处定义与应用代码冲突，解决办法是增加#ifndef BOARD_EPN105
    见文件：
@@ -255,7 +259,7 @@ vlan逻辑：
 	ingress:untag
 	egress :untag
 
-	（对于EPN105平台，任何包 带 or 不带 都可以进入）
+	（对于EPN105平台，任何包 带tag or 不带tag 都可以进入）
 	
 	trunk口：
 	ingress： untag报文会加上tag为端口pvid; tag报文不做处理，tag依然为原tag。
