@@ -254,12 +254,15 @@ vlan逻辑：
 	access口（注：只允许tag==pvid==mgmt vlan或者不带tag的报文通过）：
 	ingress:untag
 	egress :untag
+
+	（对于EPN105平台，任何包 带 or 不带 都可以进入）
 	
 	trunk口：
 	ingress： untag报文会加上tag为端口pvid; tag报文不做处理，tag依然为原tag。
 	egress :  tag==pvid时，去掉tag,并转发； 
-			  tag!=pvid有两种情况，1.如果该trunk口不在该报文的vlan tag所对应的vlan中，则丢弃。
-								   2.如果该trunk口在该报文的vlan tag所对应的vlan中，则不做处理，tag依然为原tag并转发。
+	          tag!=pvid有两种情况:
+                  1.如果该trunk口不在该报文的vlan tag所对应的vlan中，则丢弃。
+	          2.如果该trunk口在该报文的vlan tag所对应的vlan中，则不做处理，tag依然为原tag并转发。
 	
 	hybrid口：与trunk口逻辑基本相同，只是trunk口只有当报文中的tag==pvid时，出口逻辑才为untag； 而hybrid口，可以设一组vlan，只要报文中的tag在这一组vlan中，
 			  出口逻辑就是untag。
@@ -280,4 +283,52 @@ cpu口逻辑：
 	ingress： untag报文加上tag为pvid，tag报文不做处理，转发。事实上只要到br0的报文都会加上tag的mgmt vlan。
 	egress ： 好的做法是设置访问控制列表（ACL），只转发tag==mgmt vlan的报文以及mme的报文，但目前由于有些报文在经过管理口的时候，并未加上tag，所以在cpu的
 			  驱动代码中加上了tag为对应端口的pvid。所以目前的出口逻辑是允许任何报文通过，并不做处理。
+
+
+
+9. 由于switch转发给CPU 的包，有的包没有加tag就直接传入内核了，之后内核响应这个包时就没有带tag,所以造成问题，现在修改如下：
+
+   在re8686.c文件中的函数 re8670_rx_skb中，增加一个处理：
+
+   1. 先确定这个包是从哪个 port 转发过来的，获取这个口的pvid
+   2. 如果这个包已经带tag,那么将这个tag记录在mac表中，如果这个包是不带tag,那么将pvid记录在mac表中,即：
+
+        Drv_MT_AddEntry(skb->data,PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num),
+	    (skb->vlan_tci & VLAN_VID_MASK) ? (skb->vlan_tci & VLAN_VID_MASK) : pvid)
+
+   3. 当内核响应该包时，判断响应包是否带tag，如果不带tag，加上mac中tag,如果带tag直接转发，可参见 re8670_start_xmit 的处理方法。
+
+
+
+10. 测试vlan逻辑时，可以考虑把diag工具编译出来，通过tftp或者ftp导入到/tmp目录下，直接运行进行调试
+    下面命令可供参考：
+
+    vlan get state   ---vlan功能是否打开？
+    vlan get transparent state   ---vlan透传是否打开
+    vlan get ingress-filter port ( <PORT_LIST:ports> | all ) state   --查看入口限制是否开启
+    vlan get accept-frame-type port ( <PORT_LIST:ports> | all )   --查看入口限制模式：
+    vlan get pvid port all  --查看pvid配置
+
+    编译diag工具时，只需要在目录/opt/workspace/rtl9607/product/access/config/EPN105/main.config文件下设置：
+    CONFIG_DIAG_DEBUG=y
+
+    编译完成后不要急于烧写版本，因为增加这个工具后，版本变得很大，板子的flash不够用了。
+    所以可以先拷贝出来放在tftp服务器的目录下，重新make all后升级版本。
+    等板子正常跑起来后，可以通过tftp命令将diag放在/tmp目录下使用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

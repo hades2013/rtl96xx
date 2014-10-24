@@ -1020,7 +1020,7 @@ static inline void _tx_additional_setting(struct sk_buff *skb, struct net_device
 		}		
 #endif
 	}
-	printk("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
+	//printk("%s,%s,%d\n",__FILE__,__FUNCTION__,__LINE__);
 	/*should we check vlan_tci means vlan 0 or no vlan?*/
 	if((skb->dev->priv_flags & IFF_DOMAIN_WAN) && skb->vlan_tci){
 		pTxInfo->opts2.bit.tx_vlan_action = TXD_VLAN_REMARKING;
@@ -1169,8 +1169,6 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
     if(pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
     {   
         rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
-        //skb_push_qtag(skb,pvid,0);
-        //skb->vlan_tci = pvid;
     }
 #endif
     skb->dev = decideRxDevice(cp, pRxInfo);
@@ -1203,11 +1201,13 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 #ifdef CONFIG_L2_HANDLE	
     skb->l2_vlan = (skb->vlan_tci & VLAN_VID_MASK);  
     skb->l2_port = PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num);    
+    #if 0
     {
         struct ethhdr *eth = (struct ethhdr *)skb->data;
         printk("%s %d proto=%.4x,management_vlan=%d,vlan=%d, logic port=%d phy=%d\n", 
                 __func__, __LINE__, ntohs(eth->h_proto),s_ui_management_vlan,skb->l2_vlan,skb->l2_port,pRxInfo->opts3.bit.src_port_num);
     }
+    #endif
 #endif
 
 /*begin add by shipeng for vlan dev hwaccel, 2013-11-13 */
@@ -2233,10 +2233,11 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 
 	memset(&txInfo, 0, sizeof(struct tx_info));
 	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
-
+    #if 0
     printk("\n re8670_start_xmit vid=%d,vlan=%d,management_vlan=%d \n",vid,
         ((0x81 == skb->data[12]) && (0x00 == skb->data[13])) ? (((skb->data[14] & 0xF) << 8) + skb->data[15]) : 0,
         s_ui_management_vlan);
+    #endif
 
 	#ifdef ONU_STYLE
 	if(vid)
