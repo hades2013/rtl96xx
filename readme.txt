@@ -355,6 +355,58 @@ cpu口逻辑：
 14. 准备在下一版本加入一键复位功能，使用LED16/GPIO22
 
 
+15. 修改支持SSH功能
+
+    在EPN105平台中，使用CONFIG_LEGACY_PTYS，而不再是EPN104平台的CONFIG_UNIX98_PTYS，驱动有所改动
+
+    参考配置文件：rtl9607/product/access/config/EPN105/linux.config
+    # CONFIG_UNIX98_PTYS is not set
+    CONFIG_LEGACY_PTYS=y
+    CONFIG_LEGACY_PTY_COUNT=2   ---最多同时支持两个链接 接入局端
+
+
+    又因为在clt502-dev/app/dropbear-0.53.1/sshpty.c中使用了openpty函数
+    而openpty函数是在工具链中定义的：rtl9607/toolchains/rsdk-1.5.6-5281-EB-2.6.30-0.9.30.3-110915/config/uclibc/libutil/openpty.c文件中，
+    但是我们拿到的工具链并没有修改，造成的结果是：编译出来的版本有问题，我们无法通过ssh远程到局端上。
+
+    为了简单起见，直接在clt502-dev/app/dropbear-0.53.1/sshpty.c修改，而不去修改工具链
+
+    > 首先在平台增加/tmp/dev目录，里面mknod ptyp* 和 ttyp*设备，因为额/dev目录是readonly的，我们需要把/dev 目录下的ptyp* 和 ttyp*文件链接到/tmp/dev/目录下
+      来实现/dev/下的文件可读可写:
+
+      在启动文件 rtl9607/product/access/config/EPN105/rc 中增加：
+
+      mkdir -p /tmp/dev
+
+      mknod /tmp/dev/ttyp0 c 3 0
+      ...
+      mknod /tmp/dev/ptyp0 c 2 0
+      ...
+      mknod /tmp/dev/ptypa c 2 10
+      ...
+
+      chmod 777 /tmp/dev/* -R
+
+    > 重新修改文件系统下的/dev路径下的ptyp* 和 ttyp*文件：
+      rm ptyp* 
+      rm ttyp*
+
+      ln -s ../tmp/dev/ptyp0 ptyp0
+      ln -s ../tmp/dev/ptyp1 ptyp1
+      ...
+
+      ln -s ../tmp/dev/ttyp0 ttyp0
+      ln -s ../tmp/dev/ttyp1 ttyp1
+      ...
+
+    > 修改clt502-dev/app/dropbear-0.53.1/sshpty.c的函数：openpty
+      
+
+    > 修改客户端退出后，ptyp*仍在使用的问题
+
+   以上修改在clt502-dev/app/dropbear-0.53.1目录下的修改都在宏：BOARD_EPN105 下面。
+
+
 
 
 

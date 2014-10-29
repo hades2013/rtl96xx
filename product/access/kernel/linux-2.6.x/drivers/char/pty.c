@@ -124,6 +124,8 @@ static int pty_write(struct tty_struct *tty, const unsigned char *buf,
 #endif
 
 #ifdef _PTY_MP_TELNET_SUPPORT_
+
+    #ifdef CONFIG_LEGACY_PTYS
 	if(mp_pty_write_monitor_flag && pty_driver && pty_driver->ttys)
 	{
 		struct tty_struct *p_ptyx=NULL;
@@ -141,11 +143,11 @@ static int pty_write(struct tty_struct *tty, const unsigned char *buf,
 		}
 		if(p_ptyx && p_ptyx==tty)
 		{
-			//printk( "pty_write: p_ptyx=0x%x, name=%s\n", p_ptyx, p_ptyx?p_ptyx->name:"" );
 			mp_pty_is_hit_flag=1;
 			return count;
 		}
 	}
+    #endif
 #endif //_PTY_MP_TELNET_SUPPORT_
 
 	c = to->receive_room;
@@ -241,7 +243,6 @@ static void pty_flush_buffer(struct tty_struct *tty)
 static int pty_open(struct tty_struct *tty, struct file *filp)
 {
 	int	retval = -ENODEV;
-
 	if (!tty || !tty->link)
 		goto out;
 
@@ -395,6 +396,7 @@ static int legacy_count = CONFIG_LEGACY_PTY_COUNT;
 module_param(legacy_count, int, 0);
 
 static const struct tty_operations pty_ops_bsd = {
+    .install = pty_install,
 	.open = pty_open,
 	.close = pty_close,
 	.write = pty_write,
@@ -437,7 +439,6 @@ static void __init legacy_pty_init(void)
 	pty_driver->flags = TTY_DRIVER_RESET_TERMIOS | TTY_DRIVER_REAL_RAW;
 	pty_driver->other = pty_slave_driver;
 	tty_set_operations(pty_driver, &pty_ops);
-
 	pty_slave_driver->owner = THIS_MODULE;
 	pty_slave_driver->driver_name = "pty_slave";
 	pty_slave_driver->name = "ttyp";
@@ -823,7 +824,7 @@ EXPORT_SYMBOL(mp_pty_is_hit);
 int mp_pty_write(const unsigned char *buf, int count)
 {
 	int c=0;
-
+    #ifdef CONFIG_LEGACY_PTYS
 	if(pty_slave_driver && pty_slave_driver->ttys && buf && count)
 	{
 		struct tty_struct *p_ttypx=NULL;
@@ -839,7 +840,6 @@ int mp_pty_write(const unsigned char *buf, int count)
 			}
 		}
 
-		//printk( "mp_pty_write: p_ttypx=0x%x, name=%s\n", p_ttypx, p_ttypx?p_ttypx->name:"" );
 		if(p_ttypx)
 		{
 			while(c<count)
@@ -858,6 +858,7 @@ int mp_pty_write(const unsigned char *buf, int count)
 			}
 		}
 	}
+    #endif
 	return c;
 };
 EXPORT_SYMBOL(mp_pty_write);

@@ -96,6 +96,44 @@ echo "Found www.tar.gz"
 tar xf /www.tar.gz -C /tmp/www
 fi
 
+mkdir -p /tmp/dev
+
+mknod /tmp/dev/ttyp0 c 3 0
+mknod /tmp/dev/ttyp1 c 3 1
+mknod /tmp/dev/ttyp2 c 3 2
+mknod /tmp/dev/ttyp3 c 3 3
+mknod /tmp/dev/ttyp4 c 3 4
+mknod /tmp/dev/ttyp5 c 3 5
+mknod /tmp/dev/ttyp6 c 3 6
+mknod /tmp/dev/ttyp7 c 3 7
+mknod /tmp/dev/ttyp8 c 3 8
+mknod /tmp/dev/ttyp9 c 3 9
+mknod /tmp/dev/ttypa c 3 10
+mknod /tmp/dev/ttypb c 3 11
+mknod /tmp/dev/ttypc c 3 12
+mknod /tmp/dev/ttypd c 3 13
+mknod /tmp/dev/ttype c 3 14
+mknod /tmp/dev/ttypf c 3 15
+
+mknod /tmp/dev/ptyp0 c 2 0
+mknod /tmp/dev/ptyp1 c 2 1
+mknod /tmp/dev/ptyp2 c 2 2
+mknod /tmp/dev/ptyp3 c 2 3
+mknod /tmp/dev/ptyp4 c 2 4
+mknod /tmp/dev/ptyp5 c 2 5
+mknod /tmp/dev/ptyp6 c 2 6
+mknod /tmp/dev/ptyp7 c 2 7
+mknod /tmp/dev/ptyp8 c 2 8
+mknod /tmp/dev/ptyp9 c 2 9
+mknod /tmp/dev/ptypa c 2 10
+mknod /tmp/dev/ptypb c 2 11
+mknod /tmp/dev/ptypc c 2 12
+mknod /tmp/dev/ptypd c 2 13
+mknod /tmp/dev/ptype c 2 14
+mknod /tmp/dev/ptypf c 2 15
+
+chmod 777 /tmp/dev/* -R
+
 #=================== install modules ============================
 #insmod /modules/opl_reg_mmap.ko
 #insmod /modules/opl_minte.ko
