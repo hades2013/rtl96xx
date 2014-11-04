@@ -405,9 +405,34 @@ cpu口逻辑：
     > 修改客户端退出后，ptyp*仍在使用的问题
 
    以上修改在clt502-dev/app/dropbear-0.53.1目录下的修改都在宏：BOARD_EPN105 下面。
+   
+16. 透传模式下，将1-4094的所有vlan加入到除管理口和cpu口的所有其他端口中。
+	但vlan 1加入到了cpu口和管理口，而管理vlan加入了所有口，且对应管理口的出口逻辑为untag。
+	该修改在switch.c中，函数static int vcfg_vlan_config_get(vlan_apply_t *vp)，行2640处。
+	
+17. 修改局端逻辑端口与物理端口对应关系，从而修改默认的管理口，但默认管理口依然为eth0，只是修改了其对应的phy。
+	该修改在switch.c中，函数inline int toLogicPort(int phy)，以及switch_port.h文件中，行333的端口号的宏定义处。
+	所以此时的局端代码中的逻辑端口与内核中真正的物理口的对应关系为：
+	
+	#define    CPU_PORT_NUMBER     7  //to kernel : 7,and true phy - 6
 
+	#define    ETH0_PORT_NUMBER    3  //to kernel : 3,and true phy - 2
+	#define    ETH1_PORT_NUMBER    4  //to kernel : 4,and true phy - 3
+	#define    ETH2_PORT_NUMBER    1  //to kernel : 1,and true phy - 0
 
-
+	#define    CLT0_PORT_NUMBER    5  //to kernel : 5,and true phy - 5
+	#define    PON0_PORT_NUMBER    6  //to kernel : 6,and true phy - 4
+	
+18. 解决系统日志显示问题，在文件系统的etc目录下增加配置文件syslog.conf文件，该文件内容如下：
+	*.debug	/tmp/log/messages
+	*.info	/dev/console
+	#*.1	@:
+	
+	由于之前在var/log目录下没有记录系统信息的messages文件，所以修改rtl9607/product/access/config/EPN105目录下的rc文件，增加创建messages文件的命令，如下：
+	rm /tmp/log -rf
+	mkdir /tmp/log/ -p
+	touch /tmp/log/messages
+	chmod 777 /tmp/log/messages
 
 
 

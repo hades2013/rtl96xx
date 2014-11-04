@@ -15,6 +15,11 @@ mount -t tmpfs none /etc
 cp -r /var/etc /
 rm -rf /var/etc
 touch /var/tmp/log
+
+rm /tmp/log -rf
+mkdir /tmp/log/ -p
+touch /tmp/log/messages
+chmod 777 /tmp/log/messages
 #
 # mount process
 #
