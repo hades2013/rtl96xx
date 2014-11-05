@@ -264,6 +264,7 @@ typedef enum tagDrv_cmd{
     DRV_CMD_GPIO_INT_EDGE_SET,   
     DRV_CMD_GET_PON_STATUS_ERR_FLAG,
     DRV_CMD_SET_PON_STATUS_ERR_FLAG,
+    DRV_CMD_SET_PON_LASER_STATE, //---add by an for set epon laser state
     DRV_CMD_GET_OAM_DISCOVERY_STATE,
 	DRV_CMD_SET_OAM_DISCOVERY_STATE,
     DRV_CMD_GET_MAC_WRITE_FLAG,
@@ -703,6 +704,10 @@ DRV_RET_E Ioctl_SetLookupMissFloodPortMask(DRV_CMD_E ioctlCmd, UINT32 type, logi
 
 #define Ioctl_CheckVlanCheckExist(_vlan_id)\
     Ioctl_SetUnionUint32(DRV_CMD_GET_VLAN_CHECK_EXIST, (UINT32)_vlan_id)
+/*add by an for set epon laser state*/
+#define Ioctl_SetEponLaserState(_state)\
+    Ioctl_SetUnionUint32(DRV_CMD_SET_PON_LASER_STATE, (UINT32)_state);
+
 /*  
 *  Ioctl_CheckVlanCheckExist
 *

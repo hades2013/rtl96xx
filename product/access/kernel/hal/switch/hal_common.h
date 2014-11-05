@@ -451,7 +451,8 @@ typedef struct tagLW_DRV_OP_S
 	
 	DRV_RET_E (*p_Hal_ClfRuleForCtcClfPriToQueueClear)(UINT32 uiLPortId);
 	DRV_RET_E (*p_Hal_LookupMissFloodPortMaskSet)(UINT32 type, rtk_portmask_t *pFlood_portmask);
-	
+	DRV_RET_E (*p_Hal_SetPonLaserState)(UINT32 uistate); // add by an for set epon laser state
+    
 }LW_DRV_OP_S;
 extern LW_DRV_OP_S g_LW_Drv_Ops;
 
@@ -1020,6 +1021,9 @@ DRV_RET_E Hal_ClfRuleForCtcClfPriToQueueCreate(UINT32 uiLPortId,
 DRV_RET_E Hal_ClfRuleForCtcClfPriToQueueDelete(UINT32 uiLPortId, UINT32 uiRulePrecedence);
 DRV_RET_E Hal_ClfRuleForCtcClfPriToQueueClear(UINT32 uiLPortId);
 DRV_RET_E Hal_LookupMissFloodPortMaskSet(UINT32 type, rtk_portmask_t *pFlood_portmask);
+/*add by an*/
+DRV_RET_E Hal_SetPonLaserState(UINT32);
+
 
 /* Modified by Einsn For EOC Porting 20130416 */
 #ifdef CONFIG_EOC_EXTEND

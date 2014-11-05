@@ -284,6 +284,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_ClfRuleForCtcClfPriToQueueDelete=Hal_ClfRuleForCtcClfPriToQueueDelete;
 	g_LW_Drv_Ops.p_Hal_ClfRuleForCtcClfPriToQueueClear=Hal_ClfRuleForCtcClfPriToQueueClear;
 	g_LW_Drv_Ops.p_Hal_LookupMissFloodPortMaskSet = Hal_LookupMissFloodPortMaskSet;
+    g_LW_Drv_Ops.p_Hal_SetPonLaserState = Hal_SetPonLaserState;
 }
 
 DRV_RET_E Hal_SwitchInit(void)

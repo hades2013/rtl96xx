@@ -824,7 +824,13 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
         	    return g_LW_Drv_Ops.p_Hal_GpioIntEdgeSet(pstDrvReq->para1_u.uiValue, pstDrvReq->para2_u.uiValue);
 			else
 				return DRV_NULL_POINTER;
-			
+
+        case DRV_CMD_SET_PON_LASER_STATE://add by an for set epon laser state
+            if (g_LW_Drv_Ops.p_Hal_SetPonLaserState != NULL)
+                return g_LW_Drv_Ops.p_Hal_SetPonLaserState(pstDrvReq->para1_u.uiValue);
+            else
+                return DRV_NULL_POINTER;
+            
         case DRV_CMD_GET_PON_STATUS_ERR_FLAG:
             pstDrvReq->para1_u.uiValue = g_uiIfPonStateErr;
             return DRV_OK;

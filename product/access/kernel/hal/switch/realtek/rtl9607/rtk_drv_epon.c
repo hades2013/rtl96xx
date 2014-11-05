@@ -128,3 +128,10 @@ DRV_RET_E Hal_LookupMissFloodPortMaskSet(UINT32 type, rtk_portmask_t *pFlood_por
 }
 /*End add by huangmingjian 2013-09-24*/
 
+/*add by an for set epon laser state*/
+DRV_RET_E Hal_SetPonLaserState(UINT32 state)
+{
+    return rtk_epon_forceLaserState_set(state);
+}
+
+
