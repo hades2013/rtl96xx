@@ -458,7 +458,7 @@ DRV_RET_E Hal_SwitchInit(void)
  
 	LgcPortFor(i)
     {	
-    	if(PortLogic2PhyID(i) == 5)//cable port setting
+    	if(PortLogic2PhyID(i) == 5 || PortLogic2PhyID(i) == 0)//cable port setting
     	{
 			/*Cable Port , So Do Nothing*/
 			rtk_port_phyForceModeAbility_set(i,2,1,1);// cable port set to 1000M Speed , Full duplex , flowControl enable
