@@ -1166,7 +1166,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 {	
 #if 1
     uint32 pvid = 0;
-    if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT)
+    if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pRxInfo->opts3.bit.src_port_num != CLT1_PORT)
     {   
         rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
     }
@@ -1182,7 +1182,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 
 	skb->vlan_tci = (pRxInfo->opts2.bit.ctagva) ? VTAG2VLANTCI(pRxInfo->opts2.bit.cvlan_tag) : 0;
 
-    if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) && //from cable and vlan tag is not 0 and type is mme packet,remove tag
+    if(((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT)) && //from cable and vlan tag is not 0 and type is mme packet,remove tag
         (skb->vlan_tci & VLAN_VID_MASK)               &&
         (skb->data[12]== 0x88 && skb->data[13] == 0xE1)){
         skb->vlan_tci = 0;
@@ -1229,7 +1229,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 	{
 	
 #if 1 // add for cable port, luoruncai 20141024
-        if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pvid){
+        if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pRxInfo->opts3.bit.src_port_num != CLT1_PORT && pvid){
             skb_push_qtag(skb,pvid,0);
             skb->vlan_tci = pvid;
         }
