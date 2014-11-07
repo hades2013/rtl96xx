@@ -2272,7 +2272,10 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 				 	&&(wireless_up_service_vlan!=(((skb->data[14] & 0xF) << 8) + skb->data[15]))*/)
 				 {	
 				 	 //printk("\n\n\n wireless_up_service_vlan %d,vlan =%d \n\n",wireless_up_service_vlan,(((skb->data[14] & 0xF) << 8) + skb->data[15]));
-					 memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
+                     if(skb->data[16] == 0x88 && skb->data[17] == 0xE1){
+                        memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
+                     }
+					 
 				 }
 		 	}
 		  /*end modified by wanghuanyu for 197*/

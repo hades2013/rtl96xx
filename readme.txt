@@ -434,9 +434,25 @@ cpu口逻辑：
 	touch /tmp/log/messages
 	chmod 777 /tmp/log/messages
 
+19. 问题：当设置了管理vlan，且配置了大量vlan时，保存当前配置，重启，会出现设不了管理口pvid的错误。
+	原因：这是由于当设置了大量vlan，在我们的代码中也就是当设置的vlan数大于100时，会注册一个定时器，然后在这个定时器的回调函数中对设置的vlan进行处理，
+	但是代码中，当还没有跑定时器的回调函数时，就先去设置端口pvid，于是由于还没有pvid对应的vlan，导致设置pvid失败。
+	解决办法：
+	当设了管理vlan，且配置的vlan数目大于100时，就在注册定时器之前先处理所有端口的pvid对应的vlan；
+	所以在文件switch.c中定义函数vcfg_vlan_of_pvid_config_apply，然后在函数vcfg_vlan_config_apply中注册定时器之前调用这个定义的函数。
+	
+20. 增加第二路eoc:
+	问题：由于第二路eoc在上电后不会主动发送管理报文，而需主进程先发送一个组播管理报文，只有当第二路eoc收到这个报文后，才会与cpu通信。
+	解决办法：代码中有一个定时器，用于定时向eoc发送管理报文，从而获取eoc状态，所以先定义函数，用于发送组播管理报文，然后在该定时器的回调函数中
+	调用该函数。修改处在文件clt_mon.c中，增加函数为static void send_packet_to_eoc()。
 
-
-
+21. 问题：dhcp功能异常：
+	原因：因为我们的dhcp服务器在vlan100中，所以要想与服务器通信就必须要发出带100tag的报文，而我们的驱动代码中，如果收到的报文没带tag的话，
+	默认会将br0发出的报文的tag给剥离掉，而其默认会带上管理vlan的tag，所以会出现上述问题。
+	解决办法：
+	在驱动中剥离发出报文tag的代码处，增加判断，如果是管理的mme报文则继续处理，使其剥离tag，其他的报文则不做处理，继续保有tag。这样发出的报文就会带上
+	管理vlan的tag，所以只要将管理vlan设为dhcp服务器所在的vlan，dhcp服务就可以生效。
+	修改处在驱动代码的文件re8686.c中，函数__IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)中。
 
 
 
