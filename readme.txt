@@ -455,5 +455,33 @@ cpu口逻辑：
 	修改处在驱动代码的文件re8686.c中，函数__IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)中。
 
 
+22. 增加支持不识别的flash：
+
+        目前版本支持的flash有 ：
+
+   	spi_flash_MXIC_MX25L25735E_SIO，id = 0x00c22019
+
+	spi_flash_MXIC_MX25L12845E，id = 0x00c22018
+
+	spi_flash_EON_EN25Q64，id = 0x001c3017
+
+	spi_flash_WINBOND_W25Q32BV，id = 0x00ef4016
+
+	spi_flash_WINBOND_W25Q128FV，id = 0x00ef4018
+
+	spi_flash_GD_GD25Q128BFIG，id = 0x00c84018
+
+    修改后，对于不识别的flash默认采用spi_flash_EON_EN25Q64(8M flash) 方式。如果系统依然不能启动，只好再次修改驱动了。
+
+    修改的文件有两个，一个是boot下的驱动，一个是kernel下的驱动，分别如下：
+    product/access/boot/preloader-9607/preloader/soc/flash/plr_nor_spi_flash.c
+    product/access/kernel/linux-2.6.x/drivers/mtd/chips/luna_nor_spi/plr_nor_spi_flash.c
+
+    修改的方法都是增加了定义：genFlash
+    具体修改可以参见genFlash的使用。
+
+    
+
+
 
 

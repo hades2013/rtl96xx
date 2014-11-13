@@ -154,6 +154,46 @@ enum pm_method_list {
 	PM_EN0_4BCMDSET=14,			/* Using 4Byte Command Set */
 };
 
+static flash_info_t genFlash = {
+    .num_chips = 0x01,
+    .addr_mode = 0x03,
+    .prefer_divisor = 0x10,
+    .size_per_chip = 0x17,
+    .prefer_rx_delay0 = 0x00,
+    .prefer_rx_delay1 = 0x00,
+    .prefer_rx_delay2 = 0x00,
+    .prefer_rx_delay3 = 0x00,
+    .prefer_rd_cmd = 0x03,
+    .prefer_rd_cmd_io = 0x00,
+    .prefer_rd_dummy_c = 0x00,
+    .prefer_rd_addr_io = 0x00,
+    .prefer_rd_data_io = 0x00,
+    .wr_cmd = 0x02,
+    .wr_cmd_io = 0x00,
+    .wr_dummy_c = 0x00,
+    .wr_addr_io = 0x00,
+    .wr_data_io = 0x00,
+    .wr_boundary = 0x08,
+    //.erase_cmd = 0x20,
+    //.erase_unit = 0x0c,
+    .erase_cmd = 0xd8,
+    .erase_unit = 0x10,
+    .pm_method = 0x00,
+    .pm_rdsr_cmd = 0x00,
+    .pm_rdsr2_cmd = 0x00,
+    .pm_wrsr_cmd = 0x00,
+    .pm_enable_cmd = 0x00,
+    .pm_enable_bits = 0x0000,
+    .pm_status_len = 0x00,
+    .rdbusy_cmd = 0x05,
+    .rdbusy_len = 0x02,
+    .rdbusy_loc = 0x00,
+    .rdbusy_polling_period = 0x00,
+    .id = 0xFFFFFF
+};
+
+
+
 #define GENERIC_FLASH_ID (0xFFFFFF)
 void flash_init(void) {
 	/* SFSIZE of 3B-addr mode starts from 2^17;
@@ -188,9 +228,10 @@ void flash_init(void) {
 		printf("[%06x]", fi->id);
 		if ((flash_id == fi->id) && (para_flash_info.id != fi->id)) {
 			memcpy((void *)&para_flash_info, (void *)fi, sizeof(flash_info_t));
-		} else if((fi_generic == NULL) && (GENERIC_FLASH_ID == fi->id)) {
+		} else if((fi_generic == NULL) && (GENERIC_FLASH_ID == /*fi->id*/genFlash.id)) {
 			/* Record the location of common setting */
-			fi_generic = fi;
+			//fi_generic = fi;
+            fi_generic = &genFlash;
 		}
 	}
 
@@ -200,6 +241,7 @@ void flash_init(void) {
 		printf("\nWARNING: flash ID [%06x] is not supported, please check your setting\n");
 		if ((fi_generic != NULL) && (GENERIC_FLASH_ID == fi_generic->id)) {
 			printf("A common setting found in the database is used but not recommended\n");
+            fi_generic->id = flash_id;
 			memcpy((void *)&para_flash_info, (void *)fi_generic, sizeof(flash_info_t));
 		}
 	}
