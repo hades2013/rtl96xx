@@ -480,6 +480,9 @@ cpu口逻辑：
     修改的方法都是增加了定义：genFlash
     具体修改可以参见genFlash的使用。
 
+23. 修改makeapp.c文件，根据系统分区结构，修改偏移量，现在可以直接使用img文件烧写
+    /product/access/tools/makeapp.c
+
     
 
 
