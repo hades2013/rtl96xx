@@ -157,7 +157,11 @@ unsigned char *m_pucFilePtr = NULL;
 #endif
 
 #if defined(CONFIG_PRODUCT_EPN105)
-#define BIN_OS_SIZE        (1536 * 1024)
+//#define BIN_OS_SIZE        (1536 * 1024)
+#define BIN_OS_SIZE        (0x160000) //kernel1 , 0x160000 
+#define BIN_FS_SIZE        (0x230000) //rootfs1, 0x230000 
+#define BIN_NV1_SIZE        (0x40000) //nvram1,0x40000 
+#define BIN_NV2_SIZE        (0x40000) //nvram2,0x40000 
 #endif
 
 #if defined(CONFIG_PRODUCT_5500)
@@ -177,7 +181,7 @@ unsigned char *m_pucFilePtr = NULL;
 #define BIN_BOOT_ENV_OFF    (BIN_BOOT_OFF+BIN_BOOT_SIZE)
 #define BIN_EXP_OFF         (BIN_BOOT_ENV_OFF+BIN_BOOT_ENV_SIZE)
 #define BIN_OS1_OFF         (BIN_EXP_OFF+BIN_EXP_SIZE)
-#define BIN_OS2_OFF         (BIN_OS1_OFF+BIN_OS_SIZE)
+#define BIN_OS2_OFF         (BIN_OS1_OFF+BIN_OS_SIZE+BIN_FS_SIZE+BIN_NV1_SIZE+BIN_NV2_SIZE)
 #define BIN_CFG_OFF         (BIN_OS2_OFF+BIN_OS_SIZE)
 ///////////////////////////////////////////////////////////////////
 #define write_4(ptr, value)  (*((int *)(ptr)) = (value))
@@ -266,7 +270,7 @@ void SaveFile(char *FileName, unsigned char *pucBuf, int len)
 
     strcat(szDir, FileName);
 
-    printf("==> file:%s \n", szDir);
+    printf("==> file:%s len=0x%08x\n", szDir,len);
 
     fd = open(szDir, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
     if (-1 == fd)
@@ -338,6 +342,16 @@ int main(int argc, char* argv[])
         panic("Unknown product name!\n");
     }
 
+    
+    printf("FLASH_SIZE=0x%08x\n",(unsigned int)FLASH_SIZE);
+    printf("BIN_BOOT_OFF=0x%08x\n",(unsigned int)BIN_BOOT_OFF);
+    printf("BIN_BOOT_ENV_OFF=0x%08x\n",(unsigned int)BIN_BOOT_ENV_OFF);
+    printf("BIN_EXP_OFF=0x%08x\n",(unsigned int)BIN_EXP_OFF);
+    printf("BIN_OS1_OFF=0x%08x\n",(unsigned int)BIN_OS1_OFF);
+    printf("BIN_OS2_OFF=0x%08x\n",(unsigned int)BIN_OS2_OFF);
+    printf("BIN_CFG_OFF=0x%08x\n",(unsigned int)BIN_CFG_OFF);
+
+
     /* 申请一块足够大的内存 */
     m_pucFilePtr = (unsigned char *)malloc(file_len);
     if (NULL == m_pucFilePtr)
@@ -373,7 +387,7 @@ int main(int argc, char* argv[])
     	/*add magic for opl boot*/
     	memcpy(m_pucFilePtr, (unsigned char *)aucMagic, sizeof(aucMagic));
 	#endif
-
+  
 	len = AddFile(BIN_BOOT_OFF, boot_name);
 	/*Begin modify by dengjian 2012-11-01 for QID0077*/
     #if 0
@@ -384,11 +398,14 @@ int main(int argc, char* argv[])
     strcat(szDir, szapp_file_name);
     /*End add by dengjian 2012-07-17 for make 8M image*/
     #endif
-
+   
     len = AddFile(BIN_OS1_OFF, soft_name);
+    
     /*Begin modify by dengjian 2012-11-06 for QID0080*/
 #ifdef CONFIG_BOOT_MULTI_APP
-    memcpy(BIN_OS2_OFF,BIN_OS1_OFF, len);
+    //memcpy(BIN_OS2_OFF,BIN_OS1_OFF, len);
+    memmove(BIN_OS2_OFF,BIN_OS1_OFF, len);
+
 #endif
     /*End modify by dengjian 2012-11-06 for QID0080*/
     /*End modify by dengjian 2012-11-01 for QID0077*/
