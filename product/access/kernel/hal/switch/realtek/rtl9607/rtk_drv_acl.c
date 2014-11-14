@@ -3634,7 +3634,7 @@ DRV_RET_E Hal_AclRuleInit(void)
     /*end modified by liaohongjun 2012/11/30 of EPN104QID0084*/
 
 	/* trap dst mac == cpu mac frame to cpu. */
-	__Hal_CreateRuleForCpuMac();
+	//__Hal_CreateRuleForCpuMac();----add by an
 	
     /* Copy broadcast arp frame to cpu. */
     (void)Hal_AclRuleForCopyCpuCreate(TRUE, ACL_TRUST_ETHTYPE, &uiEthTypeArp);
