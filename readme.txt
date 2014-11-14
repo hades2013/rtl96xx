@@ -418,7 +418,7 @@ cpu口逻辑：
 
 	#define    ETH0_PORT_NUMBER    3  //to kernel : 3,and true phy - 2
 	#define    ETH1_PORT_NUMBER    4  //to kernel : 4,and true phy - 3
-	#define    ETH2_PORT_NUMBER    1  //to kernel : 1,and true phy - 0
+	#define    CLT1_PORT_NUMBER    1  //to kernel : 1,and true phy - 0
 
 	#define    CLT0_PORT_NUMBER    5  //to kernel : 5,and true phy - 5
 	#define    PON0_PORT_NUMBER    6  //to kernel : 6,and true phy - 4
@@ -483,7 +483,9 @@ cpu口逻辑：
 23. 修改makeapp.c文件，根据系统分区结构，修改偏移量，现在可以直接使用img文件烧写
     /product/access/tools/makeapp.c
 
-    
+	
+24. 问题：当在页面或通过命令禁止允许从终端访问局端时，无效。
+	解决办法：在内核的l2switch的驱动的acl的初始化函数 DRV_RET_E Hal_AclRuleInit(void) 中，取消调用函数 __Hal_CreateRuleForCpuMac()；
 
 
 
