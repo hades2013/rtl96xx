@@ -3634,7 +3634,7 @@ DRV_RET_E Hal_AclRuleInit(void)
     /*end modified by liaohongjun 2012/11/30 of EPN104QID0084*/
 
 	/* trap dst mac == cpu mac frame to cpu. */
-	//__Hal_CreateRuleForCpuMac();----add by an
+	__Hal_CreateRuleForCpuMac();//----add by an
 	
     /* Copy broadcast arp frame to cpu. */
     (void)Hal_AclRuleForCopyCpuCreate(TRUE, ACL_TRUST_ETHTYPE, &uiEthTypeArp);
@@ -3956,7 +3956,10 @@ DRV_RET_E __Hal_CreateRuleForCpuMac(void)
 	LgcPortFor(uiLPortId)
     {
         uiPPort = PortLogic2PhyPortId(uiLPortId);
-        uiPPortMask |= (1U << uiPPort);
+        if(uiPPort != 5 && uiPPort != 0)
+        {
+            uiPPortMask |= (1U << uiPPort);
+        }
     }
 	uiPPort = PortLogic2PhyPortId(LOGIC_UPPON_PORT);
 	uiPPortMask |= (1U << uiPPort);

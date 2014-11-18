@@ -463,7 +463,7 @@ cpu口逻辑：
 
 	spi_flash_MXIC_MX25L12845E，id = 0x00c22018
 
-	spi_flash_EON_EN25Q64，id = 0x001c3017
+	spi_flash_EON_EN25Q64，id = 0x001c3017          ----EN25QH64@SOP8
 
 	spi_flash_WINBOND_W25Q32BV，id = 0x00ef4016
 
@@ -485,8 +485,17 @@ cpu口逻辑：
 
 	
 24. 问题：当在页面或通过命令禁止允许从终端访问局端时，无效。
-	解决办法：在内核的l2switch的驱动的acl的初始化函数 DRV_RET_E Hal_AclRuleInit(void) 中，取消调用函数 __Hal_CreateRuleForCpuMac()；
+	解决办法：在内核的l2switch的驱动的acl的初始化函数 DRV_RET_E Hal_AclRuleInit(void) 中，在调用函数__Hal_CreateRuleForCpuMac()中修改如下；
+	本函数时将所有端口的报文都转发到cpu，所以在这里将cab口去掉，若今后增加了新类型的端口或端口有修改，并且不需要改端口的包到br0,可在此处进行修改，如下：
+	LgcPortFor(uiLPortId)
+    {
+        uiPPort = PortLogic2PhyPortId(uiLPortId);
+        if(uiPPort != 5 && uiPPort != 0)
+        {
+            uiPPortMask |= (1U << uiPPort);
+        }
+    }
 
-
+25. 板载cab口的流控、速率等为固定，拓展的cab为自适应。在rtk_drv_init.c文件中的switch初始化函数DRV_RET_E Hal_SwitchInit(void)内；
 
 
