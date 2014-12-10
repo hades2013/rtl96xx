@@ -43,6 +43,8 @@ extern unsigned int s_ui_management_vlan;
 extern unsigned int wireless_up_service_vlan;
 extern void _Hal_PortMonitorInit(void);
 extern DRV_RET_E __Hal_InitPonLaserMonior(VOID);
+extern DRV_RET_E __Hal_InitRestoreMonior(VOID);
+
 
 /*----------------------------------------------*
  * 外部函数原型说明                             *
@@ -642,8 +644,9 @@ DRV_RET_E Hal_SwitchInit(void)
 	/*End add by huangmingjian 2014-05-19 for Bug 587*/
 	
 	__Hal_InitPonLaserMonior();
-
-/* used to diag port status */
+    __Hal_InitRestoreMonior();//---add by an
+    
+    /* used to diag port status */
 	for (i = 0 ; i < 6; i ++)
     {	
     	int ret;

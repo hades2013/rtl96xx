@@ -125,7 +125,7 @@ static void rtl8185_wps_led(int isOn)
 
 // static int wan_ipif_counter = 0;
 // Mason Yu. Add proc file for push button.
-static char default_flag='0';
+char default_flag='0'; // add by an -- the default_flag need in another file that is to recover the factory configure.
 static char reboot_flag='0';
 
 #ifdef CONFIG_WLAN_ON_OFF_BUTTON

@@ -12,6 +12,10 @@
 #include <common/rt_type.h>
 #include <rtk/gpio.h>
 #include <rtk/irq.h>
+#include <linux/signal.h> //--add by an
+#include <linux/jiffies.h> //--add by an
+#include <linux/pid.h> //--add by an
+
 
 /*----------------------------------------------*
  * module parameter                             *
@@ -235,7 +239,46 @@ DRV_RET_E __Hal_InitPonLaserMonior(VOID)
 	
 }
 
+extern char default_flag;
+extern int kill_pid(struct pid *pid, int sig, int priv);
+/*****************************************************************************
+  Func Name: __RestoreIntr_Handler
+  Description: the handler of gpio of restore----add by an
+*****************************************************************************/
+int32 __RestoreIntr_Handler(UINT32 status)
+{
+    static int32  flag     = 0;
+    int32         duration = 0;
+    struct pid *  pid      = NULL;
 
+    if(0 == status)
+    {
+        flag ++;
+    }
+    else
+    {
+        if(flag >= 1 && flag <= 2)
+        {
+            pid = get_pid(find_vpid(1));
+            kill_pid(pid,SIGTERM,1);
+        }
+        else if(flag > 2)
+        {
+            default_flag = '1';
+        }
+        flag = 0;
+    }
+}
+
+/*****************************************************************************
+  Func Name: __Hal_InitRestoreMonior
+  Description: init gpio of restore              -----add by an
+*****************************************************************************/
+DRV_RET_E __Hal_InitRestoreMonior(VOID)
+{
+    int ret = 0;
+    Hal_GpioDirInSet(22);
+}
 
 #ifdef  __cplusplus
 }

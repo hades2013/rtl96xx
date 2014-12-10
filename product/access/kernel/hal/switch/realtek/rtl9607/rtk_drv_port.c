@@ -2024,13 +2024,18 @@ static void gphy_status_handler(void)
     //osal_printf("\n\rDyingGasp isr done!!!\n\r");
 }
 
+extern int32 __RestoreIntr_Handler(UINT32 status);
+
 static int portminitor_thread(void)
 {
 	UINT8 readByte = 0;
+    UINT32 flag;
     
     while(1)
     {       
-        msleep(1000); 
+        msleep(1000);
+        Hal_GpioValGet(22, &flag);
+        __RestoreIntr_Handler(flag);
 		gphy_status_handler();
     }
     return 0;
