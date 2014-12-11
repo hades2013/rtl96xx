@@ -499,3 +499,37 @@ cpu口逻辑：
 25. 板载cab口的流控、速率等为固定，拓展的cab为自适应。在rtk_drv_init.c文件中的switch初始化函数DRV_RET_E Hal_SwitchInit(void)内；
 
 
+
+26. 修改boot和系统的菜单密码为hexicom
+
+1. 在product/access/config/EPN105/main.config下增加：
+
+CONFIG_HEXICOM_MENU_PASSWORD="hexicom"
+CONFIG_HEXICOM_BOOT_PASSWORD="hexicom"
+
+2. 在product/access/config/EPN105/config.in下增加：
+config CONFIG_HEXICOM_MENU_PASSWORD
+	string 'menu password'
+	default 'hexicom'
+config CONFIG_HEXICOM_BOOT_PASSWORD
+	string 'boot password'
+	default 'hexicom'
+	
+3. 在product/access/boot/preloader-9607/u-boot-9607/include/configs/luna.h中定义：
+
+#define CONFIG_BOOT_PASSWORD CONFIG_HEXICOM_BOOT_PASSWORD // CONFIG_PRODUCT_NAME
+#define CONFIG_MENU_PASSWORD CONFIG_HEXICOM_MENU_PASSWORD //CONFIG_PRODUCT_NAME
+	
+
+27. boot下的sn修改不需要限制，MAC设置需要认证
+
+ 在 product/access/boot/preloader-9607/u-boot-9607/common/cmd_manufacture_set.c中的
+ do_manufacture_set 函数中，删除sn设置下的条件设置及MAC需要认证
+ 
+ 
+ 
+ 
+ 
+
+
+

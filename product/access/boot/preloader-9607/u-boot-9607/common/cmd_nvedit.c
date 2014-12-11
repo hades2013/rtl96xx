@@ -222,11 +222,10 @@ int _do_env_set(int flag, int argc, char * const argv[])
 		return 1;
 	}
 /*add by leijinbao for mac 2013/12/25*/
-	if(0 == strcmp(name,"ethaddr"))
-	{
-		printf("## Error:MAC can not be Modified \n");
-		return 1;
-	}
+	//if(0 == strcmp(name,"ethaddr"))
+	//{
+		//printf("## MAC changed\n");
+	//}
 
 /*end by leijinbao for mac 2013/12/25*/
 	env_id++;
