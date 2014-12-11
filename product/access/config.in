@@ -128,10 +128,10 @@ config CONFIG_DEVELOP_VER_PRIV
 	
 config CONFIG_HEXICOM_MENU_PASSWORD
 	string 'menu password'
-	default 'hexicom'
+	default 'Epcm1103'
 config CONFIG_HEXICOM_BOOT_PASSWORD
 	string 'boot password'
-	default 'hexicom'
+	default 'Epcm1103'
 	
 	
 menu "load manufactory"
