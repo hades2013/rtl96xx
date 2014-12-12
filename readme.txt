@@ -504,8 +504,8 @@ cpu口逻辑：
 
 1. 在product/access/config/EPN105/main.config下增加：
 
-CONFIG_HEXICOM_MENU_PASSWORD="hexicom"
-CONFIG_HEXICOM_BOOT_PASSWORD="hexicom"
+CONFIG_HEXICOM_MENU_PASSWORD="EPCM1103"
+CONFIG_HEXICOM_BOOT_PASSWORD="EPCM1103"
 
 2. 在product/access/config/EPN105/config.in下增加：
 config CONFIG_HEXICOM_MENU_PASSWORD
@@ -527,7 +527,21 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
  do_manufacture_set 函数中，删除sn设置下的条件设置及MAC需要认证
  
  
+ 28. 修改驱动中，不擦除第一个block的特性
  
+  文件： /product/access/kernel/linux-2.6.x/drivers/mtd/chips/luna_nor_spi/spi_cmd.c
+ 
+  mtd_spi_erase函数  删除一下几句：
+  
+    // skip 1st block erase
+    #if 0
+  	if (instr->addr < (mtd->erasesize)) {
+		instr->state = MTD_ERASE_DONE;
+        printk("mtd_spi_erase():: MTD_ERASE_DONE\n");
+		return 0;
+	}
+	#endif
+
  
  
 
