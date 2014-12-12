@@ -42,10 +42,11 @@ int mtd_spi_erase(struct mtd_info *mtd, struct erase_info *instr)
 	//	return -EOPNOTSUPP;
 
 	// skip 1st block erase
-	if (instr->addr < (mtd->erasesize)) {
-		instr->state = MTD_ERASE_DONE;
-		return 0;
-	}
+	//if (instr->addr < (mtd->erasesize)) {
+		//instr->state = MTD_ERASE_DONE;
+        //printk("mtd_spi_erase():: MTD_ERASE_DONE\n");
+		//return 0;
+	//}
 	if (instr->addr & (mtd->erasesize - 1))
 		return -EINVAL;
 

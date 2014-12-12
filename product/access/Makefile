@@ -36,10 +36,10 @@ $(ALL_PRODUCT):
 	echo ENV_PRO=$@ > .env
 	$(MAKE) -C ../access setup
 	$(MAKE) -C ../access clean
-	$(MAKE) -C ../access uboot
+#	$(MAKE) -C ../access uboot
 	$(MAKE) -C ../access all 
 	
-all:  linux linux-modules ifm-modules software rootfs app image ramfs
+all: uboot linux linux-modules ifm-modules software rootfs app image ramfs
 	@echo "make all finish....."
 	
 setup:platform.setup product.setup

@@ -231,7 +231,7 @@ static int part_erase(struct mtd_info *mtd, struct erase_info *instr)
 	instr->addr += part->offset;
 	ret = part->master->erase(part->master, instr);
 	if (ret) {
-printk("%s(%d): erase fail!! ret %d\n", __FUNCTION__,__LINE__, ret);			
+        printk("%s(%d): erase fail!! ret %d\n", __FUNCTION__,__LINE__, ret);			
 		if (instr->fail_addr != MTD_FAIL_ADDR_UNKNOWN)
 			instr->fail_addr -= part->offset;
 		instr->addr -= part->offset;
