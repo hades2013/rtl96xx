@@ -127,7 +127,7 @@ SN:PRODUCT_SERIES+A(factory)+YY(year)+MM(month)+D(batch)+XXXXXX...(water NO.)  t
 */
 
 #define SN_MAX_SIZE  22
-#define SN_SUFFIX 	 "1401100000000001"       /*10^11*/
+#define SN_SUFFIX 	 ""       /*10^11*/
 #define SN_STRING    CONFIG_PRODUCT_SERIES_AND_FACTORY_CODE""SN_SUFFIX
 
 #define SNV_VERSION_MAC_PRODUCT_ENCRYPT 4230
