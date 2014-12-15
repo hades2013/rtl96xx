@@ -88,7 +88,9 @@ void vosShell(void);
 int vosSystem(const char *cmd);
 int vosRandom(void);
 void vosReboot(void);
-
+#ifndef STATUS
+#define STATUS int
+#endif
 STATUS vosHWAddrGet(UINT8 *ifName, UINT8 *macAddr);
 STATUS vosHWAddrSet(UINT8 *ifName, UINT8 *macAddr);
 int vosDigitToHexChar(int digit);
