@@ -546,4 +546,48 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
  
 
 
+29 . 修改以下代码可以使CPU降到500Mhz
+
+    文件： product/access/boot/preloader-9607/preloader/soc/common/plr_pll_gen1.c
+    
+    函数： otto_pll_gen1_set
+
+    if(is_25MHz){
+        target_sys_pll_ctl = 0;//sys_pll_ctl_oc25;  --改为0 后，CPU的频率降为500M  计算公式是：（ target_sys_pll_ctl + 20 ） ＊ 25
+    }else{
+        target_sys_pll_ctl = 0;//sys_pll_ctl_oc40;  --改为0 后，CPU的频率降为500M  计算公式是：（ target_sys_pll_ctl + 25 ） ＊ 20
+    }
+    
+    还没有版本继续降低，需要新的BOOT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
