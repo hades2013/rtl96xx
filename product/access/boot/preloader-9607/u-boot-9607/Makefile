@@ -903,7 +903,8 @@ clean:
 	       $(obj)tools/gdb/{astest,gdbcont,gdbsend}			  \
 	       $(obj)tools/gen_eth_addr    $(obj)tools/img2srec		  \
 	       $(obj)tools/mk{env,}image   $(obj)tools/mpc86x_clk	  \
-	       $(obj)tools/ncb		   $(obj)tools/ubsha1
+	       $(obj)tools/ncb		       $(obj)tools/ubsha1         \
+	       $(obj)tools/lzma
 	@rm -f $(obj)board/cray/L1/{bootscript.c,bootscript.image}	  \
 	       $(obj)board/matrix_vision/*/bootscript.img		  \
 	       $(obj)board/voiceblue/eeprom 				  \
@@ -927,6 +928,7 @@ clean:
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
 		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	\) -print \
 		| xargs rm -f
+	@$(MAKE) -C tools/lzma_src clean
 	@$(MAKE) -C $(SCRIPTSDIR)/lxdialog clean
 	@rm -f u-boot.lzma u-boot.pimg
 
@@ -971,13 +973,13 @@ backup:
 
 tools/lzma:
 	$(MAKE_PROMPT) $(MAKE) -C tools/lzma_src
-	@mv tools/lzma_src/lzma $@
+	mv tools/lzma_src/lzma $@
 
-$(obj)u-boot.lzma: $(obj)u-boot.bin 
-	@tools/lzma e $< $@
+$(obj)u-boot.lzma: $(obj)u-boot.bin tools/lzma
+	tools/lzma e $< $@
 
 $(obj)u-boot.pimg: $(obj)u-boot.lzma
-	@$(obj)tools/mkimage -C LZMA -O u-boot -A mips -T firmware \
+	$(obj)tools/mkimage -C LZMA -O u-boot -A mips -T firmware \
 	-e $(CONFIG_SYS_TEXT_BASE) -a $(CONFIG_SYS_TEXT_BASE) \
   -n $(shell sed -n -e 's/.*U_BOOT_VERSION//p' $(VERSION_FILE) | \
   sed -e 's/"[	 ]*$$/ for $(BOARD)"/') -d $< $@
