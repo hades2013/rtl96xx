@@ -250,7 +250,7 @@ Discarded input sections
                 0x00000000      0x200 lib/libgeneric.o
  .data          0x00000000        0x0 lib/libgeneric.o
  .bss           0x00000000        0x0 lib/libgeneric.o
- .pdr           0x00000000      0x860 lib/libgeneric.o
+ .pdr           0x00000000      0x7e0 lib/libgeneric.o
  .reginfo       0x00000000       0x18 lib/lzma/liblzma.o
  .text          0x00000000        0x0 lib/lzma/liblzma.o
  .text.LzmaDec_InitDicAndState
@@ -268,10 +268,42 @@ Discarded input sections
  .pdr           0x00000000      0x220 lib/lzma/liblzma.o
  .reginfo       0x00000000       0x18 lib/zlib/libz.o
  .text          0x00000000        0x0 lib/zlib/libz.o
+ .text.inflate_fast
+                0x00000000      0x5b4 lib/zlib/libz.o
+ .text.inflate_table
+                0x00000000      0x50c lib/zlib/libz.o
+ .text.inflateReset
+                0x00000000       0x78 lib/zlib/libz.o
+ .text.inflateInit2_
+                0x00000000      0x120 lib/zlib/libz.o
  .text.inflateInit_
                 0x00000000       0x18 lib/zlib/libz.o
+ .text.inflateEnd
+                0x00000000       0x78 lib/zlib/libz.o
+ .text.adler32  0x00000000      0x300 lib/zlib/libz.o
+ .text.zcfree   0x00000000        0xc lib/zlib/libz.o
+ .text.zcalloc  0x00000000       0x10 lib/zlib/libz.o
+ .text.inflate  0x00000000     0x1718 lib/zlib/libz.o
+ .rodata.str1.4
+                0x00000000      0x244 lib/zlib/libz.o
+ .rodata.inflate
+                0x00000000       0x74 lib/zlib/libz.o
  .rodata.z_errmsg
                 0x00000000       0x28 lib/zlib/libz.o
+ .rodata.order.4195
+                0x00000000       0x28 lib/zlib/libz.o
+ .rodata.lenfix
+                0x00000000      0x800 lib/zlib/libz.o
+ .rodata.distfix
+                0x00000000       0x80 lib/zlib/libz.o
+ .rodata.dext.3894
+                0x00000000       0x40 lib/zlib/libz.o
+ .rodata.dbase.3893
+                0x00000000       0x40 lib/zlib/libz.o
+ .rodata.lext.3892
+                0x00000000       0x40 lib/zlib/libz.o
+ .rodata.lbase.3891
+                0x00000000       0x40 lib/zlib/libz.o
  .data          0x00000000        0x0 lib/zlib/libz.o
  .bss           0x00000000        0x0 lib/zlib/libz.o
  .pdr           0x00000000      0x140 lib/zlib/libz.o
@@ -541,7 +573,7 @@ Linker script and memory map
                 0x00000000                . = 0x0
                 0x00000000                . = ALIGN (0x4)
 
-.text           0x83c00000    0x20164
+.text           0x83c00000    0x1d7b4
  *(.text*)
  .text          0x83c00000      0x430 arch/otto/cpu/rlx5281/start.o
                 0x83c00000                _start
@@ -780,1444 +812,1393 @@ Linker script and memory map
  .text.do_bootm_netbsd
                 0x83c03e48      0x19c common/libcommon.o
  .text.bootm_load_os
-                0x83c03fe4      0x234 common/libcommon.o
+                0x83c03fe4      0x1d0 common/libcommon.o
  .text.bootm_start
-                0x83c04218      0x3e8 common/libcommon.o
+                0x83c041b4      0x3e8 common/libcommon.o
  .text.do_bootm_subcommand
-                0x83c04600      0x20c common/libcommon.o
-                0x83c04600                do_bootm_subcommand
+                0x83c0459c      0x20c common/libcommon.o
+                0x83c0459c                do_bootm_subcommand
  .text.do_bootm
-                0x83c0480c      0x2f8 common/libcommon.o
-                0x83c0480c                do_bootm
+                0x83c047a8      0x2f8 common/libcommon.o
+                0x83c047a8                do_bootm
  .text.bootm_maybe_autostart
-                0x83c04b04       0x8c common/libcommon.o
-                0x83c04b04                bootm_maybe_autostart
+                0x83c04aa0       0x8c common/libcommon.o
+                0x83c04aa0                bootm_maybe_autostart
  .text.do_debug
-                0x83c04b90       0x7c common/libcommon.o
-                0x83c04b90                do_debug
- .text.do_help  0x83c04c0c       0x5c common/libcommon.o
-                0x83c04c0c                do_help
+                0x83c04b2c       0x7c common/libcommon.o
+                0x83c04b2c                do_debug
+ .text.do_help  0x83c04ba8       0x5c common/libcommon.o
+                0x83c04ba8                do_help
  .text.SHA256Block
-                0x83c04c68      0x214 common/libcommon.o
+                0x83c04c04      0x214 common/libcommon.o
  .text.Check_MAC
-                0x83c04e7c       0x90 common/libcommon.o
-                0x83c04e7c                Check_MAC
- .text.getnext  0x83c04f0c       0x88 common/libcommon.o
-                0x83c04f0c                getnext
+                0x83c04e18       0x90 common/libcommon.o
+                0x83c04e18                Check_MAC
+ .text.getnext  0x83c04ea8       0x88 common/libcommon.o
+                0x83c04ea8                getnext
  .text.str_to_mac
-                0x83c04f94      0x16c common/libcommon.o
-                0x83c04f94                str_to_mac
+                0x83c04f30      0x16c common/libcommon.o
+                0x83c04f30                str_to_mac
  .text.SHA256Write
-                0x83c05100      0x120 common/libcommon.o
+                0x83c0509c      0x120 common/libcommon.o
  .text.SHA256Fetch
-                0x83c05220      0x120 common/libcommon.o
+                0x83c051bc      0x120 common/libcommon.o
  .text.HPAVKeyDAK
-                0x83c05340      0x1d4 common/libcommon.o
-                0x83c05340                HPAVKeyDAK
+                0x83c052dc      0x1d4 common/libcommon.o
+                0x83c052dc                HPAVKeyDAK
  .text.mac_auth
-                0x83c05514      0x25c common/libcommon.o
+                0x83c054b0      0x25c common/libcommon.o
  .text.do_manufacture_set
-                0x83c05770      0x140 common/libcommon.o
-                0x83c05770                do_manufacture_set
+                0x83c0570c      0x140 common/libcommon.o
+                0x83c0570c                do_manufacture_set
  .text.do_mem_crc
-                0x83c058b0       0xf0 common/libcommon.o
-                0x83c058b0                do_mem_crc
+                0x83c0584c       0xf0 common/libcommon.o
+                0x83c0584c                do_mem_crc
  .text.do_mem_base
-                0x83c059a0       0x4c common/libcommon.o
-                0x83c059a0                do_mem_base
+                0x83c0593c       0x4c common/libcommon.o
+                0x83c0593c                do_mem_base
  .text.do_mem_mtest
-                0x83c059ec      0x1f8 common/libcommon.o
-                0x83c059ec                do_mem_mtest
+                0x83c05988      0x1f8 common/libcommon.o
+                0x83c05988                do_mem_mtest
  .text.do_mem_cp
-                0x83c05be4      0x13c common/libcommon.o
-                0x83c05be4                do_mem_cp
+                0x83c05b80      0x13c common/libcommon.o
+                0x83c05b80                do_mem_cp
  .text.do_mem_cmp
-                0x83c05d20      0x1ec common/libcommon.o
-                0x83c05d20                do_mem_cmp
+                0x83c05cbc      0x1ec common/libcommon.o
+                0x83c05cbc                do_mem_cmp
  .text.do_mem_mw
-                0x83c05f0c      0x124 common/libcommon.o
-                0x83c05f0c                do_mem_mw
- .text.mod_mem  0x83c06030      0x1d0 common/libcommon.o
+                0x83c05ea8      0x124 common/libcommon.o
+                0x83c05ea8                do_mem_mw
+ .text.mod_mem  0x83c05fcc      0x1d0 common/libcommon.o
  .text.do_mem_nm
-                0x83c06200       0x2c common/libcommon.o
-                0x83c06200                do_mem_nm
+                0x83c0619c       0x2c common/libcommon.o
+                0x83c0619c                do_mem_nm
  .text.do_mem_mm
-                0x83c0622c       0x2c common/libcommon.o
-                0x83c0622c                do_mem_mm
+                0x83c061c8       0x2c common/libcommon.o
+                0x83c061c8                do_mem_mm
  .text.do_mem_md
-                0x83c06258      0x13c common/libcommon.o
-                0x83c06258                do_mem_md
- .text.do_ping  0x83c06394       0xa0 common/libcommon.o
-                0x83c06394                do_ping
+                0x83c061f4      0x13c common/libcommon.o
+                0x83c061f4                do_mem_md
+ .text.do_ping  0x83c06330       0xa0 common/libcommon.o
+                0x83c06330                do_ping
  .text.netboot_common
-                0x83c06434      0x2f4 common/libcommon.o
+                0x83c063d0      0x2f4 common/libcommon.o
  .text.do_tftpb
-                0x83c06728       0x10 common/libcommon.o
-                0x83c06728                do_tftpb
+                0x83c066c4       0x10 common/libcommon.o
+                0x83c066c4                do_tftpb
  .text.do_bootp
-                0x83c06738       0x10 common/libcommon.o
-                0x83c06738                do_bootp
+                0x83c066d4       0x10 common/libcommon.o
+                0x83c066d4                do_bootp
  .text.get_env_id
-                0x83c06748       0x10 common/libcommon.o
-                0x83c06748                get_env_id
- .text.do_env   0x83c06758       0x8c common/libcommon.o
+                0x83c066e4       0x10 common/libcommon.o
+                0x83c066e4                get_env_id
+ .text.do_env   0x83c066f4       0x8c common/libcommon.o
  .text.do_env_delete
-                0x83c067e4       0x24 common/libcommon.o
+                0x83c06780       0x24 common/libcommon.o
  .text.do_env_import
-                0x83c06808      0x2a4 common/libcommon.o
+                0x83c067a4      0x2a4 common/libcommon.o
  .text.do_env_default
-                0x83c06aac       0x64 common/libcommon.o
+                0x83c06a48       0x64 common/libcommon.o
  .text.envmatch
-                0x83c06b10       0x90 common/libcommon.o
-                0x83c06b10                envmatch
+                0x83c06aac       0x90 common/libcommon.o
+                0x83c06aac                envmatch
  .text.getenv_f
-                0x83c06ba0      0x110 common/libcommon.o
-                0x83c06ba0                getenv_f
+                0x83c06b3c      0x110 common/libcommon.o
+                0x83c06b3c                getenv_f
  .text.do_env_save
-                0x83c06cb0       0x34 common/libcommon.o
-                0x83c06cb0                do_env_save
- .text.getenv   0x83c06ce4      0x120 common/libcommon.o
-                0x83c06ce4                getenv
+                0x83c06c4c       0x34 common/libcommon.o
+                0x83c06c4c                do_env_save
+ .text.getenv   0x83c06c80      0x120 common/libcommon.o
+                0x83c06c80                getenv
  .text.getenv_ulong
-                0x83c06e04       0x50 common/libcommon.o
-                0x83c06e04                getenv_ulong
+                0x83c06da0       0x50 common/libcommon.o
+                0x83c06da0                getenv_ulong
  .text.env_print
-                0x83c06e54       0xb0 common/libcommon.o
+                0x83c06df0       0xb0 common/libcommon.o
  .text.do_env_print
-                0x83c06f04       0xc4 common/libcommon.o
-                0x83c06f04                do_env_print
+                0x83c06ea0       0xc4 common/libcommon.o
+                0x83c06ea0                do_env_print
  .text._do_env_set
-                0x83c06fc8      0x3e8 common/libcommon.o
-                0x83c06fc8                _do_env_set
+                0x83c06f64      0x3e8 common/libcommon.o
+                0x83c06f64                _do_env_set
  .text.do_env_set
-                0x83c073b0       0x28 common/libcommon.o
-                0x83c073b0                do_env_set
- .text.setenv   0x83c073d8       0x58 common/libcommon.o
-                0x83c073d8                setenv
+                0x83c0734c       0x28 common/libcommon.o
+                0x83c0734c                do_env_set
+ .text.setenv   0x83c07374       0x58 common/libcommon.o
+                0x83c07374                setenv
  .text.do_env_export
-                0x83c07430      0x2e8 common/libcommon.o
+                0x83c073cc      0x2e8 common/libcommon.o
  .text.setenv_ulong
-                0x83c07718       0x30 common/libcommon.o
-                0x83c07718                setenv_ulong
+                0x83c076b4       0x30 common/libcommon.o
+                0x83c076b4                setenv_ulong
  .text.do_restore
-                0x83c07748      0x284 common/libcommon.o
-                0x83c07748                do_restore
+                0x83c076e4      0x284 common/libcommon.o
+                0x83c076e4                do_restore
  .text.do_spi_flash
-                0x83c079cc      0x5dc common/libcommon.o
+                0x83c07968      0x5dc common/libcommon.o
  .text.fw_head_check
-                0x83c07fa8       0xc4 common/libcommon.o
-                0x83c07fa8                fw_head_check
+                0x83c07f44       0xc4 common/libcommon.o
+                0x83c07f44                fw_head_check
  .text.promt_cancel
-                0x83c0806c       0xc4 common/libcommon.o
-                0x83c0806c                promt_cancel
+                0x83c08008       0xc4 common/libcommon.o
+                0x83c08008                promt_cancel
  .text.do_uuimage
-                0x83c08130      0x254 common/libcommon.o
-                0x83c08130                do_uuimage
+                0x83c080cc      0x254 common/libcommon.o
+                0x83c080cc                do_uuimage
  .text.do_uuboot
-                0x83c08384      0x258 common/libcommon.o
-                0x83c08384                do_uuboot
+                0x83c08320      0x258 common/libcommon.o
+                0x83c08320                do_uuboot
  .text.do_uuapp
-                0x83c085dc      0x340 common/libcommon.o
-                0x83c085dc                do_uuapp
+                0x83c08578      0x340 common/libcommon.o
+                0x83c08578                do_uuapp
  .text.cmd_get_data_size
-                0x83c0891c       0x7c common/libcommon.o
-                0x83c0891c                cmd_get_data_size
+                0x83c088b8       0x7c common/libcommon.o
+                0x83c088b8                cmd_get_data_size
  .text.cmd_usage
-                0x83c08998       0x78 common/libcommon.o
-                0x83c08998                cmd_usage
+                0x83c08934       0x78 common/libcommon.o
+                0x83c08934                cmd_usage
  .text.find_cmd_tbl
-                0x83c08a10       0xdc common/libcommon.o
-                0x83c08a10                find_cmd_tbl
+                0x83c089ac       0xdc common/libcommon.o
+                0x83c089ac                find_cmd_tbl
  .text.find_cmd
-                0x83c08aec       0x30 common/libcommon.o
-                0x83c08aec                find_cmd
+                0x83c08a88       0x30 common/libcommon.o
+                0x83c08a88                find_cmd
  .text._do_help
-                0x83c08b1c      0x34c common/libcommon.o
-                0x83c08b1c                _do_help
+                0x83c08ab8      0x34c common/libcommon.o
+                0x83c08ab8                _do_help
  .text.console_setfile
-                0x83c08e68       0xc4 common/libcommon.o
- .text.fgetc    0x83c08f2c       0x34 common/libcommon.o
-                0x83c08f2c                fgetc
- .text.ftstc    0x83c08f60       0x34 common/libcommon.o
-                0x83c08f60                ftstc
- .text.fputc    0x83c08f94       0x3c common/libcommon.o
-                0x83c08f94                fputc
- .text.fputs    0x83c08fd0       0x38 common/libcommon.o
-                0x83c08fd0                fputs
+                0x83c08e04       0xc4 common/libcommon.o
+ .text.fgetc    0x83c08ec8       0x34 common/libcommon.o
+                0x83c08ec8                fgetc
+ .text.ftstc    0x83c08efc       0x34 common/libcommon.o
+                0x83c08efc                ftstc
+ .text.fputc    0x83c08f30       0x3c common/libcommon.o
+                0x83c08f30                fputc
+ .text.fputs    0x83c08f6c       0x38 common/libcommon.o
+                0x83c08f6c                fputs
  .text.had_ctrlc
-                0x83c09008       0x10 common/libcommon.o
-                0x83c09008                had_ctrlc
+                0x83c08fa4       0x10 common/libcommon.o
+                0x83c08fa4                had_ctrlc
  .text.clear_ctrlc
-                0x83c09018        0xc common/libcommon.o
-                0x83c09018                clear_ctrlc
+                0x83c08fb4        0xc common/libcommon.o
+                0x83c08fb4                clear_ctrlc
  .text.console_init_r
-                0x83c09024       0xf0 common/libcommon.o
-                0x83c09024                console_init_r
+                0x83c08fc0       0xf0 common/libcommon.o
+                0x83c08fc0                console_init_r
  .text.search_device
-                0x83c09114       0x3c common/libcommon.o
-                0x83c09114                search_device
+                0x83c090b0       0x3c common/libcommon.o
+                0x83c090b0                search_device
  .text.console_assign
-                0x83c09150       0x60 common/libcommon.o
-                0x83c09150                console_assign
- .text.fprintf  0x83c091b0       0x5c common/libcommon.o
-                0x83c091b0                fprintf
- .text.puts     0x83c0920c       0x7c common/libcommon.o
-                0x83c0920c                puts
- .text.vprintf  0x83c09288       0x40 common/libcommon.o
-                0x83c09288                vprintf
- .text.printf   0x83c092c8       0x54 common/libcommon.o
-                0x83c092c8                printf
- .text.putc     0x83c0931c       0x60 common/libcommon.o
-                0x83c0931c                putc
+                0x83c090ec       0x60 common/libcommon.o
+                0x83c090ec                console_assign
+ .text.fprintf  0x83c0914c       0x5c common/libcommon.o
+                0x83c0914c                fprintf
+ .text.puts     0x83c091a8       0x7c common/libcommon.o
+                0x83c091a8                puts
+ .text.vprintf  0x83c09224       0x40 common/libcommon.o
+                0x83c09224                vprintf
+ .text.printf   0x83c09264       0x54 common/libcommon.o
+                0x83c09264                printf
+ .text.putc     0x83c092b8       0x60 common/libcommon.o
+                0x83c092b8                putc
  .text.console_init_f
-                0x83c0937c       0x90 common/libcommon.o
-                0x83c0937c                console_init_f
- .text.tstc     0x83c0940c       0x34 common/libcommon.o
-                0x83c0940c                tstc
- .text.getc     0x83c09440       0x34 common/libcommon.o
-                0x83c09440                getc
- .text.ctrlc    0x83c09474       0x68 common/libcommon.o
-                0x83c09474                ctrlc
+                0x83c09318       0x90 common/libcommon.o
+                0x83c09318                console_init_f
+ .text.tstc     0x83c093a8       0x34 common/libcommon.o
+                0x83c093a8                tstc
+ .text.getc     0x83c093dc       0x34 common/libcommon.o
+                0x83c093dc                getc
+ .text.ctrlc    0x83c09410       0x68 common/libcommon.o
+                0x83c09410                ctrlc
  .text.mem_malloc_init
-                0x83c094dc       0x30 common/libcommon.o
-                0x83c094dc                mem_malloc_init
- .text.sbrk     0x83c0950c       0x78 common/libcommon.o
-                0x83c0950c                sbrk
+                0x83c09478       0x30 common/libcommon.o
+                0x83c09478                mem_malloc_init
+ .text.sbrk     0x83c094a8       0x78 common/libcommon.o
+                0x83c094a8                sbrk
  .text.malloc_trim
-                0x83c09584       0xf8 common/libcommon.o
-                0x83c09584                malloc_trim
- .text.free     0x83c0967c      0x258 common/libcommon.o
-                0x83c0967c                free
- .text.malloc   0x83c098d4      0x6f4 common/libcommon.o
-                0x83c098d4                malloc
- .text.calloc   0x83c09fc8       0xf0 common/libcommon.o
-                0x83c09fc8                calloc
+                0x83c09520       0xf8 common/libcommon.o
+                0x83c09520                malloc_trim
+ .text.free     0x83c09618      0x258 common/libcommon.o
+                0x83c09618                free
+ .text.malloc   0x83c09870      0x6f4 common/libcommon.o
+                0x83c09870                malloc
+ .text.calloc   0x83c09f64       0xf0 common/libcommon.o
+                0x83c09f64                calloc
  .text.set_default_env
-                0x83c0a0b8       0xa8 common/libcommon.o
-                0x83c0a0b8                set_default_env
+                0x83c0a054       0xa8 common/libcommon.o
+                0x83c0a054                set_default_env
  .text.env_relocate
-                0x83c0a160       0x40 common/libcommon.o
-                0x83c0a160                env_relocate
+                0x83c0a0fc       0x40 common/libcommon.o
+                0x83c0a0fc                env_relocate
  .text.env_import
-                0x83c0a1a0       0xe0 common/libcommon.o
-                0x83c0a1a0                env_import
+                0x83c0a13c       0xe0 common/libcommon.o
+                0x83c0a13c                env_import
  .text.env_get_char
-                0x83c0a280       0x6c common/libcommon.o
-                0x83c0a280                env_get_char
+                0x83c0a21c       0x6c common/libcommon.o
+                0x83c0a21c                env_get_char
  .text.env_get_char_spec
-                0x83c0a2ec       0x14 common/libcommon.o
-                0x83c0a2ec                env_get_char_spec
+                0x83c0a288       0x14 common/libcommon.o
+                0x83c0a288                env_get_char_spec
  .text.restore_flash
-                0x83c0a300       0x40 common/libcommon.o
-                0x83c0a300                restore_flash
+                0x83c0a29c       0x40 common/libcommon.o
+                0x83c0a29c                restore_flash
  .text.init_env
-                0x83c0a340       0xc0 common/libcommon.o
-                0x83c0a340                init_env
+                0x83c0a2dc       0xc0 common/libcommon.o
+                0x83c0a2dc                init_env
  .text.env_init
-                0x83c0a400       0x20 common/libcommon.o
-                0x83c0a400                env_init
+                0x83c0a39c       0x20 common/libcommon.o
+                0x83c0a39c                env_init
  .text.env_relocate_spec
-                0x83c0a420       0x14 common/libcommon.o
-                0x83c0a420                env_relocate_spec
- .text.saveenv  0x83c0a434      0x298 common/libcommon.o
-                0x83c0a434                saveenv
- .text.dummy    0x83c0a6cc        0x8 common/libcommon.o
+                0x83c0a3bc       0x14 common/libcommon.o
+                0x83c0a3bc                env_relocate_spec
+ .text.saveenv  0x83c0a3d0      0x298 common/libcommon.o
+                0x83c0a3d0                saveenv
+ .text.dummy    0x83c0a668        0x8 common/libcommon.o
  .text.get_version
-                0x83c0a6d4        0x8 common/libcommon.o
-                0x83c0a6d4                get_version
+                0x83c0a670        0x8 common/libcommon.o
+                0x83c0a670                get_version
  .text.jumptable_init
-                0x83c0a6dc      0x1c4 common/libcommon.o
-                0x83c0a6dc                jumptable_init
+                0x83c0a678      0x1c4 common/libcommon.o
+                0x83c0a678                jumptable_init
  .text.image_multi_getimg
-                0x83c0a8a0       0x88 common/libcommon.o
-                0x83c0a8a0                image_multi_getimg
+                0x83c0a83c       0x88 common/libcommon.o
+                0x83c0a83c                image_multi_getimg
  .text.genimg_get_os_name
-                0x83c0a928       0x40 common/libcommon.o
-                0x83c0a928                genimg_get_os_name
+                0x83c0a8c4       0x40 common/libcommon.o
+                0x83c0a8c4                genimg_get_os_name
  .text.genimg_get_type_name
-                0x83c0a968       0x40 common/libcommon.o
-                0x83c0a968                genimg_get_type_name
+                0x83c0a904       0x40 common/libcommon.o
+                0x83c0a904                genimg_get_type_name
  .text.genimg_get_format
-                0x83c0a9a8       0x18 common/libcommon.o
-                0x83c0a9a8                genimg_get_format
+                0x83c0a944       0x18 common/libcommon.o
+                0x83c0a944                genimg_get_format
  .text.genimg_get_image
-                0x83c0a9c0        0x8 common/libcommon.o
-                0x83c0a9c0                genimg_get_image
+                0x83c0a95c        0x8 common/libcommon.o
+                0x83c0a95c                genimg_get_image
  .text.genimg_print_size
-                0x83c0a9c8       0x40 common/libcommon.o
-                0x83c0a9c8                genimg_print_size
+                0x83c0a964       0x40 common/libcommon.o
+                0x83c0a964                genimg_print_size
  .text.memmove_wd
-                0x83c0aa08       0x18 common/libcommon.o
-                0x83c0aa08                memmove_wd
+                0x83c0a9a4       0x18 common/libcommon.o
+                0x83c0a9a4                memmove_wd
  .text.getenv_yesno
-                0x83c0aa20       0x34 common/libcommon.o
-                0x83c0aa20                getenv_yesno
+                0x83c0a9bc       0x34 common/libcommon.o
+                0x83c0a9bc                getenv_yesno
  .text.image_print_contents
-                0x83c0aa54      0x2e4 common/libcommon.o
-                0x83c0aa54                image_print_contents
+                0x83c0a9f0      0x2e4 common/libcommon.o
+                0x83c0a9f0                image_print_contents
  .text.image_check_dcrc
-                0x83c0ad38       0x40 common/libcommon.o
-                0x83c0ad38                image_check_dcrc
+                0x83c0acd4       0x40 common/libcommon.o
+                0x83c0acd4                image_check_dcrc
  .text.image_check_hcrc
-                0x83c0ad78       0x5c common/libcommon.o
-                0x83c0ad78                image_check_hcrc
+                0x83c0ad14       0x5c common/libcommon.o
+                0x83c0ad14                image_check_hcrc
  .text.boot_get_ramdisk
-                0x83c0add4      0x294 common/libcommon.o
-                0x83c0add4                boot_get_ramdisk
+                0x83c0ad70      0x294 common/libcommon.o
+                0x83c0ad70                boot_get_ramdisk
  .text.xmodemGetc
-                0x83c0b068       0x5c common/libcommon.o
-                0x83c0b068                xmodemGetc
+                0x83c0b004       0x5c common/libcommon.o
+                0x83c0b004                xmodemGetc
  .text.flushinput
-                0x83c0b0c4       0x44 common/libcommon.o
- .text.Xdown    0x83c0b108      0x3bc common/libcommon.o
-                0x83c0b108                Xdown
- .text.update   0x83c0b4c4      0x3f8 common/libcommon.o
-                0x83c0b4c4                update
+                0x83c0b060       0x44 common/libcommon.o
+ .text.Xdown    0x83c0b0a4      0x3bc common/libcommon.o
+                0x83c0b0a4                Xdown
+ .text.update   0x83c0b460      0x3f8 common/libcommon.o
+                0x83c0b460                update
  .text.do_update
-                0x83c0b8bc       0xc0 common/libcommon.o
-                0x83c0b8bc                do_update
+                0x83c0b858       0xc0 common/libcommon.o
+                0x83c0b858                do_update
  .text.__show_boot_progress
-                0x83c0b97c        0x8 common/libcommon.o
-                0x83c0b97c                __show_boot_progress
-                0x83c0b97c                show_boot_progress
+                0x83c0b918        0x8 common/libcommon.o
+                0x83c0b918                __show_boot_progress
+                0x83c0b918                show_boot_progress
  .text.parse_line
-                0x83c0b984       0xb8 common/libcommon.o
-                0x83c0b984                parse_line
+                0x83c0b920       0xb8 common/libcommon.o
+                0x83c0b920                parse_line
  .text.run_command
-                0x83c0ba3c      0x438 common/libcommon.o
-                0x83c0ba3c                run_command
- .text.do_run   0x83c0be74       0xcc common/libcommon.o
-                0x83c0be74                do_run
+                0x83c0b9d8      0x438 common/libcommon.o
+                0x83c0b9d8                run_command
+ .text.do_run   0x83c0be10       0xcc common/libcommon.o
+                0x83c0be10                do_run
  .text.delete_char
-                0x83c0bf40      0x138 common/libcommon.o
+                0x83c0bedc      0x138 common/libcommon.o
  .text.cread_add_char
-                0x83c0c078      0x13c common/libcommon.o
+                0x83c0c014      0x13c common/libcommon.o
  .text.readline_into_buffer
-                0x83c0c1b4      0x9e0 common/libcommon.o
-                0x83c0c1b4                readline_into_buffer
+                0x83c0c150      0x9e0 common/libcommon.o
+                0x83c0c150                readline_into_buffer
  .text.readline
-                0x83c0cb94       0x14 common/libcommon.o
-                0x83c0cb94                readline
+                0x83c0cb30       0x14 common/libcommon.o
+                0x83c0cb30                readline
  .text.main_loop
-                0x83c0cba8      0x298 common/libcommon.o
-                0x83c0cba8                main_loop
+                0x83c0cb44      0x298 common/libcommon.o
+                0x83c0cb44                main_loop
  .text.MD5Transform
-                0x83c0ce40      0xe9c common/libcommon.o
+                0x83c0cddc      0xe9c common/libcommon.o
  .text.MD5Update
-                0x83c0dcdc      0x138 common/libcommon.o
-                0x83c0dcdc                MD5Update
+                0x83c0dc78      0x138 common/libcommon.o
+                0x83c0dc78                MD5Update
  .text.MD5Final
-                0x83c0de14      0x100 common/libcommon.o
-                0x83c0de14                MD5Final
- .text.MD5Calc  0x83c0df14       0x78 common/libcommon.o
-                0x83c0df14                MD5Calc
+                0x83c0ddb0      0x100 common/libcommon.o
+                0x83c0ddb0                MD5Final
+ .text.MD5Calc  0x83c0deb0       0x78 common/libcommon.o
+                0x83c0deb0                MD5Calc
  .text.read_count
-                0x83c0df8c       0x74 common/libcommon.o
-                0x83c0df8c                read_count
+                0x83c0df28       0x74 common/libcommon.o
+                0x83c0df28                read_count
  .text.get_key_press
-                0x83c0e000      0x210 common/libcommon.o
-                0x83c0e000                get_key_press
+                0x83c0df9c      0x210 common/libcommon.o
+                0x83c0df9c                get_key_press
  .text.oplbootMenuShow
-                0x83c0e210      0x148 common/libcommon.o
-                0x83c0e210                oplbootMenuShow
+                0x83c0e1ac      0x148 common/libcommon.o
+                0x83c0e1ac                oplbootMenuShow
  .text.oplbootInitial
-                0x83c0e358       0x58 common/libcommon.o
-                0x83c0e358                oplbootInitial
+                0x83c0e2f4       0x58 common/libcommon.o
+                0x83c0e2f4                oplbootInitial
  .text.SetAppRestoreFlag
-                0x83c0e3b0       0x28 common/libcommon.o
-                0x83c0e3b0                SetAppRestoreFlag
+                0x83c0e34c       0x28 common/libcommon.o
+                0x83c0e34c                SetAppRestoreFlag
  .text.oplbootSaveConfig
-                0x83c0e3d8       0x14 common/libcommon.o
-                0x83c0e3d8                oplbootSaveConfig
+                0x83c0e374       0x14 common/libcommon.o
+                0x83c0e374                oplbootSaveConfig
  .text.oplbootLoadSystem
-                0x83c0e3ec      0x120 common/libcommon.o
-                0x83c0e3ec                oplbootLoadSystem
- .text.T.80     0x83c0e50c      0x138 common/libcommon.o
+                0x83c0e388      0x120 common/libcommon.o
+                0x83c0e388                oplbootLoadSystem
+ .text.T.80     0x83c0e4a8      0x138 common/libcommon.o
  .text.MenuReadline
-                0x83c0e644      0x200 common/libcommon.o
-                0x83c0e644                MenuReadline
+                0x83c0e5e0      0x200 common/libcommon.o
+                0x83c0e5e0                MenuReadline
  .text.oplbootParseInput
-                0x83c0e844       0x5c common/libcommon.o
-                0x83c0e844                oplbootParseInput
+                0x83c0e7e0       0x5c common/libcommon.o
+                0x83c0e7e0                oplbootParseInput
  .text.oplReadline
-                0x83c0e8a0      0x2b4 common/libcommon.o
-                0x83c0e8a0                oplReadline
+                0x83c0e83c      0x2b4 common/libcommon.o
+                0x83c0e83c                oplReadline
  .text.oplbootNameSet
-                0x83c0eb54       0x3c common/libcommon.o
-                0x83c0eb54                oplbootNameSet
+                0x83c0eaf0       0x3c common/libcommon.o
+                0x83c0eaf0                oplbootNameSet
  .text.oplCommandLineInterface
-                0x83c0eb90      0x170 common/libcommon.o
-                0x83c0eb90                oplCommandLineInterface
+                0x83c0eb2c      0x170 common/libcommon.o
+                0x83c0eb2c                oplCommandLineInterface
  .text.PwReadline
-                0x83c0ed00      0x1f4 common/libcommon.o
-                0x83c0ed00                PwReadline
+                0x83c0ec9c      0x1f4 common/libcommon.o
+                0x83c0ec9c                PwReadline
  .text.bootPwCheck
-                0x83c0eef4      0x268 common/libcommon.o
-                0x83c0eef4                bootPwCheck
+                0x83c0ee90      0x268 common/libcommon.o
+                0x83c0ee90                bootPwCheck
  .text.menuPasswdmod
-                0x83c0f15c      0x174 common/libcommon.o
-                0x83c0f15c                menuPasswdmod
+                0x83c0f0f8      0x174 common/libcommon.o
+                0x83c0f0f8                menuPasswdmod
  .text.oplbootDataType
-                0x83c0f2d0       0xcc common/libcommon.o
-                0x83c0f2d0                oplbootDataType
+                0x83c0f26c       0xcc common/libcommon.o
+                0x83c0f26c                oplbootDataType
  .text.oplbootMenuChange
-                0x83c0f39c      0x230 common/libcommon.o
-                0x83c0f39c                oplbootMenuChange
+                0x83c0f338      0x230 common/libcommon.o
+                0x83c0f338                oplbootMenuChange
  .text.oplbootMainloop
-                0x83c0f5cc       0x4c common/libcommon.o
-                0x83c0f5cc                oplbootMainloop
+                0x83c0f568       0x4c common/libcommon.o
+                0x83c0f568                oplbootMainloop
  .text.stdio_get_list
-                0x83c0f618        0xc common/libcommon.o
-                0x83c0f618                stdio_get_list
+                0x83c0f5b4        0xc common/libcommon.o
+                0x83c0f5b4                stdio_get_list
  .text.stdio_clone
-                0x83c0f624       0x68 common/libcommon.o
-                0x83c0f624                stdio_clone
+                0x83c0f5c0       0x68 common/libcommon.o
+                0x83c0f5c0                stdio_clone
  .text.stdio_register
-                0x83c0f68c       0x54 common/libcommon.o
-                0x83c0f68c                stdio_register
+                0x83c0f628       0x54 common/libcommon.o
+                0x83c0f628                stdio_register
  .text.stdio_init
-                0x83c0f6e0       0xa0 common/libcommon.o
-                0x83c0f6e0                stdio_init
+                0x83c0f67c       0xa0 common/libcommon.o
+                0x83c0f67c                stdio_init
  .text.stdio_get_by_name
-                0x83c0f780       0x78 common/libcommon.o
-                0x83c0f780                stdio_get_by_name
+                0x83c0f71c       0x78 common/libcommon.o
+                0x83c0f71c                stdio_get_by_name
  .text.GregorianDay
-                0x83c0f7f8      0x148 drivers/rtc/librtc.o
-                0x83c0f7f8                GregorianDay
- .text.to_tm    0x83c0f940       0xf8 drivers/rtc/librtc.o
-                0x83c0f940                to_tm
+                0x83c0f794      0x148 drivers/rtc/librtc.o
+                0x83c0f794                GregorianDay
+ .text.to_tm    0x83c0f8dc       0xf8 drivers/rtc/librtc.o
+                0x83c0f8dc                to_tm
  .text.crc32_no_comp
-                0x83c0fa38      0x17c lib/libgeneric.o
-                0x83c0fa38                crc32_no_comp
- .text.crc32    0x83c0fbb4       0x20 lib/libgeneric.o
-                0x83c0fbb4                crc32
+                0x83c0f9d4      0x17c lib/libgeneric.o
+                0x83c0f9d4                crc32_no_comp
+ .text.crc32    0x83c0fb50       0x20 lib/libgeneric.o
+                0x83c0fb50                crc32
  .text.crc32_wd
-                0x83c0fbd4        0x8 lib/libgeneric.o
-                0x83c0fbd4                crc32_wd
+                0x83c0fb70        0x8 lib/libgeneric.o
+                0x83c0fb70                crc32_wd
  .text.print_size
-                0x83c0fbdc      0x1c0 lib/libgeneric.o
-                0x83c0fbdc                print_size
+                0x83c0fb78      0x1c0 lib/libgeneric.o
+                0x83c0fb78                print_size
  .text.print_buffer
-                0x83c0fd9c      0x1f8 lib/libgeneric.o
-                0x83c0fd9c                print_buffer
- .text.zunzip   0x83c0ff94      0x154 lib/libgeneric.o
-                0x83c0ff94                zunzip
- .text.gunzip   0x83c100e8       0xd0 lib/libgeneric.o
-                0x83c100e8                gunzip
- .text.zfree    0x83c101b8        0xc lib/libgeneric.o
-                0x83c101b8                zfree
- .text.zalloc   0x83c101c4       0x1c lib/libgeneric.o
-                0x83c101c4                zalloc
+                0x83c0fd38      0x1f8 lib/libgeneric.o
+                0x83c0fd38                print_buffer
  .text.hdestroy_r
-                0x83c101e0       0xa8 lib/libgeneric.o
-                0x83c101e0                hdestroy_r
- .text.cmpkey   0x83c10288       0x18 lib/libgeneric.o
+                0x83c0ff30       0xa8 lib/libgeneric.o
+                0x83c0ff30                hdestroy_r
+ .text.cmpkey   0x83c0ffd8       0x18 lib/libgeneric.o
  .text.hcreate_r
-                0x83c102a0       0xc4 lib/libgeneric.o
-                0x83c102a0                hcreate_r
+                0x83c0fff0       0xc4 lib/libgeneric.o
+                0x83c0fff0                hcreate_r
  .text.hexport_r
-                0x83c10364      0x324 lib/libgeneric.o
-                0x83c10364                hexport_r
+                0x83c100b4      0x324 lib/libgeneric.o
+                0x83c100b4                hexport_r
  .text.hsearch_r
-                0x83c10688      0x2e8 lib/libgeneric.o
-                0x83c10688                hsearch_r
+                0x83c103d8      0x2e8 lib/libgeneric.o
+                0x83c103d8                hsearch_r
  .text.hdelete_r
-                0x83c10970       0xa0 lib/libgeneric.o
-                0x83c10970                hdelete_r
+                0x83c106c0       0xa0 lib/libgeneric.o
+                0x83c106c0                hdelete_r
  .text.himport_r
-                0x83c10a10      0x2b8 lib/libgeneric.o
-                0x83c10a10                himport_r
+                0x83c10760      0x2b8 lib/libgeneric.o
+                0x83c10760                himport_r
  .text.string_to_ip
-                0x83c10cc8       0xa0 lib/libgeneric.o
-                0x83c10cc8                string_to_ip
- .text.qsort    0x83c10d68      0x194 lib/libgeneric.o
-                0x83c10d68                qsort
+                0x83c10a18       0xa0 lib/libgeneric.o
+                0x83c10a18                string_to_ip
+ .text.qsort    0x83c10ab8      0x194 lib/libgeneric.o
+                0x83c10ab8                qsort
  .text.__div64_32
-                0x83c10efc      0x15c lib/libgeneric.o
-                0x83c10efc                __div64_32
- .text.strcpy   0x83c11058       0x24 lib/libgeneric.o
-                0x83c11058                strcpy
- .text.strncpy  0x83c1107c       0x2c lib/libgeneric.o
-                0x83c1107c                strncpy
- .text.strcat   0x83c110a8       0x34 lib/libgeneric.o
-                0x83c110a8                strcat
- .text.strcmp   0x83c110dc       0x30 lib/libgeneric.o
-                0x83c110dc                strcmp
- .text.strncmp  0x83c1110c       0x44 lib/libgeneric.o
-                0x83c1110c                strncmp
- .text.strchr   0x83c11150       0x38 lib/libgeneric.o
-                0x83c11150                strchr
- .text.strlen   0x83c11188       0x1c lib/libgeneric.o
-                0x83c11188                strlen
- .text.strnlen  0x83c111a4       0x28 lib/libgeneric.o
-                0x83c111a4                strnlen
- .text.strtok   0x83c111cc       0xcc lib/libgeneric.o
-                0x83c111cc                strtok
- .text.memset   0x83c11298       0x78 lib/libgeneric.o
-                0x83c11298                memset
- .text.memcpy   0x83c11310       0x84 lib/libgeneric.o
-                0x83c11310                memcpy
- .text.memmove  0x83c11394       0x68 lib/libgeneric.o
-                0x83c11394                memmove
- .text.memcmp   0x83c113fc       0x38 lib/libgeneric.o
-                0x83c113fc                memcmp
- .text.strdup   0x83c11434       0x64 lib/libgeneric.o
-                0x83c11434                strdup
- .text.udelay   0x83c11498       0x5c lib/libgeneric.o
-                0x83c11498                udelay
- .text.mdelay   0x83c114f4       0x34 lib/libgeneric.o
-                0x83c114f4                mdelay
+                0x83c10c4c      0x15c lib/libgeneric.o
+                0x83c10c4c                __div64_32
+ .text.strcpy   0x83c10da8       0x24 lib/libgeneric.o
+                0x83c10da8                strcpy
+ .text.strncpy  0x83c10dcc       0x2c lib/libgeneric.o
+                0x83c10dcc                strncpy
+ .text.strcat   0x83c10df8       0x34 lib/libgeneric.o
+                0x83c10df8                strcat
+ .text.strcmp   0x83c10e2c       0x30 lib/libgeneric.o
+                0x83c10e2c                strcmp
+ .text.strncmp  0x83c10e5c       0x44 lib/libgeneric.o
+                0x83c10e5c                strncmp
+ .text.strchr   0x83c10ea0       0x38 lib/libgeneric.o
+                0x83c10ea0                strchr
+ .text.strlen   0x83c10ed8       0x1c lib/libgeneric.o
+                0x83c10ed8                strlen
+ .text.strnlen  0x83c10ef4       0x28 lib/libgeneric.o
+                0x83c10ef4                strnlen
+ .text.strtok   0x83c10f1c       0xcc lib/libgeneric.o
+                0x83c10f1c                strtok
+ .text.memset   0x83c10fe8       0x78 lib/libgeneric.o
+                0x83c10fe8                memset
+ .text.memcpy   0x83c11060       0x84 lib/libgeneric.o
+                0x83c11060                memcpy
+ .text.memmove  0x83c110e4       0x68 lib/libgeneric.o
+                0x83c110e4                memmove
+ .text.memcmp   0x83c1114c       0x38 lib/libgeneric.o
+                0x83c1114c                memcmp
+ .text.strdup   0x83c11184       0x64 lib/libgeneric.o
+                0x83c11184                strdup
+ .text.udelay   0x83c111e8       0x5c lib/libgeneric.o
+                0x83c111e8                udelay
+ .text.mdelay   0x83c11244       0x34 lib/libgeneric.o
+                0x83c11244                mdelay
  .text.simple_strtoul
-                0x83c11528       0xd0 lib/libgeneric.o
-                0x83c11528                simple_strtoul
+                0x83c11278       0xd0 lib/libgeneric.o
+                0x83c11278                simple_strtoul
  .text.simple_strtol
-                0x83c115f8       0x3c lib/libgeneric.o
-                0x83c115f8                simple_strtol
+                0x83c11348       0x3c lib/libgeneric.o
+                0x83c11348                simple_strtol
  .text.put_dec_trunc
-                0x83c11634      0x134 lib/libgeneric.o
+                0x83c11384      0x134 lib/libgeneric.o
  .text.simple_itoa
-                0x83c11768       0x48 lib/libgeneric.o
-                0x83c11768                simple_itoa
- .text.string   0x83c117b0       0xc4 lib/libgeneric.o
- .text.put_dec  0x83c11874      0x1c8 lib/libgeneric.o
- .text.number   0x83c11a3c      0x2cc lib/libgeneric.o
+                0x83c114b8       0x48 lib/libgeneric.o
+                0x83c114b8                simple_itoa
+ .text.string   0x83c11500       0xc4 lib/libgeneric.o
+ .text.put_dec  0x83c115c4      0x1c8 lib/libgeneric.o
+ .text.number   0x83c1178c      0x2cc lib/libgeneric.o
  .text.vsprintf
-                0x83c11d08      0x778 lib/libgeneric.o
-                0x83c11d08                vsprintf
- .text.sprintf  0x83c12480       0x2c lib/libgeneric.o
-                0x83c12480                sprintf
+                0x83c11a58      0x778 lib/libgeneric.o
+                0x83c11a58                vsprintf
+ .text.sprintf  0x83c121d0       0x2c lib/libgeneric.o
+                0x83c121d0                sprintf
  .text.strict_strtoul
-                0x83c124ac       0x98 lib/libgeneric.o
-                0x83c124ac                strict_strtoul
+                0x83c121fc       0x98 lib/libgeneric.o
+                0x83c121fc                strict_strtoul
  .text.LzmaDec_WriteRem
-                0x83c12544       0xc0 lib/lzma/liblzma.o
+                0x83c12294       0xc0 lib/lzma/liblzma.o
  .text.LzmaDec_DecodeReal2
-                0x83c12604      0xfc0 lib/lzma/liblzma.o
+                0x83c12354      0xfc0 lib/lzma/liblzma.o
  .text.LzmaDec_TryDummy
-                0x83c135c4      0x76c lib/lzma/liblzma.o
+                0x83c13314      0x76c lib/lzma/liblzma.o
  .text.LzmaDec_FreeProbs
-                0x83c13d30       0x38 lib/lzma/liblzma.o
-                0x83c13d30                LzmaDec_FreeProbs
+                0x83c13a80       0x38 lib/lzma/liblzma.o
+                0x83c13a80                LzmaDec_FreeProbs
  .text.LzmaProps_Decode
-                0x83c13d68       0xa8 lib/lzma/liblzma.o
-                0x83c13d68                LzmaProps_Decode
+                0x83c13ab8       0xa8 lib/lzma/liblzma.o
+                0x83c13ab8                LzmaProps_Decode
  .text.LzmaDec_AllocateProbs2
-                0x83c13e10       0x90 lib/lzma/liblzma.o
+                0x83c13b60       0x90 lib/lzma/liblzma.o
  .text.LzmaDec_AllocateProbs
-                0x83c13ea0       0x90 lib/lzma/liblzma.o
-                0x83c13ea0                LzmaDec_AllocateProbs
+                0x83c13bf0       0x90 lib/lzma/liblzma.o
+                0x83c13bf0                LzmaDec_AllocateProbs
  .text.LzmaDec_DecodeToDic
-                0x83c13f30      0x3dc lib/lzma/liblzma.o
-                0x83c13f30                LzmaDec_DecodeToDic
+                0x83c13c80      0x3dc lib/lzma/liblzma.o
+                0x83c13c80                LzmaDec_DecodeToDic
  .text.LzmaDecode
-                0x83c1430c      0x134 lib/lzma/liblzma.o
-                0x83c1430c                LzmaDecode
+                0x83c1405c      0x134 lib/lzma/liblzma.o
+                0x83c1405c                LzmaDecode
  .text.lzmaBuffToBuffDecompress
-                0x83c14440      0x110 lib/lzma/liblzma.o
-                0x83c14440                lzmaBuffToBuffDecompress
- .text.SzFree   0x83c14550        0xc lib/lzma/liblzma.o
- .text.SzAlloc  0x83c1455c        0xc lib/lzma/liblzma.o
- .text.inflate_fast
-                0x83c14568      0x5b4 lib/zlib/libz.o
-                0x83c14568                inflate_fast
- .text.inflate_table
-                0x83c14b1c      0x50c lib/zlib/libz.o
-                0x83c14b1c                inflate_table
- .text.inflateReset
-                0x83c15028       0x78 lib/zlib/libz.o
-                0x83c15028                inflateReset
- .text.inflateInit2_
-                0x83c150a0      0x120 lib/zlib/libz.o
-                0x83c150a0                inflateInit2_
- .text.inflateEnd
-                0x83c151c0       0x78 lib/zlib/libz.o
-                0x83c151c0                inflateEnd
- .text.adler32  0x83c15238      0x300 lib/zlib/libz.o
-                0x83c15238                adler32
- .text.zcfree   0x83c15538        0xc lib/zlib/libz.o
-                0x83c15538                zcfree
- .text.zcalloc  0x83c15544       0x10 lib/zlib/libz.o
-                0x83c15544                zcalloc
- .text.inflate  0x83c15554     0x1718 lib/zlib/libz.o
-                0x83c15554                inflate
+                0x83c14190      0x110 lib/lzma/liblzma.o
+                0x83c14190                lzmaBuffToBuffDecompress
+ .text.SzFree   0x83c142a0        0xc lib/lzma/liblzma.o
+ .text.SzAlloc  0x83c142ac        0xc lib/lzma/liblzma.o
  .text.BootpRequest
-                0x83c16c6c      0x264 net/libnet.o
-                0x83c16c6c                BootpRequest
+                0x83c142b8      0x264 net/libnet.o
+                0x83c142b8                BootpRequest
  .text.BootpHandler
-                0x83c16ed0      0x404 net/libnet.o
+                0x83c1451c      0x404 net/libnet.o
  .text.BootpTimeout
-                0x83c172d4       0x4c net/libnet.o
+                0x83c14920       0x4c net/libnet.o
  .text.__def_eth_init
-                0x83c17320        0x8 net/libnet.o
-                0x83c17320                board_eth_init
+                0x83c1496c        0x8 net/libnet.o
+                0x83c1496c                board_eth_init
  .text.eth_get_dev
-                0x83c17328       0x10 net/libnet.o
-                0x83c17328                eth_get_dev
+                0x83c14974       0x10 net/libnet.o
+                0x83c14974                eth_get_dev
  .text.eth_get_dev_index
-                0x83c17338       0x4c net/libnet.o
-                0x83c17338                eth_get_dev_index
+                0x83c14984       0x4c net/libnet.o
+                0x83c14984                eth_get_dev_index
  .text.eth_halt
-                0x83c17384       0x44 net/libnet.o
-                0x83c17384                eth_halt
+                0x83c149d0       0x44 net/libnet.o
+                0x83c149d0                eth_halt
  .text.eth_send
-                0x83c173c8       0x2c net/libnet.o
-                0x83c173c8                eth_send
- .text.eth_rx   0x83c173f4       0x24 net/libnet.o
-                0x83c173f4                eth_rx
+                0x83c14a14       0x2c net/libnet.o
+                0x83c14a14                eth_send
+ .text.eth_rx   0x83c14a40       0x24 net/libnet.o
+                0x83c14a40                eth_rx
  .text.eth_get_name
-                0x83c17418       0x20 net/libnet.o
-                0x83c17418                eth_get_name
+                0x83c14a64       0x20 net/libnet.o
+                0x83c14a64                eth_get_name
  .text.eth_current_changed
-                0x83c17438       0x80 net/libnet.o
+                0x83c14a84       0x80 net/libnet.o
  .text.eth_set_current
-                0x83c174b8       0xd4 net/libnet.o
-                0x83c174b8                eth_set_current
+                0x83c14b04       0xd4 net/libnet.o
+                0x83c14b04                eth_set_current
  .text.eth_try_another
-                0x83c1758c       0x90 net/libnet.o
-                0x83c1758c                eth_try_another
+                0x83c14bd8       0x90 net/libnet.o
+                0x83c14bd8                eth_try_another
  .text.eth_register
-                0x83c1761c       0x78 net/libnet.o
-                0x83c1761c                eth_register
+                0x83c14c68       0x78 net/libnet.o
+                0x83c14c68                eth_register
  .text.eth_parse_enetaddr
-                0x83c17694       0x98 net/libnet.o
-                0x83c17694                eth_parse_enetaddr
+                0x83c14ce0       0x98 net/libnet.o
+                0x83c14ce0                eth_parse_enetaddr
  .text.eth_getenv_enetaddr
-                0x83c1772c       0x70 net/libnet.o
-                0x83c1772c                eth_getenv_enetaddr
+                0x83c14d78       0x70 net/libnet.o
+                0x83c14d78                eth_getenv_enetaddr
  .text.eth_getenv_enetaddr_by_index
-                0x83c1779c       0x60 net/libnet.o
-                0x83c1779c                eth_getenv_enetaddr_by_index
+                0x83c14de8       0x60 net/libnet.o
+                0x83c14de8                eth_getenv_enetaddr_by_index
  .text.eth_init
-                0x83c177fc      0x104 net/libnet.o
-                0x83c177fc                eth_init
+                0x83c14e48      0x104 net/libnet.o
+                0x83c14e48                eth_init
  .text.eth_write_hwaddr
-                0x83c17900      0x198 net/libnet.o
-                0x83c17900                eth_write_hwaddr
+                0x83c14f4c      0x198 net/libnet.o
+                0x83c14f4c                eth_write_hwaddr
  .text.eth_initialize
-                0x83c17a98      0x208 net/libnet.o
-                0x83c17a98                eth_initialize
+                0x83c150e4      0x208 net/libnet.o
+                0x83c150e4                eth_initialize
  .text.startAgainTimeout
-                0x83c17ca0       0x10 net/libnet.o
+                0x83c152ec       0x10 net/libnet.o
  .text.startAgainHandler
-                0x83c17cb0        0x8 net/libnet.o
+                0x83c152fc        0x8 net/libnet.o
  .text.NetSetHandler
-                0x83c17cb8        0xc net/libnet.o
-                0x83c17cb8                NetSetHandler
+                0x83c15304        0xc net/libnet.o
+                0x83c15304                NetSetHandler
  .text.PingHandler
-                0x83c17cc4       0x20 net/libnet.o
+                0x83c15310       0x20 net/libnet.o
  .text.NetCksumOk
-                0x83c17ce4       0x40 net/libnet.o
-                0x83c17ce4                NetCksumOk
+                0x83c15330       0x40 net/libnet.o
+                0x83c15330                NetCksumOk
  .text.NetEthHdrSize
-                0x83c17d24       0x30 net/libnet.o
-                0x83c17d24                NetEthHdrSize
+                0x83c15370       0x30 net/libnet.o
+                0x83c15370                NetEthHdrSize
  .text.copy_filename
-                0x83c17d54       0x4c net/libnet.o
-                0x83c17d54                copy_filename
+                0x83c153a0       0x4c net/libnet.o
+                0x83c153a0                copy_filename
  .text.string_to_VLAN
-                0x83c17da0       0x48 net/libnet.o
-                0x83c17da0                string_to_VLAN
+                0x83c153ec       0x48 net/libnet.o
+                0x83c153ec                string_to_VLAN
  .text.getenv_VLAN
-                0x83c17de8       0x20 net/libnet.o
-                0x83c17de8                getenv_VLAN
+                0x83c15434       0x20 net/libnet.o
+                0x83c15434                getenv_VLAN
  .text.ip_to_string
-                0x83c17e08       0x48 net/libnet.o
-                0x83c17e08                ip_to_string
+                0x83c15454       0x48 net/libnet.o
+                0x83c15454                ip_to_string
  .text.print_IPaddr
-                0x83c17e50       0x30 net/libnet.o
-                0x83c17e50                print_IPaddr
+                0x83c1549c       0x30 net/libnet.o
+                0x83c1549c                print_IPaddr
  .text.NetSetIP
-                0x83c17e80      0x118 net/libnet.o
-                0x83c17e80                NetSetIP
+                0x83c154cc      0x118 net/libnet.o
+                0x83c154cc                NetSetIP
  .text.NetSetEther
-                0x83c17f98       0x94 net/libnet.o
-                0x83c17f98                NetSetEther
+                0x83c155e4       0x94 net/libnet.o
+                0x83c155e4                NetSetEther
  .text.NetReceive
-                0x83c1802c      0x504 net/libnet.o
-                0x83c1802c                NetReceive
+                0x83c15678      0x504 net/libnet.o
+                0x83c15678                NetReceive
  .text.NetSendPacket
-                0x83c18530        0x8 net/libnet.o
-                0x83c18530                NetSendPacket
+                0x83c15b7c        0x8 net/libnet.o
+                0x83c15b7c                NetSendPacket
  .text.NetSetTimeout
-                0x83c18538       0x4c net/libnet.o
-                0x83c18538                NetSetTimeout
+                0x83c15b84       0x4c net/libnet.o
+                0x83c15b84                NetSetTimeout
  .text.PingTimeout
-                0x83c18584       0x28 net/libnet.o
+                0x83c15bd0       0x28 net/libnet.o
  .text.NetStartAgain
-                0x83c185ac      0x130 net/libnet.o
-                0x83c185ac                NetStartAgain
+                0x83c15bf8      0x130 net/libnet.o
+                0x83c15bf8                NetStartAgain
  .text.ArpRequest
-                0x83c186dc      0x13c net/libnet.o
-                0x83c186dc                ArpRequest
+                0x83c15d28      0x13c net/libnet.o
+                0x83c15d28                ArpRequest
  .text.PingSend
-                0x83c18818      0x1cc net/libnet.o
-                0x83c18818                PingSend
+                0x83c15e64      0x1cc net/libnet.o
+                0x83c15e64                PingSend
  .text.NetSendUDPPacket
-                0x83c189e4      0x190 net/libnet.o
-                0x83c189e4                NetSendUDPPacket
+                0x83c16030      0x190 net/libnet.o
+                0x83c16030                NetSendUDPPacket
  .text.ArpTimeoutCheck
-                0x83c18b74       0x94 net/libnet.o
-                0x83c18b74                ArpTimeoutCheck
+                0x83c161c0       0x94 net/libnet.o
+                0x83c161c0                ArpTimeoutCheck
  .text.net_auto_load
-                0x83c18c08       0x50 net/libnet.o
-                0x83c18c08                net_auto_load
+                0x83c16254       0x50 net/libnet.o
+                0x83c16254                net_auto_load
  .text.getenv_IPaddr
-                0x83c18c58       0x20 net/libnet.o
- .text.NetLoop  0x83c18c78      0x514 net/libnet.o
-                0x83c18c78                NetLoop
+                0x83c162a4       0x20 net/libnet.o
+ .text.NetLoop  0x83c162c4      0x514 net/libnet.o
+                0x83c162c4                NetLoop
  .text.TftpSend
-                0x83c1918c      0x1e4 net/libnet.o
+                0x83c167d8      0x1e4 net/libnet.o
  .text.TftpStart
-                0x83c19370      0x334 net/libnet.o
-                0x83c19370                TftpStart
+                0x83c169bc      0x334 net/libnet.o
+                0x83c169bc                TftpStart
  .text.TftpTimeout
-                0x83c196a4       0x94 net/libnet.o
+                0x83c16cf0       0x94 net/libnet.o
  .text.TftpHandler
-                0x83c19738      0x394 net/libnet.o
- *fill*         0x83c19acc        0x4 00
- .text          0x83c19ad0      0x4d0 board/Realtek/luna/libluna.o
-                0x83c19ad0                memctls_is_DDR
-                0x83c19b0c                memctls_is_DDR2
-                0x83c19b48                memctls_is_DDR3
-                0x83c19c00                dsp_burst_read_write
-                0x83c19c50                memctls_trig_dram_reinit
-                0x83c19d30                _sys_adj_mem_clk
-                0x83c19dfc                sys_adj_mem_clk
-                0x83c19e60                get_cpu_cycle_per_ms
+                0x83c16d84      0x394 net/libnet.o
+ *fill*         0x83c17118        0x8 00
+ .text          0x83c17120      0x4d0 board/Realtek/luna/libluna.o
+                0x83c17120                memctls_is_DDR
+                0x83c1715c                memctls_is_DDR2
+                0x83c17198                memctls_is_DDR3
+                0x83c17250                dsp_burst_read_write
+                0x83c172a0                memctls_trig_dram_reinit
+                0x83c17380                _sys_adj_mem_clk
+                0x83c1744c                sys_adj_mem_clk
+                0x83c174b0                get_cpu_cycle_per_ms
  .text.memctlc_dram_size
-                0x83c19fa0       0x54 board/Realtek/luna/libluna.o
-                0x83c19fa0                memctlc_dram_size
+                0x83c175f0       0x54 board/Realtek/luna/libluna.o
+                0x83c175f0                memctlc_dram_size
  .text.memctlc_is_DDR
-                0x83c19ff4       0x1c board/Realtek/luna/libluna.o
-                0x83c19ff4                memctlc_is_DDR
+                0x83c17644       0x1c board/Realtek/luna/libluna.o
+                0x83c17644                memctlc_is_DDR
  .text.memctlc_is_DDR3
-                0x83c1a010       0x24 board/Realtek/luna/libluna.o
-                0x83c1a010                memctlc_is_DDR3
+                0x83c17660       0x24 board/Realtek/luna/libluna.o
+                0x83c17660                memctlc_is_DDR3
  .text.memctlc_is_DDR2
-                0x83c1a034       0x20 board/Realtek/luna/libluna.o
-                0x83c1a034                memctlc_is_DDR2
+                0x83c17684       0x20 board/Realtek/luna/libluna.o
+                0x83c17684                memctlc_is_DDR2
  .text._DTR_wtr_frq_mhz
-                0x83c1a054       0x3c board/Realtek/luna/libluna.o
-                0x83c1a054                _DTR_wtr_frq_mhz
+                0x83c176a4       0x3c board/Realtek/luna/libluna.o
+                0x83c176a4                _DTR_wtr_frq_mhz
  .text._DTR_rtp_frq_mhz
-                0x83c1a090       0x3c board/Realtek/luna/libluna.o
-                0x83c1a090                _DTR_rtp_frq_mhz
+                0x83c176e0       0x3c board/Realtek/luna/libluna.o
+                0x83c176e0                _DTR_rtp_frq_mhz
  .text._DTR_rrd_frq_mhz
-                0x83c1a0cc       0x3c board/Realtek/luna/libluna.o
-                0x83c1a0cc                _DTR_rrd_frq_mhz
+                0x83c1771c       0x3c board/Realtek/luna/libluna.o
+                0x83c1771c                _DTR_rrd_frq_mhz
  .text._DTR_rcd_frq_mhz
-                0x83c1a108       0x3c board/Realtek/luna/libluna.o
-                0x83c1a108                _DTR_rcd_frq_mhz
+                0x83c17758       0x3c board/Realtek/luna/libluna.o
+                0x83c17758                _DTR_rcd_frq_mhz
  .text._DTR_ras_frq_mhz
-                0x83c1a144       0x44 board/Realtek/luna/libluna.o
-                0x83c1a144                _DTR_ras_frq_mhz
+                0x83c17794       0x44 board/Realtek/luna/libluna.o
+                0x83c17794                _DTR_ras_frq_mhz
  .text._DTR_wr_frq_mhz
-                0x83c1a188       0x3c board/Realtek/luna/libluna.o
-                0x83c1a188                _DTR_wr_frq_mhz
+                0x83c177d8       0x3c board/Realtek/luna/libluna.o
+                0x83c177d8                _DTR_wr_frq_mhz
  .text._DTR_DDR2_MRS_setting
-                0x83c1a1c4      0x100 board/Realtek/luna/libluna.o
-                0x83c1a1c4                _DTR_DDR2_MRS_setting
+                0x83c17814      0x100 board/Realtek/luna/libluna.o
+                0x83c17814                _DTR_DDR2_MRS_setting
  .text._DTR_DDR1_MRS_setting
-                0x83c1a2c4       0x7c board/Realtek/luna/libluna.o
-                0x83c1a2c4                _DTR_DDR1_MRS_setting
+                0x83c17914       0x7c board/Realtek/luna/libluna.o
+                0x83c17914                _DTR_DDR1_MRS_setting
  .text.memctlc_check_90phase_range
-                0x83c1a340      0x160 board/Realtek/luna/libluna.o
-                0x83c1a340                memctlc_check_90phase_range
+                0x83c17990      0x160 board/Realtek/luna/libluna.o
+                0x83c17990                memctlc_check_90phase_range
  .text.memctlc_check_DQS_range
-                0x83c1a4a0      0x1c8 board/Realtek/luna/libluna.o
-                0x83c1a4a0                memctlc_check_DQS_range
+                0x83c17af0      0x1c8 board/Realtek/luna/libluna.o
+                0x83c17af0                memctlc_check_DQS_range
  .text._DCR_get_colcnt
-                0x83c1a668       0x54 board/Realtek/luna/libluna.o
-                0x83c1a668                _DCR_get_colcnt
+                0x83c17cb8       0x54 board/Realtek/luna/libluna.o
+                0x83c17cb8                _DCR_get_colcnt
  .text._DCR_get_buswidth
-                0x83c1a6bc       0x64 board/Realtek/luna/libluna.o
-                0x83c1a6bc                _DCR_get_buswidth
+                0x83c17d0c       0x64 board/Realtek/luna/libluna.o
+                0x83c17d0c                _DCR_get_buswidth
  .text.memctlc_check_DCR
-                0x83c1a720      0x170 board/Realtek/luna/libluna.o
-                0x83c1a720                memctlc_check_DCR
+                0x83c17d70      0x170 board/Realtek/luna/libluna.o
+                0x83c17d70                memctlc_check_DCR
  .text._DTR_suggestion
-                0x83c1a890      0x3d8 board/Realtek/luna/libluna.o
-                0x83c1a890                _DTR_suggestion
+                0x83c17ee0      0x3d8 board/Realtek/luna/libluna.o
+                0x83c17ee0                _DTR_suggestion
  .text._DTR_refresh_freq_mhz
-                0x83c1ac68       0x9c board/Realtek/luna/libluna.o
-                0x83c1ac68                _DTR_refresh_freq_mhz
+                0x83c182b8       0x9c board/Realtek/luna/libluna.o
+                0x83c182b8                _DTR_refresh_freq_mhz
  .text.memctlc_check_DTR_DDR
-                0x83c1ad04      0x5fc board/Realtek/luna/libluna.o
-                0x83c1ad04                memctlc_check_DTR_DDR
+                0x83c18354      0x5fc board/Realtek/luna/libluna.o
+                0x83c18354                memctlc_check_DTR_DDR
  .text.memctlc_check_DTR_DDR2
-                0x83c1b300      0x8b0 board/Realtek/luna/libluna.o
-                0x83c1b300                memctlc_check_DTR_DDR2
+                0x83c18950      0x8b0 board/Realtek/luna/libluna.o
+                0x83c18950                memctlc_check_DTR_DDR2
  .text.memctlc_check_DTR_DDR3
-                0x83c1bbb0      0xac8 board/Realtek/luna/libluna.o
-                0x83c1bbb0                memctlc_check_DTR_DDR3
+                0x83c19200      0xac8 board/Realtek/luna/libluna.o
+                0x83c19200                memctlc_check_DTR_DDR3
  .text.memctlc_check_DTR
-                0x83c1c678       0x88 board/Realtek/luna/libluna.o
-                0x83c1c678                memctlc_check_DTR
+                0x83c19cc8       0x88 board/Realtek/luna/libluna.o
+                0x83c19cc8                memctlc_check_DTR
  .text.memctlc_check_ZQ
-                0x83c1c700       0x90 board/Realtek/luna/libluna.o
-                0x83c1c700                memctlc_check_ZQ
+                0x83c19d50       0x90 board/Realtek/luna/libluna.o
+                0x83c19d50                memctlc_check_ZQ
  .text.enable_DRAM_prefech
-                0x83c1c790       0x70 board/Realtek/luna/libluna.o
-                0x83c1c790                enable_DRAM_prefech
+                0x83c19de0       0x70 board/Realtek/luna/libluna.o
+                0x83c19de0                enable_DRAM_prefech
  .text.cache_flush_adjacent_toggle_line128
-                0x83c1c800      0x2cc board/Realtek/luna/libluna.o
-                0x83c1c800                cache_flush_adjacent_toggle_line128
+                0x83c19e50      0x2cc board/Realtek/luna/libluna.o
+                0x83c19e50                cache_flush_adjacent_toggle_line128
  .text.cache_flush_dispersed_toggle_word
-                0x83c1cacc      0x340 board/Realtek/luna/libluna.o
-                0x83c1cacc                cache_flush_dispersed_toggle_word
+                0x83c1a11c      0x340 board/Realtek/luna/libluna.o
+                0x83c1a11c                cache_flush_dispersed_toggle_word
  .text.cache_flush_adjacent_toggle_word
-                0x83c1ce0c      0x1bc board/Realtek/luna/libluna.o
-                0x83c1ce0c                cache_flush_adjacent_toggle_word
+                0x83c1a45c      0x1bc board/Realtek/luna/libluna.o
+                0x83c1a45c                cache_flush_adjacent_toggle_word
  .text.cache_flush_adj_addr
-                0x83c1cfc8      0x180 board/Realtek/luna/libluna.o
-                0x83c1cfc8                cache_flush_adj_addr
+                0x83c1a618      0x180 board/Realtek/luna/libluna.o
+                0x83c1a618                cache_flush_adj_addr
  .text.unaligned_test
-                0x83c1d148      0x610 board/Realtek/luna/libluna.o
-                0x83c1d148                unaligned_test
+                0x83c1a798      0x610 board/Realtek/luna/libluna.o
+                0x83c1a798                unaligned_test
  .text.dram_byte_access
-                0x83c1d758      0x1e4 board/Realtek/luna/libluna.o
-                0x83c1d758                dram_byte_access
+                0x83c1ada8      0x1e4 board/Realtek/luna/libluna.o
+                0x83c1ada8                dram_byte_access
  .text.dram_half_word_access
-                0x83c1d93c      0x1cc board/Realtek/luna/libluna.o
-                0x83c1d93c                dram_half_word_access
+                0x83c1af8c      0x1cc board/Realtek/luna/libluna.o
+                0x83c1af8c                dram_half_word_access
  .text.dram_com_addr_rot
-                0x83c1db08      0x240 board/Realtek/luna/libluna.o
-                0x83c1db08                dram_com_addr_rot
+                0x83c1b158      0x240 board/Realtek/luna/libluna.o
+                0x83c1b158                dram_com_addr_rot
  .text.dram_addr_rot
-                0x83c1dd48      0x23c board/Realtek/luna/libluna.o
-                0x83c1dd48                dram_addr_rot
+                0x83c1b398      0x23c board/Realtek/luna/libluna.o
+                0x83c1b398                dram_addr_rot
  .text.dram_walking_of_0
-                0x83c1df84      0x1bc board/Realtek/luna/libluna.o
-                0x83c1df84                dram_walking_of_0
+                0x83c1b5d4      0x1bc board/Realtek/luna/libluna.o
+                0x83c1b5d4                dram_walking_of_0
  .text.dram_walking_of_1
-                0x83c1e140      0x1bc board/Realtek/luna/libluna.o
-                0x83c1e140                dram_walking_of_1
+                0x83c1b790      0x1bc board/Realtek/luna/libluna.o
+                0x83c1b790                dram_walking_of_1
  .text.dram_normal_patterns
-                0x83c1e2fc      0x1bc board/Realtek/luna/libluna.o
-                0x83c1e2fc                dram_normal_patterns
+                0x83c1b94c      0x1bc board/Realtek/luna/libluna.o
+                0x83c1b94c                dram_normal_patterns
  .text.ddr_cmd_parsing
-                0x83c1e4b8      0x3f0 board/Realtek/luna/libluna.o
-                0x83c1e4b8                ddr_cmd_parsing
+                0x83c1bb08      0x3f0 board/Realtek/luna/libluna.o
+                0x83c1bb08                ddr_cmd_parsing
  .text.cache_flush_dispersed
-                0x83c1e8a8      0x448 board/Realtek/luna/libluna.o
-                0x83c1e8a8                cache_flush_dispersed
+                0x83c1bef8      0x448 board/Realtek/luna/libluna.o
+                0x83c1bef8                cache_flush_dispersed
  .text.cache_flush_adjacent
-                0x83c1ecf0      0x2c8 board/Realtek/luna/libluna.o
-                0x83c1ecf0                cache_flush_adjacent
+                0x83c1c340      0x2c8 board/Realtek/luna/libluna.o
+                0x83c1c340                cache_flush_adjacent
  .text.cache_flush_test
-                0x83c1efb8      0x460 board/Realtek/luna/libluna.o
-                0x83c1efb8                cache_flush_test
+                0x83c1c608      0x460 board/Realtek/luna/libluna.o
+                0x83c1c608                cache_flush_test
  .text.memcpy_test
-                0x83c1f418      0x1cc board/Realtek/luna/libluna.o
-                0x83c1f418                memcpy_test
+                0x83c1ca68      0x1cc board/Realtek/luna/libluna.o
+                0x83c1ca68                memcpy_test
  .text._dram_test
-                0x83c1f5e4      0x130 board/Realtek/luna/libluna.o
-                0x83c1f5e4                _dram_test
+                0x83c1cc34      0x130 board/Realtek/luna/libluna.o
+                0x83c1cc34                _dram_test
  .text.dram_test
-                0x83c1f714      0x35c board/Realtek/luna/libluna.o
-                0x83c1f714                dram_test
+                0x83c1cd64      0x35c board/Realtek/luna/libluna.o
+                0x83c1cd64                dram_test
  .text.checkboard
-                0x83c1fa70      0x268 board/Realtek/luna/libluna.o
-                0x83c1fa70                checkboard
+                0x83c1d0c0      0x268 board/Realtek/luna/libluna.o
+                0x83c1d0c0                checkboard
  .text.initdram
-                0x83c1fcd8       0x10 board/Realtek/luna/libluna.o
-                0x83c1fcd8                initdram
+                0x83c1d328       0x10 board/Realtek/luna/libluna.o
+                0x83c1d328                initdram
  .text.board_DSP_freq_hz
-                0x83c1fce8       0x38 board/Realtek/luna/libluna.o
-                0x83c1fce8                board_DSP_freq_hz
+                0x83c1d338       0x38 board/Realtek/luna/libluna.o
+                0x83c1d338                board_DSP_freq_hz
  .text.board_CPU_freq_hz
-                0x83c1fd20       0x38 board/Realtek/luna/libluna.o
-                0x83c1fd20                board_CPU_freq_hz
+                0x83c1d370       0x38 board/Realtek/luna/libluna.o
+                0x83c1d370                board_CPU_freq_hz
  .text.board_LX_freq_hz
-                0x83c1fd58       0x38 board/Realtek/luna/libluna.o
-                0x83c1fd58                board_LX_freq_hz
+                0x83c1d3a8       0x38 board/Realtek/luna/libluna.o
+                0x83c1d3a8                board_LX_freq_hz
  .text.show_DRAM_phy_parameters
-                0x83c1fd90       0xe0 board/Realtek/luna/libluna.o
-                0x83c1fd90                show_DRAM_phy_parameters
+                0x83c1d3e0       0xe0 board/Realtek/luna/libluna.o
+                0x83c1d3e0                show_DRAM_phy_parameters
  .text.chk_dram_cfg
-                0x83c1fe70      0x254 board/Realtek/luna/libluna.o
-                0x83c1fe70                chk_dram_cfg
+                0x83c1d4c0      0x254 board/Realtek/luna/libluna.o
+                0x83c1d4c0                chk_dram_cfg
  .text.do_reset_all
-                0x83c200c4       0x40 board/Realtek/luna/libluna.o
-                0x83c200c4                do_reset_all
+                0x83c1d714       0x40 board/Realtek/luna/libluna.o
+                0x83c1d714                do_reset_all
  .text.do_dram_test
-                0x83c20104       0x1c board/Realtek/luna/libluna.o
-                0x83c20104                do_dram_test
+                0x83c1d754       0x1c board/Realtek/luna/libluna.o
+                0x83c1d754                do_dram_test
  .text.do_dram_dig
-                0x83c20120       0x44 board/Realtek/luna/libluna.o
-                0x83c20120                do_dram_dig
-                0x83c20164                . = ALIGN (0x4)
+                0x83c1d770       0x44 board/Realtek/luna/libluna.o
+                0x83c1d770                do_dram_dig
+                0x83c1d7b4                . = ALIGN (0x4)
 
-.rodata         0x83c20170     0x8f74
+.rodata         0x83c1d7c0     0x8234
  *(SORT(.rodata*))
- .rodata        0x83c20170      0x1a0 common/libcommon.o
- .rodata        0x83c20310       0x20 net/libnet.o
+ .rodata        0x83c1d7c0      0x1a0 common/libcommon.o
+ .rodata        0x83c1d960       0x20 net/libnet.o
  .rodata.C.28.3334
-                0x83c20330       0x30 drivers/rtc/librtc.o
+                0x83c1d980       0x30 drivers/rtc/librtc.o
  .rodata.C.33.3490
-                0x83c20360        0x8 common/libcommon.o
+                0x83c1d9b0        0x8 common/libcommon.o
  .rodata.CSWTCH.204
-                0x83c20368        0xc board/Realtek/luna/libluna.o
+                0x83c1d9b8        0xc board/Realtek/luna/libluna.o
  .rodata.CSWTCH.47
-                0x83c20374       0x58 common/libcommon.o
+                0x83c1d9c4       0x58 common/libcommon.o
  .rodata.K.3344
-                0x83c203cc      0x100 common/libcommon.o
+                0x83c1da1c      0x100 common/libcommon.o
  .rodata.NetLoop
-                0x83c204cc       0x34 net/libnet.o
+                0x83c1db1c       0x34 net/libnet.o
  .rodata.TftpSend
-                0x83c20500       0x1c net/libnet.o
+                0x83c1db50       0x1c net/libnet.o
  .rodata._DTR_DDR2_MRS_setting
-                0x83c2051c       0x2c board/Realtek/luna/libluna.o
+                0x83c1db6c       0x2c board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3659
-                0x83c20548       0x18 board/Realtek/luna/libluna.o
+                0x83c1db98       0x18 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3702
-                0x83c20560       0x14 board/Realtek/luna/libluna.o
+                0x83c1dbb0       0x14 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3743
-                0x83c20574       0x14 board/Realtek/luna/libluna.o
+                0x83c1dbc4       0x14 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3785
-                0x83c20588       0x10 board/Realtek/luna/libluna.o
+                0x83c1dbd8       0x10 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3835
-                0x83c20598       0x14 board/Realtek/luna/libluna.o
+                0x83c1dbe8       0x14 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3886
-                0x83c205ac       0x18 board/Realtek/luna/libluna.o
+                0x83c1dbfc       0x18 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3931
-                0x83c205c4       0x14 board/Realtek/luna/libluna.o
+                0x83c1dc14       0x14 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.3980
-                0x83c205d8        0xc board/Realtek/luna/libluna.o
+                0x83c1dc28        0xc board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.4044
-                0x83c205e4       0x10 board/Realtek/luna/libluna.o
+                0x83c1dc34       0x10 board/Realtek/luna/libluna.o
  .rodata.__FUNCTION__.4639
-                0x83c205f4       0x14 board/Realtek/luna/libluna.o
+                0x83c1dc44       0x14 board/Realtek/luna/libluna.o
  .rodata.__func__.3438
-                0x83c20608        0xc arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c1dc58        0xc arch/otto/cpu/rlx5281/luna/libluna.o
  .rodata.__func__.3490
-                0x83c20614       0x10 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c1dc64       0x10 arch/otto/cpu/rlx5281/luna/libluna.o
  .rodata.__func__.3619
-                0x83c20624       0x10 common/libcommon.o
+                0x83c1dc74       0x10 common/libcommon.o
  .rodata.__func__.3644
-                0x83c20634        0xc common/libcommon.o
+                0x83c1dc84        0xc common/libcommon.o
  .rodata.__func__.3700
-                0x83c20640        0x8 common/libcommon.o
+                0x83c1dc90        0x8 common/libcommon.o
  .rodata.__func__.4335
-                0x83c20648       0x10 common/libcommon.o
+                0x83c1dc98       0x10 common/libcommon.o
  .rodata.__func__.4415
-                0x83c20658       0x10 common/libcommon.o
+                0x83c1dca8       0x10 common/libcommon.o
  .rodata._ctype
-                0x83c20668      0x100 lib/libgeneric.o
-                0x83c20668                _ctype
+                0x83c1dcb8      0x100 lib/libgeneric.o
+                0x83c1dcb8                _ctype
  .rodata.bootPwCheck
-                0x83c20768       0x30 common/libcommon.o
+                0x83c1ddb8       0x30 common/libcommon.o
  .rodata.boot_os
-                0x83c20798       0x4c common/libcommon.o
+                0x83c1dde8       0x4c common/libcommon.o
  .rodata.crc16tab
-                0x83c207e4      0x200 common/libcommon.o
+                0x83c1de34      0x200 common/libcommon.o
  .rodata.crc_table
-                0x83c209e4      0x400 lib/libgeneric.o
- .rodata.dbase.3893
-                0x83c20de4       0x40 lib/zlib/libz.o
+                0x83c1e034      0x400 lib/libgeneric.o
  .rodata.default_environment
-                0x83c20e24      0x12c common/libcommon.o
-                0x83c20e24                default_environment
+                0x83c1e434      0x12c common/libcommon.o
+                0x83c1e434                default_environment
  .rodata.des_SPtrans
-                0x83c20f50      0x800 common/libcommon.o
+                0x83c1e560      0x800 common/libcommon.o
  .rodata.des_skb
-                0x83c21750      0x800 common/libcommon.o
- .rodata.dext.3894
-                0x83c21f50       0x40 lib/zlib/libz.o
+                0x83c1ed60      0x800 common/libcommon.o
  .rodata.digits.3644
-                0x83c21f90       0x10 lib/libgeneric.o
- .rodata.distfix
-                0x83c21fa0       0x80 lib/zlib/libz.o
+                0x83c1f560       0x10 lib/libgeneric.o
  .rodata.dram_patterns
-                0x83c22020       0x50 board/Realtek/luna/libluna.o
-                0x83c22020                dram_patterns
+                0x83c1f570       0x50 board/Realtek/luna/libluna.o
+                0x83c1f570                dram_patterns
  .rodata.erase_seq
-                0x83c22070        0x4 common/libcommon.o
+                0x83c1f5c0        0x4 common/libcommon.o
  .rodata.failed
-                0x83c22074        0x4 arch/otto/lib/libotto.o
+                0x83c1f5c4        0x4 arch/otto/lib/libotto.o
  .rodata.get_key_press
-                0x83c22078       0x80 common/libcommon.o
+                0x83c1f5c8       0x80 common/libcommon.o
  .rodata.hex_asc
-                0x83c220f8       0x14 lib/libgeneric.o
-                0x83c220f8                hex_asc
- .rodata.inflate
-                0x83c2210c       0x74 lib/zlib/libz.o
+                0x83c1f648       0x14 lib/libgeneric.o
+                0x83c1f648                hex_asc
  .rodata.kLiteralNextStates
-                0x83c22180       0x18 lib/lzma/liblzma.o
- .rodata.lbase.3891
-                0x83c22198       0x40 lib/zlib/libz.o
- .rodata.lenfix
-                0x83c221d8      0x800 lib/zlib/libz.o
- .rodata.lext.3892
-                0x83c229d8       0x40 lib/zlib/libz.o
+                0x83c1f65c       0x18 lib/lzma/liblzma.o
  .rodata.line_toggle_pattern
-                0x83c22a18       0x20 board/Realtek/luna/libluna.o
-                0x83c22a18                line_toggle_pattern
+                0x83c1f674       0x20 board/Realtek/luna/libluna.o
+                0x83c1f674                line_toggle_pattern
  .rodata.names.3627
-                0x83c22a38        0x8 lib/libgeneric.o
+                0x83c1f694        0x8 lib/libgeneric.o
  .rodata.odd_parity
-                0x83c22a40      0x100 common/libcommon.o
- .rodata.order.4195
-                0x83c22b40       0x28 lib/zlib/libz.o
+                0x83c1f69c      0x100 common/libcommon.o
  .rodata.readline_into_buffer
-                0x83c22b68       0x20 common/libcommon.o
+                0x83c1f79c       0x20 common/libcommon.o
  .rodata.shifts2.3592
-                0x83c22b88       0x40 common/libcommon.o
+                0x83c1f7bc       0x40 common/libcommon.o
  .rodata.str1.4
-                0x83c22bc8       0x36 arch/otto/cpu/rlx5281/librlx5281.o
+                0x83c1f7fc       0x36 arch/otto/cpu/rlx5281/librlx5281.o
                                  0x40 (size before relaxing)
- *fill*         0x83c22bfe        0x2 00
+ *fill*         0x83c1f832        0x2 00
  .rodata.str1.4
-                0x83c22c00       0x95 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c1f834       0x95 arch/otto/cpu/rlx5281/luna/libluna.o
                                  0x98 (size before relaxing)
- *fill*         0x83c22c95        0x3 00
+ *fill*         0x83c1f8c9        0x3 00
  .rodata.str1.4
-                0x83c22c98      0x3ea arch/otto/lib/libotto.o
+                0x83c1f8cc      0x3ea arch/otto/lib/libotto.o
                                 0x3fc (size before relaxing)
- *fill*         0x83c23082        0x2 00
+ *fill*         0x83c1fcb6        0x2 00
  .rodata.str1.4
-                0x83c23084     0x33fa common/libcommon.o
-                               0x38cc (size before relaxing)
- *fill*         0x83c2647e        0x2 00
+                0x83c1fcb8     0x33a6 common/libcommon.o
+                               0x3878 (size before relaxing)
+ *fill*         0x83c2305e        0x2 00
  .rodata.str1.4
-                0x83c26480      0x16b lib/libgeneric.o
-                                0x180 (size before relaxing)
- *fill*         0x83c265eb        0x1 00
+                0x83c23060       0xdb lib/libgeneric.o
+                                 0xf0 (size before relaxing)
+ *fill*         0x83c2313b        0x1 00
  .rodata.str1.4
-                0x83c265ec      0x23d lib/zlib/libz.o
-                                0x244 (size before relaxing)
- *fill*         0x83c26829        0x3 00
- .rodata.str1.4
-                0x83c2682c      0x6b9 net/libnet.o
+                0x83c2313c      0x6b9 net/libnet.o
                                 0x740 (size before relaxing)
- *fill*         0x83c26ee5        0x3 00
+ *fill*         0x83c237f5        0x3 00
  .rodata.str1.4
-                0x83c26ee8     0x1f74 board/Realtek/luna/libluna.o
+                0x83c237f8     0x1f74 board/Realtek/luna/libluna.o
                                0x2024 (size before relaxing)
  .rodata.tab_seq
-                0x83c28e5c        0xc common/libcommon.o
+                0x83c2576c        0xc common/libcommon.o
  .rodata.toggle_pattern
-                0x83c28e68       0x30 board/Realtek/luna/libluna.o
-                0x83c28e68                toggle_pattern
+                0x83c25778       0x30 board/Realtek/luna/libluna.o
+                0x83c25778                toggle_pattern
  .rodata.uimage_arch
-                0x83c28e98       0xf0 common/libcommon.o
+                0x83c257a8       0xf0 common/libcommon.o
  .rodata.uimage_comp
-                0x83c28f88       0x48 common/libcommon.o
+                0x83c25898       0x48 common/libcommon.o
  .rodata.uimage_os
-                0x83c28fd0       0x54 common/libcommon.o
+                0x83c258e0       0x54 common/libcommon.o
  .rodata.uimage_type
-                0x83c29024       0xc0 common/libcommon.o
+                0x83c25934       0xc0 common/libcommon.o
 
-.rel.dyn        0x83c290e4       0x10
- .rel.dyn       0x83c290e4       0x10 arch/otto/lib/libotto.o
-                0x83c290f4                . = ALIGN (0x4)
+.rel.dyn        0x83c259f4       0x10
+ .rel.dyn       0x83c259f4       0x10 arch/otto/lib/libotto.o
+                0x83c25a04                . = ALIGN (0x4)
 
-.data           0x83c290f4      0x960
+.data           0x83c25a04      0x960
  *(.data*)
- .data.regbase  0x83c290f4        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
-                0x83c290f4                regbase
+ .data.regbase  0x83c25a04        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c25a04                regbase
  .data.init_sequence
-                0x83c290f8       0x1c arch/otto/lib/libotto.o
-                0x83c290f8                init_sequence
+                0x83c25a08       0x1c arch/otto/lib/libotto.o
+                0x83c25a08                init_sequence
  .data.enable_message
-                0x83c29114        0x4 arch/otto/lib/libotto.o
+                0x83c25a24        0x4 arch/otto/lib/libotto.o
  .data.g_szKeyData
-                0x83c29118        0xc common/libcommon.o
-                0x83c29118                g_szKeyData
+                0x83c25a28        0xc common/libcommon.o
+                0x83c25a28                g_szKeyData
  .data.weak_keys
-                0x83c29124       0x80 common/libcommon.o
+                0x83c25a34       0x80 common/libcommon.o
  .data.cmd_bootm_sub
-                0x83c291a4       0x90 common/libcommon.o
+                0x83c25ab4       0x90 common/libcommon.o
  .data.dp_last_length
-                0x83c29234        0x4 common/libcommon.o
+                0x83c25b44        0x4 common/libcommon.o
  .data.load_addr
-                0x83c29238        0x4 common/libcommon.o
-                0x83c29238                load_addr
+                0x83c25b48        0x4 common/libcommon.o
+                0x83c25b48                load_addr
  .data.cmd_env_sub
-                0x83c2923c       0xc0 common/libcommon.o
- .data.env_id   0x83c292fc        0x4 common/libcommon.o
+                0x83c25b4c       0xc0 common/libcommon.o
+ .data.env_id   0x83c25c0c        0x4 common/libcommon.o
  .data.trim_threshold
-                0x83c29300        0x4 common/libcommon.o
- .data.av_      0x83c29304      0x408 common/libcommon.o
+                0x83c25c10        0x4 common/libcommon.o
+ .data.av_      0x83c25c14      0x408 common/libcommon.o
  .data.sbrk_base
-                0x83c2970c        0x4 common/libcommon.o
+                0x83c2601c        0x4 common/libcommon.o
  .data.env_name_spec
-                0x83c29710        0x4 common/libcommon.o
-                0x83c29710                env_name_spec
+                0x83c26020        0x4 common/libcommon.o
+                0x83c26020                env_name_spec
  .data.hist_cur
-                0x83c29714        0x4 common/libcommon.o
- .data.PADDING  0x83c29718       0x40 common/libcommon.o
+                0x83c26024        0x4 common/libcommon.o
+ .data.PADDING  0x83c26028       0x40 common/libcommon.o
  .data.erase_seq
-                0x83c29758        0x4 common/libcommon.o
- .data.tab_seq  0x83c2975c        0xc common/libcommon.o
+                0x83c26068        0x4 common/libcommon.o
+ .data.tab_seq  0x83c2606c        0xc common/libcommon.o
  .data.menuMain
-                0x83c29768       0xe0 common/libcommon.o
+                0x83c26078       0xe0 common/libcommon.o
  .data.netUpdateMenu
-                0x83c29848       0x70 common/libcommon.o
+                0x83c26158       0x70 common/libcommon.o
  .data.stdio_names
-                0x83c298b8        0xc common/libcommon.o
-                0x83c298b8                stdio_names
+                0x83c261c8        0xc common/libcommon.o
+                0x83c261c8                stdio_names
  .data.month_days
-                0x83c298c4       0x30 drivers/rtc/librtc.o
+                0x83c261d4       0x30 drivers/rtc/librtc.o
  .data.NetBcastAddr
-                0x83c298f4        0x8 net/libnet.o
-                0x83c298f4                NetBcastAddr
+                0x83c26204        0x8 net/libnet.o
+                0x83c26204                NetBcastAddr
  .data.NetOurVLAN
-                0x83c298fc        0x2 net/libnet.o
-                0x83c298fc                NetOurVLAN
+                0x83c2620c        0x2 net/libnet.o
+                0x83c2620c                NetOurVLAN
  .data.NetOurNativeVLAN
-                0x83c298fe        0x2 net/libnet.o
-                0x83c298fe                NetOurNativeVLAN
+                0x83c2620e        0x2 net/libnet.o
+                0x83c2620e                NetOurNativeVLAN
  .data.TftpRRQTimeoutCountMax
-                0x83c29900        0x4 net/libnet.o
-                0x83c29900                TftpRRQTimeoutCountMax
+                0x83c26210        0x4 net/libnet.o
+                0x83c26210                TftpRRQTimeoutCountMax
  .data.TftpBlkSizeOption
-                0x83c29904        0x2 net/libnet.o
- *fill*         0x83c29906        0x2 00
+                0x83c26214        0x2 net/libnet.o
+ *fill*         0x83c26216        0x2 00
  .data.TftpTimeoutMSecs
-                0x83c29908        0x4 net/libnet.o
+                0x83c26218        0x4 net/libnet.o
  .data.TftpTimeoutCountMax
-                0x83c2990c        0x4 net/libnet.o
+                0x83c2621c        0x4 net/libnet.o
  .data.TftpBlkSize
-                0x83c29910        0x2 net/libnet.o
- *fill*         0x83c29912        0x2 00
+                0x83c26220        0x2 net/libnet.o
+ *fill*         0x83c26222        0x2 00
  .data.DQS_RANGE
-                0x83c29914       0xa0 board/Realtek/luna/libluna.o
-                0x83c29914                DQS_RANGE
+                0x83c26224       0xa0 board/Realtek/luna/libluna.o
+                0x83c26224                DQS_RANGE
  .data.W90_RANGE
-                0x83c299b4       0xa0 board/Realtek/luna/libluna.o
-                0x83c299b4                W90_RANGE
-                0x83c29a54                . = .
-                0x83c31a50                _gp = (ALIGN (0x10) + 0x7ff0)
+                0x83c262c4       0xa0 board/Realtek/luna/libluna.o
+                0x83c262c4                W90_RANGE
+                0x83c26364                . = .
+                0x83c2e360                _gp = (ALIGN (0x10) + 0x7ff0)
 
-.got            0x83c29a54        0x0
-                0x83c29a54                __got_start = .
+.got            0x83c26364        0x0
+                0x83c26364                __got_start = .
  *(.got)
-                0x83c29a54                __got_end = .
-                0x83c29a54                . = ALIGN (0x4)
+                0x83c26364                __got_end = .
+                0x83c26364                . = ALIGN (0x4)
 
 .sdata
  *(.sdata*)
-                0x83c29a54                . = ALIGN (0x4)
+                0x83c26364                . = ALIGN (0x4)
 
-.soft_patch     0x83c29a54       0x2c
-                0x83c29a54                LS_sw_patch_start = .
+.soft_patch     0x83c26364       0x2c
+                0x83c26364                LS_sw_patch_start = .
  *(.soft_patch.0)
  *(.soft_patch.1)
- .soft_patch.1  0x83c29a54        0x4 arch/otto/lib/libotto.o
-                0x83c29a54                __swp_swp_flash_init
+ .soft_patch.1  0x83c26364        0x4 arch/otto/lib/libotto.o
+                0x83c26364                __swp_swp_flash_init
  *(.soft_patch.2)
  *(.soft_patch.3)
- .soft_patch.3  0x83c29a58        0x4 arch/otto/lib/libotto.o
-                0x83c29a58                __swp_swp_env
+ .soft_patch.3  0x83c26368        0x4 arch/otto/lib/libotto.o
+                0x83c26368                __swp_swp_env
  *(.soft_patch.4)
  *(.soft_patch.5)
- .soft_patch.5  0x83c29a5c        0x4 arch/otto/lib/libotto.o
-                0x83c29a5c                __swp_swp_uart
+ .soft_patch.5  0x83c2636c        0x4 arch/otto/lib/libotto.o
+                0x83c2636c                __swp_swp_uart
  *(.soft_patch.6)
  *(.soft_patch.7)
- .soft_patch.7  0x83c29a60        0x4 arch/otto/lib/libotto.o
-                0x83c29a60                __swp_swp_pci
+ .soft_patch.7  0x83c26370        0x4 arch/otto/lib/libotto.o
+                0x83c26370                __swp_swp_pci
  *(.soft_patch.8)
  *(.soft_patch.9)
- .soft_patch.9  0x83c29a64        0x4 arch/otto/lib/libotto.o
-                0x83c29a64                __swp_swp_studio
+ .soft_patch.9  0x83c26374        0x4 arch/otto/lib/libotto.o
+                0x83c26374                __swp_swp_studio
  *(.soft_patch.10)
  *(.soft_patch.11)
  .soft_patch.11
-                0x83c29a68        0x4 arch/otto/lib/libotto.o
-                0x83c29a68                __swp_swp_console_r
+                0x83c26378        0x4 arch/otto/lib/libotto.o
+                0x83c26378                __swp_swp_console_r
  *(.soft_patch.12)
  *(.soft_patch.13)
  .soft_patch.13
-                0x83c29a6c        0x4 arch/otto/lib/libotto.o
-                0x83c29a6c                __swp_swp_env_set
+                0x83c2637c        0x4 arch/otto/lib/libotto.o
+                0x83c2637c                __swp_swp_env_set
  *(.soft_patch.14)
  *(.soft_patch.15)
  .soft_patch.15
-                0x83c29a70        0x4 arch/otto/lib/libotto.o
-                0x83c29a70                __swp_swp_spi
+                0x83c26380        0x4 arch/otto/lib/libotto.o
+                0x83c26380                __swp_swp_spi
  *(.soft_patch.16)
  *(.soft_patch.17)
  .soft_patch.17
-                0x83c29a74        0x4 arch/otto/lib/libotto.o
-                0x83c29a74                __swp_swp_misc
+                0x83c26384        0x4 arch/otto/lib/libotto.o
+                0x83c26384                __swp_swp_misc
  *(.soft_patch.18)
  *(.soft_patch.19)
  .soft_patch.19
-                0x83c29a78        0x4 arch/otto/lib/libotto.o
-                0x83c29a78                __swp_swp_post
+                0x83c26388        0x4 arch/otto/lib/libotto.o
+                0x83c26388                __swp_swp_post
  *(.soft_patch.20)
  *(.soft_patch.21)
  .soft_patch.21
-                0x83c29a7c        0x4 arch/otto/lib/libotto.o
-                0x83c29a7c                __swp_swp_eth
+                0x83c2638c        0x4 arch/otto/lib/libotto.o
+                0x83c2638c                __swp_swp_eth
  *(.soft_patch.22)
  *(.soft_patch.23)
-                0x83c29a80                LS_bootm_stack = .
+                0x83c26390                LS_bootm_stack = .
  *(.soft_patch.99)
-                0x83c29a80                LS_sw_patch_end = .
-                0x83c29a80                . = ALIGN (0x4)
+                0x83c26390                LS_sw_patch_end = .
+                0x83c26390                . = ALIGN (0x4)
 
-.u_boot_cmd     0x83c29a80      0x330
-                0x83c29a80                __u_boot_cmd_start = .
+.u_boot_cmd     0x83c26390      0x330
+                0x83c26390                __u_boot_cmd_start = .
  *(.u_boot_cmd)
- .u_boot_cmd    0x83c29a80       0x18 arch/otto/lib/libotto.o
-                0x83c29a80                __u_boot_cmd_sleep
- .u_boot_cmd    0x83c29a98      0x2d0 common/libcommon.o
-                0x83c29a98                __u_boot_cmd_go
-                0x83c29ab0                __u_boot_cmd_reset
-                0x83c29ac8                __u_boot_cmd_bootm
-                0x83c29ae0                __u_boot_cmd_debug
-                0x83c29af8                __u_boot_cmd_help
-                0x83c29b10                __u_boot_cmd_question_mark
-                0x83c29b28                __u_boot_cmd_manufacture
-                0x83c29b40                __u_boot_cmd_md
-                0x83c29b58                __u_boot_cmd_mm
-                0x83c29b70                __u_boot_cmd_nm
-                0x83c29b88                __u_boot_cmd_mw
-                0x83c29ba0                __u_boot_cmd_cp
-                0x83c29bb8                __u_boot_cmd_cmp
-                0x83c29bd0                __u_boot_cmd_crc32
-                0x83c29be8                __u_boot_cmd_base
-                0x83c29c00                __u_boot_cmd_mtest
-                0x83c29c18                __u_boot_cmd_bootp
-                0x83c29c30                __u_boot_cmd_tftpboot
-                0x83c29c48                __u_boot_cmd_ping
-                0x83c29c60                __u_boot_cmd_saveenv
-                0x83c29c78                __u_boot_cmd_env
-                0x83c29c90                __u_boot_cmd_printenv
-                0x83c29ca8                __u_boot_cmd_setenv
-                0x83c29cc0                __u_boot_cmd_run
-                0x83c29cd8                __u_boot_cmd_restore
-                0x83c29cf0                __u_boot_cmd_sf
-                0x83c29d08                __u_boot_cmd_uuboot
-                0x83c29d20                __u_boot_cmd_uuapp
-                0x83c29d38                __u_boot_cmd_uuimage
-                0x83c29d50                __u_boot_cmd_update
- .u_boot_cmd    0x83c29d68       0x48 board/Realtek/luna/libluna.o
-                0x83c29d68                __u_boot_cmd_mdram_dig
-                0x83c29d80                __u_boot_cmd_mdram_test
-                0x83c29d98                __u_boot_cmd_reset_all
-                0x83c29db0                __u_boot_cmd_end = .
-                0x83c29db0                . = ALIGN (0x4)
-                0x83c29db0                uboot_end_data = .
-                0x83c29db0                . = ALIGN (0x4)
+ .u_boot_cmd    0x83c26390       0x18 arch/otto/lib/libotto.o
+                0x83c26390                __u_boot_cmd_sleep
+ .u_boot_cmd    0x83c263a8      0x2d0 common/libcommon.o
+                0x83c263a8                __u_boot_cmd_go
+                0x83c263c0                __u_boot_cmd_reset
+                0x83c263d8                __u_boot_cmd_bootm
+                0x83c263f0                __u_boot_cmd_debug
+                0x83c26408                __u_boot_cmd_help
+                0x83c26420                __u_boot_cmd_question_mark
+                0x83c26438                __u_boot_cmd_manufacture
+                0x83c26450                __u_boot_cmd_md
+                0x83c26468                __u_boot_cmd_mm
+                0x83c26480                __u_boot_cmd_nm
+                0x83c26498                __u_boot_cmd_mw
+                0x83c264b0                __u_boot_cmd_cp
+                0x83c264c8                __u_boot_cmd_cmp
+                0x83c264e0                __u_boot_cmd_crc32
+                0x83c264f8                __u_boot_cmd_base
+                0x83c26510                __u_boot_cmd_mtest
+                0x83c26528                __u_boot_cmd_bootp
+                0x83c26540                __u_boot_cmd_tftpboot
+                0x83c26558                __u_boot_cmd_ping
+                0x83c26570                __u_boot_cmd_saveenv
+                0x83c26588                __u_boot_cmd_env
+                0x83c265a0                __u_boot_cmd_printenv
+                0x83c265b8                __u_boot_cmd_setenv
+                0x83c265d0                __u_boot_cmd_run
+                0x83c265e8                __u_boot_cmd_restore
+                0x83c26600                __u_boot_cmd_sf
+                0x83c26618                __u_boot_cmd_uuboot
+                0x83c26630                __u_boot_cmd_uuapp
+                0x83c26648                __u_boot_cmd_uuimage
+                0x83c26660                __u_boot_cmd_update
+ .u_boot_cmd    0x83c26678       0x48 board/Realtek/luna/libluna.o
+                0x83c26678                __u_boot_cmd_mdram_dig
+                0x83c26690                __u_boot_cmd_mdram_test
+                0x83c266a8                __u_boot_cmd_reset_all
+                0x83c266c0                __u_boot_cmd_end = .
+                0x83c266c0                . = ALIGN (0x4)
+                0x83c266c0                uboot_end_data = .
+                0x83c266c0                . = ALIGN (0x4)
 
 .sbss
  *(.sbss*)
-                0x83c29db0                . = ALIGN (0x4)
+                0x83c266c0                . = ALIGN (0x4)
 
-.bss            0x83c29db0     0x5d20
+.bss            0x83c266c0     0x5d20
  *(.bss*)
- .bss.txBDtail  0x83c29db0        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
-                0x83c29db0                txBDtail
- .bss.rxBDtail  0x83c29db4        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
-                0x83c29db4                rxBDtail
+ .bss.txBDtail  0x83c266c0        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c266c0                txBDtail
+ .bss.rxBDtail  0x83c266c4        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c266c4                rxBDtail
  .bss.Lan_Initialed
-                0x83c29db8        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
-                0x83c29db8                Lan_Initialed
+                0x83c266c8        0x4 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c266c8                Lan_Initialed
  .bss.gpio_state_orig_val
-                0x83c29dbc        0x4 arch/otto/lib/libotto.o
-                0x83c29dbc                gpio_state_orig_val
+                0x83c266cc        0x4 arch/otto/lib/libotto.o
+                0x83c266cc                gpio_state_orig_val
  .bss.linux_argc
-                0x83c29dc0        0x4 arch/otto/lib/libotto.o
+                0x83c266d0        0x4 arch/otto/lib/libotto.o
  .bss.linux_argv
-                0x83c29dc4        0x4 arch/otto/lib/libotto.o
+                0x83c266d4        0x4 arch/otto/lib/libotto.o
  .bss.linux_env
-                0x83c29dc8        0x4 arch/otto/lib/libotto.o
+                0x83c266d8        0x4 arch/otto/lib/libotto.o
  .bss.linux_env_p
-                0x83c29dcc        0x4 arch/otto/lib/libotto.o
+                0x83c266dc        0x4 arch/otto/lib/libotto.o
  .bss.linux_env_idx
-                0x83c29dd0        0x4 arch/otto/lib/libotto.o
+                0x83c266e0        0x4 arch/otto/lib/libotto.o
  .bss._accumulate_time_ms
-                0x83c29dd4        0x4 arch/otto/lib/libotto.o
+                0x83c266e4        0x4 arch/otto/lib/libotto.o
  .bss.otto_slave
-                0x83c29dd8        0x8 arch/otto/lib/libotto.o
- .bss.otto_sf   0x83c29de0       0x20 arch/otto/lib/libotto.o
+                0x83c266e8        0x8 arch/otto/lib/libotto.o
+ .bss.otto_sf   0x83c266f0       0x20 arch/otto/lib/libotto.o
  .bss.des_check_key
-                0x83c29e00        0x4 common/libcommon.o
-                0x83c29e00                des_check_key
+                0x83c26710        0x4 common/libcommon.o
+                0x83c26710                des_check_key
  .bss.g_stPwdKey
-                0x83c29e04       0x80 common/libcommon.o
+                0x83c26714       0x80 common/libcommon.o
  .bss.debug_flag
-                0x83c29e84        0x4 common/libcommon.o
-                0x83c29e84                debug_flag
+                0x83c26794        0x4 common/libcommon.o
+                0x83c26794                debug_flag
  .bss.base_address
-                0x83c29e88        0x4 common/libcommon.o
+                0x83c26798        0x4 common/libcommon.o
  .bss.dp_last_addr
-                0x83c29e8c        0x4 common/libcommon.o
+                0x83c2679c        0x4 common/libcommon.o
  .bss.dp_last_size
-                0x83c29e90        0x4 common/libcommon.o
+                0x83c267a0        0x4 common/libcommon.o
  .bss.mm_last_addr
-                0x83c29e94        0x4 common/libcommon.o
+                0x83c267a4        0x4 common/libcommon.o
  .bss.mm_last_size
-                0x83c29e98        0x4 common/libcommon.o
+                0x83c267a8        0x4 common/libcommon.o
  .bss.tftp_file_size
-                0x83c29e9c        0x4 common/libcommon.o
-                0x83c29e9c                tftp_file_size
- .bss.flash     0x83c29ea0        0x4 common/libcommon.o
+                0x83c267ac        0x4 common/libcommon.o
+                0x83c267ac                tftp_file_size
+ .bss.flash     0x83c267b0        0x4 common/libcommon.o
  .bss.ctrlc_was_pressed
-                0x83c29ea4        0x4 common/libcommon.o
+                0x83c267b4        0x4 common/libcommon.o
  .bss.ctrlc_disabled
-                0x83c29ea8        0x4 common/libcommon.o
+                0x83c267b8        0x4 common/libcommon.o
  .bss.mem_malloc_start
-                0x83c29eac        0x4 common/libcommon.o
-                0x83c29eac                mem_malloc_start
+                0x83c267bc        0x4 common/libcommon.o
+                0x83c267bc                mem_malloc_start
  .bss.mem_malloc_end
-                0x83c29eb0        0x4 common/libcommon.o
-                0x83c29eb0                mem_malloc_end
+                0x83c267c0        0x4 common/libcommon.o
+                0x83c267c0                mem_malloc_end
  .bss.mem_malloc_brk
-                0x83c29eb4        0x4 common/libcommon.o
-                0x83c29eb4                mem_malloc_brk
- .bss.top_pad   0x83c29eb8        0x4 common/libcommon.o
+                0x83c267c4        0x4 common/libcommon.o
+                0x83c267c4                mem_malloc_brk
+ .bss.top_pad   0x83c267c8        0x4 common/libcommon.o
  .bss.current_mallinfo
-                0x83c29ebc       0x28 common/libcommon.o
+                0x83c267cc       0x28 common/libcommon.o
  .bss.max_sbrked_mem
-                0x83c29ee4        0x4 common/libcommon.o
+                0x83c267f4        0x4 common/libcommon.o
  .bss.max_total_mem
-                0x83c29ee8        0x4 common/libcommon.o
- .bss.env_htab  0x83c29eec        0xc common/libcommon.o
-                0x83c29eec                env_htab
+                0x83c267f8        0x4 common/libcommon.o
+ .bss.env_htab  0x83c267fc        0xc common/libcommon.o
+                0x83c267fc                env_htab
  .bss.env_flash
-                0x83c29ef8        0x4 common/libcommon.o
+                0x83c26808        0x4 common/libcommon.o
  .bss.flash_addr
-                0x83c29efc        0x4 common/libcommon.o
- .bss.hist_num  0x83c29f00        0x4 common/libcommon.o
-                0x83c29f00                hist_num
+                0x83c2680c        0x4 common/libcommon.o
+ .bss.hist_num  0x83c26810        0x4 common/libcommon.o
+                0x83c26810                hist_num
  .bss.initted.3991
-                0x83c29f04        0x4 common/libcommon.o
- .bss.hist_max  0x83c29f08        0x4 common/libcommon.o
+                0x83c26814        0x4 common/libcommon.o
+ .bss.hist_max  0x83c26818        0x4 common/libcommon.o
  .bss.hist_add_idx
-                0x83c29f0c        0x4 common/libcommon.o
+                0x83c2681c        0x4 common/libcommon.o
  .bss.lastcommand.3673
-                0x83c29f10      0x200 common/libcommon.o
- .bss.pNow      0x83c2a110        0x4 common/libcommon.o
+                0x83c26820      0x200 common/libcommon.o
+ .bss.pNow      0x83c26a20        0x4 common/libcommon.o
  .bss.oplbootConsoleBuffer
-                0x83c2a114      0x200 common/libcommon.o
+                0x83c26a24      0x200 common/libcommon.o
  .bss.stdio_devices
-                0x83c2a314        0xc common/libcommon.o
-                0x83c2a314                stdio_devices
- .bss.devs      0x83c2a320       0x3c common/libcommon.o
- .bss.errno     0x83c2a35c        0x4 lib/libgeneric.o
-                0x83c2a35c                errno
+                0x83c26c24        0xc common/libcommon.o
+                0x83c26c24                stdio_devices
+ .bss.devs      0x83c26c30       0x3c common/libcommon.o
+ .bss.errno     0x83c26c6c        0x4 lib/libgeneric.o
+                0x83c26c6c                errno
  .bss.local.4088
-                0x83c2a360       0x18 lib/libgeneric.o
+                0x83c26c70       0x18 lib/libgeneric.o
  .bss.env_changed_id.4274
-                0x83c2a378        0x4 net/libnet.o
- .bss.act.4273  0x83c2a37c        0x4 net/libnet.o
+                0x83c26c88        0x4 net/libnet.o
+ .bss.act.4273  0x83c26c8c        0x4 net/libnet.o
  .bss.first_failed.4253
-                0x83c2a380        0x4 net/libnet.o
+                0x83c26c90        0x4 net/libnet.o
  .bss.eth_devices
-                0x83c2a384        0x4 net/libnet.o
+                0x83c26c94        0x4 net/libnet.o
  .bss.eth_current
-                0x83c2a388        0x4 net/libnet.o
+                0x83c26c98        0x4 net/libnet.o
  .bss.NetOurNISDomain
-                0x83c2a38c       0x20 net/libnet.o
-                0x83c2a38c                NetOurNISDomain
+                0x83c26c9c       0x20 net/libnet.o
+                0x83c26c9c                NetOurNISDomain
  .bss.NetOurHostName
-                0x83c2a3ac       0x20 net/libnet.o
-                0x83c2a3ac                NetOurHostName
+                0x83c26cbc       0x20 net/libnet.o
+                0x83c26cbc                NetOurHostName
  .bss.NetOurRootPath
-                0x83c2a3cc       0x40 net/libnet.o
-                0x83c2a3cc                NetOurRootPath
- .bss.mac.3653  0x83c2a40c        0x8 net/libnet.o
+                0x83c26cdc       0x40 net/libnet.o
+                0x83c26cdc                NetOurRootPath
+ .bss.mac.3653  0x83c26d1c        0x8 net/libnet.o
  .bss.env_changed_id.3447
-                0x83c2a414        0x4 net/libnet.o
+                0x83c26d24        0x4 net/libnet.o
  .bss.NetRestarted
-                0x83c2a418        0x4 net/libnet.o
+                0x83c26d28        0x4 net/libnet.o
  .bss.NetDevExists
-                0x83c2a41c        0x4 net/libnet.o
+                0x83c26d2c        0x4 net/libnet.o
  .bss.packetHandler
-                0x83c2a420        0x4 net/libnet.o
+                0x83c26d30        0x4 net/libnet.o
  .bss.timeHandler
-                0x83c2a424        0x4 net/libnet.o
+                0x83c26d34        0x4 net/libnet.o
  .bss.timeStart
-                0x83c2a428        0x4 net/libnet.o
+                0x83c26d38        0x4 net/libnet.o
  .bss.timeDelta
-                0x83c2a42c        0x4 net/libnet.o
+                0x83c26d3c        0x4 net/libnet.o
  .bss.NetTryCount
-                0x83c2a430        0x4 net/libnet.o
+                0x83c26d40        0x4 net/libnet.o
  .bss.PingSeqNo
-                0x83c2a434        0x2 net/libnet.o
- *fill*         0x83c2a436        0x2 00
+                0x83c26d44        0x2 net/libnet.o
+ *fill*         0x83c26d46        0x2 00
  .bss.TftpRemoteIP
-                0x83c2a438        0x4 net/libnet.o
+                0x83c26d48        0x4 net/libnet.o
  .bss.TftpRemotePort
-                0x83c2a43c        0x4 net/libnet.o
+                0x83c26d4c        0x4 net/libnet.o
  .bss.TftpOurPort
-                0x83c2a440        0x4 net/libnet.o
+                0x83c26d50        0x4 net/libnet.o
  .bss.TftpTimeoutCount
-                0x83c2a444        0x4 net/libnet.o
+                0x83c26d54        0x4 net/libnet.o
  .bss.TftpBlock
-                0x83c2a448        0x4 net/libnet.o
+                0x83c26d58        0x4 net/libnet.o
  .bss.TftpLastBlock
-                0x83c2a44c        0x4 net/libnet.o
+                0x83c26d5c        0x4 net/libnet.o
  .bss.TftpBlockWrap
-                0x83c2a450        0x4 net/libnet.o
+                0x83c26d60        0x4 net/libnet.o
  .bss.TftpBlockWrapOffset
-                0x83c2a454        0x4 net/libnet.o
+                0x83c26d64        0x4 net/libnet.o
  .bss.TftpState
-                0x83c2a458        0x4 net/libnet.o
+                0x83c26d68        0x4 net/libnet.o
  .bss.default_filename
-                0x83c2a45c       0x10 net/libnet.o
+                0x83c26d6c       0x10 net/libnet.o
  .bss.tftp_filename
-                0x83c2a46c       0x80 net/libnet.o
+                0x83c26d7c       0x80 net/libnet.o
  .bss.g_reset_flag
-                0x83c2a4ec        0x4 board/Realtek/luna/libluna.o
+                0x83c26dfc        0x4 board/Realtek/luna/libluna.o
  .bss.g_err_handle_block_mode
-                0x83c2a4f0        0x4 board/Realtek/luna/libluna.o
- .bss.$19.4171  0x83c2a4f4        0x4 board/Realtek/luna/libluna.o
- .bss.$18.4170  0x83c2a4f8        0x4 board/Realtek/luna/libluna.o
- .bss.$17.4169  0x83c2a4fc        0x4 board/Realtek/luna/libluna.o
- COMMON         0x83c2a500      0x588 arch/otto/cpu/rlx5281/luna/libluna.o
-                0x83c2a500                pTxBDPtr
-                0x83c2a504                pRxBDPtr
-                0x83c2a508                descriptor_tx
-                0x83c2a888                descriptor_rx
- COMMON         0x83c2aa88        0x4 arch/otto/lib/libotto.o
-                0x83c2aa88                monitor_flash_len
- COMMON         0x83c2aa8c     0x2afc common/libcommon.o
-                0x83c2aa8c                console_buffer
-                0x83c2ac90                hist_list
-                0x83c2ace0                hist_lines
-                0x83c2d4f4                save_addr
-                0x83c2d4f8                images
-                0x83c2d584                save_size
- COMMON         0x83c2d588        0x4 lib/libgeneric.o
-                0x83c2d588                ___strtok
- COMMON         0x83c2d58c     0x2544 net/libnet.o
-                0x83c2d58c                NetArpWaitTry
-                0x83c2d590                NetArpWaitPacketMAC
-                0x83c2d594                NetOurEther
-                0x83c2d59c                NetOurIP
-                0x83c2d5a0                NetPingIP
-                0x83c2d5a4                NetServerIP
-                0x83c2d5a8                NetArpWaitTxPacketSize
-                0x83c2d5ac                NetArpWaitReplyIP
-                0x83c2d5b0                NetArpWaitTxPacket
-                0x83c2d5b4                NetRxPackets
-                0x83c2d5c4                NetArpWaitPacketIP
-                0x83c2d5c8                NetState
-                0x83c2d5cc                BootpTry
-                0x83c2d5d0                BootFile
-                0x83c2d650                NetServerEther
-                0x83c2d658                NetOurSubnetMask
-                0x83c2d65c                NetBootFileSize
-                0x83c2d660                NetIPID
-                0x83c2d664                NetRxPacket
-                0x83c2d668                BootpID
-                0x83c2d66c                NetOurGatewayIP
-                0x83c2d670                NetEtherNullAddr
-                0x83c2d678                NetRestartWrap
-                0x83c2d67c                NetArpWaitPacketBuf
-                0x83c2dc9c                NetTxPacket
-                0x83c2dca0                NetBootFileXferSize
-                0x83c2dca4                NetOurDNSIP
-                0x83c2dca8                NetRxPacketLen
-                0x83c2dcac                PktBuf
-                0x83c2facc                NetArpWaitTimerStart
-                0x83c2fad0                uboot_end = .
+                0x83c26e00        0x4 board/Realtek/luna/libluna.o
+ .bss.$19.4171  0x83c26e04        0x4 board/Realtek/luna/libluna.o
+ .bss.$18.4170  0x83c26e08        0x4 board/Realtek/luna/libluna.o
+ .bss.$17.4169  0x83c26e0c        0x4 board/Realtek/luna/libluna.o
+ COMMON         0x83c26e10      0x588 arch/otto/cpu/rlx5281/luna/libluna.o
+                0x83c26e10                pTxBDPtr
+                0x83c26e14                pRxBDPtr
+                0x83c26e18                descriptor_tx
+                0x83c27198                descriptor_rx
+ COMMON         0x83c27398        0x4 arch/otto/lib/libotto.o
+                0x83c27398                monitor_flash_len
+ COMMON         0x83c2739c     0x2afc common/libcommon.o
+                0x83c2739c                console_buffer
+                0x83c275a0                hist_list
+                0x83c275f0                hist_lines
+                0x83c29e04                save_addr
+                0x83c29e08                images
+                0x83c29e94                save_size
+ COMMON         0x83c29e98        0x4 lib/libgeneric.o
+                0x83c29e98                ___strtok
+ COMMON         0x83c29e9c     0x2544 net/libnet.o
+                0x83c29e9c                NetArpWaitTry
+                0x83c29ea0                NetArpWaitPacketMAC
+                0x83c29ea4                NetOurEther
+                0x83c29eac                NetOurIP
+                0x83c29eb0                NetPingIP
+                0x83c29eb4                NetServerIP
+                0x83c29eb8                NetArpWaitTxPacketSize
+                0x83c29ebc                NetArpWaitReplyIP
+                0x83c29ec0                NetArpWaitTxPacket
+                0x83c29ec4                NetRxPackets
+                0x83c29ed4                NetArpWaitPacketIP
+                0x83c29ed8                NetState
+                0x83c29edc                BootpTry
+                0x83c29ee0                BootFile
+                0x83c29f60                NetServerEther
+                0x83c29f68                NetOurSubnetMask
+                0x83c29f6c                NetBootFileSize
+                0x83c29f70                NetIPID
+                0x83c29f74                NetRxPacket
+                0x83c29f78                BootpID
+                0x83c29f7c                NetOurGatewayIP
+                0x83c29f80                NetEtherNullAddr
+                0x83c29f88                NetRestartWrap
+                0x83c29f8c                NetArpWaitPacketBuf
+                0x83c2a5ac                NetTxPacket
+                0x83c2a5b0                NetBootFileXferSize
+                0x83c2a5b4                NetOurDNSIP
+                0x83c2a5b8                NetRxPacketLen
+                0x83c2a5bc                PktBuf
+                0x83c2c3dc                NetArpWaitTimerStart
+                0x83c2c3e0                uboot_end = .
 Address of section .text set to 0x83c00000
 LOAD arch/otto/cpu/rlx5281/start.o
 START GROUP
@@ -2291,7 +2272,7 @@ OUTPUT(u-boot elf32-tradbigmips)
  .comment       0x00000000       0x23 disk/libdisk.o
  .comment       0x00000000       0x46 drivers/pcmcia/libpcmcia.o
  .comment       0x00000000       0x23 drivers/rtc/librtc.o
- .comment       0x00000000      0x230 lib/libgeneric.o
+ .comment       0x00000000      0x20d lib/libgeneric.o
  .comment       0x00000000       0x46 lib/lzma/liblzma.o
  .comment       0x00000000       0x23 lib/zlib/libz.o
  .comment       0x00000000       0x8c net/libnet.o
@@ -2338,37 +2319,37 @@ OUTPUT(u-boot elf32-tradbigmips)
  .mdebug.abi32  0x00000000        0x0 net/libnet.o
  .mdebug.abi32  0x00000000        0x0 board/Realtek/luna/libluna.o
 
-.debug_line     0x00000000     0xce1f
+.debug_line     0x00000000     0xcd07
  .debug_line    0x00000000       0xc0 arch/otto/cpu/rlx5281/start.o
  .debug_line    0x000000c0      0x318 arch/otto/cpu/rlx5281/librlx5281.o
  .debug_line    0x000003d8      0x767 arch/otto/cpu/rlx5281/luna/libluna.o
  .debug_line    0x00000b3f      0xec1 arch/otto/lib/libotto.o
- .debug_line    0x00001a00     0x4c84 common/libcommon.o
- .debug_line    0x00006684       0xf8 disk/libdisk.o
- .debug_line    0x0000677c       0x94 drivers/pcmcia/libpcmcia.o
- .debug_line    0x00006810       0xf6 drivers/rtc/librtc.o
- .debug_line    0x00006906     0x188f lib/libgeneric.o
- .debug_line    0x00008195      0x7a7 lib/lzma/liblzma.o
- .debug_line    0x0000893c      0x7c9 lib/zlib/libz.o
- .debug_line    0x00009105     0x1133 net/libnet.o
- .debug_line    0x0000a238     0x2be7 board/Realtek/luna/libluna.o
+ .debug_line    0x00001a00     0x4c7f common/libcommon.o
+ .debug_line    0x0000667f       0xf8 disk/libdisk.o
+ .debug_line    0x00006777       0x94 drivers/pcmcia/libpcmcia.o
+ .debug_line    0x0000680b       0xf6 drivers/rtc/librtc.o
+ .debug_line    0x00006901     0x177c lib/libgeneric.o
+ .debug_line    0x0000807d      0x7a7 lib/lzma/liblzma.o
+ .debug_line    0x00008824      0x7c9 lib/zlib/libz.o
+ .debug_line    0x00008fed     0x1133 net/libnet.o
+ .debug_line    0x0000a120     0x2be7 board/Realtek/luna/libluna.o
 
-.debug_info     0x00000000    0x26cdb
+.debug_info     0x00000000    0x268e0
  .debug_info    0x00000000       0x8d arch/otto/cpu/rlx5281/start.o
  .debug_info    0x0000008d      0x42b arch/otto/cpu/rlx5281/librlx5281.o
  .debug_info    0x000004b8      0xd1e arch/otto/cpu/rlx5281/luna/libluna.o
  .debug_info    0x000011d6     0x5075 arch/otto/lib/libotto.o
- .debug_info    0x0000624b     0xf4d8 common/libcommon.o
- .debug_info    0x00015723      0x26d disk/libdisk.o
- .debug_info    0x00015990       0xfe drivers/pcmcia/libpcmcia.o
- .debug_info    0x00015a8e      0x259 drivers/rtc/librtc.o
- .debug_info    0x00015ce7     0x31aa lib/libgeneric.o
- .debug_info    0x00018e91     0x156f lib/lzma/liblzma.o
- .debug_info    0x0001a400      0xfef lib/zlib/libz.o
- .debug_info    0x0001b3ef     0x311f net/libnet.o
- .debug_info    0x0001e50e     0x87cd board/Realtek/luna/libluna.o
+ .debug_info    0x0000624b     0xf4d4 common/libcommon.o
+ .debug_info    0x0001571f      0x26d disk/libdisk.o
+ .debug_info    0x0001598c       0xfe drivers/pcmcia/libpcmcia.o
+ .debug_info    0x00015a8a      0x259 drivers/rtc/librtc.o
+ .debug_info    0x00015ce3     0x2db3 lib/libgeneric.o
+ .debug_info    0x00018a96     0x156f lib/lzma/liblzma.o
+ .debug_info    0x0001a005      0xfef lib/zlib/libz.o
+ .debug_info    0x0001aff4     0x311f net/libnet.o
+ .debug_info    0x0001e113     0x87cd board/Realtek/luna/libluna.o
 
-.debug_abbrev   0x00000000     0x8827
+.debug_abbrev   0x00000000     0x86f0
  .debug_abbrev  0x00000000       0x14 arch/otto/cpu/rlx5281/start.o
  .debug_abbrev  0x00000014      0x1d5 arch/otto/cpu/rlx5281/librlx5281.o
  .debug_abbrev  0x000001e9      0x4a0 arch/otto/cpu/rlx5281/luna/libluna.o
@@ -2377,13 +2358,13 @@ OUTPUT(u-boot elf32-tradbigmips)
  .debug_abbrev  0x00004f9b       0xdf disk/libdisk.o
  .debug_abbrev  0x0000507a       0x7e drivers/pcmcia/libpcmcia.o
  .debug_abbrev  0x000050f8      0x129 drivers/rtc/librtc.o
- .debug_abbrev  0x00005221     0x1226 lib/libgeneric.o
- .debug_abbrev  0x00006447      0x48d lib/lzma/liblzma.o
- .debug_abbrev  0x000068d4      0x30c lib/zlib/libz.o
- .debug_abbrev  0x00006be0      0xcbf net/libnet.o
- .debug_abbrev  0x0000789f      0xf88 board/Realtek/luna/libluna.o
+ .debug_abbrev  0x00005221     0x10ef lib/libgeneric.o
+ .debug_abbrev  0x00006310      0x48d lib/lzma/liblzma.o
+ .debug_abbrev  0x0000679d      0x30c lib/zlib/libz.o
+ .debug_abbrev  0x00006aa9      0xcbf net/libnet.o
+ .debug_abbrev  0x00007768      0xf88 board/Realtek/luna/libluna.o
 
-.debug_aranges  0x00000000     0x19a0
+.debug_aranges  0x00000000     0x1968
  .debug_aranges
                 0x00000000       0x20 arch/otto/cpu/rlx5281/start.o
  .debug_aranges
@@ -2399,18 +2380,18 @@ OUTPUT(u-boot elf32-tradbigmips)
  .debug_aranges
                 0x00000d88       0x30 drivers/rtc/librtc.o
  .debug_aranges
-                0x00000db8      0x368 lib/libgeneric.o
+                0x00000db8      0x330 lib/libgeneric.o
  .debug_aranges
-                0x00001120       0xb8 lib/lzma/liblzma.o
+                0x000010e8       0xb8 lib/lzma/liblzma.o
  .debug_aranges
-                0x000011d8       0x68 lib/zlib/libz.o
+                0x000011a0       0x68 lib/zlib/libz.o
  .debug_aranges
-                0x00001240      0x210 net/libnet.o
+                0x00001208      0x210 net/libnet.o
  .debug_aranges
-                0x00001450      0x550 board/Realtek/luna/libluna.o
+                0x00001418      0x550 board/Realtek/luna/libluna.o
 
 .debug_pubnames
-                0x00000000     0x3579
+                0x00000000     0x353c
  .debug_pubnames
                 0x00000000       0xd2 arch/otto/cpu/rlx5281/librlx5281.o
  .debug_pubnames
@@ -2424,30 +2405,30 @@ OUTPUT(u-boot elf32-tradbigmips)
  .debug_pubnames
                 0x00001a13       0x38 drivers/rtc/librtc.o
  .debug_pubnames
-                0x00001a4b      0x48a lib/libgeneric.o
+                0x00001a4b      0x44d lib/libgeneric.o
  .debug_pubnames
-                0x00001ed5      0x118 lib/lzma/liblzma.o
+                0x00001e98      0x118 lib/lzma/liblzma.o
  .debug_pubnames
-                0x00001fed       0xb4 lib/zlib/libz.o
+                0x00001fb0       0xb4 lib/zlib/libz.o
  .debug_pubnames
-                0x000020a1      0x605 net/libnet.o
+                0x00002064      0x605 net/libnet.o
  .debug_pubnames
-                0x000026a6      0xed3 board/Realtek/luna/libluna.o
+                0x00002669      0xed3 board/Realtek/luna/libluna.o
 
-.debug_frame    0x00000000     0x4318
+.debug_frame    0x00000000     0x42a0
  .debug_frame   0x00000000       0xe0 arch/otto/cpu/rlx5281/librlx5281.o
  .debug_frame   0x000000e0      0x1e0 arch/otto/cpu/rlx5281/luna/libluna.o
  .debug_frame   0x000002c0      0x514 arch/otto/lib/libotto.o
  .debug_frame   0x000007d4     0x1a24 common/libcommon.o
  .debug_frame   0x000021f8       0x20 disk/libdisk.o
  .debug_frame   0x00002218       0x44 drivers/rtc/librtc.o
- .debug_frame   0x0000225c      0x798 lib/libgeneric.o
- .debug_frame   0x000029f4      0x220 lib/lzma/liblzma.o
- .debug_frame   0x00002c14      0x130 lib/zlib/libz.o
- .debug_frame   0x00002d44      0x624 net/libnet.o
- .debug_frame   0x00003368      0xfb0 board/Realtek/luna/libluna.o
+ .debug_frame   0x0000225c      0x720 lib/libgeneric.o
+ .debug_frame   0x0000297c      0x220 lib/lzma/liblzma.o
+ .debug_frame   0x00002b9c      0x130 lib/zlib/libz.o
+ .debug_frame   0x00002ccc      0x624 net/libnet.o
+ .debug_frame   0x000032f0      0xfb0 board/Realtek/luna/libluna.o
 
-.debug_str      0x00000000     0x725e
+.debug_str      0x00000000     0x7236
  .debug_str     0x00000000      0x1a4 arch/otto/cpu/rlx5281/librlx5281.o
                                 0x323 (size before relaxing)
  .debug_str     0x000001a4      0x4e9 arch/otto/cpu/rlx5281/luna/libluna.o
@@ -2462,38 +2443,38 @@ OUTPUT(u-boot elf32-tradbigmips)
                                 0x203 (size before relaxing)
  .debug_str     0x0000406f       0x98 drivers/rtc/librtc.o
                                 0x18d (size before relaxing)
- .debug_str     0x00004107      0x584 lib/libgeneric.o
-                               0x156f (size before relaxing)
- .debug_str     0x0000468b      0x545 lib/lzma/liblzma.o
+ .debug_str     0x00004107      0x4a0 lib/libgeneric.o
+                               0x1373 (size before relaxing)
+ .debug_str     0x000045a7      0x545 lib/lzma/liblzma.o
                                 0x87f (size before relaxing)
- .debug_str     0x00004bd0      0x30a lib/zlib/libz.o
+ .debug_str     0x00004aec      0x3c1 lib/zlib/libz.o
                                 0x592 (size before relaxing)
- .debug_str     0x00004eda      0xbb5 net/libnet.o
+ .debug_str     0x00004ead      0xbba net/libnet.o
                                0x155e (size before relaxing)
- .debug_str     0x00005a8f     0x17cf board/Realtek/luna/libluna.o
+ .debug_str     0x00005a67     0x17cf board/Realtek/luna/libluna.o
                                0x46ac (size before relaxing)
 
-.debug_loc      0x00000000    0x17afe
+.debug_loc      0x00000000    0x17801
  .debug_loc     0x00000000      0x13e arch/otto/cpu/rlx5281/librlx5281.o
  .debug_loc     0x0000013e      0x2e8 arch/otto/cpu/rlx5281/luna/libluna.o
  .debug_loc     0x00000426      0xff3 arch/otto/lib/libotto.o
- .debug_loc     0x00001419     0x97ce common/libcommon.o
- .debug_loc     0x0000abe7      0x114 drivers/rtc/librtc.o
- .debug_loc     0x0000acfb     0x2989 lib/libgeneric.o
- .debug_loc     0x0000d684     0x1f32 lib/lzma/liblzma.o
- .debug_loc     0x0000f5b6     0x17ff lib/zlib/libz.o
- .debug_loc     0x00010db5     0x1871 net/libnet.o
- .debug_loc     0x00012626     0x54d8 board/Realtek/luna/libluna.o
+ .debug_loc     0x00001419     0x975c common/libcommon.o
+ .debug_loc     0x0000ab75      0x114 drivers/rtc/librtc.o
+ .debug_loc     0x0000ac89     0x26fe lib/libgeneric.o
+ .debug_loc     0x0000d387     0x1f32 lib/lzma/liblzma.o
+ .debug_loc     0x0000f2b9     0x17ff lib/zlib/libz.o
+ .debug_loc     0x00010ab8     0x1871 net/libnet.o
+ .debug_loc     0x00012329     0x54d8 board/Realtek/luna/libluna.o
 
-.debug_ranges   0x00000000     0x5120
+.debug_ranges   0x00000000     0x50f0
  .debug_ranges  0x00000000       0x68 arch/otto/cpu/rlx5281/librlx5281.o
  .debug_ranges  0x00000068       0xe8 arch/otto/cpu/rlx5281/luna/libluna.o
  .debug_ranges  0x00000150      0x3a0 arch/otto/lib/libotto.o
  .debug_ranges  0x000004f0     0x2778 common/libcommon.o
  .debug_ranges  0x00002c68       0x18 disk/libdisk.o
  .debug_ranges  0x00002c80       0x28 drivers/rtc/librtc.o
- .debug_ranges  0x00002ca8      0x560 lib/libgeneric.o
- .debug_ranges  0x00003208      0x450 lib/lzma/liblzma.o
- .debug_ranges  0x00003658       0x60 lib/zlib/libz.o
- .debug_ranges  0x000036b8      0x760 net/libnet.o
- .debug_ranges  0x00003e18     0x1308 board/Realtek/luna/libluna.o
+ .debug_ranges  0x00002ca8      0x530 lib/libgeneric.o
+ .debug_ranges  0x000031d8      0x450 lib/lzma/liblzma.o
+ .debug_ranges  0x00003628       0x60 lib/zlib/libz.o
+ .debug_ranges  0x00003688      0x760 net/libnet.o
+ .debug_ranges  0x00003de8     0x1308 board/Realtek/luna/libluna.o

@@ -547,6 +547,8 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
 
 
 29 . 修改以下代码可以使CPU降到500Mhz
+  
+    /*********************************
 
     文件： product/access/boot/preloader-9607/preloader/soc/common/plr_pll_gen1.c
     
@@ -559,6 +561,16 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
     }
     
     还没有版本继续降低，需要新的BOOT
+    
+    ---- 由于更新了新的 boot,频率降到了300M，可以查看boot的代码中宏定义： CMU_DIVISOR
+    
+    该宏在makefile文件中定义： product/access/boot/preloader-9607/preloader/Makefile
+    
+    -DCMU_DIVISOR=2
+    
+    *********************************/
+    
+    
 
 
 

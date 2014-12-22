@@ -77,7 +77,7 @@
  * Kernel Uncomporess type
  */
 #define CONFIG_LZMA 1
-#define CONFIG_GZIP 1
+#undef  CONFIG_GZIP
 
 /*
  * luna Multi-boot support
