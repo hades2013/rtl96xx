@@ -8,6 +8,7 @@ void cli_dg2_memctl_set_ODT_OCD(dram_gen2_info_t *info, unsigned int odt, unsign
 void board_dram_write_pattern_generation(const dram_gen2_info_t *info,
     unsigned int test_times, unsigned int string_pattern);
 void board_dram_read_pattern_generation(const dram_gen2_info_t *info,unsigned int test_times);
+void board_dram_read_auto_tune(const dram_gen2_info_t *info, u32_t delta);
 
 #endif //SWP_DDR_GEN2_UTIL_H
 

@@ -31,9 +31,8 @@
 #include <soc.h>
 #include <pblr.h>
 #include <asm/otto_pll.h>
-#include <asm/arch/bspchip.h>
+#include <asm/arch/bspchip.h> 
 
-#include "../../../../../../include/lw_config.h"
 #include "../../../../../../include/pdt_config.h"
 
 DECLARE_GLOBAL_DATA_PTR;
@@ -46,6 +45,14 @@ extern void set_exception_base(u32_t);
 extern ulong uboot_end_data;
 extern ulong uboot_end;
 extern ulong load_addr;
+
+/* software patch */
+typedef void (sw_patch_t) (void);
+/* Defined in preloader.lds, points to SW-patch section. */
+
+extern sw_patch_t *LS_bootm_stack;
+extern sw_patch_t *LS_sw_patch_start;
+
 
 ulong monitor_flash_len;
 unsigned int gpio_state_orig_val = 0;
@@ -271,7 +278,7 @@ void boot_gpio_value_set(unsigned int gpio_pin, unsigned int databit)
 #define DELAY_MS 1000
 void led_test(void)
 {
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104ZG_B) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_HSEPN104N)
 	boot_gpio_value_set(LAN0_GPIO, GPIO_DATABIT_0);
 #if !defined(CONFIG_PRODUCT_EPN101ZG)
 	boot_gpio_value_set(LAN1_GPIO, GPIO_DATABIT_0);
@@ -355,7 +362,7 @@ void board_init_f(ulong bootflag)
 	WRITE_MEM32(GPIO_STATE_REGADDR_COM_L, gpio_state_orig_val);
 	/*End by huangmingjian for test led 2014-02-25*/
 	
-#if defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_GPN104N) || defined(CONFIG_PRODUCT_EPN101ZG)
+#if defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104ZG_B) || defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_HSEPN104N) || defined(CONFIG_PRODUCT_EPN101ZG)
 	boot_gpio_value_set(ENABLE_UART_GPIO, GPIO_DATABIT_1); /*Add by huangmingjian for test led 2014-01-17*/
 	boot_gpio_value_set(ENABLE_UART_GPIO_HC, GPIO_DATABIT_1); /*Add by Alan Lee for Uart enabled 2014-07-16*/
 #endif
@@ -418,7 +425,7 @@ void board_init_r(gd_t *id, ulong dest_addr)
 	char *cMac;
 	char *s;
 /*end modify by shipeng 2013-08-05*/
-	
+
 #ifndef CONFIG_SYS_NO_FLASH
 	ulong size;
 #endif
@@ -426,7 +433,6 @@ void board_init_r(gd_t *id, ulong dest_addr)
 #ifndef CONFIG_ENV_IS_NOWHERE
 	extern char *env_name_spec;
 #endif
-	bd_t *bd;
 
 	/* Inform CPU the base address of exception handler. */
 	set_exception_base(CONFIG_EXCEPTION_BASE);
@@ -457,100 +463,24 @@ void board_init_r(gd_t *id, ulong dest_addr)
 	env_name_spec += gd->reloc_off;
 #endif
 
-	bd = gd->bd;
-
-#ifndef CONFIG_SYS_NO_FLASH
-	size = flash_init();
-	display_flash_config(size);
-	bd->bi_flashsize = size;
-#endif
-
-#ifdef CONFIG_CMD_SF
-	puts("SPI-F: ");
-	spi_flash_init();
-#endif
-
-	bd->bi_flashstart = CONFIG_SYS_FLASH_BASE;
-#if CONFIG_SYS_MONITOR_BASE == CONFIG_SYS_FLASH_BASE
-	bd->bi_flashoffset = monitor_flash_len;	/* reserved area for U-Boot */
-#else
-	bd->bi_flashoffset = 0;
-#endif
-#ifdef CONFIG_CMD_NAND
-	nand_init();		/* go init the NAND */
-#endif
-
-	/* relocate environment function pointers etc. */
-	/*printf("Loading %dB env. variables from offset 0x%x\n",
-	       CONFIG_ENV_SIZE, CONFIG_ENV_OFFSET);*/
-	env_relocate();
-	init_baudrate();	/* initialize baudrate settings */
-	serial_init();		/* serial communications setup */
-	console_init_f();
-
-	/* IP Address */
-	bd->bi_ip_addr = getenv_IPaddr("ipaddr");
-
-#if defined(CONFIG_PCI)
-	/*
-	 * Do pci configuration
-	 */
-	pci_init();
-#endif
-
-/** leave this here (after malloc(), environment and PCI are working) **/
-	/* Initialize stdio devices */
-	stdio_init();
-
-	jumptable_init();
-
-	/* Initialize the console (after the relocation and devices init) */
-	console_init_r();
-/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
-
-	/* Initialize from environment */
-	load_addr = getenv_ulong("loadaddr", 16, load_addr);
-#if defined(CONFIG_CMD_NET)
-	{
-		char *s = getenv("bootfile");
-
-		if (s != NULL)
-			copy_filename(BootFile, s, sizeof(BootFile));
-	}
-#endif
-
-#ifdef CONFIG_CMD_SPI
-	puts("SPI: ");
-	spi_init();		/* go init the SPI */
-	puts("ready\n");
-#endif
-
-#if defined(CONFIG_MISC_INIT_R)
-	/* miscellaneous platform dependent initialisations */
-	misc_init_r();
-#endif
-
-	soc_post_init();
-
-/*begin modify by shipeng 2013-08-05*/
-#if defined(CONFIG_CMD_NET)
-	puts("Net:\t");
-	eth_initialize(gd->bd);
+	/* Issue software patch: level = 1~n , 0 for bootm start */
+//	printf("start software patch\n");
 	
-	puts ("IP:\t\t");print_IPaddr(bd->bi_ip_addr); puts("\n");
-    serverip=getenv_IPaddr ("serverip");
-    puts ("Server IP:\t");print_IPaddr(serverip); puts("\n");
-    cMac = getenv ("ethaddr");
-    printf("MAC:\t\t%s",cMac); puts("\n");
-#endif
+	sw_patch_t **sw_patch = &LS_sw_patch_start;
+	while (sw_patch!=&LS_bootm_stack) {
+	    (*sw_patch)();
+	    ++sw_patch;
+	}
 
-	s = getenv ("mem");
+	/*begin modify by shipeng 2013-08-05*/
+
+ 	s = getenv ("mem");
 	if (!s)
 	{
 		setenv ("mem",	"32");
 		oplbootSaveConfig();
 	}
-/*end modify by shipeng 2013-08-05*/
+	/*end modify by shipeng 2013-08-05*/
 
 /*begin add for led by shipeng 2013-08-15*/
 #if CONFIG_PRODUCT_5500
@@ -570,7 +500,7 @@ void board_init_r(gd_t *id, ulong dest_addr)
 #endif
 
 
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104ZG_B) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_HSEPN104N)
 	unsigned int cfg_led_value = 0;
 	unsigned int tmp = 0;
 	WRITE_MEM32(0xBB01E000, 0x1);/*led parallel mode*/
@@ -633,6 +563,19 @@ void board_init_r(gd_t *id, ulong dest_addr)
 		saveenv();	
 	}
 	/*Begin add by huangmingjian 2014-05-09 for Bug 575*/
+
+	/*Begin add by huangmingjian 2014-07-24*/
+	/*
+	When uboot is >=r2018, we should disable LX bus time out control,
+	otherwise system can not start  when initialize usbcore.
+	*/
+    #define TEMP_REG 0xB8000008
+	tmp = READ_MEM32(TEMP_REG);
+	tmp |= 1<<3;
+	WRITE_MEM32(TEMP_REG, tmp);
+	/*End add by huangmingjian 2014-07-24*/
+
+
 	/* main_loop() can return to retry autoboot, if so just run it again. */
 	for (;;)
 		main_loop();
@@ -650,12 +593,14 @@ static inline void soc_post_init(void) {
 		setenv_ulong("baudrate", gd->baudrate);
 	}
 
+#ifdef CONFIG_CMD_SF
+
 	/* Issue `sf probe 0' before entering CLI. Since our dirver
 	   automatically switches to next CS when access across CS
 	   boundary, it is lousy to do `sf probe 0' before other
 	   `sf' commands can be used. */
 	run_command(sf_probe_cmd, 0);
-
+#endif
 	return;
 }
 
@@ -665,3 +610,156 @@ void hang(void)
 	for (;;)
 		;
 }
+
+
+/*flash init , level 1*/
+void swp_flash_init(void){
+#ifndef CONFIG_SYS_NO_FLASH
+	ulong size;
+#endif
+	bd_t *bd;
+
+	bd = gd->bd;
+
+#ifndef CONFIG_SYS_NO_FLASH
+	size = flash_init();
+	display_flash_config(size);
+	bd->bi_flashsize = size;
+#endif
+
+#ifdef CONFIG_CMD_SF
+	puts("SPI-F: ");
+	spi_flash_init();
+#endif
+
+	bd->bi_flashstart = CONFIG_SYS_FLASH_BASE;
+#if CONFIG_SYS_MONITOR_BASE == CONFIG_SYS_FLASH_BASE
+	bd->bi_flashoffset = monitor_flash_len;	/* reserved area for U-Boot */
+#else
+	bd->bi_flashoffset = 0;
+#endif
+#ifdef CONFIG_CMD_NAND
+	nand_init();		/* go init the NAND */
+#endif
+
+}
+
+/*swp_env, level 3*/
+void swp_env(void){
+	bd_t *bd;
+	bd = gd->bd;
+
+	/* relocate environment function pointers etc. */
+	/*printf("Loading %dB env. variables from offset 0x%x\n",
+	       CONFIG_ENV_SIZE, CONFIG_ENV_OFFSET);*/
+	env_relocate();
+	/* IP Address */
+	bd->bi_ip_addr = getenv_IPaddr("ipaddr");	
+
+}
+/* swp_uart , level 5 */
+void swp_uart(void){
+	init_baudrate();	/* initialize baudrate settings */
+	serial_init();		/* serial communications setup */
+	console_init_f();
+}
+
+/* swp_pci , level 7*/
+void swp_pci(void){
+#if defined(CONFIG_PCI)
+	/*
+	 * Do pci configuration
+	 */
+	pci_init();
+#endif
+}
+
+
+/* swp_pci , level 9*/
+void swp_studio(void){
+
+/** leave this here (after malloc(), environment and PCI are working) **/
+	/* Initialize stdio devices */
+	stdio_init();
+	jumptable_init();
+}
+
+/* swp_console_r , level 11 */
+void swp_console_r(void){
+
+	/* Initialize the console (after the relocation and devices init) */
+	console_init_r();
+}
+
+/* swp_env_set , level 13 */
+void swp_env_set(void){
+	/* Initialize from environment */
+	load_addr = getenv_ulong("loadaddr", 16, load_addr);
+#if defined(CONFIG_CMD_NET)
+	{
+		char *s = getenv("bootfile");
+
+		if (s != NULL)
+			copy_filename(BootFile, s, sizeof(BootFile));
+	}
+#endif
+}
+
+/* swp_spi , level 15 */
+void swp_spi(void){
+#ifdef CONFIG_CMD_SPI
+	puts("SPI: ");
+	spi_init();		/* go init the SPI */
+	puts("ready\n");
+#endif
+}
+
+/* swp_misc , level 17 */
+
+void swp_misc(void){
+#if defined(CONFIG_MISC_INIT_R)
+	/* miscellaneous platform dependent initialisations */
+	misc_init_r();
+#endif
+}
+/* swp_post , level 19 */
+
+void swp_post(void){
+	soc_post_init();
+}
+/* swp_eth , level 21 */
+
+void swp_eth(void){
+/*begin modify by shipeng 2013-08-05*/
+	IPaddr_t serverip;
+	char *cMac;
+	char *s;
+	bd_t *bd = gd->bd;
+/*end modify by shipeng 2013-08-05*/
+
+#if defined(CONFIG_CMD_NET)
+	puts("Net:\t");
+	eth_initialize(gd->bd); 
+	
+	puts ("IP:\t\t");print_IPaddr(bd->bi_ip_addr); puts("\n");
+    serverip=getenv_IPaddr ("serverip");
+    puts ("Server IP:\t");print_IPaddr(serverip); puts("\n");
+    cMac = getenv ("ethaddr");
+    printf("MAC:\t\t%s",cMac); puts("\n");	
+#endif
+
+}
+
+
+PATCH_REG(swp_flash_init, 1);
+PATCH_REG(swp_env, 3);
+PATCH_REG(swp_uart, 5);
+PATCH_REG(swp_pci, 7);
+PATCH_REG(swp_studio, 9);
+PATCH_REG(swp_console_r, 11);
+PATCH_REG(swp_env_set, 13);
+PATCH_REG(swp_spi, 15);
+PATCH_REG(swp_misc, 17);
+PATCH_REG(swp_post, 19);
+PATCH_REG(swp_eth, 21);
+

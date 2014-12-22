@@ -43,6 +43,13 @@ static int	linux_env_idx;
 static void linux_params_init (ulong start, char * commandline);
 static void linux_env_set (char * env_name, char * env_val);
 
+/* software patch */
+typedef void (sw_patch_t) (void);
+/* Defined in preloader.lds, points to SW-patch section. */
+
+extern sw_patch_t *LS_bootm_stack;
+extern sw_patch_t *LS_sw_patch_end;
+
 int do_bootm_linux(int flag, int argc, char * const argv[], bootm_headers_t *images)
 {
 	void	(*theKernel) (int, char **, char **, int *);
@@ -52,6 +59,13 @@ int do_bootm_linux(int flag, int argc, char * const argv[], bootm_headers_t *ima
 
 	if ((flag != 0) && (flag != BOOTM_STATE_OS_GO))
 		return 1;
+
+	sw_patch_t **sw_patch = &LS_bootm_stack;
+	while (sw_patch!=&LS_sw_patch_end) {
+	    (*sw_patch)();
+	    ++sw_patch;
+	}
+
 
 	/* find kernel entry point */
 	theKernel = (void (*)(int, char **, char **, int *))images->ep;

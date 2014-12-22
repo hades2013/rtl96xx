@@ -61,7 +61,6 @@ board.o: board.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/arch/pblr.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/otto_pll.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/arch/bspchip.h \
- ../../../../../../include/lw_config.h \
  ../../../../../../include/pdt_config.h
 bootm.o: bootm.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/common.h \

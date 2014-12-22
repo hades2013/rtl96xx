@@ -939,6 +939,87 @@ board_dram_read_pattern_generation(const dram_gen2_info_t *info,unsigned int tes
 	}	
 }
 
+extern void dram_setup(void);
+#define DQ_MIN(addr)	(REG32(addr)&0xFF)
+
+inline static unsigned int
+config_group_delay_and_sw_cali(const dram_gen2_info_t *info,
+                               u32_t grp_delay, u32_t *rBound, u32_t ub)
+{
+#define RDW_ADDR (0xB8001510)
+    u32_t res=0, idx, addr, val;
+
+    /* set group delay */
+    cli_dg2_set_dqs0_group_tap((dram_gen2_info_t *)info, grp_delay);
+    if(ub) cli_dg2_set_dqs1_group_tap((dram_gen2_info_t *)info, grp_delay);
+    
+    dram_setup();
+    res = parameters.dram_init_result;
+    if (INI_RES_OK != res) {
+        res=1<<((0==grp_delay)?0:1);
+    } else {
+    	for (idx=0, addr=RDW_ADDR; idx<32; idx++, addr+=4) {
+            val = REG32(addr);
+            rBound[idx] = grp_delay + ((val>>16)&0xFF);
+        }
+    }
+    return res;
+}
+
+SECTION_ON_FLASH void
+board_dram_read_auto_tune(const dram_gen2_info_t *info, u32_t delta) 
+{
+    if(DRAMI.calibration_type == 0)	{	
+        //static Calibration, no need to tune
+    	printf("calibration_type=static\n");
+        return;
+    }
+    u32_t exp = (delta<24 || delta>31)?24:delta;	// expected window size
+    u32_t res=0, idx;
+    u32_t rdR[32];
+    u32_t ub = (cli_dg2_memctl_get_DRAM_buswidth(info)>8)?1:0;
+
+    printf("expected Window Size=%d (range is 24~31)\n", exp);
+    res = config_group_delay_and_sw_cali(info, 0, rdR, ub)		//config group delay as 0, and sw calibration
+	  | config_group_delay_and_sw_cali(info, 31, rdR, ub);	// config group delay as 31, and sw calibration
+    /* calibration result check */
+    if (0x3==res) 
+		goto fail;
+    
+    /* group delay selection*/
+    int gd0=0, gd1=0; 
+    for (idx=0; idx<8; idx++) {
+        gd0+=(rdR[idx]+rdR[idx+16]);	// DQ0-7, Rising and Falling
+        if(ub)
+            gd1+=(rdR[idx+8]+rdR[idx+23]);	// DQ8-15, Rising and Falling
+    }
+    gd0=(gd0/16)-exp;
+    if(ub) 
+        gd1=(gd1/16)-exp;
+
+    gd0=(gd0<0)?0:((gd0>31)?31:gd0);
+    printf("\napply dqs0_group_delay=%d\n", gd0);
+    if(ub) {
+        gd1=(gd1<0)?0:((gd1>31)?31:gd1);
+        printf("apply dqs1_group_delay=%d\n", gd1);
+    }
+    /* set group delay as final selection */
+    cli_dg2_set_dqs0_group_tap((dram_gen2_info_t *)info, gd0);
+    if(ub) 
+        cli_dg2_set_dqs1_group_tap((dram_gen2_info_t *)info, gd1);
+    dram_setup();
+
+    res = parameters.dram_init_result;
+    if (INI_RES_OK != res)
+        goto fail;
+
+    printf("\nREAD Timing auto tune done.\n");
+    return;
+    
+fail:
+    printf("\nREAD Timing auto tune failed\n");
+}
+
 #if 0
 // tables
 const str2int_entry_t _ddr_gen2_drv_strength_lookup[]={

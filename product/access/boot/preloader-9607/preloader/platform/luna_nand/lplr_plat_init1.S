@@ -14,15 +14,6 @@ platform_init_phase1:
 
 							jal		cpu_init
 							nop
-							
-/* check switch for ready patch, because we will setting switch register for SRAM usage */
-							li		t0, 0xB8000044
-1:
-							lw		t2, 0(t0)
-							li		t1, 0x2
-							and		t2, t2, t1
-							beq		zero, t2, 1b
-							nop
 
 #include "lplr_sram.H"
 

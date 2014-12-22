@@ -7,7 +7,7 @@
 dram_info_t dram_spare[SOC_NUM_DRAM_SPARE] SECTION_ON_FLASH;
 #endif
 #if SOC_NUM_FLASH_SPARE > 0
-flash_info_t flash_spare[SOC_NUM_FLASH_SPARE] SECTION_ON_FLASH;
+plr_flash_info_t flash_spare[SOC_NUM_FLASH_SPARE] SECTION_ON_FLASH;
 #endif
 
 // spare header array

@@ -484,7 +484,7 @@ static int mtd_nand_block_markbad(struct mtd_info *mtd, loff_t ofs)
 	unsigned int chunk_id, block;
 	int i;
 	int rc = 0;
-	unsigned char buf[oob_size] __attribute__((__aligned__(4)));
+	unsigned char buf[2048+64];
 	int chipnr, chipnr_remap;
 
 	chunk_id = ((int) ofs) >> this->chunk_shift;
@@ -492,12 +492,19 @@ static int mtd_nand_block_markbad(struct mtd_info *mtd, loff_t ofs)
 
 	block = chunk_id/ppb;
 
-	printk("TODO: set block num %d is bad \n",block);
 
-	//TBD 
-	//
+//#ifdef USE_BBT_SKIP
+//	return 1; //always return fail,USE_BBT_SKIP not support markbad
+//#else	
+	/* set bad table array*/
+	printk("set block %d is bad \n",block);
+    //_set_flags(parameters.bbt, block);
+	memset(buf, 0x0, sizeof(buf));
+	printk("chunk id is %d\n",chunk_id);
+	rtk_PIO_write(chunk_id,0,chunk_size+oob_size,&buf[0]);	
 	
 	return 0;
+//#endif	
 
 }
 
@@ -679,7 +686,7 @@ int board_nand_init(struct nand_chip *nand)
 	nand->read_id			= rtk_nand_read_id;
 	nand->ecc.mode = NAND_ECC_NONE;
 	nand->options = 0;
-
+#if 0
 	printf("parameters at 0x%p\n",parameters);
 	printf("parameters.read at 0x%p\n",parameters._nand_read_chunk);
 	printf("parameters.write at 0x%p\n",parameters._nand_write_chunk);
@@ -702,7 +709,7 @@ int board_nand_init(struct nand_chip *nand)
 	printf("parameters.plr_num_chunk is %d\n",parameters.plr_num_chunk);
 	printf("parameters.blr_num_chunk is %d\n",parameters.blr_num_chunk);
 	printf("parameters.end_pblr_block is %d\n",parameters.end_pblr_block);
-	
+#endif	
 	return (0);
 }
 
@@ -1065,6 +1072,8 @@ static int nand_write_ecc (struct mtd_info *mtd, loff_t to, size_t len, size_t *
 	__u8 *oob_area, oob_area0[64];
 	dbg_printf("%s(%d):\n",__FUNCTION__,__LINE__);
 	memset(oob_area0, 0xff,64);
+	memset(this->g_databuf, 0xff, chunk_size);
+
 
 	if(buf==NULL){
 		printk ("nand_write_ecc: data buf is null\n");
@@ -1135,9 +1144,29 @@ static int nand_write_ecc (struct mtd_info *mtd, loff_t to, size_t len, size_t *
 		chunk_id = logical_block*ppb + chunk_offset;
 
 		if(oob_buf!=NULL){			
+//#ifdef CONFIG_CMD_UBIFS 
+#if 1
+/*for ubi file system, ubi image have some empty page write for kernel usage, but kernel use the empty page not erase it, 
+so the ecc will write twice , in uboot, first check the page are all 0xff, not write it. */
+			if((memcmp(this->g_databuf,&buf[data_len],chunk_size)!=0)||(memcmp(oob_area,&oob_buf[oob_len],oob_size)!=0)){
 			rc=parameters._nand_write_chunk(&buf[data_len],&oob_buf[oob_len],chunk_id);
+			}else
+				rc=0;
+#else
+			rc=parameters._nand_write_chunk(&buf[data_len],&oob_buf[oob_len],chunk_id);
+
+#endif
 		}else{	
+//#ifdef CONFIG_CMD_UBIFS 		
+#if 1
+			/*check all data are 0xff, not need write */
+			if(memcmp(this->g_databuf,&buf[data_len],chunk_size)!=0){
 			rc=parameters._nand_write_chunk(&buf[data_len],oob_area,chunk_id);
+			}else
+				rc=0;
+#else
+				rc=parameters._nand_write_chunk(&buf[data_len],oob_area,chunk_id);
+#endif
 		}
 	
 		if (rc != 0){
@@ -1342,7 +1371,7 @@ void rtk_PIO_write(int real_page, int offset, int length, unsigned char * buffer
 		if(nandflash_info.page_size==512){
 			flash_addr1 |= ((real_page & 0xffffff) << 8);
 		}else{
-			flash_addr1 =  ((real_page & 0xff) << 16) ;
+			flash_addr1 =  ((real_page & 0xff) << 16)| offset ;
 			flash_addr2 = (real_page >> 8) & 0xffffff;
 		}
 #if 0
@@ -1463,10 +1492,12 @@ static int rtk_block_isbad(struct mtd_info *mtd, u16 chipnr, loff_t ofs)
 	}
 #else
 	j=_get_flags(parameters.bbt, phy_block);
-//	printk ("block=%d return %d \n",block,j);
-#endif	
-//	printk ("physical block=%d return %d \n",block,j);
+	if(j==1){
+		printf("block %d (%08llx) is bad\n",phy_block,ofs);
+	}
 	return j;
+#endif	
+
 }
 
 
@@ -1576,11 +1607,20 @@ static int nand_pio_write  (struct mtd_info *mtd, loff_t to, struct mtd_oob_ops 
 	int i, old_chunk, chunk_offset, phy_block,logical_block;
 	int chipnr, chipnr_remap;
 	//__u8 oob_area[64];
-	__u8 *oob_area, oob_area0[64+16];
+	__u8 *oob_area, oob_area0[chunk_size+oob_size+32];
 	u_char *buf=ops->datbuf;
 	dbg_printf("%s(%d):\n",__FUNCTION__,__LINE__);
 
+
+
+
 	oob_area = (__u8*) ((u32)(oob_area0 + 15) & 0xFFFFFFF0);
+
+
+	memset(oob_area0, 0xff,chunk_size+oob_size+32);
+
+
+	
 	if ((to + ops->len) > mtd->size) {
 		printk ("nand_pio_write: Attempt write beyond end of device\n");
 		ops->retlen = 0;
@@ -1621,7 +1661,16 @@ static int nand_pio_write  (struct mtd_info *mtd, loff_t to, struct mtd_oob_ops 
 
 		dbg_printf("[%s, line %d] chunk_id = %d, databuf = 0x%p thislen =%d \n",__FUNCTION__,__LINE__, chunk_id, &buf[thislen],thislen);
 		check_ready();
-		parameters._nand_pio_write(chunk_id,chunk_size+oob_size,&buf[thislen]);
+
+
+		/*in uboot, first check the page are all 0xff, not write it. */
+		
+		if((memcmp(oob_area,&buf[thislen],chunk_size+oob_size)!=0)){
+					parameters._nand_pio_write(chunk_id,chunk_size+oob_size,&buf[thislen]);
+		}else{
+			printk("find pio write to chunk %d is all 0xff\n",chunk_id);
+		}
+
 		thislen += chunk_size+oob_size;	
 		old_chunk++;
 		chunk_offset = old_chunk & (ppb-1);

@@ -76,6 +76,14 @@
 #define PLR_ENABLE_PLL_SET
 #define ZQ_TIMEOUT_RESET 1
 
+
+#ifndef __BIG_ENDIAN
+#define __BIG_ENDIAN 4321
+#endif
+#ifndef __BYTE_ORDER
+#define __BYTE_ORDER    __BIG_ENDIAN
+#endif
+
 #if (SOC_NUM_DRAM_SPARE == 0)
     #undef SOC_NUM_DRAM_SPARE
 #endif
@@ -122,6 +130,7 @@ typedef char s8_t;
 #define MAX_CHUNK_SIZE          2048
 #define SOC_CONF_OFFSET         32          // define where soc_configuration_t
 #define SOC_HEADER_VERSION      0x00001000  // which means 0.1.0.0
+#define PLR_VERSION             0x00010101  // which means 0.1.1.1
 
 #define UADDR(addr)             ((size_t)(addr)|0x20000000)     // uncache address
 #define CADDR(addr)             ((size_t)(addr)&~0x20000000)    // cache address
@@ -206,17 +215,17 @@ typedef struct {
 #define NSPI_IO_QIO     2
 
 #if (OTTO_NAND_FLASH == 1)
-    typedef nand_flash_info_t    flash_info_t;
+    typedef nand_flash_info_t    plr_flash_info_t;
     #define SECTION_ON_FLASH
     #define CONST_ON_FLASH
     #define RTK_MTD_DEV_NAME "rtk_nand_mtd"
 #elif (OTTO_NOR_SPI_FLASH == 1)
-    typedef nor_spi_flash_info_t flash_info_t;
+    typedef nor_spi_flash_info_t plr_flash_info_t;
     #define RTK_MTD_DEV_NAME "rtk_spi_nor_mtd"
     #define SECTION_ON_FLASH __attribute__ ((section (".flash_text")))
     #define CONST_ON_FLASH __attribute__ ((section (".flash_data")))
 #else
-    typedef struct {} flash_info_t;
+    typedef struct {} plr_flash_info_t;
     #define SECTION_ON_FLASH 
     #define CONST_ON_FLASH
 #endif
@@ -572,7 +581,7 @@ typedef struct {
     u32_t               header_type;
     u32_t               header_ver;
     spare_header_p      spare_headers;              // used to identify if any spare spaces exists or where is the headers of space
-    flash_info_t        flash_info;
+    plr_flash_info_t    flash_info;
     flash_layout_t      layout;
     dram_info_t         dram_info;
     pll_info_t          pll_info;

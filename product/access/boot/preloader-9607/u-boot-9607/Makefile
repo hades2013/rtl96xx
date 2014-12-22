@@ -29,10 +29,6 @@ ifndef CROSS_COMPILE
   endif
 endif
 
-OTTO_RELEASE_DIR=$(shell pwd)/../release
-
-export OTTO_RELEASE_DIR
-
 VERSION = 2011
 PATCHLEVEL = 12
 SUBLEVEL =
@@ -98,6 +94,16 @@ endif
 # the object files are placed in the source directory.
 #
 
+
+# Create supported preconfig platform list
+ifeq ($(wildcard ./vendors), ./vendors)
+  PRE_CFG_LIST:=$(shell ls ./vendors)
+  PRE_CFG_LIST:=$(addprefix preconfig_,$(PRE_CFG_LIST))
+else
+  PRE_CFG_LIST:=""
+endif
+
+
 ifdef O
 ifeq ("$(origin O)", "command line")
 BUILD_DIR := $(O)
@@ -120,6 +126,8 @@ SPLTREE		:= $(OBJTREE)/spl
 SRCTREE		:= $(CURDIR)
 TOPDIR		:= $(SRCTREE)
 LNDIR		:= $(OBJTREE)
+PROJECT_NAME := $(TOPDIR)/project_name
+
 SCRIPTSDIR  := $(SRCTREE)/config/scripts
 export	TOPDIR SRCTREE OBJTREE SPLTREE SCRIPTSDIR
 
@@ -226,6 +234,10 @@ endif
 
 #########################################################################
 # U-Boot objects....order is important (i.e. start must be first)
+
+
+VENDORSWP_OBJ:=$(shell ls ./vendor_swp/swp_*.c 2> /dev/null)
+VENDORSWP_OBJ:=$(VENDORSWP_OBJ:.c=.o)
 
 OBJS  = $(CPUDIR)/start.o
 ifeq ($(CPU),x86)
@@ -461,13 +473,13 @@ else
 GEN_UBOOT = \
 		UNDEF_SYM=`$(OBJDUMP) -x $(LIBBOARD) $(LIBS) | \
 		sed  -n -e 's/.*\($(SYM_PREFIX)__u_boot_cmd_.*\)/-u\1/p'|sort|uniq`;\
-		cd $(LNDIR) && $(LD) $(STANDALONE_LDFLAGS) $(LDFLAGS) $(LDFLAGS_$(@F)) $$UNDEF_SYM $(__OBJS) \
+		cd $(LNDIR) && $(LD) $(STANDALONE_LDFLAGS) $(LDFLAGS) $(LDFLAGS_$(@F)) $$UNDEF_SYM $(__OBJS) $(VENDORSWP_OBJ) \
 			--start-group $(__LIBS) --end-group $(PLATFORM_LIBS) \
 			-Map u-boot.map -o u-boot
 endif
 
 $(obj)u-boot:	depend \
-		$(SUBDIR_TOOLS) $(OBJS) $(LIBBOARD) $(LIBS) $(LDSCRIPT) $(obj)u-boot.lds
+		$(SUBDIR_TOOLS) $(OBJS) $(VENDORSWP_OBJ) $(LIBBOARD) $(LIBS) $(LDSCRIPT) $(obj)u-boot.lds
 		$(LINK_PROMPT) $(GEN_UBOOT)
 ifeq ($(CONFIG_KALLSYMS),y)
 		smap=`$(call SYSTEM_MAP,u-boot) | \
@@ -675,12 +687,26 @@ oldconfig: clobber unconfig
 		$(MAKE) -C arch/mips/cpu/rlx5281/luna preloader ; \
 		$(MAKE) -C ./arch/mips/lib plr_flash.c ; \
 	fi
+
+.PHONY : menuconfigfile
+menuconfigfile: clobber unconfig 
+	$(MAKE_PROMPT) $(MAKE) -C $(SCRIPTSDIR)/lxdialog all
+	@HELP_FILE=config/Configure.help \
+		AUTOCONF_FILE=autoconf.h \
+		$(SHELL) $(SCRIPTSDIR)/Menuconfig config.in 
+	
 .PHONY : menuconfig
-menuconfig: clobber unconfig
+menuconfig: clobber unconfig menuconfig2 config_prepare
+
+.PHONY : menuconfig2
+menuconfig2:
 	$(MAKE_PROMPT) $(MAKE) -C $(SCRIPTSDIR)/lxdialog all
 	@HELP_FILE=config/Configure.help \
 		AUTOCONF_FILE=autoconf.h \
 		$(SHELL) $(SCRIPTSDIR)/Menuconfig config.in
+		
+.PHONY: config_prepare	
+config_prepare:
 	@if egrep "^CONFIG_RTL838X=y" .config > /dev/null; then \
 		mv $(SRCTREE)/autoconf.h $(SRCTREE)/include/configs/ ; \
 		make rtl838x_config ARCH=otto ; \
@@ -711,7 +737,7 @@ menuconfig: clobber unconfig
 	fi
 	@if egrep "^CONFIG_LUNA=y" .config > /dev/null; then \
 		mv $(SRCTREE)/autoconf.h $(SRCTREE)/include/configs/ ; \
-		make luna_config ARCH=otto; \
+		make luna_config ; \
 		$(MAKE) $(OTTO_SOC_H) $(OTTO_PBLR_H) ; \
 		ln -snf $(SRCTREE)/board/Realtek/luna/rtk_soc/include/memctl.h $(SRCTREE)/include/asm/arch/memctl.h;\
 		ln -snf $(SRCTREE)/board/Realtek/luna/rtk_soc/include/rtk_soc_common.h $(SRCTREE)/include/asm/arch-luna/rtk_soc_common.h;\
@@ -720,6 +746,11 @@ menuconfig: clobber unconfig
 		ln -snf $(SRCTREE)/board/Realtek/luna/rtk_soc/include/dram_share.h $(SRCTREE)/include/asm/arch-luna/dram_share.h;\
 		ln -snf $(SRCTREE)/board/Realtek/luna/rtk_soc/include/timer.h $(SRCTREE)/include/asm/arch-luna/timer.h;\
 		ln -snf $(SRCTREE)/board/Realtek/luna/rtk_soc/include/idmem_dma.h $(SRCTREE)/include/asm/arch-luna/idmem_dma.h;\
+	fi
+	@if egrep "^CONFIG_RTL9601B=y" .config > /dev/null; then \
+		mv $(SRCTREE)/autoconf.h $(SRCTREE)/include/configs/ ; \
+		make rtl9601b_config ; \
+		$(MAKE) $(OTTO_SOC_H) $(OTTO_PBLR_H) ; \
 	fi
 	@if egrep "^CONFIG_LUNAS=y" .config > /dev/null; then \
 		mv $(SRCTREE)/autoconf.h $(SRCTREE)/include/configs/ ; \
@@ -736,6 +767,16 @@ menuconfig: clobber unconfig
 		$(MAKE) -C ./arch/mips/lib plr_flash.c ; \
 	fi
 
+$(PRE_CFG_LIST): distclean
+	@echo "[MISC] Preparing $(@:preconfig_%=%) environment... "
+	@cp ./vendors/$(@:preconfig_%=%)/uboot_config ./.config
+	@cp ./vendors/$(@:preconfig_%=%)/autoconf.h .
+	@echo -n "project_name := " > $(PROJECT_NAME)
+	@echo "$(@:preconfig_%=%)" >> $(PROJECT_NAME)		
+	@ln -s ./vendors/$(@:preconfig_%=%) vendor_swp; 
+	$(MAKE) config_prepare
+	@echo "OK"
+	
 $(VERSION_FILE):
 		@mkdir -p $(dir $(VERSION_FILE))
 		@( localvers='$(shell $(TOPDIR)/tools/setlocalversion $(TOPDIR))' ; \
@@ -886,9 +927,8 @@ clean:
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
 		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	\) -print \
 		| xargs rm -f
-	@$(MAKE) -C tools/lzma_src clean
 	@$(MAKE) -C $(SCRIPTSDIR)/lxdialog clean
-	@rm -f tools/lzma u-boot.lzma u-boot.pimg
+	@rm -f u-boot.lzma u-boot.pimg
 
 # Removes everything not needed for testing u-boot
 tidy:	clean
@@ -918,7 +958,7 @@ clobber:	tidy
 
 mrproper \
 distclean:	clobber unconfig otto_distclean
-	@rm -f .config .menuconfig.log ./include/configs/autoconf.h
+	@rm -f .config .menuconfig.log ./include/configs/autoconf.h vendor_swp project_name
 ifneq ($(OBJTREE),$(SRCTREE))
 	rm -rf $(obj)*
 endif
@@ -933,7 +973,7 @@ tools/lzma:
 	$(MAKE_PROMPT) $(MAKE) -C tools/lzma_src
 	@mv tools/lzma_src/lzma $@
 
-$(obj)u-boot.lzma: $(obj)u-boot.bin tools/lzma
+$(obj)u-boot.lzma: $(obj)u-boot.bin 
 	@tools/lzma e $< $@
 
 $(obj)u-boot.pimg: $(obj)u-boot.lzma

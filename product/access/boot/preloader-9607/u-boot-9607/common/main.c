@@ -233,7 +233,7 @@ int abortboot(int bootdelay)
 	 */
 	if (bootdelay >= 0) {
 		if (tstc()) {	/* we got a key press	*/
-			(void) getc();  /* consume input	*/
+			if(0==getc()) break;  /* consume input	*/
 			puts ("\b\b\b 0");
 			abort = 1;	/* don't auto boot	*/
 		}

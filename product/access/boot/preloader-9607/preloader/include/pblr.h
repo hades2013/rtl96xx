@@ -10,6 +10,7 @@
 
 #define parameter_soc_rwp   ((soc_t*)(&(parameters.soc)))
 #define para_flash_info     (parameters.soc.flash_info)
+#define para_flash_layout   (parameters.soc.layout)
 #define para_ddr_info       (parameters.soc.dram_info)
 #define para_pll_info       (parameters.soc.pll_info)
 #define pblr_printf         (parameters._pblr_printf)

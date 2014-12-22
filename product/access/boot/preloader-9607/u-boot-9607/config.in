@@ -11,11 +11,13 @@ if [ "$CONFIG_STANDALONE_UBOOT" = "n" ]; then
 	define_int  CONFIG_EXCEPTION_BASE CONFIG_SYS_TEXT_BASE
 	choice 'Realtek' "RTL838x  CONFIG_RTL838X
 	                  RTL839x  CONFIG_RTL839X
-	                  LUNA     CONFIG_LUNA"
+	                  LUNA     CONFIG_LUNA
+	                  RTL9601B CONFIG_RTL9601B"
 else
 	define_bool CONFIG_RTL838X n
 	define_bool CONFIG_RTL839X n
 	define_bool CONFIG_LUNA    n
+	define_bool CONFIG_9601B   n
 	define_int  CONFIG_EXCEPTION_BASE 0xbf000000
 	choice 'Realtek' "RTL838x  CONFIG_RTL838XS
 	                  RTL839x  CONFIG_RTL839XS
@@ -38,4 +40,6 @@ elif [ "$CONFIG_RTL839X" = "y" ] || [ "$CONFIG_RTL839XS" = "y" ]; then
 	source ./board/Realtek/rtl839x/menuconfig.in
 elif [ "$CONFIG_LUNA" = "y" ] || [ "$CONFIG_LUNAS" = "y" ]; then
 	source ./board/Realtek/luna/menuconfig.in
+elif [ "$CONFIG_RTL9601B" = "y" ]; then
+	source ./board/Realtek/rtl9601b/menuconfig.in
 fi

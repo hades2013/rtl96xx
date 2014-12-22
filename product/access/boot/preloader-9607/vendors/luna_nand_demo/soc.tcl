@@ -18,7 +18,7 @@ variable lplr_skip		1
 ## retrive nand flash database
 source $PARTS_DB_DIR/parts_for_nand.tcl
 #add_model nand TOSHIBA_TC58NVM9S3ETA00
-add_model nand MXIC_MX30LF1G08AA 
+add_model nand MXIC_MX30LF1G08AA
 
 ## retrive dram gen2 database
 source $PARTS_DB_DIR/parts_for_dram_gen2.tcl
@@ -33,7 +33,15 @@ source $PARTS_DB_DIR/parts_for_dram_gen2.tcl
 #     variable mrs_rtt_wr             120        ;#(DDR3) 0->disable, 60, 120
 # }
 
-add_model dram_gen2 WINBOND_W631GG6KB
+namespace eval WINBOND_W631GG6KB-15 {
+		variable zq_setting             0x000010b0
+		variable tx_clk_phs_delay       0x10
+		variable clkm_delay             0x4
+		variable clkm90_delay           0
+		variable mrs_odt                60
+		variable mrs_rtt_wr             60
+}
+add_model dram_gen2 WINBOND_W631GG6KB-15
 #add_model dram_gen2 NANYA_NT5CB128MHP
 
 ## PLL gen1 information

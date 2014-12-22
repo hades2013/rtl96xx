@@ -3,13 +3,13 @@
 #include "memctl.h"
 #include "dram_share.h"
 #include "sramctl.h"
-
+#include <soc.h>
 /*
  * Perform a memory persistance test. 
  */
 int do_mem_mtest_dtr (cmd_tbl_t *cmdtp __attribute__((unused)),
                       int flag __attribute__((unused)),
-                      int argc, char *argv[])
+                      int argc, char * const argv[])
 {
 	vu_long	*addr, *start, *end;
 	ulong	val;
@@ -99,21 +99,21 @@ int do_mem_mtest_dtr (cmd_tbl_t *cmdtp __attribute__((unused)),
 }
 
 #ifdef CONFIG_CMD_DRAM_TEST
-extern int dram_test (int flag, int argc, char *argv[]);
+extern int dram_test (int flag, int argc, char * const argv[]);
 /*
  * Do DRAM test.
  */
-int do_dram_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_dram_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	return dram_test(flag, argc, argv);
 }
 #endif
 #ifdef CONFIG_CMD_FLASH_TEST
-extern int flash_test (int flag, int argc, char *argv[]);
+extern int flash_test (int flag, int argc, char * const argv[]);
 /*
  * Do flash test.
  */
-int do_flash_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_flash_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	return flash_test(flag, argc, argv);
 }
@@ -162,7 +162,7 @@ int boot_bin(unsigned int src_addr, unsigned int dist_addr, unsigned int byte_si
 	return 0;
 }
 
-int  do_boot_bin(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int  do_boot_bin(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	unsigned int src_addr, dist_addr, byte_size;
 	if (argc < 4) {
@@ -179,7 +179,7 @@ int  do_boot_bin(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 #endif
 
 #ifdef CONFIG_CMD_FOREVER_TEST
-int  do_forever_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int  do_forever_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 
 	while(1){
@@ -204,14 +204,14 @@ int  do_forever_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 #endif
 
 #ifdef CONFIG_CMD_GDMA_TEST
-int do_gdma_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_gdma_test (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	return gdma_test(flag, argc, argv);
 }
 #endif
 
 #ifdef CONFIG_CMD_IDMEM_TEST
-int do_idmem_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_idmem_test (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	return idmem_test(flag, argc, argv);
 }
@@ -219,16 +219,16 @@ int do_idmem_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 
 
 #ifdef CONFIG_CMD_CONCURENT_TEST
-extern int concur_test (int flag, int argc, char *argv[]);
+extern int concur_test (int flag, int argc, char * const argv[]);
 
-int do_concur_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_concur_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	return concur_test(flag, argc, argv);
 }
 #endif
 
 #ifdef CONFIG_CMD_NEXT_FREQ
-int do_next_freq (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_next_freq(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	char *s;
 	char buf[32];
@@ -281,7 +281,7 @@ int do_next_freq (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 #endif
 
 #ifdef CONFIG_CMD_DRAM_AC_TEST
-int do_write_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_write_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 
 	unsigned int tar_addr, tar_pat, times, read_tmp;
@@ -317,7 +317,7 @@ int do_write_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 	return 0;
 }
 
-int do_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 
 	unsigned int tar_addr, tar_pat, times;
@@ -354,7 +354,7 @@ int do_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 	return 0;
 }
 
-int do_write_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
+int do_write_test(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 
 	unsigned int tar_addr, tar_pat, times;
@@ -388,6 +388,15 @@ int do_write_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 	return 0;
 }
 #endif
+
+/*
+ * Do "whole system reset" that depens on different project. 
+ */
+int do_reset_all(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[]) {
+	SYSTEM_RESET();
+	fprintf(stderr, "*** system reset failed ***\n");
+	return 0;
+}
 
 
 #ifdef CONFIG_CMD_DRAM_AC_TEST
@@ -424,17 +433,17 @@ U_BOOT_CMD(
 #endif
 #ifdef CONFIG_CMD_DRAM_TEST
 U_BOOT_CMD(
-        mdram_test,    4,    1,     do_dram_test,
+        mdram_test,    10,    1,     do_dram_test,
         "do DRAM test.",
-        "[Test Loops]\n"
+        "[-l/-loops <test loops>] [-r/-range <star address> <test size>] [-b/-block_e] [-reset <all>]\n"
         "    - do DRAM test."
 );
 #endif
 #ifdef CONFIG_CMD_FLASH_TEST
 U_BOOT_CMD(
-        mflash_test,    4,    1,     do_flash_test,
+        mflash_test,    6,    1,     do_flash_test,
         "do flash test.",
-        "[Test Loops]\n"
+        "[-l/-loops <test loops>] [-b/-block_e] [-reset <all>]\n"
         "    - do flash test."
 );
 #endif
@@ -487,3 +496,10 @@ U_BOOT_CMD(
         "    - setting the next cpu_clk, mem_clk value."
 );
 #endif
+
+U_BOOT_CMD(
+        reset_all, 1, 0,    do_reset_all,
+        "Perform whole chip RESET of the CPU",
+        ""
+);
+

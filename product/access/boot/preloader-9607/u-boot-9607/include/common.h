@@ -116,8 +116,6 @@ typedef volatile unsigned char	vu_char;
 #include <flash.h>
 #include <image.h>
 
-//#define DEBUG
-
 #ifdef DEBUG
 #define _DEBUG	1
 #else
@@ -157,6 +155,11 @@ void __assert_fail(const char *assertion, const char *file, unsigned line,
 		printf("ERROR: " fmt "\nat %s:%d/%s()\n",		\
 			##args, __FILE__, __LINE__, __func__);		\
 } while (0)
+
+
+#define PATCH_REG(x, lvl) \
+				void_func * __swp_##x __attribute__ ((section (".soft_patch." #lvl))) = x
+				
 
 #ifndef BUG
 #define BUG() do { \

@@ -10,8 +10,8 @@ COBJS	+= memctl_dram.o
 endif
 
 ifdef CONFIG_CMD_FLASH_TEST
-#COBJS	+= flash_spi.o memctl_flash.o
 COBJS	+= memctl_flash.o 
+CFLAGS  += '-DFLASHBASE=0xB4000000'
 endif
 
 ifdef CONFIG_CMD_CONCURENT_TEST

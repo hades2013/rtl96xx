@@ -10,6 +10,20 @@ sram_init:
   sw      t1, 0(t0) //sram for base address SRAM maps to
   li      t1, 0x00000008
   sw      t1, 4(t0) //sram for size of SRAM maps to (32K)
+
+/* Reset SWCORE for its SRAM */
+  la      t0, 0xBB000074
+  li      t1, 0x00000010
+  sw      t1, 0(t0)
+
+/* check switch for ready patch, because we will setting switch register for SRAM usage */
+  li      t0, 0xB8000044
+1:
+  lw      t2, 0(t0)
+  andi    t2, t2, 0x2
+  beq     zero, t2, 1b
+  nop
+
 //segment 1
 /* Switch PON SRAM to SoC */
   la      t0, 0xBB000178

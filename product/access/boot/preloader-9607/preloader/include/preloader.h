@@ -96,6 +96,7 @@ void *pblr_memcpy(u8_t *, const u8_t *, u32_t);
 
 #if (OTTO_NAND_FLASH == 1)
 void nand_loader_init(void);
+#define NAND_SPARE_AREA_SIZE (64)
 #endif
 
 /* functions in plr. */
@@ -143,14 +144,14 @@ int pblr_strnlen(const char * s, int count);
 #endif
 
 #define PRINT_PLR_INFO(chip_ver)                           \
-        printf("SoC Preloader %x.%x.%d.%d.%d.%s.%s (%s)\n" \
+        printf("SoC Preloader %x.%x.%d.%d.%d.%s.%s.%s (%s)\n" \
                "II: Stack @ %p (parameter %dB)\n" \
                "II: Console... OK\n",             \
-               (SOC_HEADER_VERSION >> 12) & 0xFF, \
-               (SOC_HEADER_VERSION >> 8)  & 0xF,  \
-               (SOC_HEADER_VERSION >> 0)  & 0xFF, \
+               (PLR_VERSION >> 16) & 0xFF, \
+               (PLR_VERSION >> 8)  & 0xFF,  \
+               (PLR_VERSION >> 0)  & 0xFF, \
                chip_ver, parameters.soc_id,       \
-               REVISION, DECOMP_ALGO, DATE_TAG,   \
+               REL_VER, REVISION, DECOMP_ALGO, DATE_TAG,   \
                STACK1_BASE, CACHE_ALIGN(sizeof(parameter_to_bootloader_t)))
 
 

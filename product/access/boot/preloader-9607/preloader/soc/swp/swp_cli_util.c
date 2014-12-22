@@ -4,7 +4,14 @@
 #if (OTTO_NAND_FLASH == 1)
 #include "soc_nand_flash.h"
 #endif
+#if defined(CMU_DIVISOR)
+#include <plr_pll_gen1.h>
+#include "swp_pll_gen1_util.h"
+#endif
 
+#if (DISABLE_OTTO_PLR_CLI_XMODEM_SUPPORT != 1)
+#include "swp_xmodem.h"
+#endif /* #if (DISABLE_OTTO_PLR_CLI_XMODEM_SUPPORT != 1) */
 
 SECTION_ON_FLASH char *
 get_token(char **cmd_buf) {
@@ -28,7 +35,9 @@ get_token(char **cmd_buf) {
 
 SECTION_ON_FLASH cpr_t 
 cli_main_loop(line_parser_t *line_parser) {
-    char cmd_buf[132], *p;
+    char cmd_buf[CMD_INP_BUF_SZ+4], *p, cmd_backup[CMD_INP_BUF_SZ];
+    cmd_backup[0]='\0';
+    
     p=cmd_buf;
     while(1) {
         char chr=plr_getc();
@@ -53,8 +62,17 @@ cli_main_loop(line_parser_t *line_parser) {
             continue;
         }
         if (chr==0x0d) {
-            // execute command
             *p='\0'; 
+            memcpy((void*)cmd_backup, (const void*)cmd_buf, CMD_INP_BUF_SZ);
+        } else if (chr==0x7f) {
+            // repeat
+            memcpy((void*)cmd_buf, (const void*)cmd_backup, CMD_INP_BUF_SZ);
+            if (p!=cmd_buf) pblr_putc(';');
+            pblr_puts(cmd_buf);
+            chr=0x0d;
+        }
+        if (chr==0x0d) {
+            // execute command
             p=cmd_buf;
             
             // command echo            
@@ -68,7 +86,7 @@ cli_main_loop(line_parser_t *line_parser) {
             }
             #endif
             pblr_putc('\n');
-            
+
             // command parsing
             if (cmd_buf[0]=='.') continue;
             cpr_t r=(*line_parser)(cmd_buf);
@@ -95,7 +113,7 @@ cli_main_loop(line_parser_t *line_parser) {
             printf("(%02x)", (unsigned char)chr);
             continue;
         }
-        if ((p-cmd_buf)<128) *(p++)=chr;
+        if ((p-cmd_buf)<CMD_INP_BUF_SZ) *(p++)=chr;
     }
 }
 
@@ -171,8 +189,14 @@ cli_std_store_word(int argc, char *argv[]) {
 SECTION_ON_FLASH cpr_t 
 cli_std_load_word(int argc, char *argv[]) {
     if (argc<2) return CPR_INCOMPLETE_CMD;
-    u32_t addr=pblr_atoi(argv[1]);
-    printf("$=0x%08x\n", ACCESS_REG(addr));
+    else if(argc==2) {
+    	u32_t addr=pblr_atoi(argv[1]);
+    	printf("$=0x%08x\n", ACCESS_REG(addr));
+    } else{
+	const u8_t *addr=(const u8_t *)pblr_atoi(argv[1]);
+	u32_t len=pblr_atoi(argv[2])*4;
+	memory_dump(addr, len);
+    }
     return CPR_NEXT;
 }
 SECTION_ON_FLASH cpr_t 
@@ -194,373 +218,78 @@ cli_std_timer(int argc, char *argv[]) {
     }
     return CPR_NEXT;
 }
-SECTION_ON_FLASH cpr_t 
-cli_std_mdump(int argc, char *argv[]) {
-    if (argc<2) return CPR_INCOMPLETE_CMD;
-    const u8_t *addr=(const u8_t *)pblr_atoi(argv[1]);
-    u32_t len=256;
-    if (argc>=3) len=pblr_atoi(argv[2])*4;
-    memory_dump(addr, len);
-    return CPR_NEXT;
-}
-
-/**************************
-  * DRAM prefetch machanism declaration
-  * (DDR1/2/3 Combo PHY Controller)
-  *************************/ 
-#define MCR_PREFETCH_INS_SIDE  (0x2)
-#define MCR_PREFETCH_DATA_SIDE (0x1)
-#define MCR_PREFETCH_DIS_IMASK   (0xFF7FFFFF)
-#define MCR_PREFETCH_DIS_DMASK   (0xFFBFFFFF)
-#define MCR_PREFETCH_ENABLE_INS  (0x00800000)
-#define MCR_PREFETCH_ENABLE_DATA (0x00400000)
-
-/**************************
-  * Memory Test structures
-  *************************/ 
-typedef struct {
-	u8_t  patternNum;
-	u32_t writeAddr;
-	u32_t readAddr;
-	u32_t testSize;
-} memory_test_info_t;
-enum CASE_NUMBER
-{
-	MT_CASE_BYTE=8,
-	MT_CASE_HALF=16,
-	MT_CASE_WORD=32,
-};
-static u32_t mt_patterns[] =
-{
-	0x89abcdef,
-	0x5a5aa5a5,
-	0x76543210, 
-	0xa5a5a5a5,
-	0x55555555, 
-	0xaaaaaaaa,
-	0x01234567, 
-	0xfedcba98,
-	0xffffffff,
-	0xff00ff00,
-	0x00ff00ff,
-	0x0000ffff,
-	0xffff0000,
-};
-
-/**************************
-  * Macros for memory test
-  *************************/ 
-extern void plat_memctl_dcache_flush(void);
-#define _DCache_flush_invalidate         plat_memctl_dcache_flush
-#define PAT32_MASK   (0x1FFFFFFF)
-#define WORD_SIZE	 (sizeof(u32_t))
-#define SEQ_ADR_TEST (1<<0)
-
-void error_printf(enum CASE_NUMBER err, u32_t pat,u32_t patTrans32, u32_t addr, u32_t readval)
-{
-	switch(err)
-	{
-		case MT_CASE_BYTE:
-			pblr_puts(">>>>>Byte ERROR<<<<<\n");
-			break;
-		case MT_CASE_HALF:
-			pblr_puts(">>>>>Half ERROR<<<<<\n");
-			break;
-		case MT_CASE_WORD:
-			pblr_puts(">>>>>Word ERROR<<<<<\n");
-			break;
-	}
-	printf("  mt_patterns=0x%x\n",pat);
-	printf("  patTrans32=0x%x\n",patTrans32);
-	printf("  *(0x%x)=0x%x\n",addr,readval);
-	while(1);
-}
-u32_t rotate_1bit(u32_t v) 
-{
-	return (((v) << 1) | ((v & 0x80000000)>>31));
-}
-void word_access_test(memory_test_info_t *info)
-{
-	u8_t  patIdx;
-	u32_t mt_pat32,patTrans32, i;
-	volatile u32_t *test_addr_word;
-
-	for(patIdx=0; patIdx<info->patternNum ; patIdx++)
-	{
-		mt_pat32 = mt_patterns[patIdx];
-		_DCache_flush_invalidate();
-
-		/*Write Word*/
-		test_addr_word = (volatile u32_t *)(info->writeAddr);
-		for(i=0;i<info->testSize/WORD_SIZE;i++)
-		{
-			patTrans32 = (((u32_t)test_addr_word & PAT32_MASK) ^ rotate_1bit(mt_pat32));
-			*(test_addr_word++) = patTrans32;
-		}
-		
-		/*Read Word*/
-		test_addr_word = (volatile u32_t *)(info->readAddr);
-		for(i=0;i<info->testSize/WORD_SIZE;i++)
-		{
-			patTrans32 = (((u32_t)test_addr_word & PAT32_MASK) ^ rotate_1bit(mt_pat32));
-			if(*(test_addr_word) != patTrans32)
-				error_printf(MT_CASE_WORD,mt_pat32,patTrans32,(u32_t)test_addr_word,*(test_addr_word));
-			test_addr_word++;
-		}
-	}
-	pblr_puts("Word_OK ");
-}
-void half_access_test(memory_test_info_t *info)
-{
-	u8_t  patIdx;
-	u32_t patTrans32, mt_pat32,i;
-	u16_t wr16_1, wr16_2, rd16_1, rd16_2;
-	volatile u16_t *test_addr_half;
-
-	for(patIdx=0; patIdx<info->patternNum ; patIdx++)
-	{		
-		mt_pat32 = mt_patterns[patIdx];
-		_DCache_flush_invalidate();
-
-		/*Write half-word*/
-		test_addr_half = (volatile u16_t *)(info->writeAddr);
-		for(i=0;i<info->testSize/WORD_SIZE;i++)
-		{
-			patTrans32 = (((u32_t)test_addr_half & PAT32_MASK) ^ rotate_1bit(mt_pat32));
-			wr16_1 = (patTrans32 & 0xffff);
-			wr16_2 = (patTrans32>>16) & 0xffff;
-			*(test_addr_half++) = wr16_1;
-			*(test_addr_half++)	= wr16_2;
-		}
-		
-		/*Read half-word*/
-		test_addr_half = (volatile u16_t *)(info->readAddr);
-		for(i=0;i<info->testSize/WORD_SIZE;i++)
-		{
-			patTrans32 = (((u32_t)test_addr_half & PAT32_MASK) ^ rotate_1bit(mt_pat32));
-			wr16_1 = (patTrans32 & 0xffff);
-			wr16_2 = (patTrans32>>16) & 0xffff;
-			
-			rd16_1 = *(test_addr_half);
-			if(rd16_1 != wr16_1)
-				error_printf(MT_CASE_HALF,mt_pat32,wr16_1,(u32_t)test_addr_half,rd16_1);
-						
-			rd16_2 = *(++test_addr_half);
-			if(rd16_2 != wr16_2)
-				error_printf(MT_CASE_HALF,mt_pat32,wr16_2,(u32_t)test_addr_half,rd16_2);
-
-			test_addr_half++;
-		}
-	}
-	pblr_puts("Half_OK ");
-}
-
-void byte_access_test(memory_test_info_t *info)
-{
-	u8_t  patIdx;
-	u32_t patTrans32,mt_pat32,i;
-	u8_t  wr8_1,wr8_2,wr8_3,wr8_4,rd8_1,rd8_2,rd8_3,rd8_4;
-	volatile u8_t *test_addr_byte;
-
-	for(patIdx=0; patIdx<info->patternNum ; patIdx++)
-	{	
-		mt_pat32 = mt_patterns[patIdx];
-		_DCache_flush_invalidate();
-		
-		/*Write Byte*/
-		test_addr_byte = (volatile u8_t *)(info->writeAddr);
-		for(i=0 ; i<info->testSize/WORD_SIZE; i++)
-		{
-			patTrans32 = (((u32_t)test_addr_byte & PAT32_MASK) ^ rotate_1bit(mt_pat32));
-			wr8_1 = (patTrans32>>0) & 0xffff;
-			wr8_2 = (patTrans32>>8) & 0xffff;
-			wr8_3 = (patTrans32>>16)& 0xffff;
-			wr8_4 = (patTrans32>>24)& 0xffff;
-			*(test_addr_byte++) = wr8_1;
-			*(test_addr_byte++) = wr8_2;
-			*(test_addr_byte++) = wr8_3;
-			*(test_addr_byte++) = wr8_4;
-		}
-		
-		/*Read Byte*/
-		test_addr_byte = (volatile u8_t *)(info->readAddr);
-		for(i=0 ; i<info->testSize/WORD_SIZE; i++)
-		{
-			patTrans32 = (((u32_t)test_addr_byte & PAT32_MASK) ^ rotate_1bit(mt_pat32));
-			wr8_1 = (patTrans32>>0) & 0xffff;
-			wr8_2 = (patTrans32>>8) & 0xffff;
-			wr8_3 = (patTrans32>>16)& 0xffff;
-			wr8_4 = (patTrans32>>24)& 0xffff;
-
-			rd8_1 = *(test_addr_byte);
-			if(rd8_1 != wr8_1)
-				error_printf(MT_CASE_BYTE, mt_pat32,wr8_1,(u32_t)test_addr_byte,rd8_1); 	
-			
-			rd8_2 = *(++test_addr_byte);
-			if(rd8_2 != wr8_2)
-				error_printf(MT_CASE_BYTE, mt_pat32,wr8_2,(u32_t)test_addr_byte,rd8_2);
-			
-			rd8_3 = *(++test_addr_byte);
-			if(rd8_3 != wr8_3)
-				error_printf(MT_CASE_BYTE, mt_pat32,wr8_3,(u32_t)test_addr_byte,rd8_3);
-			
-			rd8_4 = *(++test_addr_byte);
-			if(rd8_4 != wr8_4)
-				error_printf(MT_CASE_BYTE, mt_pat32,wr8_4,(u32_t)test_addr_byte,rd8_4);
-
-			test_addr_byte++;
-		}
-	}
-	pblr_puts("Byte_OK");
-}
-void disable_DRAM_prefech(u32_t side_id)
-{
-	volatile u32_t *reg_mcr;
-
-	reg_mcr = (volatile u32_t *)0xB8001000;
-
-	if( side_id & MCR_PREFETCH_INS_SIDE )
-		*reg_mcr =*reg_mcr & ((unsigned int)MCR_PREFETCH_DIS_IMASK);
-
-	if( side_id & MCR_PREFETCH_DATA_SIDE)
-		*reg_mcr =*reg_mcr & ((unsigned int)MCR_PREFETCH_DIS_DMASK);
-}
-
-void enable_DRAM_prefech(u32_t side_id)
-{
-	volatile u32_t *reg_mcr;
-
-	reg_mcr = (volatile u32_t *)0xB8001000;
-
-	if( side_id & MCR_PREFETCH_INS_SIDE )
-	{
-		disable_DRAM_prefech(MCR_PREFETCH_INS_SIDE);
-		*reg_mcr = *reg_mcr | MCR_PREFETCH_ENABLE_INS;
-	}
-	
-	if( side_id & MCR_PREFETCH_DATA_SIDE )
-	{
-		disable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE);
-		*reg_mcr = *reg_mcr | MCR_PREFETCH_ENABLE_DATA;
-	}
-}
-
-const char *char_wr_cache_case[] = {
-	"  [Uncache-W/Uncache-R]",
-	"  [Uncache-W/Cache-R  ]",
-	"  [Cache-W  /Cache-R  ]",
-};
-void dram_adr_rotate_test(u32_t startAddr, u32_t size)
-{
-	memory_test_info_t mt_info;
-	u8_t  caseIdx;
-	u32_t dram_write_addr[3];
-	u32_t dram_read_addr[3];
-
-	dram_write_addr[0] = (startAddr&PAT32_MASK)|0xA0000000;
-	dram_write_addr[1] = (startAddr&PAT32_MASK)|0xA0000000;
-	dram_write_addr[2] = (startAddr&PAT32_MASK)|0x80000000;
-	dram_read_addr[0] = (startAddr&PAT32_MASK)|0xA0000000;
-	dram_read_addr[1] = (startAddr&PAT32_MASK)|0x80000000;
-	dram_read_addr[2] = (startAddr&PAT32_MASK)|0x80000000;
-	mt_info.patternNum = 1;
-	mt_info.testSize = size;
-
-	for(caseIdx=0 ; caseIdx<3 ; caseIdx++)
-	/* Case0: Uncached-W / Uncached-R
-	  * Case1: Uncached-W / Cached-R
-	  * Case2: Cached-W / Cached-R
-	  */		
-	{
-		printf("\r%s ",char_wr_cache_case[caseIdx]);
-		mt_info.writeAddr = dram_write_addr[caseIdx];
-		mt_info.readAddr  = dram_read_addr[caseIdx];
-		word_access_test(&mt_info);
-		half_access_test(&mt_info);
-		byte_access_test(&mt_info);
-		if(caseIdx==2)
-		{
-			/*Data Prefetch*/
-			pblr_puts("\r(Enable Data Prefetch)");
-			enable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE);
-			word_access_test(&mt_info);
-			half_access_test(&mt_info);
-			byte_access_test(&mt_info);
-			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE ); 	
-
-			/*Instuction Prefetch*/
-			pblr_puts("\r(Enable Instuction Prefetch)");
-			enable_DRAM_prefech(MCR_PREFETCH_INS_SIDE);
-			word_access_test(&mt_info);
-			half_access_test(&mt_info);
-			byte_access_test(&mt_info);
-			disable_DRAM_prefech(MCR_PREFETCH_INS_SIDE|MCR_PREFETCH_DATA_SIDE);
-			
-			/*Data & Instuction Prefetch*/
-			pblr_puts("\r(Enable Data & Instuction Prefetch)");
-			enable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE|MCR_PREFETCH_INS_SIDE);				
-			word_access_test(&mt_info);
-			half_access_test(&mt_info);
-			byte_access_test(&mt_info);
-			disable_DRAM_prefech(MCR_PREFETCH_INS_SIDE|MCR_PREFETCH_DATA_SIDE);
-		}
-	}
-}
 
 SECTION_ON_FLASH cpr_t
 cli_std_mt(int argc, char *argv[]) {
 /*
-"mt <start address> <size> [-t/-times <n|forever>]  [-p/-pattern <seq_adr_test|...|all>]\n"
+  *  "mt <start address> <size> [-t/-times <n|forever>]  [-p/-pattern <adr_rot_test|uls_test|mdram_test|...|all>]\n"
  */
     if (argc<3) return CPR_INCOMPLETE_CMD;
 
 	u32_t start_addr=0;
 	u32_t size=0;
 	u32_t times=1;
-	u32_t testCases=SEQ_ADR_TEST;
-
+	u32_t testCases=0;
 	u32_t i=1;
-	while(i<argc)
-	{
-		if((pblr_strcmp(argv[i], "-t")==0)||(pblr_strcmp(argv[i], "-times")==0)){
-			if(pblr_strcmp(argv[i+1], "forever")==0){
+
+	while(i<argc){
+		if((pblr_strcmp(argv[i],"-t") == 0) || (pblr_strcmp(argv[i],"-times") == 0)){
+			if(pblr_strcmp(argv[i+1],"forever") == 0){
 				times = 0xFFFFFFFF;
-				i++;
-			}else if(pblr_atoi(argv[i+1])!=0){
-				times = pblr_atoi(argv[++i]);	
+			}else if(pblr_atoi(argv[i+1]) != 0){
+				times = pblr_atoi(argv[i+1]);	
 			}else{
 				return CPR_INCOMPLETE_CMD;
 			}
-		}else if((pblr_strcmp(argv[i], "-p")==0)||(pblr_strcmp(argv[i], "-pattern")==0)){
-			if(pblr_strcmp(argv[++i], "seq_adr_test")==0){
-				testCases = testCases|SEQ_ADR_TEST;
+		}else if((pblr_strcmp(argv[i],"-p") == 0)||(pblr_strcmp(argv[i],"-pattern") == 0)){
+			if(pblr_strcmp(argv[i+1],"adr_rot_test") == 0){
+				testCases = testCases|CLI_MT_CASE_ADR_ROT_TEST;
+			}else if(pblr_strcmp(argv[i+1],"uls_test") == 0){
+				testCases = testCases|CLI_MT_CASE_ULS_TEST;			
+			}else if(pblr_strcmp(argv[i+1],"mdram_test") == 0){
+				testCases = testCases|CLI_MT_CASE_MDRAM_TEST;			
 			}else{
 				return CPR_UNSUPPORT_PARAMETER;
 			}
 		}else{
-			if((argv[i]==NULL)||(argv[i+1]==NULL)){
+			if((argv[i] == NULL) || (argv[i+1] == NULL)){
 				return CPR_INCOMPLETE_CMD;
 			}else{
 				start_addr = pblr_atoi(argv[i]);
-				size = pblr_atoi(argv[++i]);
+				size = pblr_atoi(argv[i+1]);
+				if((start_addr == 0) || (size == 0)){
+					return CPR_UNKNOWN_CMD;
+				}
 			}
 		}
-		i++;
+		i+=2;
 	}
-	if((start_addr==0)||(size==0)){
-		return CPR_INCOMPLETE_CMD;
+	
+	if(0 == testCases){
+		testCases = CLI_MT_CASE_ADR_ROT_TEST|CLI_MT_CASE_ULS_TEST|CLI_MT_CASE_MDRAM_TEST;
 	}
-
-	#if(times==0xFFFFFFFF)
-		while(1){		
-	#else
-		for(i=0;i<times;i++){
-	#endif
-			if((testCases&SEQ_ADR_TEST)==SEQ_ADR_TEST){
-				dram_adr_rotate_test(start_addr,size);			
-				printf("\r<<< dram_adr_rotate_test %d times >>>\n",i+1);
-			}
+	
+#if(times == 0xFFFFFFFF)
+	while(1){		
+#else
+	for(i=0;i<times;i++){
+#endif
+		if((testCases&CLI_MT_CASE_ADR_ROT_TEST) == CLI_MT_CASE_ADR_ROT_TEST){
+			if(CLI_MT_FAIL == dram_adr_rotate_test(start_addr,size))
+				HANDLE_FAIL;
+			printf("<<< dram_adr_rotate_test %d times >>>\n",i+1);
 		}
+		if((testCases&CLI_MT_CASE_ULS_TEST) == CLI_MT_CASE_ULS_TEST){
+			if(CLI_MT_FAIL == unaligned_test(start_addr,size))
+				HANDLE_FAIL;
+			printf("<<< unaligned_test %d times >>>\n",i+1);
+		}
+		if((testCases&CLI_MT_CASE_MDRAM_TEST) == CLI_MT_CASE_MDRAM_TEST){
+			if(CLI_MT_FAIL == mdram_test(start_addr,size))
+				HANDLE_FAIL;
+			printf("<<< mdram_test %d times >>>\n",i+1);
+		}
+	}
     return CPR_NEXT;
 }
 #if (OTTO_NOR_SPI_FLASH == 1)
@@ -575,14 +304,115 @@ cli_std_save_para(int argc, char *argv[]) {
     void *para_soc=(void *)(&parameters.soc);
     u32_t i, ws=(0x1 << para_flash_info.wr_boundary);
     
+#if defined(CMU_DIVISOR)
+    set_pg1_uart_baud_div(query_pg1_uart_baudrate());
+#endif
+
     memcpy(org_soc, para_soc, sizeof(soc_t));
     pblr_nor_spi_erase(0, 0);
     for(i=0; i<4096; i+=ws){
         pblr_nor_spi_write(0, i, ws, (const void *) (SRAM_BASE+i));
     }
+
+#if defined(CMU_DIVISOR)
+	((volatile peripheral_info_t *)&parameters.soc.peri_info)->baudrate_divisor =
+		(pll_query_freq(PLL_DEV_LX) * 1000000) / (16 * query_pg1_uart_baudrate()) - 1;
+#endif
+
     pblr_puts("earse...write...done\n");
     return CPR_NEXT;
 }
+
+#if (DISABLE_OTTO_PLR_CLI_XMODEM_SUPPORT != 1)
+cpr_t
+cli_update_image_by_xmodem(int argc, char *argv[]) {
+    u32_t i;
+    u32_t es = (0x1 << para_flash_info.erase_unit);/* Erase size */
+    u32_t bls;/* bootloader size */
+    u8_t re_burn;
+
+    bls = para_flash_layout.env_addr; 
+
+    if ((bls % para_flash_info.erase_unit) != 0) {
+        pblr_puts("abort: bootloader is not aligned with flash erase unit\n");
+        return CPR_NEXT;
+    }
+ 
+    printf("Start erasing flash 0x0 ~ 0x%x\n", bls);
+start_download:
+    /* Erase bootloader */
+    for(i=0; i<bls; i+=es){ 
+        pblr_nor_spi_erase(0, i);
+    }
+
+    /* Afterwards, we cannot use pblr_puts() function as its parameters is located at flash area which were just erased */
+    /* Call xmodem to retrive the image and write it to the destination */
+    if(xmodem_2_flash(0, bls) != 0) {
+        pblr_putc('F');
+        pblr_putc('a');
+        pblr_putc('i');
+        pblr_putc('l');
+        pblr_putc('e');
+        pblr_putc('d');
+        pblr_putc('\n');
+    } else {
+        pblr_putc('d');
+        pblr_putc('o');
+        pblr_putc('n');
+        pblr_putc('e');
+        pblr_putc('\n');
+    }
+
+re_burn_chk:
+    pblr_putc('R');
+    pblr_putc('e');
+    pblr_putc('b');
+    pblr_putc('u');
+    pblr_putc('r');
+    pblr_putc('n');
+    pblr_putc('(');
+    pblr_putc('y');
+    pblr_putc('/');
+    pblr_putc('n');
+    pblr_putc(')');
+    pblr_putc('?');
+    pblr_putc('\n');
+
+    while (!plr_tstc());
+    re_burn = plr_getc();
+    pblr_putc(re_burn);
+    pblr_putc('\n');
+
+    if((re_burn == 'N') || (re_burn == 'n')) {
+        /* Reboot */
+        pblr_putc('\n');
+        pblr_putc('R');
+        pblr_putc('e');
+        pblr_putc('b');
+        pblr_putc('o');
+        pblr_putc('o');
+        pblr_putc('t');
+        pblr_putc('i');
+        pblr_putc('n');
+        pblr_putc('g');
+        pblr_putc('.');
+        pblr_putc('.');
+        pblr_putc('.');
+        pblr_putc('\n');
+ 
+        /* Use WDT HW reset */
+        REG32(0xb8003268) = (0x1 << 31); 
+        while(1);
+    } else if((re_burn == 'Y') || (re_burn == 'y')) {
+        goto start_download;
+    } else {
+        goto re_burn_chk;
+    }
+
+    return CPR_NEXT;
+}
+#endif /* #if (DISABLE_OTTO_PLR_CLI_XMODEM_SUPPORT != 1) */
+
 #elif (OTTO_NAND_FLASH == 1)
 
 #define sizeof_nand_dma_buf _sizeof_nand_dma_buf(para_chunk_size)
@@ -599,7 +429,7 @@ nand_write_dma_buf(nand_dma_buf_t *dma_buf, u32_t block_id, u32_t bchunk_id) {
     return nand_write_chunk(dma_buf->chunk_buf, &(dma_buf->spare), block_id, bchunk_id);
 }
 
- cpr_t 
+cpr_t 
 cli_std_save_para(int argc, char *argv[]) {
 
     // buffer for nand dma
@@ -639,4 +469,76 @@ cli_std_save_para(int argc, char *argv[]) {
 
     return CPR_NEXT;
 }
+
+#if (DISABLE_OTTO_PLR_CLI_XMODEM_SUPPORT != 1)
+cpr_t
+cli_update_image_by_xmodem(int argc, char *argv[]) {
+    
+    u32_t bls;/* bootloader size */
+    u8_t re_burn;
+    u32_t cs; /* chunk size */
+    u32_t bbn; /* bootloader block number */
+    u32_t cpb; /* chunks per block */
+    u32_t i;
+
+    cs  = parameters.chunk_size;
+    cpb = parameters.num_chunk_per_block;
+    bbn = parameters.end_pblr_block;
+#define DEV_CODE
+#ifdef DEV_CODE
+    printf("parameters.chunk_size=%d\n", cs);
+    printf("parameters.num_chunk_per_block=%d\n", cpb);
+    printf("parameters.end_pblr_block=%d\n", bbn);
+#endif /* #ifdef DEV_CODE */
+
+
+    if(cs == 2048) {
+        /* Include OOB size into chunk size to save efforts in the following calcualtion */
+        cs += NAND_SPARE_AREA_SIZE;
+    } else {
+        printf("Error, NAND chunk size =%u, but only 2048 is supported\n", cs);
+        return CPR_NEXT;
+    }
+    /* Calculate the size of bootloader area */
+    bls = bbn * cpb * cs;
+start_download:
+    printf("Start erasing flash 0x0 ~ 0x%x(size=%d bytes)\n", bls, bls);
+    /* Erase bootloader */
+    for(i=0; i<bbn; i++) {
+        printf("Erasing NAND block %u\n", i);
+        parameters._nand_erase_block(i*cpb);
+    }
+    
+    /* Call xmodem to retrive the image and write it to the destination */
+    if(xmodem_2_flash(0, bls) != 0) {
+        printf("Failed\n");
+    } else {
+        printf("Done\n");
+    }
+
+re_burn_chk:
+    printf("Reburn(y/n)?\n");
+
+    while (!plr_tstc());
+    re_burn = plr_getc();
+    pblr_putc(re_burn);
+    pblr_putc('\n');
+
+    if((re_burn == 'N') || (re_burn == 'n')) {
+        /* Reboot */
+        printf("\nRebooting...\n\n\n");
+
+        /* Use system reset */
+        REG32(0xbb000074) = (0x1 << 2); 
+        while(1);
+    } else if((re_burn == 'Y') || (re_burn == 'y')) {
+        goto start_download;
+    } else {
+        goto re_burn_chk;
+    }
+
+    return CPR_NEXT;
+}
+#endif /* #if (DISABLE_OTTO_PLR_CLI_XMODEM_SUPPORT != 1) */
+
 #endif //(OTTO_NAND_FLASH == 1)

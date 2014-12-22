@@ -1,4 +1,4 @@
-define_bool CONFIG_LZMA y
+
 define_bool CONFIG_DRAM_BUS_WIDTH_8BIT y
 define_bool CONFIG_DRAM_CHIP_NUM_ONE y
 define_bool CONFIG_ONE_DRAM_CHIP_SIZE_64MB y
@@ -133,6 +133,33 @@ comment 'Flash Type Configuration'
 	bool 'Nand Flash' CONFIG_CMD_NAND
 endmenu
 
+mainmenu_option next_comment
+comment 'File system support Configuration'
+	bool 'YAFFS2' CONFIG_YAFFS2
+	bool 'JFFS2' CONFIG_CMD_JFFS2
+	if [ "$CONFIG_CMD_JFFS2" = "y" ]; then
+		choice 'Partition in Flash Layout for JFFS2'  \
+			"OPT1  CONFIG_JFFS2_OPT1_ADDR \
+			OPT2  CONFIG_JFFS2_OPT2_ADDR \
+			OPT3  CONFIG_JFFS2_OPT3_ADDR \
+			OPT4  CONFIG_JFFS2_OPT4_ADDR"  OPT1
+	fi	
+	bool 'Cramfs' CONFIG_CMD_CRAMFS
+
+endmenu
+
+mainmenu_option next_comment
+comment 'Kernel Uncomporess type'
+	bool 'LZMA' CONFIG_LZMA
+	bool 'GZIP' CONFIG_GZIP
+endmenu
+
+mainmenu_option next_comment
+comment 'luna Multi-boot support'
+	bool 'LUNA_MULTI_BOOT' CONFIG_LUNA_MULTI_BOOT
+endmenu
+
+
 define_int  CFG_DCACHE_SIZE 32768
 define_int  CFG_ICACHE_SIZE 32768
 define_int  CFG_CACHELINE_SIZE  32
@@ -151,17 +178,40 @@ define_int  CONFIG_SYS_TEMP_SRAM_SIZE 0x8000
 #define_hex  CONFIG_ENV_OFFSET 0x80000
 #if [ "$CONFIG_SPINOR_FLASH" = "y" ]; then
 #define_string CONFIG_EXTRA_ENV_SETTINGS \
-#  "upb=tftp 80000000 loader.img;sf erase 0 +40000;sf write 80000000 0 \$(filesize)\0\
-#   upk=tftp 80000000 uImage;sf erase 200000 +300000;sf write 80000000 200000 \$(filesize)\0\
-#   upr=tftp 80000000 rootfs;sf erase 500000 +500000;sf write 80000000 500000 \$(filesize)\0\
-#   erase_env=sf erase 40000 +4000\0"
+#  "upb=tftp 80000000 loader.img;sf erase 0 +24000;sf write 80000000 0 \${filesize}\0\
+#   upk=tftp 80000000 uImage;sf erase 88000 +200000;sf write 80000000 88000 \${filesize}\0\
+#   upr=tftp 80000000 rootfs;sf erase 288000 +578000;sf write 80000000 288000 \${filesize}\0\
+#   erase_env=sf erase 24000 +4000\0\
+#   erase_cfgfs=sf erase 28000 +60000\0"
+
+#if [ "$CONFIG_LUNA_MULTI_BOOT" = "y" ]; then
+#define_bool CONFIG_SYS_HUSH_PARSER y
+#define_string CONFIG_EXTRA_ENV_SETTINGS_1 \
+#  "upk1=tftp 80000000 uImage;sf erase 800000 +200000;sf write 80000000 800000 \${filesize}\0\
+#   upr1=tftp 80000000 rootfs;sf erase A00000 +578000;sf write 80000000 A00000 \${filesize}\0\
+#   sw_tryactive=2\0\
+#   sw_commit=0\0\
+#   sw_active=0\0\
+#   sw_version0=0\0\
+#   sw_version1=0\0\
+#   b0=setenv bootargs console=ttyS0,115200 mem=32M mtdparts=rtk_spi_nor_mtd:160K(boot)ro,384k(config),2048k(kernel),5600K(rootfs),16k@144k(env),2048k@544k(k0),5600k@2592k(r0),2048k@8M(k1),5600K@10M(r1) root=31:3 && bootm bd088000\0\
+#   b1=setenv bootargs console=ttyS0,115200 mem=32M mtdparts=rtk_spi_nor_mtd:160K(boot)ro,384k(config),2048k@8M(kernel),5600K@10M(rootfs),16k@144k(env),2048k@544k(k0),5600k@2592k(r0),2048k@8M(k1),5600K@10M(r1) root=31:3 && bootm bd800000\0\
+#   set_act0=if itest.s \${sw_active} != 0;then setenv sw_active 0;saveenv;fi\0\
+#   set_act1=if itest.s \${sw_active} != 1;then setenv sw_active 1;saveenv;fi\0\
+#   boot_by_commit=if itest.s \${sw_commit} == 0;then run set_act0;run b0;else run set_act1;run b1;fi\0\
+#   en_wdt=mw b8003268 e7c00000\0\
+#   boot_by_tryactive=if itest.s \${sw_tryactive} == 0;then setenv sw_tryactive 2;setenv sw_active 0;saveenv;run en_wdt;run b0;else setenv sw_tryactive 2;setenv sw_active 1;saveenv;run en_wdt;run b1;fi\0\
+#   bootcmd=if itest.s \${sw_tryactive} == 2; then run boot_by_commit;else run boot_by_tryactive;fi\0"
+#fi
+ 
 #elif [ "$CONFIG_CMD_NAND" = "y" ]; then
 #define_string CONFIG_EXTRA_ENV_SETTINGS \
-#  "upbn=tftp 0x81ff0000 loader.img;nand erase 0x0 0x80000;nand write.raw 0x81ff0000 0x0 \$(filesize)\0\
-#   upkn=tftp 0x81ff0000 uImage;nand erase 0x180000 0x600000;nand write 0x81ff0000 0x180000 \$(filesize)\0\
-#   uprn=tftp 0x81ff0000 rootfs;nand erase 0xa00000 0xa00000;nand write 0x81ff0000 0xa00000 \$(filesize)\0\
+#  "upbn=tftp 0x81ff0000 loader.img;nand erase 0x0 0x80000;nand write.raw 0x81ff0000 0x0 \${filesize}\0\
+#   upkn=tftp 0x81ff0000 uImage;nand erase 0x180000 0x600000;nand write 0x81ff0000 0x180000 \${filesize}\0\
+#  uprn=tftp 0x81ff0000 rootfs;nand erase 0xa00000 0xa00000;nand write 0x81ff0000 0xa00000 \${filesize}\0\
 #   bootcmd=nand read 0x82000000 0x180000 0x300000;bootm 0x82000000\0\
 #   erase_env=nand erase 0xa0000 0x40000\0\
+#   erase_cfgfs=nand erase 0x1d00000 0xa00000\0\
 #   upb=run upbn\0\
 #   upk=run upkn\0\
 #   upr=run uprn\0"

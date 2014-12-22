@@ -50,3 +50,4 @@
 #define SOC_NUM_FLASH_SPARE 0
 #define PLR_ENABLE_PLL_SET
 #define ZQ_TIMEOUT_RESET 1
+

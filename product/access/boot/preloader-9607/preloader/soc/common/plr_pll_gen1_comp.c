@@ -121,7 +121,7 @@ _pll_gen1_get_to_mhz(const pll_info_t *pll_reg,
 	}
 
 	lx_clk_div = (*sys_lx_pll_sel) + lx_clk_div_offset;
-	pll_mhz->lx = (src_oc_mhz * (lx_clk_div + 2))/2;
+	pll_mhz->lx = (src_oc_mhz * (lx_clk_div + 2) + 1)/2;		// + 1 is for freq.=137.5, set v=138 but get v=137
 
 	return res;
 }
@@ -144,7 +144,7 @@ _pll_gen1_set_from_mhz(pll_info_t *pll_reg,
 		pll_mhz->cpu = 500;
 		res = PLL_RES_FREQ_OUT_OF_RANGE;
 	}
-	if (pll_mhz->cpu > 700) {
+	if (pll_mhz->cpu > 900) {
 		pll_mhz->cpu = 700;
 		res = PLL_RES_FREQ_OUT_OF_RANGE;
 	}
@@ -152,7 +152,7 @@ _pll_gen1_set_from_mhz(pll_info_t *pll_reg,
 		pll_mhz->dsp = 500;
 		res = PLL_RES_FREQ_OUT_OF_RANGE;
 	}
-	if (pll_mhz->dsp > 550) {
+	if (pll_mhz->dsp > 900) {
 		pll_mhz->dsp = 550;
 		res = PLL_RES_FREQ_OUT_OF_RANGE;
 	}
@@ -168,7 +168,7 @@ _pll_gen1_set_from_mhz(pll_info_t *pll_reg,
 		pll_mhz->lx = 100;
 		res = PLL_RES_FREQ_OUT_OF_RANGE;
 	}
-	if (pll_mhz->lx > 200) {
+	if (pll_mhz->lx > 275) {
 		pll_mhz->lx = 200;
 		res = PLL_RES_FREQ_OUT_OF_RANGE;
 	}

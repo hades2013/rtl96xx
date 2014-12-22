@@ -30,18 +30,20 @@ void next_cpu_config(void);
 
 int do_reset(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
-#if 0
+#if 1
 	next_cpu_config();
 	void (*f)(void) = (void *) 0xbfc00000;
 	f();
 	fprintf(stderr, "*** reset failed ***\n");
 	return 0;
 #endif /* #if 0 */
+#if 0
 	/* Use watchdog hw reset */
 	*((volatile unsigned int *)(0xb8003268)) = (0x1 << 31);
 	printf("Resetting the system....\n");
 	while(1);
 	return 0;
+#endif
 }
 
 extern void rlx5281_cache_flush_dcache(void);

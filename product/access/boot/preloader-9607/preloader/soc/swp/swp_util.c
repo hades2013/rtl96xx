@@ -159,7 +159,7 @@ util_init(void) {
     return 0;
 }
 
-SECTION_ON_FLASH u32_t 
+u32_t 
 pblr_get_cpu_mhz() {
     if (_cpu_mhz==0) {
         _cpu_mhz=plr_query_freq(PLL_DEV_CPU);
@@ -168,7 +168,7 @@ pblr_get_cpu_mhz() {
 }
 
 #define CYCLES_PER_MS (pblr_get_cpu_mhz() * 1000)
-SECTION_ON_FLASH u32_t
+u32_t
 pblr_get_timer(u32_t base) {
     u32_t now = OTTO_CPU_CYCLE();
     u32_t cycle_count_per_ms = CYCLES_PER_MS;

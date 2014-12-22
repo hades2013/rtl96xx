@@ -23,8 +23,8 @@
 #include "autoconf.h"
 #include "asm/arch/soc.h"
 
-#include "../../../../../include/lw_config.h" /*add by shipeng*/
-#include "../../../../../include/pdt_config.h" 
+#include "../../../../../include/lw_config.h"
+#include "../../../../../include/pdt_config.h"
 
 #define CONFIG_SYS_HZ     (board_LX_freq_mhz() * 1000 * 1000)
 
@@ -97,19 +97,18 @@
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_SYS_MAX_NAND_DEVICE 1
 #define CONFIG_NAND_LUNA
-
 #define CONFIG_ENV_IS_IN_NAND 1
-#define CONFIG_CMD_NAND_YAFFS 1
-#define CONFIG_YAFFS2 1
-//only yaffs 2 support
-//#define CONFIG_YAFFS_NO_YAFFS1
-#define YAFFS_IGNORE_TAGS_ECC 1
+
 #define CONFIG_SYS_NAND_BASE		0xB801A000	/* NAND control Base Address	*/
 #undef CONFIG_ENV_IS_IN_FLASH
-
 #define USE_BBT_SKIP 1  //use RTK bad block SKIP method
 
+#endif
 
+/* yaffs2 file system */
+#ifdef CONFIG_YAFFS2
+#define YAFFS_IGNORE_TAGS_ECC 1
+#define CONFIG_CMD_NAND_YAFFS 1
 #endif
 
 
@@ -136,7 +135,7 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_LONGHELP			/* undef to save memory		*/
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104ZG_B) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_HSEPN104N)
 #define CONFIG_SYS_PROMPT	"ONU# "		/* Monitor Command Prompt	*/
 #endif
 #ifdef CONFIG_PRODUCT_5500
@@ -235,6 +234,8 @@
 #define CONFIG_NETMASK		255.255.255.0
 #define CONFIG_ETHADDR		00:E0:4C:86:70:01
 
+#define CONFIG_SYS_PROMPT_HUSH_PS2      "> "
+
 /*begin add by shipeng 2013-08-07*/
 #define OPULAN_BOOT_MENU_MODE
 #define OPL_NULL            ((void *) 0)    /* a null pointer */
@@ -252,6 +253,8 @@
 #define CONFIG_MENU_PASSWORD CONFIG_HEXICOM_MENU_PASSWORD //CONFIG_PRODUCT_NAME
 #endif
 
+#define CMU_DIVISOR 2
+
 #ifdef CONFIG_PRODUCT_5500
 #define CONFIG_BOOT_PASSWORD "cvnchina"
 //#define CONFIG_MENU_PASSWORD CONFIG_PRODUCT_NAME
@@ -264,9 +267,11 @@
 #define RESTORE_FLAG         "0"
 
 #if defined(CONFIG_BOSA)
-#define CONFIG_MODSETVAL	 "160"
-#define CONFIG_APCSETVAL	 "155"
-#define CONFIG_FTOVERFLAG	 "0"
+#define CONFIG_MODSETVAL	 DEFAULT_MODSETVAL
+#define CONFIG_APCSETVAL	 DEFAULT_APCSETVAL
+#define CONFIG_FTOVERFLAG	 DEFAULT_FTOVERFLAG
+#define CONFIG_LOSLEVEL  	 DEFAULT_LOSLEVEL
+#define CONFIG_LOSHYS 	 	 DEFAULT_LOSHYS
 #endif
 
 
@@ -277,7 +282,7 @@
 #define cfg_offset 0x50000
 #define knl_1offset 0x60000
 
-#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_GPN104N)
+#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN104ZG_B) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_HSEPN104N)
 	#define FLASH_SIZE 0x800000
 	#define OS_MAX_SIZE 0x700000
 	#define boot_os1_cmd "sf read 0xa0050000 0x60060 0x200000;go 0xa0050000;bootm 0xa1000000"
@@ -311,11 +316,11 @@
 	expcfg
 	--------------0xbd060000
 	kernel1 + os1
-	--------------0xbd4e0000  //  60000 + 480000 = 4e0000
+	--------------0xbd4e0000
 	kernel2 + os2
-	--------------0xbd960000	 // 4e0000 + 480000 = 960000
+	--------------0xbd960000	
 	jffs2
-	--------------0xbe000000  // d960000 + 6A0000 = E000000  // JFFS2_SIZE   	0x6A0000
+	--------------0xbe000000
 	*/
 #endif
 

@@ -19,6 +19,11 @@ $(PRE_CFG_LIST): clean preconfig_clean
 	@ln -s `grep "^variable preloader_platform" ../release/soc.tcl | tr -s "[\t]" " " | cut -d " " -f3` ./platform/current
 	@ln -s ../vendors/$(@:preconfig_%=%) vendor_swp;
 	@cp ./include/pblr.h ../release
+	@grep "^#define PLR_VERSION" $(SOC_IN_H) | tr -s "[\t]" " " | cut -d " " -f3 > ../release/plr_version
+	@if ! diff $(PROJ_VER) ../release/plr_version > /dev/null 2>&1; then \
+		echo "\n*** ERROR: Inconsistent version between preloader and project **"; \
+		echo "***        Please check $(PROJ_VER)  **\n"; exit 1; \
+	fi
 	@echo "OK"
 
 preconfig_clean:

@@ -123,6 +123,14 @@ void c_start(void) {
 #else
 	dram_setup();
 #endif
+	
+	/* Enable LX jitter tolerance. */
+	u32_t lx_clk_frq_slower_bit = REG32(0xB8003600) >> 31;
+	if (lx_clk_frq_slower_bit) {	
+		u32_t reg = REG32(0xb8001004) | 0x80000000;
+		//according to Designer Roger's comment: "slower bit on, jitter tolerance on"
+		REG32(0xb8001004) = reg;
+	}
 
 	printf("II: Copying U-Boot from %p(%dB) to %p... ",
 	       (void *)&uboot_start,

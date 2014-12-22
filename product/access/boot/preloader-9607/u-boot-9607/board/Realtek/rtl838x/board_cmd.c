@@ -3,7 +3,7 @@
 #include "memctl.h"
 #include "dram_share.h"
 #include "sramctl.h"
-
+#include <soc.h>
 /*
  * Perform a memory persistance test. 
  */
@@ -217,7 +217,6 @@ int do_idmem_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 }
 #endif
 
-
 #ifdef CONFIG_CMD_CONCURENT_TEST
 extern int concur_test (int flag, int argc, char *argv[]);
 
@@ -226,7 +225,6 @@ int do_concur_test (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 	return concur_test(flag, argc, argv);
 }
 #endif
-
 #ifdef CONFIG_CMD_NEXT_FREQ
 int do_next_freq (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 {
@@ -279,7 +277,6 @@ int do_next_freq (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 	
 }
 #endif
-
 #ifdef CONFIG_CMD_DRAM_AC_TEST
 int do_write_read_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 {
@@ -389,6 +386,14 @@ int do_write_test(cmd_tbl_t *cmdtp, int flag, int argc, char *argv[])
 }
 #endif
 
+/*
+ * Do "whole system reset" that depens on different project. 
+ */
+int do_reset_all(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[]) {
+	SYSTEM_RESET();
+	fprintf(stderr, "*** system reset failed ***\n");
+	return 0;
+}
 
 #ifdef CONFIG_CMD_DRAM_AC_TEST
 U_BOOT_CMD(
@@ -423,17 +428,17 @@ U_BOOT_CMD(
 #endif
 #ifdef CONFIG_CMD_DRAM_TEST
 U_BOOT_CMD(
-        mdram_test,    4,    1,     do_dram_test,
+        mdram_test,    10,    1,     do_dram_test,
         "mdram_test   - do DRAM test.",
-        "[Test Loops]\n"
+        "[-l/-loops <test loops>] [-r/-range <star address> <test size>] [-b/-block_e] [-reset <all>]\n"
         "    - do DRAM test."
 );
 #endif
 #ifdef CONFIG_CMD_FLASH_TEST
 U_BOOT_CMD(
-        mflash_test,    4,    1,     do_flash_test,
+        mflash_test,    6,    1,     do_flash_test,
         "mflash_test   - do flash test.",
-        "[Test Loops]\n"
+        "[-l/-loops <test loops>] [-b/-block_e] [-reset <all>]\n"
         "    - do flash test."
 );
 #endif
@@ -486,3 +491,10 @@ U_BOOT_CMD(
         "    - setting the next cpu_clk, mem_clk value."
 );
 #endif
+
+U_BOOT_CMD(
+        reset_all, 1, 0,    do_reset_all,
+        "Perform whole chip RESET of the CPU",
+        ""
+);
+

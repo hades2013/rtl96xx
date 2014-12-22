@@ -24,7 +24,12 @@
 #ifndef _FLASH_H_
 #define _FLASH_H_
 
-#ifndef CONFIG_SYS_NO_FLASH
+//#ifndef CONFIG_SYS_NO_FLASH
+#if !defined(CONFIG_SYS_NO_FLASH) || defined(CONFIG_CMD_JFFS2)
+#ifndef CONFIG_SYS_MAX_FLASH_SECT
+#define CONFIG_SYS_MAX_FLASH_SECT  8192
+#endif
+
 /*-----------------------------------------------------------------------
  * FLASH Info: contains chip specific data, per FLASH bank
  */

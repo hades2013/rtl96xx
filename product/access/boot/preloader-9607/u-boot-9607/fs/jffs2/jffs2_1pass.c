@@ -133,7 +133,6 @@
 #undef	DEBUG_FRAGMENTS		/* print fragment list after scan */
 #undef	DEBUG			/* enable debugging messages */
 
-
 #ifdef  DEBUG
 # define DEBUGF(fmt,args...)	printf(fmt ,##args)
 #else
@@ -354,7 +353,7 @@ static void put_fl_mem_onenand(void *buf)
 #endif
 
 
-#if defined(CONFIG_CMD_FLASH)
+#if defined(CONFIG_CMD_FLASH) || defined(CONFIG_CMD_SF)
 /*
  * Support for jffs2 on top of NOR-flash
  *
@@ -399,7 +398,7 @@ static inline void *get_fl_mem(u32 off, u32 size, void *ext_buf)
 	struct mtdids *id = current_part->dev->id;
 
 	switch(id->type) {
-#if defined(CONFIG_CMD_FLASH)
+#if defined(CONFIG_CMD_FLASH) || defined(CONFIG_CMD_SF)
 	case MTD_DEV_TYPE_NOR:
 		return get_fl_mem_nor(off, size, ext_buf);
 		break;
@@ -426,7 +425,7 @@ static inline void *get_node_mem(u32 off, void *ext_buf)
 	struct mtdids *id = current_part->dev->id;
 
 	switch(id->type) {
-#if defined(CONFIG_CMD_FLASH)
+#if defined(CONFIG_CMD_FLASH) || defined(CONFIG_CMD_SF)
 	case MTD_DEV_TYPE_NOR:
 		return get_node_mem_nor(off, ext_buf);
 		break;

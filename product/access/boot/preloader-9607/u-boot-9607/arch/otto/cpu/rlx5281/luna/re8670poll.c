@@ -9,6 +9,7 @@
 #include "swCore.h"
 //#include "iob.h"
 #include <asm/arch/bspchip.h>
+//#include "soc_remap.h"
 
 unsigned char descriptor_tx[TX_DESC_NUM*sizeof(NIC_TXFD_T)+256];
 unsigned char descriptor_rx[RX_DESC_NUM*sizeof(NIC_RXFD_T)+256];
@@ -35,6 +36,7 @@ int isEthDbgLv(unsigned int eth_dbg_lv){
 #define READ_MEM32(addr)         (*(volatile unsigned int *) (addr))
 #define MACReg(offset, val)		(WRITE_MEM32(SWITCH_BASE + offset, val))
 static int analog_patch_flag=0;
+extern struct soc_reg_remap_t soc_reg_remap;
 
 void Lan_RXENABLE(void)
 {
@@ -42,11 +44,8 @@ void Lan_RXENABLE(void)
 	//IO_CMD |= (RE << 5);
 	int flag;
 	if(0 == analog_patch_flag) {
-		unsigned int SOC_SUB_TYPE;
-
 		//printf("%s %d\n", __func__, __LINE__);
-		printf("6266 swcore_init\r\n");
-		SOC_SUB_TYPE=(REG32(BOND_CHIP_MODE)& 0xff);
+		 printf("6266 swcore_init\r\n");
 		
 		do
 		{
@@ -56,35 +55,37 @@ void Lan_RXENABLE(void)
 		//phy patch: port set phy-reg port 4 page 0 register 0 data 0x1340
 		MACReg(0x0c, 0x00001340);
 		MACReg(0x10, 0x0064a400);
-		  //port 0: auto neg capability 10h/10f/100h/100f flow contrl enable
-		MACReg(0x0c, 0x00000de1);
-		MACReg(0x10, 0x0060a408);
-		MACReg(0x0c, 0x00000c00);
-		MACReg(0x10, 0x0060a412);
-		MACReg(0x0c, 0x00001340);
-		MACReg(0x10, 0x0060a400);
-		  //port 1: auto neg capability 10h/10f/100h/100f flow contrl enable
-		MACReg(0x0c, 0x00000de1);
-		MACReg(0x10, 0x0061a408);
-		MACReg(0x0c, 0x00000c00);
-		MACReg(0x10, 0x0061a412);
-		MACReg(0x0c, 0x00001340);
-		MACReg(0x10, 0x0061a400);
-		  //port 2: auto neg capability 10h/10f/100h/100f flow contrl enable
-		MACReg(0x0c, 0x00000de1);
-		MACReg(0x10, 0x0062a408);
-		MACReg(0x0c, 0x00000c00);
-		MACReg(0x10, 0x0062a412);
-		MACReg(0x0c, 0x00001340);
-		MACReg(0x10, 0x0062a400);
-		//port 3: auto neg capability 10h/10f/100h/100f flow contrl enable
-		MACReg(0x0c, 0x00000de1);
-		MACReg(0x10, 0x0063a408);
-		MACReg(0x0c, 0x00000c00);
-		MACReg(0x10, 0x0063a412);
-		MACReg(0x0c, 0x00001340);
-		MACReg(0x10, 0x0063a400);
-	
+
+
+			  //port 0: auto neg capability 10h/10f/100h/100f flow contrl enable
+			MACReg(0x0c, 0x00000de1);
+			MACReg(0x10, 0x0060a408);
+			MACReg(0x0c, 0x00000c00);
+			MACReg(0x10, 0x0060a412);
+			MACReg(0x0c, 0x00001340);
+			MACReg(0x10, 0x0060a400);
+			  //port 1: auto neg capability 10h/10f/100h/100f flow contrl enable
+			MACReg(0x0c, 0x00000de1);
+			MACReg(0x10, 0x0061a408);
+			MACReg(0x0c, 0x00000c00);
+			MACReg(0x10, 0x0061a412);
+			MACReg(0x0c, 0x00001340);
+			MACReg(0x10, 0x0061a400);
+			  //port 2: auto neg capability 10h/10f/100h/100f flow contrl enable
+			MACReg(0x0c, 0x00000de1);
+			MACReg(0x10, 0x0062a408);
+			MACReg(0x0c, 0x00000c00);
+			MACReg(0x10, 0x0062a412);
+			MACReg(0x0c, 0x00001340);
+			MACReg(0x10, 0x0062a400);
+			//port 3: auto neg capability 10h/10f/100h/100f flow contrl enable
+			MACReg(0x0c, 0x00000de1);
+			MACReg(0x10, 0x0063a408);
+			MACReg(0x0c, 0x00000c00);
+			MACReg(0x10, 0x0063a412);
+			MACReg(0x0c, 0x00001340);
+			MACReg(0x10, 0x0063a400);
+
 		  //patch phy done
 		MACReg(0x88, 1);
 		  //SVLAN uplink port
@@ -118,9 +119,10 @@ void Lan_RXENABLE(void)
 		MACReg(0x2D8F8, 0xffffffff);
 		  //#MOCIR_FRC_VAL, 0711
 		MACReg(0x2D8FC, 0xffffffff);
-
+#if 0 /*PON product do not turn on this setting, this will cause laser turn on*/
 		//phy4 select
 		MACReg(0x170, 0x2);
+#endif
 		//tcont 0 scheduling queue 0-7
 		MACReg(0x23280, 0xb28);
 		MACReg(0x2de44, 0x1);

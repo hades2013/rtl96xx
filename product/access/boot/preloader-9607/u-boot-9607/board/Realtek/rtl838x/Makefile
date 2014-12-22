@@ -2,7 +2,7 @@
 include $(TOPDIR)/config.mk
 
 LIB	= $(obj)lib$(BOARD).o
-COBJS	:= $(BOARD).o board_cmd.o #cache.o
+COBJS	:= $(BOARD).o board_cmd.o 
 SOBJS 	:=
 
 ifdef CONFIG_CMD_DRAM_TEST
@@ -11,6 +11,7 @@ endif
 
 ifdef CONFIG_CMD_FLASH_TEST
 COBJS	+= memctl_flash.o 
+CFLAGS  += '-DFLASHBASE=0xB4000000'
 endif
 
 SRCS	:= $(SOBJS:.o=.S) $(COBJS:.o=.c)

@@ -13,6 +13,7 @@
 #undef  CONFIG_RTL838X
 #undef  CONFIG_RTL839X
 #define CONFIG_LUNA 1
+#undef  CONFIG_RTL9601B
 #undef  CONFIG_UART0
 #define CONFIG_UART1 1
 
@@ -20,7 +21,6 @@
  * U-Boot Location
  */
 #define CONFIG_SYS_TEXT_BASE 0x83C00000
-#define CONFIG_LZMA 1
 #define CONFIG_DRAM_BUS_WIDTH_8BIT 1
 #define CONFIG_DRAM_CHIP_NUM_ONE 1
 #define CONFIG_ONE_DRAM_CHIP_SIZE_64MB 1
@@ -65,6 +65,24 @@
  */
 #define CONFIG_SPINOR_FLASH 1
 #undef  CONFIG_CMD_NAND
+
+/*
+ * File system support Configuration
+ */
+#undef  CONFIG_YAFFS2
+#undef  CONFIG_CMD_JFFS2
+#undef  CONFIG_CMD_CRAMFS
+
+/*
+ * Kernel Uncomporess type
+ */
+#define CONFIG_LZMA 1
+#define CONFIG_GZIP 1
+
+/*
+ * luna Multi-boot support
+ */
+#undef  CONFIG_LUNA_MULTI_BOOT
 #define CFG_DCACHE_SIZE 32768
 #define CFG_ICACHE_SIZE 32768
 #define CFG_CACHELINE_SIZE 32

@@ -1,46 +1,65 @@
-
 /*
  * Include Files
  */
-#define FLLOW_DRIVER
-#ifdef FLLOW_DRIVER
 #include <common.h>
+#include <linux/ctype.h>
 #include <spi_flash.h>
-#endif
 #include <soc.h>
 #include <pblr.h>
-#include "flash_spi.h"
 #define _cache_flush	pblr_dc_flushall
 
 static unsigned long flash_size;
-#ifdef FLLOW_DRIVER
-static struct spi_flash *sf;
-#endif
 
-/*Platform independent parameter*/
-#ifdef CONFIG_MT_ERR_HANDLE
-#define HANDLE_FAIL return -1;
-#else
-#define HANDLE_FAIL while(1);
-#endif
+/* Definitions for memory test error handing manner */
+#define MT_SUCCESS    (0)
+#define MT_FAIL       (-1)
 
-#define	FLASH_BASE_ADDRESS	(0xB4000000)
-//#define	FLASH_SIZE         	(gd->bd->bi_flashsize)
-#define	FLASH_TOP_ADDRESS(flash_size)	(FLASH_BASE_ADDRESS+flash_size-1)
-#define	TEST_SIZE_PER_PATTREN	(0x10000) //64KB
-#if 0
-#define SPARE_SIZE			(flash_size)	//16MB
-#define	FLASH_BACKUP_ADDR	((0x80000000) + (initdram(0)- 0x100000) - SPARE_SIZE)
-#define	SRC_DATA_ADDR		((0x80000000) + (initdram(0)- 0x100000) - (2*SPARE_SIZE))
-#else
-static unsigned int src_data_addr;
+/* Definitions for memory test reset mode */
+enum RESET_MODE{
+	NO_RESET = 0,	
+	UBOOT_RESET = 1,	
+	WHOLE_CHIP_RESET = 2,
+};
+
+//The default seting of memory test error handling manner is non-blocking 
+//Using "Environment parameter" or "command flag setting" can change this
+//"Environment parameter": setenv mt_freeze_block debug
+//"command flag setting": mdram_test/mflash_test -b/-mt_block
+static u32_t g_err_handle_block_mode=0; 
+static u32_t g_reset_flag=NO_RESET;
+
+#define HANDLE_FAIL \
+({ \
+	printf("%s (%d) test failed.\n", __FUNCTION__,__LINE__);\
+	if(!g_err_handle_block_mode){\
+		return MT_FAIL;\
+	}else{ \
+		while(1);\
+	} \
+})
+
+#define SIZE_1MB (0x100000)
+#define SIZE_3MB (0x300000)
+#define FLASH_TOP_ADDRESS(flash_size)	    (FLASHBASE+flash_size-1)
+#define TEST_SIZE_PER_PATTREN	(0x10000)  //64KB
+static u32_t src_data_addr;
 #define	FLASH_BACKUP_ADDR	(flash_backup_addr)
 #define	SRC_DATA_ADDR		(src_data_addr)
-#define TEST_SPACE			(flash_size+TEST_SIZE_PER_PATTREN+0x300000)
-#endif
-#define JFFS2_START  (0x280000)
-//#define HANDLE_FAIL  goto test_fail;
-//#define SRC_DATA_ADDR (0x84000000)
+#define RSV_SPACE  			(0x300000)
+
+
+/**************************
+  * Command Parsing
+  *************************/ 
+typedef struct {
+	u8_t test_loops;
+} spif_cmd_parsing_info_t;
+
+
+void spi_disable_message(void);
+void spi_enable_message(void);
+
+extern unsigned long simple_strtoul(const char *cp,char **endp,unsigned int base);
 
 
 /*
@@ -48,7 +67,6 @@ static unsigned int src_data_addr;
  */
 DECLARE_GLOBAL_DATA_PTR;
 
-//extern FLASH_INFO_TYPE  flash_info[]; /* info for FLASH chips */
 
 const u32_t flash_patterns[] = {
 					0x00000000,
@@ -70,223 +88,25 @@ const u32_t flash_patterns[] = {
 /*
  * Function Declaration
  */
-#ifndef FLLOW_DRIVER
-static int flash_fill_sect_ranges(ulong addr_first, ulong addr_last, int *s_first, int *s_last, int *s_count )
-{
-	//FLASH_INFO_TYPE *info;
-	ulong bank;
-	int rcode = 0;
-
-	*s_count = 0;
-
-	for (bank=0; bank < CFG_MAX_FLASH_BANKS; ++bank) {
-		s_first[bank] = -1;	/* first sector to erase	*/
-		s_last [bank] = -1;	/* last  sector to erase	*/
-	}
-
-	for (bank=0,info=&flash_info[0];
-	     (bank < CFG_MAX_FLASH_BANKS) && (addr_first <= addr_last);
-	     ++bank, ++info) {
-		ulong b_end;
-		int sect;
-		short s_end;
-
-		if (info->flash_id == FLASH_UNKNOWN) {
-			continue;
-		}
-
-		b_end = info->start[0] + info->size - 1;	/* bank end addr */
-		s_end = info->sector_count - 1;			/* last sector   */
-
-
-		for (sect=0; sect < info->sector_count; ++sect) {
-			ulong end;	/* last address in current sect	*/
-
-			end = (sect == s_end) ? b_end : info->start[sect + 1] - 1;
-
-			if (addr_first > end)
-				continue;
-			if (addr_last < info->start[sect])
-				continue;
-
-			if (addr_first == info->start[sect]) {
-				s_first[bank] = sect;
-			}
-			if (addr_last  == end) {
-				s_last[bank]  = sect;
-			}
-		}
-		if (s_first[bank] >= 0) {
-			if (s_last[bank] < 0) {
-				if (addr_last > b_end) {
-					s_last[bank] = s_end;
-				} else {
-					printf("Error: end address"
-						" not on sector boundary\n");
-					rcode = 1;
-					break;
-				}
-			}
-			if (s_last[bank] < s_first[bank]) {
-				printf("Error: end sector"
-					" precedes start sector\n");
-				rcode = 1;
-				break;
-			}
-			sect = s_last[bank];
-			addr_first = (sect == s_end) ? b_end + 1: info->start[sect + 1];
-			(*s_count) += s_last[bank] - s_first[bank] + 1;
-		} 
-		else if (addr_first >= info->start[0] && addr_first < b_end) {
-			printf("addr_first 0x%x\n", (u32_t)addr_first);
-			printf("b_end 0x%x\n",(u32_t)b_end);
-			printf("info->start[0] 0x%x\n",(u32_t)info->start[0]);
-			printf("Error: start address not on sector boundary\n");
-			rcode = 1;
-			break;
-		} else if (s_last[bank] >= 0) {
-			printf("Error: cannot span across banks when they are"
-			       " mapped in reverse order\n");
-			rcode = 1;
-			break;
-		}
-	}
-	return rcode;
-}
-#endif
-
 int flash_sect_erase (ulong addr_first, ulong addr_last)
 {
-#ifdef FLLOW_DRIVER
 	u32_t sector=0, size = addr_last - addr_first;
+	u32_t offset = addr_first-FLASHBASE;
+	u32_t cs = offset/flash_size;
+    struct spi_flash *sf = spi_flash_probe(0, cs, 0, 0);
 	
 	if(!sf) {
-        sf = spi_flash_probe(0, 0, 0, 0);
-	    if(!sf) {
-	        printf("spi flash probe failed\n");
+        printf("spi flash %d probe failed\n", cs);
 	        return 0;
 	    }
-	}
     if (size > CONFIG_ENV_SECT_SIZE) {
         sector = size / CONFIG_ENV_SECT_SIZE;
         if (size % CONFIG_ENV_SECT_SIZE)
             sector++;
     }    
     
-	return spi_flash_erase(sf, addr_first, sector * CONFIG_ENV_SECT_SIZE);
-#else
-	FLASH_INFO_TYPE *info;
-	ulong bank;
-	int s_first[CFG_MAX_FLASH_BANKS], s_last[CFG_MAX_FLASH_BANKS];
-	int erased = 0;
-	int planned;
-	int rcode = 0;
-
-	rcode = flash_fill_sect_ranges (addr_first, addr_last, s_first, s_last, &planned );
-
-	if (planned && (rcode == 0)) 
-	{
-		for (bank=0,info=&flash_info[0];(bank<CFG_MAX_FLASH_BANKS) && (rcode == 0); ++bank, ++info)
-		{
-			if (s_first[bank]>=0)
-			{
-				erased += s_last[bank] - s_first[bank] + 1;
-#if defined(SPI_SHOW_PROGRESS)                 
-				printf("Erase Flash from 0x%08lx to 0x%08lx in Bank #%ld ",
-					info->start[s_first[bank]],
-					(s_last[bank] == (info->sector_count-1)) ?
-					(info->start[0] + info->size - 1):(info->start[s_last[bank]+1] - 1),
-					bank+1);
-#endif	/*SPI_SHOW_PROGRESS*/
-				rcode = flash_erase(info, s_first[bank], s_last[bank]);
-			}
-		}
-#if defined(SPI_SHOW_PROGRESS)        
-		printf("Erased %d sectors\n", erased);
-#endif	/*SPI_SHOW_PROGRESS*/
-	} 
-	else if (rcode == 0)
-	{
-		printf("Error: start and/or end address"
-			" not on sector boundary\n");
-		rcode = 1;
-	}
-	return rcode;
-#endif    
+	return spi_flash_erase(sf, offset, sector * CONFIG_ENV_SECT_SIZE);
 }
-
-#ifndef FLLOW_DRIVER
-/*-----------------------------------------------------------------------
- * Set protection status for monitor sectors
- *
- * The monitor is always located in the _first_ Flash bank.
- * If necessary you have to map the second bank at lower addresses.
- */
-void flash_protect (int flag, ulong from, ulong to, FLASH_INFO_TYPE *info)
-{
-	ulong b_end = info->start[0] + info->size - 1;	/* bank end address */
-	short s_end = info->sector_count - 1;	/* index of last sector */
-	int i;
-
-	/* Do nothing if input data is bad. */
-	if (info->sector_count == 0 || info->size == 0 || to < from) {
-		return;
-	}
-
-	printf("flash_protect %s: from 0x%08lX to 0x%08lX\n",
-		(flag & FLAG_PROTECT_SET) ? "ON" :
-			(flag & FLAG_PROTECT_CLEAR) ? "OFF" : "???",
-		from, to);
-
-	/* There is nothing to do if we have no data about the flash
-	 * or the protect range and flash range don't overlap.
-	 */
-	if (info->flash_id == FLASH_UNKNOWN ||
-	    to < info->start[0] || from > b_end) {
-		return;
-	}
-
-	for (i=0; i<info->sector_count; ++i) {
-		ulong end;		/* last address in current sect	*/
-
-		end = (i == s_end) ? b_end : info->start[i + 1] - 1;
-
-		/* Update protection if any part of the sector
-		 * is in the specified range.
-		 */
-		if (from <= end && to >= info->start[i]) {
-			if (flag & FLAG_PROTECT_CLEAR) {
-				info->protect[i] = 0;
-				//printf ("protect off %d\n", i);
-			}
-			else if (flag & FLAG_PROTECT_SET) {
-				info->protect[i] = 1;
-				printf("protect on %d\n", i);
-			}
-		}
-	}
-}
-
-FLASH_INFO_TYPE *addr2info (ulong addr)
-{
-	FLASH_INFO_TYPE *info;
-	int i;
-	
-	for (i=0, info=&flash_info[0]; i<CFG_MAX_FLASH_BANKS; ++i, ++info) {	
-		if (info->flash_id != FLASH_UNKNOWN &&
-		    addr >= info->start[0] &&
-		    /* WARNING - The '- 1' is needed if the flash
-		     * is at the end of the address space, since
-		     * info->start[0] + info->size wraps back to 0.
-		     * Please don't change this unless you understand this.
-		     */
-		    addr <= info->start[0] + info->size - 1) {
-			return (info);
-		}
-	}
-	return (FLASH_INFO_TYPE *)0;
-}
-#endif
 
 /*-----------------------------------------------------------------------
  * Copy memory to flash.
@@ -304,61 +124,14 @@ FLASH_INFO_TYPE *addr2info (ulong addr)
 int
 flash_write (char *src, ulong addr, ulong cnt)
 {
-#ifdef FLLOW_DRIVER
-	if(!sf) {
-        sf = spi_flash_probe(0, 0, 0, 0);
-        if(!sf) {
-            printf("spi flash probe failed\n");
-            return 0;
-        }
-    }
-	return spi_flash_write(sf, addr, cnt, src);
-#else
-	int i;
-	ulong         end        = addr + cnt - 1;
-	FLASH_INFO_TYPE *info_first = addr2info (addr);
-	FLASH_INFO_TYPE *info_last  = addr2info (end );
-	FLASH_INFO_TYPE *info;
-
-	if (cnt == 0) {
-		return (ERR_OK);
+	u32_t offset = (addr-FLASHBASE);
+	u32_t cs = offset/flash_size;
+	struct spi_flash *sf = spi_flash_probe(0, cs, 0, 0);
+    if(!sf) {
+        printf("spi flash %d probe failed\n", cs);
+        return 0;
 	}
-
-	if (!info_first || !info_last) {
-		return (ERR_INVAL);
-	}
-
-	for (info = info_first; info <= info_last; ++info) {
-		ulong b_end = info->start[0] + info->size;	/* bank end addr */
-		short s_end = info->sector_count - 1;
-		for (i=0; i<info->sector_count; ++i) {
-			ulong e_addr = (i == s_end) ? b_end : info->start[i + 1];
-
-			if ((end >= info->start[i]) && (addr < e_addr) &&
-			    (info->protect[i] != 0) ) {
-				return (ERR_PROTECTED);
-			}
-		}
-	}
-
-	/* finally write data to flash */
-	for (info = info_first; info <= info_last && cnt>0; ++info) {
-		ulong len;
-
-		len = info->start[0] + info->size - addr;
-        //printf("flash write from 0x%08x to 0x%08lx\n",
-        //    (u32_t)src, (ulong)addr);
-		if (len > cnt)
-			len = cnt;
-		if ((i = write_buff(info, (uchar *)src, addr, len)) != 0) {
-			return (i);
-		}
-		cnt  -= len;
-		addr += len;
-		src  += len;
-	}
-	return (ERR_OK);
-#endif
+	return spi_flash_write(sf, offset, cnt, src);
 }
  
 /* Function Name: 
@@ -408,7 +181,7 @@ int flash_normal_patterns(u32_t flash_start_addr, u32_t test_size_per_pattern, u
 			}
 			src_start++;
 		}
-		printf("Flash: pattern[%d](0x%x) setting pass\n", i, flash_patterns[i]);
+		printf("Flash:pattern[%d](0x%x) setting pass\n", i, flash_patterns[i]);
 		
 		src_start = (u32_t *)SRC_DATA_ADDR;
 		flash_start = flash_start_addr + ((i*test_size_per_pattern)%flash_test_size);
@@ -416,7 +189,7 @@ int flash_normal_patterns(u32_t flash_start_addr, u32_t test_size_per_pattern, u
 		flash_write((char *)src_start, flash_start, test_size_per_pattern);
 		
 		/* check flash data sequentially. Uncached address */
-		src_start = (u32_t *)(TO_UNCACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(UADDR((u32_t)flash_start));
 		for(j=0; j < test_size_per_pattern; j=j+4)
 		{
 			start_value = (*src_start);
@@ -430,7 +203,7 @@ int flash_normal_patterns(u32_t flash_start_addr, u32_t test_size_per_pattern, u
 		}
 		
 		/* check flash data interlevelingly. Uncached address */
-		src_start = (u32_t *)(TO_UNCACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(UADDR((u32_t)flash_start));
 		for(j=0; j < (test_size_per_pattern/2); j=j+4)
 		{
 			start_value = (*src_start);
@@ -453,7 +226,7 @@ int flash_normal_patterns(u32_t flash_start_addr, u32_t test_size_per_pattern, u
 		
 
 		/* check flash data sequentially. Cached address */
-		src_start = (u32_t *)(TO_CACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(CADDR((u32_t)flash_start));
 		for(j=0; j < test_size_per_pattern; j=j+4)
 		{
 			start_value = (*src_start);
@@ -467,7 +240,7 @@ int flash_normal_patterns(u32_t flash_start_addr, u32_t test_size_per_pattern, u
 		}
 		
 		/* check flash data interlevelingly. Uncached address */
-		src_start = (u32_t *)(TO_CACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(CADDR((u32_t)flash_start));
 		for(j=0; j < (test_size_per_pattern/2); j=j+4)
 		{
 			start_value = (*src_start);
@@ -489,13 +262,10 @@ int flash_normal_patterns(u32_t flash_start_addr, u32_t test_size_per_pattern, u
 		}
 
 		printf("Flash: pattern[%d](0x%x) 0x%x pass\n", i, flash_patterns[i], flash_start);
-		
 		printf("pattern[%d](0x%x) completed\n", i, flash_patterns[i]);
 	}
-	
-
 	printf("%s test succeed.\n", __FUNCTION__);
-	return 0;
+	return MT_SUCCESS;
 }
 
 int flash_walking_of_1(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t flash_test_size)
@@ -506,7 +276,7 @@ int flash_walking_of_1(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 	u32_t start_value;
 	u32_t flash_start;
 	volatile u32_t *src_start;
-    
+	
 	printf("=======start %s test=======\n", __FUNCTION__);
 	for (i=0; i < 32; i++)
 	{
@@ -532,7 +302,7 @@ int flash_walking_of_1(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 			start_value = (*src_start);
 			if(start_value != walk_pattern)
 			{
-				printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
+				printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
 				(u32_t)src_start , start_value, walk_pattern,  __FUNCTION__, __LINE__);
 				HANDLE_FAIL;
 			}
@@ -547,7 +317,7 @@ int flash_walking_of_1(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 
 
 		/* check data */  
-		src_start = (u32_t *)(TO_UNCACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(UADDR((u32_t)flash_start));
 		for(j=0; j < test_size_per_pattern; j=j+4)
 		{
 			start_value = (*src_start);
@@ -560,11 +330,10 @@ int flash_walking_of_1(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 			src_start++;
 		}
 		printf("Flash: pattern[%d](0x%x) 0x%x passed\n", i, walk_pattern, flash_start);
-		
 		printf("pattern[%d](0x%x) completed\n", i, walk_pattern);
 	}
 	printf("%s test succeed.\n", __FUNCTION__);
-	return 0;
+	return MT_SUCCESS;
 }
 
 int flash_walking_of_0(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t flash_test_size)
@@ -575,7 +344,7 @@ int flash_walking_of_0(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 	u32_t walk_pattern;
 	u32_t flash_start;
 	volatile u32_t *src_start;
-    
+	
 	printf("=======start %s test=======\n", __FUNCTION__);
 	for (i=0; i < 32; i++)
 	{
@@ -607,7 +376,7 @@ int flash_walking_of_0(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 			}
 			src_start++;
 		}
-		printf("Flash: pattern[%d](0x%x) setting passed\n", i, walk_pattern);
+		printf("Flash:pattern[%d](0x%x) setting passed\n", i, walk_pattern);
 		
 		src_start = (u32_t *)SRC_DATA_ADDR;
 		flash_start = flash_start_addr + ((i*test_size_per_pattern)%flash_test_size);
@@ -615,7 +384,7 @@ int flash_walking_of_0(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 		flash_write((char *)src_start, flash_start, test_size_per_pattern);
 
 		/* check data */  
-		src_start = (u32_t *)(TO_UNCACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(UADDR((u32_t)flash_start));
 		for(j=0; j < test_size_per_pattern; j=j+4)
 		{
 			start_value = (*src_start);
@@ -627,12 +396,11 @@ int flash_walking_of_0(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 			}
 			src_start++;
 		}
-		printf("Flash: pattern[%d](0x%x) 0x%x passed\n", i, walk_pattern, flash_start);
-		
+		printf("Flash:pattern[%d](0x%x) 0x%x passed\n", i, walk_pattern, flash_start);
 		printf("pattern[%d](0x%x) completed\n", i, walk_pattern);
 	}
 	printf("%s test succeed.\n", __FUNCTION__);
-	return 0;
+	return MT_SUCCESS;
 }
 
 int flash_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t flash_test_size)
@@ -643,7 +411,7 @@ int flash_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t fl
 	u32_t flash_start;
 	volatile u32_t *_dram_start;
 	volatile u32_t *src_start;
-    
+	
 	printf("=======start %s test=======\n", __FUNCTION__);
 	for (i=0; i < 32; i=i+4)
 	{
@@ -682,7 +450,7 @@ int flash_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t fl
 
 		/* check data */  
 		_dram_start = (u32_t *) SRC_DATA_ADDR;
-		src_start = (u32_t *)(TO_UNCACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(UADDR((u32_t)flash_start));
 		for(j=0; j < test_size_per_pattern; j=j+4)
 		{
 			start_value = (*src_start);
@@ -700,7 +468,7 @@ int flash_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t fl
 		printf("rotate %d completed\n", i);
 	}
 	printf("%s test succeed.\n", __FUNCTION__);
-	return 0;
+	return MT_SUCCESS;
 }
 
 int flash_com_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t flash_test_size)
@@ -711,7 +479,7 @@ int flash_com_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 	u32_t flash_start;
 	volatile u32_t *_dram_start;
 	volatile u32_t *src_start;
-    
+	
 	printf("=======start %s test=======\n", __FUNCTION__);
 	for (i=0; i < 32; i=i+4)
 	{
@@ -751,7 +519,7 @@ int flash_com_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 		
 		/* check data */  
 		_dram_start = (u32_t *) SRC_DATA_ADDR;
-		src_start = (u32_t *)(TO_UNCACHED_ADDR((u32_t)flash_start));
+		src_start = (u32_t *)(UADDR((u32_t)flash_start));
 		for(j=0; j < test_size_per_pattern; j=j+4)
 		{
 			start_value = (*src_start);
@@ -769,156 +537,194 @@ int flash_com_addr_rot(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_
 		printf("~rotate %d completed\n", i);
 	}
 	printf("%s test succeed.\n", __FUNCTION__);
-	return 0 ;
+	return MT_SUCCESS;
 }
 
 int _flash_test(u32_t flash_start_addr, u32_t test_size_per_pattern, u32_t flash_test_size)
 {
-	int retcode;
-
 	/* partial range */
-	retcode = flash_normal_patterns( flash_start_addr, test_size_per_pattern, flash_test_size);
-	if(retcode != 0)
-		return retcode;
+	if(MT_SUCCESS != flash_normal_patterns( flash_start_addr, test_size_per_pattern, flash_test_size)){
+		HANDLE_FAIL;
+	}
+	if(MT_SUCCESS != flash_walking_of_1( flash_start_addr, test_size_per_pattern, flash_test_size)){
+		HANDLE_FAIL;
+	}
+	if(MT_SUCCESS != flash_walking_of_0( flash_start_addr, test_size_per_pattern, flash_test_size)){
+		HANDLE_FAIL;
+	}
+	if(MT_SUCCESS != flash_addr_rot( flash_start_addr, test_size_per_pattern, flash_test_size)){
+		HANDLE_FAIL;
+	}
+	if(MT_SUCCESS != flash_com_addr_rot( flash_start_addr, flash_test_size, flash_test_size)){
+		HANDLE_FAIL;
+	}
+	return MT_SUCCESS;
 
-	retcode = flash_walking_of_1( flash_start_addr, test_size_per_pattern, flash_test_size);
-	if(retcode != 0)
-		return retcode;
-
-	retcode = flash_walking_of_0( flash_start_addr, test_size_per_pattern, flash_test_size);
-	if(retcode != 0)
-		return retcode;
-
-	retcode = flash_addr_rot( flash_start_addr, test_size_per_pattern, flash_test_size);
-	if(retcode != 0)
-		return retcode;
-
-	retcode = flash_com_addr_rot( flash_start_addr, flash_test_size, flash_test_size);
-	if(retcode != 0)
-		return retcode;
-
-	return 0;
 }
+
+int spif_cmd_parsing(int argc, char * const argv[], spif_cmd_parsing_info_t *info)
+{
+	u32_t i;
+
+	#define ILL_CMD \
+	({ \
+		printf("ERR: Illegal command (%d).\n",__LINE__);\
+		return MT_FAIL;\
+	})
+
+	/* Initialize the memory test parameters..... */
+	g_err_handle_block_mode = 0;
+	info->test_loops    = 1;
+
+	/* Parse the environment parameter for mt (non-)blocking error mode */
+	g_err_handle_block_mode = getenv_ulong("mt_block_e", 10, 0);
+
+	/* Parse command flag for test range / test loops / mt error (non-)blocking mode */
+	for(i=1 ; i<argc ;)	{
+		if('-' != *argv[i])	ILL_CMD;
+
+		if((strcmp(argv[i],"-loops") == 0) || (strcmp(argv[i],"-l") == 0)){
+			if(((i+1) >= argc) || (isxdigit(*argv[i+1])==0))ILL_CMD;
+			info->test_loops = simple_strtoul(argv[i+1], NULL, 10);
+			info->test_loops = (info->test_loops==0)?1:(info->test_loops);
+			i = i+2;
+                }else if((strcmp (argv[i], "-block_e") == 0) || (strcmp (argv[i], "-b") == 0)){
+                        g_err_handle_block_mode = 1;
+                        i = i+1;
+		}else if(strcmp(argv[i],"-reset") == 0){
+			g_reset_flag = UBOOT_RESET;
+			i = i+1;
+		}else if(strcmp(argv[i],"-reset_all") == 0){
+			g_reset_flag = WHOLE_CHIP_RESET;
+			i = i+1;
+		}else{
+			ILL_CMD;
+		}
+	}
+	return MT_SUCCESS;
+}
+
 
 extern void spi_flash_init(void);
 
-int flash_test(int flag, int argc, void* argv[])
+int flash_test(int flag, int argc, char * const argv[])
 {
 	volatile u32_t *bootcode;
 	volatile u32_t *bk_buffer;
-	int32 retcode = 0;
+	int retcode=MT_SUCCESS;
 	u32_t i;
-    u32_t l, testLoops, flash_backup_addr;
-    
-	if(argc > 1)
-        testLoops = simple_strtoul(argv[1], NULL, 10);
-    else
-        testLoops = 1;
+	u32_t flash_backup_addr;
+	spif_cmd_parsing_info_t cmd_info;
 
-#ifdef FLLOW_DRIVER
-	if(parameters.flash_init_result == INI_RES_UNINIT) {
+	if(MT_FAIL == spif_cmd_parsing(argc, argv, &cmd_info))
+		goto no_recover;
+
+
+	if(parameters.flash_init_result == INI_RES_UNINIT){
 		spi_flash_init();
     }
 	flash_size = 1 << para_flash_info.size_per_chip;
-    printf("flash size = %ldMB\n", flash_size / (0x100000));
-    
-	if(!sf) {
-        sf = spi_flash_probe(0, 0, 0, 0);
-        if(!sf) {
-            printf("spi flash probe failed\n");
-            return 0;
-        }
-    }
-#else
-	flash_size = soc_flash_init();
-#endif
 
-    if ((initdram(0)-CONFIG_SYS_TEXT_BASE) >= TEST_SPACE) {
-  		flash_backup_addr = CONFIG_SYS_TEXT_BASE+TEST_SPACE;
-        src_data_addr = flash_backup_addr + TEST_SIZE_PER_PATTREN;
-    } else if(CONFIG_SYS_TEXT_BASE >= TEST_SPACE) {
-	    flash_backup_addr = CONFIG_SYS_TEXT_BASE-TEST_SPACE;
-        src_data_addr = flash_backup_addr - TEST_SIZE_PER_PATTREN;
-    } else {
-		printf("[Error] No enough space for backup Flash data.\n");
-        return 0;
-    }
-        
+	if((initdram(0)-(CONFIG_SYS_TEXT_BASE&0x1FFFFFFF)) > (flash_size+TEST_SIZE_PER_PATTREN+RSV_SPACE)){
+		flash_backup_addr = CONFIG_SYS_TEXT_BASE+RSV_SPACE;
+	}else if((CONFIG_SYS_TEXT_BASE&0x1FFFFFFF) > (flash_size+TEST_SIZE_PER_PATTREN+RSV_SPACE)){
+	    flash_backup_addr = CONFIG_SYS_TEXT_BASE-flash_size-TEST_SIZE_PER_PATTREN;
+	}else{
+		printf("[Error] No enough space to back up the SPI-Flash data:\n");
+		printf("uBoot_Base=0x%x, DRAM_Size=%dMB\n",CONFIG_SYS_TEXT_BASE,(initdram(0)/SIZE_1MB));
+		return MT_FAIL;
+	}
+	src_data_addr = flash_backup_addr+flash_size;
+
+    printf("flash size = %ldMB\n", (flash_size/SIZE_1MB));
+	printf("FLASH_BACKUP_ADDR: 0x%x\n",flash_backup_addr);
+	printf("SRC_DATA_ADDR: 0x%x\n",src_data_addr);
+
 
 	/* 0. Back up and verify whole flash data. */
 	bk_buffer = (u32_t *)FLASH_BACKUP_ADDR;
-	bootcode = (u32_t *)FLASH_BASE_ADDRESS;
-   	printf("Back up flash data (0x%08x -> 0x%08x) ... ", (u32_t)bootcode, (u32_t)bk_buffer);
+	bootcode = (u32_t *)FLASHBASE;
+	printf("Backing up %ldMB flash data: (0x%08x -> 0x%08x)... ",(flash_size/SIZE_1MB),(u32_t)bootcode,(u32_t)bk_buffer);
 	for(i=0; i<flash_size; i=i+4){
 		*bk_buffer = *bootcode;
 		bk_buffer++;
 		bootcode++;
 	}
 	bk_buffer = (u32_t *)FLASH_BACKUP_ADDR;
-	bootcode = (u32_t *)FLASH_BASE_ADDRESS;
+	bootcode = (u32_t *)FLASHBASE;
 	for(i=0; i<flash_size; i=i+4){
 		if(*bk_buffer != *bootcode){
-			printf("failed\n#Back up flash data error: bk_addr(0x%08x):0x%08x != flash_addr(0x%08x):0x%08x\n"
-				, (u32_t)bk_buffer, *bk_buffer, (u32_t)bootcode, *bootcode);
+			printf("#Back up flash data error: bk_addr(0x%08x):0x%08x != flash_addr(0x%08x):0x%08x\n",\
+			(u32_t)bk_buffer, *bk_buffer, (u32_t)bootcode, *bootcode);
+        	goto no_recover;			
 		}
-
 		bk_buffer++;
 		bootcode++;
 	}
 	puts("done\n");
-    
-	/* protect off flash data. */
-#ifndef FLLOW_DRIVER
-	flash_protect( FLAG_PROTECT_CLEAR, FLASH_BASE_ADDRESS, \
-			FLASH_TOP_ADDRESS(flash_size), addr2info(FLASH_BASE_ADDRESS));
-#endif
-	for(l=1; l<=testLoops; l++) {   
-        if(testLoops>1) printf("[Round %d]\n", l);
+    spi_disable_message();
+
+	for(i=0;i<cmd_info.test_loops;i++){
 		/* 1. Non Boot loader area, in case of unrecoverable operation. */
-		retcode = _flash_test((FLASH_BASE_ADDRESS+JFFS2_START), \
-				TEST_SIZE_PER_PATTREN, (flash_size - JFFS2_START));
-		if(retcode < 0){
-			printf("No recover other data\n");
+		if(MT_FAIL == _flash_test((FLASHBASE+RSV_SPACE),TEST_SIZE_PER_PATTREN,((flash_size*para_flash_info.num_chips)-RSV_SPACE))){
+			printf("[ERROR] Non Boot loader area! No recover other data\n");
 			goto no_recover;
 		}
+		
 		/* 2. Boot loader area. */
-		retcode = _flash_test((FLASH_BASE_ADDRESS), TEST_SIZE_PER_PATTREN, JFFS2_START);
-        puts("\n");
-	}
+        if(MT_FAIL == _flash_test((FLASHBASE), TEST_SIZE_PER_PATTREN, RSV_SPACE)){
+			printf("[ERROR] Boot loader area! No recover other data\n");
+			goto no_recover;
+        }
+		printf("== %d runs mflash_test==\n\n",i);		
+	}//for(i=0;i<cmd_info.test_loops;i++){
+
+	spi_enable_message();
 
 	/* 
 	 * 3. Copy back and verify data into the flash. 
 	 */
-
 	/* 3.1 Loader code */
-	printf("\nRecover flash data (0x%08x -> 0x%08x) ... ", (u32_t)FLASH_BACKUP_ADDR, (u32_t)FLASH_BASE_ADDRESS);
-	flash_sect_erase( FLASH_BASE_ADDRESS, (FLASH_BASE_ADDRESS+JFFS2_START-1));
-	flash_write((char *)FLASH_BACKUP_ADDR, FLASH_BASE_ADDRESS, JFFS2_START);
+	printf("Recover flash loader data (0x%08x -> 0x%08x) ... \n", (u32_t)FLASH_BACKUP_ADDR,(u32_t)FLASHBASE);
+	flash_sect_erase(FLASHBASE, (FLASHBASE+RSV_SPACE-1));
+	flash_write((char *)FLASH_BACKUP_ADDR, FLASHBASE, RSV_SPACE);
 
 	/* 3.2 Other data */
-	flash_sect_erase((FLASH_BASE_ADDRESS+JFFS2_START), FLASH_TOP_ADDRESS(flash_size));
-	flash_write((char *)(FLASH_BACKUP_ADDR+JFFS2_START), (FLASH_BASE_ADDRESS+JFFS2_START), (flash_size-JFFS2_START));
+	printf("Recover data other than loader code:\n");
+	flash_sect_erase((FLASHBASE+RSV_SPACE), FLASH_TOP_ADDRESS(flash_size));
+	flash_write((char *)(FLASH_BACKUP_ADDR+RSV_SPACE), (FLASHBASE+RSV_SPACE), (flash_size-RSV_SPACE));
 
 	/* 3.3 Verify data */
-	printf("done.\nVerify recovered data ... ");
+	printf("Verify recovered data: ");
 	bk_buffer = (u32_t *)FLASH_BACKUP_ADDR;
-	bootcode = (u32_t *)FLASH_BASE_ADDRESS;
+	bootcode = (u32_t *)FLASHBASE;
 	for(i=0; i<flash_size; i=i+4){
 		if(*bk_buffer != *bootcode){
-			printf("failed: bk_addr(0x%08x):0x%08x != flash_addr(0x%08x):0x%08x\n"\
-				, (u32_t)bk_buffer, *bk_buffer, (u32_t)bootcode, *bootcode);
+		printf("#Recover flash data error: bk_addr(0x%08x):0x%08x != flash_addr(0x%08x):0x%08x\n",\
+			(u32_t)bk_buffer, *bk_buffer, (u32_t)bootcode, *bootcode);
 			goto no_recover;
 		}
-
 		bk_buffer++;
 		bootcode++;
 	}
-	if(i==flash_size)
-		printf("done.\n");
+	if(i==flash_size){
+		printf("Verify OK.\n");
+	}
+	goto restore_setting;
 
 no_recover:
+	retcode = MT_FAIL;
+restore_setting:
+    spi_enable_message();
+
+	if(MT_SUCCESS== retcode){
+		/* Reset if the command is sent from the command line */
+		if(UBOOT_RESET == g_reset_flag){
+			do_reset (NULL, 0, 0, NULL);
+		}else if(WHOLE_CHIP_RESET == g_reset_flag){	
+			SYSTEM_RESET();
+		}
+	}
 	return retcode;
-
 }
-
 

@@ -89,6 +89,7 @@
  */
 #include <common.h>
 #include <command.h>
+#include <pblr.h>
 #include <malloc.h>
 #include <jffs2/jffs2.h>
 #include <linux/list.h>
@@ -177,6 +178,9 @@ static int mtd_device_validate(u8 type, u8 num, u32 *size)
 
 		printf("no such FLASH device: %s%d (valid range 0 ... %d\n",
 				MTD_DEV_TYPE(type), num, CONFIG_SYS_MAX_FLASH_BANKS - 1);
+#elif defined(CONFIG_CMD_SF)
+		*size = flash_info[num].size;
+		return 0;
 #else
 		printf("support for FLASH devices not present\n");
 #endif
@@ -245,6 +249,47 @@ static int mtd_id_parse(const char *id, const char **ret_id, u8 *dev_type, u8 *d
 	return 0;
 }
 
+#define LAYOUTI parameters.soc.layout
+
+static inline u32 get_jffs2_part_offset(void)
+{
+	u32 off;
+
+#if defined(CONFIG_JFFS2_OPT2_ADDR) 
+	off = LAYOUTI.opt2_addr;
+#elif defined(CONFIG_JFFS2_OPT3_ADDR)
+	off = LAYOUTI.opt3_addr;
+#elif defined(CONFIG_JFFS2_OPT4_ADDR)
+	off = LAYOUTI.opt4_addr;
+#else
+	off = LAYOUTI.opt1_addr;
+#endif
+	return off;
+}
+
+static inline u32 get_jffs2_part_size(u32 cur_off)
+{
+	u32 idx, size, off, nxt_off=LAYOUTI.end_addr;
+    u32 amount = sizeof(LAYOUTI)/sizeof(u32);
+    const u32 *ptr;
+
+    ptr = &LAYOUTI.bootloader1_addr;
+    
+    for (idx=0; idx<amount; idx++) {	//according to flash_layout_t
+        off = *(ptr+idx);
+        DEBUGF("[%d]off=0x%x\n", idx, off);
+        if ((off>cur_off) && (off<nxt_off)) {
+            nxt_off = off;
+            DEBUGF("nxt_off=0x%x\n", nxt_off);
+        }        
+	}
+
+    size = nxt_off - cur_off;
+    DEBUGF("size=%d (%x)\n", size, size);
+	return size;
+}
+
+
 /*
  * 'Static' version of command line mtdparts_init() routine. Single partition on
  * a single device configuration.
@@ -271,7 +316,7 @@ static inline u32 get_part_sector_size_nand(struct mtdids *id)
 
 static inline u32 get_part_sector_size_nor(struct mtdids *id, struct part_info *part)
 {
-#if defined(CONFIG_CMD_FLASH)
+#if defined(CONFIG_CMD_FLASH) || defined(CONFIG_CMD_SF)
 	extern flash_info_t flash_info[];
 
 	u32 end_phys, start_phys, sector_size = 0, size = 0;
@@ -394,17 +439,17 @@ int mtdparts_init(void)
 		part->name = "static";
 		part->auto_name = 0;
 
-#if defined(CONFIG_JFFS2_PART_SIZE)
-		part->size = CONFIG_JFFS2_PART_SIZE;
-#else
-		part->size = SIZE_REMAINING;
-#endif
-
 #if defined(CONFIG_JFFS2_PART_OFFSET)
 		part->offset = CONFIG_JFFS2_PART_OFFSET;
 #else
-		part->offset = 0x00000000;
+		part->offset = get_jffs2_part_offset();//0x00000000;
 #endif
+
+#if defined(CONFIG_JFFS2_PART_SIZE)
+		part->size = CONFIG_JFFS2_PART_SIZE;
+#else
+		part->size = get_jffs2_part_size(part->offset);//SIZE_REMAINING;
+#endif		
 
 		part->dev = current_mtd_dev;
 		INIT_LIST_HEAD(&part->link);
@@ -413,8 +458,8 @@ int mtdparts_init(void)
 		if (part->size == SIZE_REMAINING)
 			part->size = id->size - part->offset;
 
-		part->sector_size = get_part_sector_size(id, part);
-
+        part->sector_size = get_part_sector_size(id, part);
+        
 		DEBUGF("part  : name = %s, size = 0x%08lx, offset = 0x%08lx\n",
 				part->name, part->size, part->offset);
 

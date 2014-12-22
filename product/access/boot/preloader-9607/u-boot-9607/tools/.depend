@@ -14,8 +14,8 @@ env_embedded.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/asm/config.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/environment.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -39,7 +39,7 @@ env_embedded.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -52,8 +52,8 @@ image.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/tools/mkimage.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/tools/os_support.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -77,7 +77,7 @@ image.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -103,8 +103,8 @@ image.o: \
 crc32.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/crc32.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -128,7 +128,7 @@ crc32.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -140,8 +140,8 @@ crc32.o: \
 md5.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/md5.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -165,7 +165,7 @@ md5.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -181,7 +181,7 @@ sha1.o: \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
  /usr/include/i386-linux-gnu/gnu/stubs.h \
  /usr/include/i386-linux-gnu/gnu/stubs-32.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h /usr/include/xlocale.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h /usr/include/xlocale.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/watchdog.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/sha1.h
 envcrc.o: \
@@ -195,14 +195,14 @@ envcrc.o: \
  /usr/include/i386-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
  /usr/include/i386-linux-gnu/asm/errno.h /usr/include/asm-generic/errno.h \
  /usr/include/asm-generic/errno-base.h /usr/include/stdio.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
  /usr/include/i386-linux-gnu/bits/types.h \
  /usr/include/i386-linux-gnu/bits/typesizes.h /usr/include/libio.h \
  /usr/include/_G_config.h /usr/include/wchar.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/i386-linux-gnu/bits/wchar.h /usr/include/stdlib.h \
  /usr/include/i386-linux-gnu/bits/waitflags.h \
  /usr/include/i386-linux-gnu/bits/waitstatus.h /usr/include/endian.h \
@@ -239,11 +239,11 @@ gen_eth_addr.o: \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
  /usr/include/i386-linux-gnu/gnu/stubs.h \
  /usr/include/i386-linux-gnu/gnu/stubs-32.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
  /usr/include/i386-linux-gnu/bits/types.h \
  /usr/include/i386-linux-gnu/bits/typesizes.h /usr/include/libio.h \
  /usr/include/_G_config.h /usr/include/wchar.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/stdlib.h \
  /usr/include/i386-linux-gnu/bits/waitflags.h \
@@ -265,8 +265,8 @@ fdt.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/libfdt/fdt.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/libfdt_env.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -290,7 +290,7 @@ fdt.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -307,8 +307,8 @@ fdt_ro.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/libfdt/fdt_ro.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/libfdt_env.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -332,7 +332,7 @@ fdt_ro.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -349,8 +349,8 @@ fdt_rw.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/libfdt/fdt_rw.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/libfdt_env.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -374,7 +374,7 @@ fdt_rw.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -391,8 +391,8 @@ fdt_strerror.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/libfdt/fdt_strerror.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/libfdt_env.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -416,7 +416,7 @@ fdt_strerror.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \
@@ -433,8 +433,8 @@ fdt_wip.o: \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/lib/libfdt/fdt_wip.c \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/libfdt_env.h \
  /opt/workspace/rtl9607/product/access/boot/preloader-9607/u-boot-9607/include/compiler.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stddef.h \
- /usr/lib/gcc/i686-linux-gnu/4.7/include/stdint.h /usr/include/stdint.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stddef.h \
+ /usr/lib/gcc/i686-linux-gnu/4.6/include/stdint.h /usr/include/stdint.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
  /usr/include/i386-linux-gnu/sys/cdefs.h \
  /usr/include/i386-linux-gnu/bits/wordsize.h \
@@ -458,7 +458,7 @@ fdt_wip.o: \
  /usr/include/i386-linux-gnu/sys/sysmacros.h \
  /usr/include/i386-linux-gnu/bits/pthreadtypes.h /usr/include/alloca.h \
  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
- /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.7/include/stdarg.h \
+ /usr/include/wchar.h /usr/lib/gcc/i686-linux-gnu/4.6/include/stdarg.h \
  /usr/include/i386-linux-gnu/bits/stdio_lim.h \
  /usr/include/i386-linux-gnu/bits/sys_errlist.h /usr/include/string.h \
  /usr/include/xlocale.h /usr/include/i386-linux-gnu/sys/mman.h \

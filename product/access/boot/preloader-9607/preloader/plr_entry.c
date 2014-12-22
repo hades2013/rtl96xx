@@ -10,6 +10,12 @@ extern sw_patch_t *LS_sw_patch_end;
 extern u32_t start_of_bss, end_of_bss;
 extern spare_header_t spare_headers[];
 
+static u32_t uart_accessed_before_init = 0;
+void otto_sentinel_putc(char c) {
+	uart_accessed_before_init++;
+	return;
+}
+
 #if (OTTO_NAND_FLASH == 1)
 __attribute__ ((section ("entry.text"))) 
 #endif
@@ -22,6 +28,9 @@ void c_start_epilogue(void)
 	parameters.dram_init_result=INI_RES_UNINIT;
 	parameters.flash_init_result=INI_RES_UNINIT;
 	parameters._pblr_printf=printf;
+
+	// point putc to the sentinel function
+	parameters._uart_putc = otto_sentinel_putc;
 
 #if SOC_NUM_DRAM_SPARE > 0
 #define DRAMI (parameters.soc.dram_info)
@@ -46,6 +55,9 @@ void c_start_epilogue(void)
 #else
     platform_init_phase_2();
 #endif
+    if (uart_accessed_before_init != 0x0) {
+	    printf("II: Bytes sent before UART intialized: %d\n", uart_accessed_before_init);
+    }
 
 	flash_init();
 

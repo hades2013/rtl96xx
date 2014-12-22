@@ -68,7 +68,7 @@ endif
 # compilation flags
 CINCF=-I./include -I./platform/current/cpu -I./platform/current -I../release
 CDEBUGF=-g -Wall -Wno-unused-parameter
-CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DTBASE=$(TBASE) -DREVISION="\"$(revision)\""
+CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DTBASE=$(TBASE) -DREVISION="\"$(revision)\"" -DREL_VER="\"$(rel_ver)\"" -DCMU_DIVISOR=2
 CFLAGS=$(CDEFF) $(CINCF) -nostdinc -fno-pic -fno-builtin $(CARCHF) $(CFLAGS_OPT) $(CDEBUGF)
 LDEFF=--defsym=CACHELINE_SIZE=$(CACHELINE_SIZE) --defsym=SOC_CONF_OFFSET=$(SOC_CONF_OFFSET) --defsym=PLR_BASE=$(PRELOADER_BASE) --defsym=on_flash_vma_gap=$(ON_FLASH_VMA_GAP) --defsym=LMA_base=0 $(PLR_SRAM_DEF)
 LFLAGS=-static $(LDEFF) 
@@ -98,7 +98,7 @@ all: ./include/zlib/zlib.h $(LPRELOADER_IMG) $(PRELOADER_IMG)
 plr.img: plr.out
 	$(OBJCPY_PROMPT) $(OC) --gap-fill=0xff -O binary $^ $@
 	@echo "\n*'$@':" `du --apparent-size -h $@ | cut -f1` "(`du --apparent-size -b $@ | cut -f1` Bytes)"
-	@echo "*in SRAM size:" `$(NM) --radix=d plr.out | grep LS_preloader_in_SRAM_sz | cut -d ' ' -f1` "Bytes (bss/data/ro included, but stack excluded)"
+	@echo "*in SRAM size:" `$(NM) --radix=d plr.out | grep LS_preloader_in_SRAM_sz | cut -d ' ' -f1` "Bytes (data/ro included, but bss/stack excluded)"
 
 plr.out: $(PLR_OBJ)
 	$(LINK_PROMPT) $(LD) $(LFLAGS) -T $(PLR_LDS) -e c_start_epilogue -o $@ $^

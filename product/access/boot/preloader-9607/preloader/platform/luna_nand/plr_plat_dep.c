@@ -2,7 +2,7 @@
 #include <soc.h>
 #include <plr_pll_gen1.h>
 
-#include "rlx5281_cache_op.h"
+#include <rlx5281_cache_op.h>
 
 #include "bspchip.h"
 #include "dram/plr_dram_gen2.h"
@@ -60,6 +60,7 @@ void plat_memctl_ZQ_force_config(void)
     return; //return 0;
 
 }
+#if 0
 /*
  * setting clock reverse indication.
  * Can't run in DRAM.
@@ -68,31 +69,26 @@ void plat_mem_clk_rev_check(void)
 {
     unsigned int *clk_rev_ctl_reg;
     unsigned int clk_rev;
-    unsigned int cpu_clk;
     unsigned int mem_clk;
     unsigned int lx_clk;
 
     clk_rev = 0;
     clk_rev_ctl_reg = (unsigned int *)SYSREG_CMUCTLR_REG;
 
-    cpu_clk = plat_memctl_CPU_clock_MHz();
     mem_clk = plat_memctl_MEM_clock_MHz();
     lx_clk = plat_memctl_LX_clock_MHz();
 
-    if(cpu_clk < mem_clk)
-        clk_rev = (clk_rev | SYSREG_OCP0_SMALLER_MASK | SYSREG_OCP1_SMALLER_MASK);
-
     if(lx_clk < mem_clk){
         clk_rev = (clk_rev | SYSREG_LX0_SMALLER_MASK | SYSREG_LX1_SMALLER_MASK | SYSREG_LX2_SMALLER_MASK);
-        //clk_rev = (clk_rev | LX1_SMALLER_MEM ); /* 20110830: We only can change LX1 freq. */
     }
+
     *clk_rev_ctl_reg = (*clk_rev_ctl_reg & 
-                        ~(SYSREG_OCP0_SMALLER_MASK | SYSREG_OCP1_SMALLER_MASK | SYSREG_LX0_SMALLER_MASK | SYSREG_LX1_SMALLER_MASK | SYSREG_LX2_SMALLER_MASK) )
+                        ~(SYSREG_LX0_SMALLER_MASK | SYSREG_LX1_SMALLER_MASK | SYSREG_LX2_SMALLER_MASK) )
                         | clk_rev ;
 
     return;
-
 }
+#endif
 
  /* CPU related (cache flush) */
 void plat_memctl_dcache_flush(void)
@@ -258,23 +254,9 @@ void plat_memctl_IO_PAD_patch(void)
 }
 #endif
 
-void plat_memctl_show_dram_config(void)
-{
-    unsigned int i;
-    volatile unsigned int *phy_reg;
-    _memctl_debug_printf_I("\n");
-    _memctl_debug_printf_I("DDRKODL(0x%08x):0x%08x\n",\
-                 DDRCKODL_A, REG32(DDRCKODL_A));
-    _memctl_debug_printf_I("MCR (0x%08x):0x%08x, 0x%08x, 0x%08x, 0x%08x\n", \
-                MCR, REG32(MCR), REG32(DCR), REG32(DTR0), REG32(DTR1));
-    _memctl_debug_printf_I("DTR2(0x%08x):0x%08x\n", DTR2, REG32(DTR2));
-    _memctl_debug_printf_I("PHY Registers(0x%08x):\n", DACCR);
-    phy_reg = (volatile unsigned int *)DACCR;
-    for(i=0;i<11;i++){
-        _memctl_debug_printf_I("0x%08x:0x%08x, 0x%08x, 0x%08x, 0x%08x\n", \
-                phy_reg, *(phy_reg), *(phy_reg+1), *(phy_reg+2), *(phy_reg+3) );
-        phy_reg+=4;
-    }
+void plat_memctl_show_dram_config(void) {
+	printf("DRCKO: %08x\n", REG32(DDRCKODL_A));
+	return;
 }
 
 u32_t plat_memctl_calculate_dqrf_delay(u32_t max_w_seq_start, u32_t max_w_len, u32_t max_r_seq_start, u32_t max_r_len) 

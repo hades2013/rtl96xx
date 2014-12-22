@@ -143,8 +143,8 @@ C_start(void) {
 
     // copy parameters from soc_configuration to parameter_to_bootloader
     pbldr_wzero(&parameters, sizeof(parameter_to_bootloader_t)/sizeof(u32_t));
-    pbldr_wmemcpy((flash_info_t*)&flash_info, 
-        &(soc_configuration.info), sizeof(flash_info_t)/sizeof(u32_t));
+    pbldr_wmemcpy((plr_flash_info_t*)&flash_info, 
+        &(soc_configuration.info), sizeof(plr_flash_info_t)/sizeof(u32_t));
 
     // set up function points
     parameters._nand_read_bbi=_nand_read_bbi;

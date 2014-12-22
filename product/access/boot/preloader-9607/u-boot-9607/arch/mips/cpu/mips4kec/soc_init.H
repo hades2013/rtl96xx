@@ -1,1 +1,1 @@
-../../soc-generic/soc_init.H
+/* Dummy file for standalone U-Boot. */

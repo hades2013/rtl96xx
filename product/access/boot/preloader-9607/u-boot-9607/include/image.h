@@ -434,7 +434,7 @@ image_set_hdr_l(hcrc)		/* image_set_hcrc */
 image_set_hdr_l(time)		/* image_set_time */
 image_set_hdr_l(size)		/* image_set_size */
 image_set_hdr_l(load)		/* image_set_load */
-image_set_hdr_l(ep)			/* image_set_ep */
+image_set_hdr_l(ep)		/* image_set_ep */
 image_set_hdr_l(dcrc)		/* image_set_dcrc */
 
 #define image_set_hdr_b(f) \

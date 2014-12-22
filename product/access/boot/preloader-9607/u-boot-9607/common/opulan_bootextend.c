@@ -1242,7 +1242,7 @@ int PwReadline(char *repeat_last)
              * Must be a normal character then
              */
             if (n < CONFIG_SYS_CBSIZE-2) {
-                    if  ((c>=0x30 && c<=0x39) || (c>=0x41 && c<=0x5a) || (c>=0x61 && c<=0x7a) || (c==0x5f)) // modify by dengjian 2012-07-23 for u-boot ST
+                    if  ((c>=0x30 && c<=0x39) || (c>=0x41 && c<=0x5a) || (c>=0x61 && c<=0x7a) || (c=='_') || (c=='-')) // modify by dengjian 2012-07-23 for u-boot ST
                     {   
                     ++col;      /* echo input       */
                     

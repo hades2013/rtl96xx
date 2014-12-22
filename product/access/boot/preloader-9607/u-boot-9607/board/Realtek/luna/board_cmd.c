@@ -633,15 +633,15 @@ U_BOOT_CMD(
 U_BOOT_CMD(
         mdram_test,    10,    1,     do_dram_test,
         "mdram_test   - do DRAM test.",
-        "[-l/-loops <test loops>] [-r/-range <star address> <test size>] [-b/-block_e] [-reset] [-reset_all]\n"
-        "    - do DRAM test."
+        "[-l/-loops <test loops>] [-r/-range <star address> <test size>] [-b/-block_e] [-reset <all>]\n"
+	"    - do DRAM test."
 );
 #endif
 #ifdef CONFIG_CMD_FLASH_TEST
 U_BOOT_CMD(
         mflash_test,    4,    1,     do_flash_test,
         "mflash_test   - do flash test.",
-        "[-l/-loops <test loops>][-b/-block_e] [-reset] [-reset_all]\n"
+        "[-l/-loops <test loops>][-b/-block_e] [-reset <all>]\n"
         "    - do flash test."
 );
 #endif

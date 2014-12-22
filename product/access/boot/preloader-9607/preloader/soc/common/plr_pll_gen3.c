@@ -99,24 +99,9 @@ pll_gen3_setup(void) {
 	/* Retrive PLL register value */
 	pll_param_p = &(parameters.soc.pll_info);
 
-	//#define PLL_GEN3_DBG
-#ifdef PLL_GEN3_DBG
-	printf("set_by=%d\n", pll_param_p->set_by);
-	printf("pll_cpu_ctl0=0x%08x\n",  pll_param_p->pll_cpu_ctl0);
-	printf("pll_cpu_ctl1=0x%08x\n",  pll_param_p->pll_cpu_ctl1);
-	printf("pll_cpu_misc_ctrl=0x%08x\n",  pll_param_p->pll_cpu_misc_ctrl);
-	printf("pll_mem_ctl0 =0x%08x\n",  pll_param_p->pll_mem_ctl0);
-	printf("pll_mem_ctl1 =0x%08x\n",  pll_param_p->pll_mem_ctl1);
-	printf("pll_mem_misc_ctrl =0x%08x\n",  pll_param_p->pll_mem_misc_ctrl);
-#endif
-
 	if (pll_param_p->set_by == 1) {
 		/* 1-software or 0-pin */
 		otto_pll_gen3_set_to_reg((pll_info_t *)pll_param_p,(OTTO_PLL_CPU_SET|OTTO_PLL_MEM_SET));
-		printf("\rII: PLL is set by SW... ");
-	} else {
-		/* PLL is set by HW strapped-pin */
-		printf("\rPLL is set by HW pin... ");
 	}
 
 	pll_query_freq(PLL_DEV_CPU);
@@ -134,9 +119,6 @@ pll_query_freq(u32_t dev) {
 			_pll_freq[PLL_DEV_CPU] = pll_mhz.cpu;
 			_pll_freq[PLL_DEV_LX]  = pll_mhz.lx;
 			_pll_freq[PLL_DEV_MEM] = pll_mhz.mem;
-		} else {
-			printf("EE: %s fails: %d\n", __func__, res);
-			while (1);
 		}
 	}
 

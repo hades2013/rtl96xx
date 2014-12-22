@@ -38,22 +38,28 @@ swp_query_mem_clk(void){
 }
 u32_t
 query_pg1_uart_baudrate(void) {
-    /* Foumula: baudrate = LX_CLK_HZ/(16*divisor)
-            <-->divisor = LX_CLK_HZ/(16*baudrate) */
-    const u32_t rate[6] = {9600, 14400, 19200, 38400, 57600, 115200};
-	u32_t idx=0, baudrate;
-    pll_gen1_mhz_t mhz;
+	/* Foumula: baudrate = LX_CLK_HZ/(16*divisor)
+	   <-->divisor = LX_CLK_HZ/(16*baudrate) */
+	const u32_t rate[6] = {9600, 14400, 19200, 38400, 57600, 115200};
+	static u32_t baudrate = 0xffffffff;
+	u32_t idx=0;
+	pll_gen1_mhz_t mhz;
+
+	if (baudrate != 0xffffffff) {
+		return baudrate;
+	}
+
 	pll_gen1_get_to_mhz(&para_pll_info, &mhz);
-    baudrate = (mhz.lx * 1000000)/(16 * parameters.soc.peri_info.baudrate_divisor);
+	baudrate = (mhz.lx * 1000000)/(16 * parameters.soc.peri_info.baudrate_divisor);
 
 	for(idx=0; idx<6; idx++) {
-        if ((idx==0) && (baudrate < rate[idx+1])) break;
-        else if (idx>=5) break;
-        else if ((idx<5) && (baudrate < rate[idx+1])
-            && (baudrate >= rate[idx]) ) break;
-    }
-    //printf("%s = %d\n\n", __FUNCTION__, rate[idx]);
-    return rate[idx];
+		if ((idx==0) && (baudrate < rate[idx+1])) break;
+		else if (idx>=5) break;
+		else if ((idx<5) && (baudrate < rate[idx+1])
+		         && (baudrate >= rate[idx]) ) break;
+	}
+	baudrate = rate[idx];
+	return baudrate;
 }
 u32_t
 set_pg1_uart_baud_div(const u32_t baudrate) {

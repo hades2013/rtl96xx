@@ -7,20 +7,11 @@
    PLL_DEV_MEM == 2, and PLL_DEV_DSP == 3 */
 static u32_t _pll_freq[4]={PLL_MHZ_UNKNOWN, PLL_MHZ_UNKNOWN,
                            PLL_MHZ_UNKNOWN, PLL_MHZ_UNKNOWN};
+#if defined(CMU_DIVISOR)
+static u32_t cmu_div = 1;
+#endif
 
 void pll_gen1_setup(void) {
-
-//#define PLL_GEN1_DBG
-#ifdef PLL_GEN1_DBG
-    printf("set_by=%d\n", PLLI.set_by);
-    printf("sysclk_control_reg_25mhz=0x%08x\n",  PLLI.sysclk_control_reg_25mhz);
-    printf("lx_pll_sel_reg_25mhz    =0x%08x\n",  PLLI.lx_pll_sel_reg_25mhz);
-    printf("sysclk_control_reg_40mhz=0x%08x\n",  PLLI.sysclk_control_reg_40mhz);
-    printf("lx_pll_sel_reg_40mhz    =0x%08x\n",  PLLI.lx_pll_sel_reg_40mhz);
-    printf("mckg_phs_sel_reg        =0x%08x\n",  PLLI.mckg_phs_sel_reg);
-    printf("mckg_freq_div_reg       =0x%08x\n",  PLLI.mckg_freq_div_reg);
-#endif /* #ifdef PLL_GEN1_DBG */
-
     if(PLLI.set_by == 1) { /* 1-software or 0-pin */
         otto_pll_gen1_set(PLLI.sysclk_control_reg_25mhz,
                           PLLI.sysclk_control_reg_40mhz,
@@ -29,10 +20,8 @@ void pll_gen1_setup(void) {
                           PLLI.lx_pll_sel_reg_25mhz,
                           PLLI.lx_pll_sel_reg_40mhz,
                           (OTTO_PLL_CPU_SET | OTTO_PLL_DSP_SET | OTTO_PLL_MEM_SET | OTTO_PLL_LX_SET));
-        printf("\rII: PLL is set by SW... ");
-    } else { /* PLL is set by HW pin */
-        printf("\rPLL is set by HW pin... ");
     }
+
     pll_query_freq(PLL_DEV_CPU);
 }
 
@@ -219,11 +208,8 @@ pll_gen1_get_to_mhz(const pll_info_t *pll_reg,
 		if (REG32(SYSREG_LX_PLL_SEL_REG_A) == 0) {
 			if (osc_mhz == 25) {
 				tmp.lx_pll_sel_reg_25mhz = 8;
-			} else if (osc_mhz == 40) {
-				tmp.lx_pll_sel_reg_25mhz = 10;
 			} else {
-				res = PLL_RES_BAD_OSC_FREQ;
-				return res;
+				tmp.lx_pll_sel_reg_25mhz = 10;
 			}
 		} else {
 			tmp.lx_pll_sel_reg_25mhz = REG32(SYSREG_LX_PLL_SEL_REG_A);
@@ -246,18 +232,106 @@ pll_query_freq(u32_t dev) {
 
 		res = pll_gen1_get_to_mhz(NULL, &pll_mhz);
 		if (res == PLL_RES_OK) {
+#if defined(CMU_DIVISOR)
+			_pll_freq[PLL_DEV_CPU] = pll_mhz.cpu / cmu_div;
+			_pll_freq[PLL_DEV_LX]  = pll_mhz.lx  / cmu_div;
+			_pll_freq[PLL_DEV_DSP] = pll_mhz.dsp / cmu_div;
+#else
 			_pll_freq[PLL_DEV_CPU] = pll_mhz.cpu;
 			_pll_freq[PLL_DEV_LX]  = pll_mhz.lx;
-			_pll_freq[PLL_DEV_MEM] = pll_mhz.mem;
 			_pll_freq[PLL_DEV_DSP] = pll_mhz.dsp;
-		} else {
-			printf("EE: %s fails: %d\n", __func__, res);
-			while (1);
+#endif
+			_pll_freq[PLL_DEV_MEM] = pll_mhz.mem;
 		}
 	}
 
 	return _pll_freq[dev];
 }
+
+#if defined(CMU_DIVISOR)
+#define CMUCTRL      (*((volatile u32_t *)0xB8000308))
+#define CMU_OC0_DIVo 23
+#define CMU_OC1_DIVo 20
+#define CMU_LX0_DIVo 17
+#define CMU_LX1_DIVo 14
+#define CMU_LX2_DIVo 11
+#define CMU_LXP_DIVo 8
+#define CMU_MODEo    6
+#define CMU_MODE_DIS    (0 << CMU_MODEo)
+#define CMU_MODE_EN_FIX (1 << CMU_MODEo)
+#define CMU_MODE_EN_DYN (2 << CMU_MODEo)
+#define CMU_OC0_SLOWo 4
+#define CMU_OC1_SLOWo 3
+#define CMU_LX0_SLOWo 2
+#define CMU_LX1_SLOWo 1
+#define CMU_LX2_SLOWo 0
+
+void cmu_setup_info(void) {
+	u32_t cmu_ctrl = CMUCTRL;
+
+	printf("II: Enabled CMU with divisor %d... STM:", cmu_div);
+
+	if (cmu_ctrl & (1 << CMU_OC0_SLOWo)) {
+		pblr_puts(" OC0");
+	}
+	if (cmu_ctrl & (1 << CMU_OC1_SLOWo)) {
+		pblr_puts(" OC1");
+	}
+	if (cmu_ctrl & (1 << CMU_LX0_SLOWo)) {
+		pblr_puts(" LX0");
+	}
+	if (cmu_ctrl & (1 << CMU_LX1_SLOWo)) {
+		pblr_puts(" LX1");
+	}
+	if (cmu_ctrl & (1 << CMU_LX2_SLOWo)) {
+		pblr_puts(" LX2");
+	}
+
+	pblr_puts("\n");
+	return;
+}
+
+void cmu_division(u32_t divisor) {
+	u32_t div_factor, cmu_ctrl, tmp_divisor;
+	u32_t cmu_mode;
+	u32_t targ_freq_oc0, targ_freq_oc1, targ_freq_lx;
+
+	divisor &= 0x000000ff; // to cap the max divisor to 128.
+
+	div_factor = 0;
+	cmu_ctrl = 0;
+
+	if (divisor <= 1) {
+		cmu_mode = CMU_MODE_DIS;
+	} else {
+		cmu_mode = CMU_MODE_EN_FIX;
+
+		tmp_divisor = divisor;
+		while (tmp_divisor >>= 1) {
+			div_factor++;
+		}
+	}
+
+	cmu_ctrl |= ((div_factor << CMU_OC0_DIVo) | (div_factor << CMU_OC1_DIVo) |
+	             (div_factor << CMU_LX0_DIVo) | (div_factor << CMU_LX2_DIVo) |
+	             (div_factor << CMU_LXP_DIVo) | cmu_mode);
+
+	targ_freq_oc0 = pll_query_freq(PLL_DEV_CPU) * cmu_div / divisor;
+	targ_freq_oc1 = pll_query_freq(PLL_DEV_DSP) * cmu_div / divisor;
+	targ_freq_lx  = pll_query_freq(PLL_DEV_LX)  * cmu_div / divisor;
+
+	CMUCTRL = cmu_ctrl;
+	cmu_div = divisor;
+
+	_pll_freq[PLL_DEV_CPU] = targ_freq_oc0;
+	_pll_freq[PLL_DEV_LX]  = targ_freq_lx;
+	_pll_freq[PLL_DEV_DSP] = targ_freq_oc1;
+
+	udelay(100);
+
+	return;
+}
+#endif
 
 #if (defined(PLR_ENABLE_PLL_SET) || \
      defined(CONFIG_STANDALONE_UBOOT))

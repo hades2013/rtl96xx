@@ -22,6 +22,7 @@ RELEASE_DIR := $(OTTO_ROOT)/release
 PRELOADER_DIR := $(OTTO_ROOT)/preloader
 CURRENT_PLATFORM := $(PRELOADER_DIR)/platform/current
 LOADER_IMG := $(RELEASE_DIR)/loader.img
+LOADER_PIMG := $(RELEASE_DIR)/loader.pimg
 FINAL_IMG := $(RELEASE_DIR)/final.img
 LPRELOADER := $(RELEASE_DIR)/lplr.img
 PRELOADER := $(RELEASE_DIR)/plr.img
@@ -54,6 +55,11 @@ compose_all: $(BEFORE_COMPOSE)
 	    -e "set rootfs_image [list $(ROOTFS_IMG)]" \
 	    -e "source $(PARTS_DB_DIR)/otto_lib.tcl" \
 	    && dd if=$(FINAL_IMG) of=$(FINAL_IMG).4k0 bs=4096 count=1
+
+pimg: 
+	@[ -f $(LOADER_IMG) ] && \
+	  $(UTIL_DIR)/u_boot_mkimage -C none -O u-boot -A mips -T firmware -n "media converter firmware" -d $(LOADER_IMG) $(LOADER_PIMG) || \
+	  echo EE: $(LOADER_IMG) does not exist.
 
 dumpcfg: $(BEFORE_COMPOSE)
 	@[ -f $(LOADER_IMG) ] && \

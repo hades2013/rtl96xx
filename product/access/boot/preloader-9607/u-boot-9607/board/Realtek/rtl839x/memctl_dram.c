@@ -2,33 +2,58 @@
 /*
  * Include Files
  */
-//#include <common.h>
-//#include <exports.h>
-//#include "board_common.h"
 #include <soc.h>
 #include <pblr.h>
+#include <linux/ctype.h>
 #include "memctl.h"
+
+
+/* Definitions for memory test error handing manner */
+#define MT_SUCCESS    (0)
+#define MT_FAIL       (-1)
+
+/* Definitions for memory test reset mode */
+enum RESET_MODE{
+	NO_RESET = 0,	
+	UBOOT_RESET = 1,	
+	WHOLE_CHIP_RESET = 2,
+};
+
+//The default seting of memory test error handling manner is non-blocking 
+//Using "Environment parameter" or "command flag setting" can change this
+//"Environment parameter": setenv mt_freeze_block debug
+//"command flag setting": mdram_test/mflash_test -b/-mt_block
+static u32_t g_err_handle_block_mode=0; 
+static u32_t g_reset_flag=NO_RESET;
+
+#define HANDLE_FAIL \
+({ \
+	printf("%s (%d) test failed.\n", __FUNCTION__,__LINE__);\
+	if(!g_err_handle_block_mode){\
+		return MT_FAIL;\
+	}else{ \
+		while(1);\
+	} \
+})
+
+
 #define _cache_flush	pblr_dc_flushall
 
-
-/*Platform independent parameter*/
-#ifdef CONFIG_MT_ERR_HANDLE
-#define HANDLE_FAIL return -1;
-#else
-#define HANDLE_FAIL while(1);
-#endif
-
-/*Cases dependent parameter*/
-#define TAREA_MAX		(2)
-#define TAREA1_START	(0x80000000)
-#define TAREA1_END		(CONFIG_SYS_TEXT_BASE - 0x300000)
-#define TAREA2_START	(CONFIG_SYS_TEXT_BASE + 0x300000)
-#define TAREA1_SIZE		(unsigned int)((TAREA1_END&0x1FFFFFFF))	// offset 0x0~TEXT BASE-0x300000
-#define TAREA2_SIZE		(unsigned int)(initdram(0)-(TAREA2_START&0x1FFFFFFF))	// offset+0x4000000~end
-#define CFG_DCACHE_SIZE (0x20)
+/* 
+ * DRAM TEST RANGES:
+ * TEST_AREA1: From 0 ~ (UBOOT_BASE-SIZE_3MB)
+ * TEST_AREA2: From (UBOOT_BASE+SIZE_3MB) ~ DRAM_END
+ */
+#define SIZE_3MB   (0x300000)
+#define VA_TO_PA(VAddr)     (VAddr&0x1FFFFFFF)	//Physical address
+#define TEST_AREA_BASE1     (unsigned int)(0x80000000)
+#define TEST_AREA_BASE1_END (unsigned int)(CONFIG_SYS_TEXT_BASE - SIZE_3MB)
+#define TEST_AREA_SIZE1	    (unsigned int)(TEST_AREA_BASE1_END&0x1FFFFFFF) 
+#define TEST_AREA_BASE2     (unsigned int)(CONFIG_SYS_TEXT_BASE + SIZE_3MB)
+#define TEST_AREA_SIZE2	    (unsigned int)(initdram(0) - (TEST_AREA_BASE2&0x1FFFFFFF))
+#define CFG_DCACHE_SIZE (0x10)
 
 #define MEMCTL_DEBUG_PRINTF printf
-//#define MEMCTL_DEBUG_PRINTF(...)
 
 const unsigned int dram_patterns[] =	{
 					0x00000000,
@@ -79,12 +104,24 @@ const unsigned int toggle_pattern[] = {
 					0xA5A55A5A,
 				};
 
+/**************************
+  * Command Parsing
+  *************************/ 
+typedef struct {
+	u32_t start_addr[2];
+	u32_t test_size[2];
+	u8_t area_num;
+	u8_t test_loops;
+} ddr_cmd_parsing_info_t;
+
+
 /*
  * Function Declaration
  */
 extern unsigned int board_DRAM_freq_mhz(void);
 
 void (*f)(void) = (void *) 0xbfc00000;
+
 
 int dram_normal_patterns(u32_t dram_start, u32_t dram_size, u32_t area_size)
 {
@@ -96,7 +133,8 @@ int dram_normal_patterns(u32_t dram_start, u32_t dram_size, u32_t area_size)
 
 
     MEMCTL_DEBUG_PRINTF("=======start %s test=======\r", __FUNCTION__);
-    for (i=0; i < (sizeof(dram_patterns)/sizeof(u32_t)); i++) {
+    for (i=0; i < (sizeof(dram_patterns)/sizeof(u32_t)); i++)
+    {
 		_cache_flush();
 
         /* write pattern*/
@@ -108,7 +146,7 @@ int dram_normal_patterns(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start++;
         }
 
-	_cache_flush();
+		_cache_flush();
 
         /* check data */  
         for(j=0; j < dram_size; j=j+4)
@@ -116,20 +154,16 @@ int dram_normal_patterns(u32_t dram_start, u32_t dram_size, u32_t area_size)
 	    start_value = (*read_start);
             if(start_value != dram_patterns[i])
             {
-                 printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
+                 printf("\naddr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
                         (u32_t)read_start , start_value, dram_patterns[i],  __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start--;
         }
-	MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", i, dram_patterns[i], (u32_t)start);
+		MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", i, dram_patterns[i], (u32_t)start);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
 
 
@@ -146,8 +180,7 @@ int dram_walking_of_1(u32_t dram_start, u32_t dram_size, u32_t area_size)
     MEMCTL_DEBUG_PRINTF("=======start %s test=======\r", __FUNCTION__);
     for (i=0; i < 32; i++)
     {
-
-	_cache_flush();
+		_cache_flush();
 
         /* generate pattern */
         walk_pattern = (1 << i);
@@ -161,7 +194,7 @@ int dram_walking_of_1(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start++;
         }
 
-	_cache_flush();
+		_cache_flush();
 
         /* check data */  
         for(j=0; j < dram_size; j=j+4)
@@ -169,19 +202,16 @@ int dram_walking_of_1(u32_t dram_start, u32_t dram_size, u32_t area_size)
 	    start_value = (*read_start);
             if(start_value != walk_pattern)
             {
-                 printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
+                 printf("\naddr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
                         (u32_t)read_start , start_value, walk_pattern,  __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start--;
         }
-	MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x passed\r", i, walk_pattern, (u32_t)start);
+		MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x passed\r", i, walk_pattern, (u32_t)start);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
 
 
@@ -198,8 +228,7 @@ int dram_walking_of_0(u32_t dram_start, u32_t dram_size, u32_t area_size)
     MEMCTL_DEBUG_PRINTF("=======start %s test=======\r", __FUNCTION__);
     for (i=0; i < 32; i++)
     {
-
-	_cache_flush();
+		_cache_flush();
 
         /* generate pattern */
         walk_pattern = ~(1 << i);
@@ -213,7 +242,7 @@ int dram_walking_of_0(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start++;
         }
 
-	_cache_flush();
+		_cache_flush();
 
         /* check data */  
         for(j=0; j < dram_size; j=j+4)
@@ -221,19 +250,16 @@ int dram_walking_of_0(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_value = (*read_start);
             if(start_value != walk_pattern)
             {
-                 printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
+                 printf("\naddr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
                         (u32_t)read_start , start_value, walk_pattern,  __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start--;
         }
-	MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x passed\r", i, walk_pattern, (u32_t)start);
+		MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x passed\r", i, walk_pattern, (u32_t)start);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
 
 int dram_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
@@ -247,10 +273,8 @@ int dram_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
 
     MEMCTL_DEBUG_PRINTF("=======start %s test=======\r", __FUNCTION__);
     for (i=0; i < 32; i=i+4)
-    //for (i=0; i < 4; i=i+4)
     {
-
-	_cache_flush();
+		_cache_flush();
         /* write pattern*/
         start		= (u32_t *)(dram_start + ((i/4)*dram_size)%(area_size));
         read_start 	= (u32_t *)((u32_t)start + dram_size-4);
@@ -263,24 +287,24 @@ int dram_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
             read_start_addr = read_start_addr + 4 ;
         }
 
-	_cache_flush();
-	read_start_addr = ((u32_t)read_start);
+		_cache_flush();
+		read_start_addr = ((u32_t)read_start);
         /* check data reversing order */  
         for(j=0; j < dram_size; j=j+4)
         {
             start_value = (*read_start);
             if(start_value != ((read_start_addr) << i))
             {
-                 printf("decr addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
-                        (u32_t)read_start , start_value, ((read_start_addr) << i), 
-                        __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 printf("\ndecr addr(0x%x): 0x%x != pattern(0x%x) %s, %d i=%d j=0x%x\n",\
+                        (u32_t)read_start , start_value, ((read_start_addr) << i),\
+                        __FUNCTION__, __LINE__, i,j);
+                 HANDLE_FAIL;
             }
             read_start_addr = read_start_addr - 4;
             read_start--;
         }
 
-	read_start_addr += 4;
+		read_start_addr += 4;
         read_start++;
 
         /* check data sequential order */  
@@ -289,22 +313,18 @@ int dram_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_value = (*read_start);
             if(start_value != ((read_start_addr) << i))
             {
-                 printf("seq addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
+                 printf("\nseq addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
                         (u32_t)read_start , start_value, ((read_start_addr) << i), \
                         __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start_addr = read_start_addr + 4;
             read_start++;
         }
-
-	MEMCTL_DEBUG_PRINTF("rotate %d 0x%x passed\r", i, (u32_t)start);
+		MEMCTL_DEBUG_PRINTF("rotate %d 0x%x passed\r", i, (u32_t)start);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
 
 int dram_com_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
@@ -318,10 +338,8 @@ int dram_com_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
 
     MEMCTL_DEBUG_PRINTF("=======start %s test=======\r", __FUNCTION__);
     for (i=0; i < 32; i=i+4)
-    //for (i=0; i < 4; i=i+4)
     {
-
-	_cache_flush();
+		_cache_flush();
         /* write pattern*/
         start		= (u32_t *)(dram_start + ((i/4)*dram_size)%(area_size));
         read_start 	= (u32_t *)((u32_t)start + dram_size-4);
@@ -334,24 +352,24 @@ int dram_com_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
             read_start_addr = read_start_addr + 4 ;
         }
 
-	_cache_flush();
-	read_start_addr = ((u32_t)read_start);
+		_cache_flush();
+		read_start_addr = ((u32_t)read_start);
         /* check data reversing order */  
         for(j=0; j < dram_size; j=j+4)
         {
             start_value = (*read_start);
             if(start_value != (~(read_start_addr << i)))
             {
-                 printf("decr addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
-                        (u32_t)read_start , start_value, ~((read_start_addr) << i),
+                 printf("\ndecr addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
+                        (u32_t)read_start , start_value, ~((read_start_addr) << i), \
                         __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start_addr = read_start_addr - 4;
             read_start--;
         }
 
-	read_start_addr += 4;
+		read_start_addr += 4;
         read_start++;
 
         /* check data sequential order */  
@@ -360,93 +378,19 @@ int dram_com_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_value = (*read_start);
             if(start_value != (~(read_start_addr << i)))
             {
-                 printf("seq addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
-                        (u32_t)read_start , start_value, ~((read_start_addr) << i), 
+                 printf("\nseq addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
+                        (u32_t)read_start , start_value, ~((read_start_addr) << i), \
                         __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start_addr = read_start_addr + 4;
             read_start++;
         }
-
-	MEMCTL_DEBUG_PRINTF("~rotate %d 0x%x passed\r", i, (u32_t)start);
+		MEMCTL_DEBUG_PRINTF("~rotate %d 0x%x passed\r", i, (u32_t)start);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
-#if 0
-void dram_com_addr_rot(u32_t dram_start, u32_t dram_size, u32_t area_size)
-{
-    int i;
-    int j;
-    u32_t start_value;
-    u32_t read_start_addr;
-    volatile u32_t *start;
-    volatile u32_t *read_start;
-
-    printf("=======start %s test=======\r", __FUNCTION__);
-    for (i=0; i < 32; i=i+4)
-    {
-
-	_cache_flush();
-
-        /* write pattern*/
-        start = (u32_t *)(dram_start + (i*dram_size)%(area_size));
-        read_start_addr = (u32_t)start + dram_size - 4;
-        read_start = (u32_t *)(UADDR(((u32_t)start)+dram_size-4));
-        for(j=0; j < dram_size; j=j+4)
-        {
-            *start = ~(((u32_t)start) << i);
-            start++;
-        }
-
-	_cache_flush();
-
-        /* check data sequential order */  
-        for(j=0; j < dram_size; j=j+4)
-        {
-            start_value = (*read_start);
-            if(start_value != (~(read_start_addr << i)))
-            {
-                 printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
-                        read_start , start_value, ~((read_start_addr) << i),\
-                        __FUNCTION__, __LINE__);
-                 goto test_fail;
-            }
-            read_start--;
-            read_start_addr = read_start_addr - 4;
-        }
-
-	read_start_addr += 4;
-        read_start++;
-        /* check data reversing order */  
-        for(j=0; j < dram_size; j=j+4)
-        {
-            start_value = (*read_start);
-            if(start_value != (~(read_start_addr << i)))
-            {
-                 printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
-                        read_start , start_value, ~((read_start_addr) << i),\
-                        __FUNCTION__, __LINE__);
-                 goto test_fail;
-            }
-            read_start++;
-            read_start_addr = read_start_addr + 4;
-        }
-
-	printf("~rotate %d 0x%x passed\r", i, start);
-
-    }
-    printf("%s test completed.\r", __FUNCTION__);
-    return;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
-}
-#endif
 /*
  * write two half-words and read word.
  */
@@ -476,7 +420,7 @@ int dram_half_word_access(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_h+=2;
         }
 
-	_cache_flush();
+		_cache_flush();
 
         /* read word and check data */  
         for(j=0; j < dram_size; j=j+4)
@@ -484,20 +428,16 @@ int dram_half_word_access(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_value = (*start_w);
             if(start_value != dram_patterns[i])
             {
-                 printf("addr:0x%x(0x%x) != pattern(0x%x) %s, %d\n",
+                 printf("\naddr:0x%x(0x%x) != pattern(0x%x) %s, %d\n",\
                        (u32_t)start_w, start_value, dram_patterns[i],  __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             start_w--;
         }
-	MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", i, dram_patterns[i], (u32_t)start_h);
+		MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", i, dram_patterns[i], (u32_t)start_h);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
-
+    return MT_SUCCESS;
 }
 
 int dram_byte_access(u32_t dram_start, u32_t dram_size, u32_t area_size)
@@ -512,8 +452,7 @@ int dram_byte_access(u32_t dram_start, u32_t dram_size, u32_t area_size)
     MEMCTL_DEBUG_PRINTF("=======start %s test=======\r", __FUNCTION__);
     for (i=0; i < (sizeof(dram_patterns)/sizeof(u32_t)); i++)
     {
-
-	_cache_flush();
+		_cache_flush();
 
         /* write byte pattern*/
         start_w = (u32_t *)(UADDR(dram_start+(i*dram_size)%(area_size)+dram_size-4));
@@ -531,7 +470,7 @@ int dram_byte_access(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_b+=4;
         }
 
-	_cache_flush();
+		_cache_flush();
 
         /* read word and check data */  
         for (j=0; j < dram_size; j=j+4)
@@ -539,19 +478,16 @@ int dram_byte_access(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_value = *start_w;
             if (start_value != dram_patterns[i])
             {
-                 printf("addr:0x%x(0x%x) != pattern(0x%x) %s, %d\n",
+                 printf("\naddr:0x%x(0x%x) != pattern(0x%x) %s, %d\n",\
                        (u32_t)start_w, start_value, dram_patterns[i],  __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             start_w--;
         }
-	MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", i, dram_patterns[i], (u32_t)start_b);
+		MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", i, dram_patterns[i], (u32_t)start_b);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
 
 int memcpy_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
@@ -579,10 +515,9 @@ int memcpy_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start++;
         }
 
+		memcpy((char *)(dram_start+dram_size), (char *)(dram_start + (i*dram_size)%(area_size)), dram_size);
 
-	memcpy((char *)(dram_start+dram_size), (char *)(dram_start + (i*dram_size)%(area_size)), dram_size);
-
-	_cache_flush();
+		_cache_flush();
 
         /* check uncached data */  
         read_start = (u32_t *)(dram_start+dram_size+dram_size-4);
@@ -591,21 +526,18 @@ int memcpy_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
             start_value = (*read_start);
             if(start_value != ((read_start_addr) << i))
             {
-                 printf("addr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",
-                        (u32_t)read_start , start_value, ((read_start_addr) << i), 
+                 printf("\naddr(0x%x): 0x%x != pattern(0x%x) %s, %d\n",\
+                        (u32_t)read_start , start_value, ((read_start_addr) << i), \
                         __FUNCTION__, __LINE__);
-                 goto test_fail;
+                 HANDLE_FAIL;
             }
             read_start = read_start - 1;
             read_start_addr = read_start_addr - 4;
         }
-	MEMCTL_DEBUG_PRINTF("memcpy %d 0x%x passed\r", i, (u32_t)start);
+		MEMCTL_DEBUG_PRINTF("memcpy %d 0x%x passed\r", i, (u32_t)start);
     }
     MEMCTL_DEBUG_PRINTF("%s test completed.\r", __FUNCTION__);
-    return 0;
-test_fail:
-    printf("%s test fails.\n", __FUNCTION__);
-    HANDLE_FAIL;
+    return MT_SUCCESS;
 }
 
 
@@ -655,10 +587,9 @@ int unaligned_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
 		/* check data */
 		for(i=0;i<(dram_size/sizeof(t_off_1));i++){
 			if((off1[i].w != dram_patterns[j]) || (off1[i].c1 != 0xcc)){
-				printf("%s(%d) ", __FUNCTION__, __LINE__);
-				printf("offset 1 error:addr(0x%x) write 0x%x, read 0x%x, c1(%02x)\n", 
+				printf("\noffset 1 error:addr(0x%x) write 0x%x, read 0x%x, c1(%02x)\n", \
 					(u32_t)&off1[i], dram_patterns[j], off1[i].w, off1[i].c1);
-				goto test_fail;
+				HANDLE_FAIL;
 			}
 		}
 	
@@ -675,11 +606,10 @@ int unaligned_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
 		/* check data */
 		for(i=0;i<(dram_size/sizeof(t_off_2));i++){
 			if(off2[i].w != dram_patterns[j] || (off2[i].c1 != 0xcc) || (off2[i].c2 != 0xdd)){
-				printf("%s(%d) ", __FUNCTION__, __LINE__);
-				printf("offset 2 error:addr(0x%x) write 0x%x, read 0x%x, c1(0x%x), c2(0x%x)\n", 
+				printf("\noffset 2 error:addr(0x%x) write 0x%x, read 0x%x, c1(0x%x), c2(0x%x)\n", \
 					(u32_t)&off2[i], dram_patterns[j], off2[i].w, off2[i].c1, off2[i].c2);
 				printf("&dram_pattern[%d](0x%p) = 0x%x\r", j, &dram_patterns[j], dram_patterns[j]);
-				goto test_fail;
+				HANDLE_FAIL;
 			}
 		}
 
@@ -695,70 +625,52 @@ int unaligned_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
 		_cache_flush();
 		/* check data */
 		for(i=0;i<(dram_size/sizeof(t_off_3));i++){
-			if(off3[i].w != dram_patterns[j] ||(off3[i].c1 != 0xcc) || (off3[i].c2 != 0xdd)\
-			 || (off3[i].c3 != 0xee)){
-				printf("%s(%d) ", __FUNCTION__, __LINE__);
-				printf("offset 3 error:addr(0x%x) write 0x%x, "
+			if(off3[i].w != dram_patterns[j] ||(off3[i].c1 != 0xcc) || (off3[i].c2 != 0xdd) || (off3[i].c3 != 0xee)){
+				printf("\noffset 3 error:addr(0x%x) write 0x%x, "\
 					"read 0x%x, c1(%02x), c2(%02x), c3(%02x)\n", \
-					(u32_t)&off1[i], dram_patterns[j], off3[i].w, off3[i].c1, 
+					(u32_t)&off1[i], dram_patterns[j], off3[i].w, off3[i].c1, \
 					off3[i].c2, off3[i].c3);
-				goto test_fail;
+				HANDLE_FAIL;
 			}
 		}
 		MEMCTL_DEBUG_PRINTF("pattern[%d](0x%x) 0x%x pass\r", j, dram_patterns[j], (u32_t)off3);
 
 	}
    	 MEMCTL_DEBUG_PRINTF("%s test passed.\r", __FUNCTION__);
-	 return 0;
-test_fail:
-   	 printf("%s test failed.\n", __FUNCTION__);
-	 puts("test failed\n");
-	 HANDLE_FAIL;
-
+	 return MT_SUCCESS;
 }
 
 
-
-unsigned int disable_DRAM_prefech(unsigned int side_id)
+void disable_DRAM_prefech(unsigned int side_id)
 {
-	unsigned int old_mcr;
+	volatile u32_t *reg_mcr;
 
-	old_mcr = REG32(MCR);
+	reg_mcr = (volatile u32_t *)0xB8001000;
+
 	if( side_id & MCR_PREFETCH_INS_SIDE )
-		REG32(MCR) = REG32(MCR) & ((unsigned int)MCR_PREFETCH_DIS_IMASK);
-	if( side_id & MCR_PREFETCH_DATA_SIDE)
-		REG32(MCR) = REG32(MCR) & ((unsigned int)MCR_PREFETCH_DIS_DMASK);
+		*reg_mcr =*reg_mcr & ((unsigned int)MCR_PREFETCH_DIS_IMASK);
 
-	return old_mcr;
+	if( side_id & MCR_PREFETCH_DATA_SIDE)
+		*reg_mcr =*reg_mcr & ((unsigned int)MCR_PREFETCH_DIS_DMASK);
 }
 
-unsigned int enable_DRAM_prefech(unsigned int mode, unsigned int side_id)
+void enable_DRAM_prefech(unsigned int side_id)
 {
-	unsigned int old_mcr;
-	unsigned int tmp_mode;
+	volatile u32_t *reg_mcr;
 
-	tmp_mode = 0;
-	old_mcr = REG32(MCR);
+	reg_mcr = (volatile u32_t *)0xB8001000;
 
-
-	if( side_id & MCR_PREFETCH_INS_SIDE ){
+	if( side_id & MCR_PREFETCH_INS_SIDE )
+	{
 		disable_DRAM_prefech(MCR_PREFETCH_INS_SIDE);
-		if( mode == MCR_PREFETCH_OLD_MECH)
-			REG32(MCR) = REG32(MCR) | MCR_PREFETCH_MODE_IOLD | MCR_PREFETCH_ENABLE_INS;
-		else
-			REG32(MCR) = REG32(MCR) | MCR_PREFETCH_MODE_INEW | MCR_PREFETCH_ENABLE_INS;
-
-		
+		*reg_mcr = *reg_mcr | MCR_PREFETCH_ENABLE_INS;
 	}
-	if( side_id & MCR_PREFETCH_DATA_SIDE ){
+	
+	if( side_id & MCR_PREFETCH_DATA_SIDE )
+	{
 		disable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE);
-		if( mode == MCR_PREFETCH_OLD_MECH)
-			REG32(MCR) = REG32(MCR) | MCR_PREFETCH_MODE_DOLD | MCR_PREFETCH_ENABLE_DATA;
-		else
-			REG32(MCR) = REG32(MCR) | MCR_PREFETCH_MODE_DNEW | MCR_PREFETCH_ENABLE_DATA;
+		*reg_mcr = *reg_mcr | MCR_PREFETCH_ENABLE_DATA;
 	}
-
-	return old_mcr;
 }
 
 /*Cases dependent parameters*/
@@ -774,7 +686,7 @@ unsigned int enable_DRAM_prefech(unsigned int mode, unsigned int side_id)
         get_or_set = GET_SEED: get seed
         get_or_set = SET_SEED: set seed
 */
-static void __srandom32(int *a1, int *a2, int *a3, int get_or_set)
+static void __srandom32(unsigned int *a1, unsigned int *a2, unsigned int *a3, unsigned int get_or_set)
 {
         static int s1, s2, s3;
         if(GET_SEED==get_or_set){
@@ -791,7 +703,7 @@ static void __srandom32(int *a1, int *a2, int *a3, int get_or_set)
 static unsigned int __random32(void)
 {
 #define TAUSWORTHE(s,a,b,c,d) ((s&c)<<d) ^ (((s <<a) ^ s)>>b)
-        int s1, s2, s3;
+        unsigned int s1, s2, s3;
         __srandom32(&s1, &s2, &s3, GET_SEED);
 
         s1 = TAUSWORTHE(s1, 13, 19, 4294967294UL, 12);
@@ -812,7 +724,7 @@ int cache_flush_adj_addr(unsigned int addr_base, unsigned int run_times, \
 	volatile unsigned int *pdata;
 	int retcode;
 
-	retcode = 0;
+	retcode = MT_SUCCESS;
 
 	for(test_times = 0; test_times < run_times; test_times++)
 	{
@@ -851,13 +763,12 @@ int cache_flush_adj_addr(unsigned int addr_base, unsigned int run_times, \
 			data = *pdata;
 			if(data != ((unsigned int)pdata))
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , ((unsigned int)pdata));
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , ((unsigned int)pdata));
+				retcode = MT_FAIL;
 			}
 			pdata++;
 		}
 	}
-    
 	return (retcode);
 }
 
@@ -868,11 +779,11 @@ int cache_flush_adjacent(unsigned int addr_base, unsigned int run_times, \
 	volatile unsigned int data;
 	volatile unsigned int test_times;
 	volatile unsigned int *pdata;
-	unsigned int write_value;
-	int retcode, a, b, c;
+	unsigned int write_value, a, b, c;
+	int retcode;
 	unsigned char vbyte;
 
-	retcode = 0;
+	retcode = MT_SUCCESS;
 	vbyte = 0;
 
 	write_value = INIT_VALUE;
@@ -937,13 +848,12 @@ int cache_flush_adjacent(unsigned int addr_base, unsigned int run_times, \
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 		}
 	}
-
 	return (retcode);
 }
 
@@ -955,11 +865,11 @@ int cache_flush_dispersed (unsigned int addr_base, unsigned int run_times,\
 	volatile unsigned int data;
 	volatile unsigned int test_times;
 	volatile unsigned int *pdata;
-	unsigned int write_value;
-	int retcode, a, b, c;
+	unsigned int write_value, a, b, c;
+	int retcode;
 	unsigned char vbyte;
 
-	retcode = 0;
+	retcode = MT_SUCCESS;
 	vbyte = 0;
 
 	/* 
@@ -1055,62 +965,56 @@ int cache_flush_dispersed (unsigned int addr_base, unsigned int run_times,\
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			data = *pdata++;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
-                        pdata = (unsigned int *)((unsigned int)pdata+(unsigned int)0x1000);
-
+            pdata = (unsigned int *)((unsigned int)pdata+(unsigned int)0x1000);
 		}
 	}
-
-
 	return (retcode);
 }
-
-
-
 
 int cache_flush_adjacent_toggle_word(unsigned int addr_base, unsigned int run_times)
 {
@@ -1121,7 +1025,7 @@ int cache_flush_adjacent_toggle_word(unsigned int addr_base, unsigned int run_ti
 	unsigned int write_value;
 	int retcode;
 
-	retcode = 0;
+	retcode = MT_SUCCESS;
 
 	for(test_times = 0; test_times < run_times; test_times++)
 	{
@@ -1162,14 +1066,12 @@ int cache_flush_adjacent_toggle_word(unsigned int addr_base, unsigned int run_ti
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 		}
 	}
-
-
 	return (retcode);
 }
 
@@ -1183,7 +1085,7 @@ int cache_flush_dispersed_toggle_word (unsigned int addr_base, unsigned int run_
 	unsigned int write_value;
 	int retcode;
 
-	retcode = 0;
+	retcode = MT_SUCCESS;
 
 	for(test_times = 0; test_times < run_times; test_times++)
 	{
@@ -1242,74 +1144,6 @@ int cache_flush_dispersed_toggle_word (unsigned int addr_base, unsigned int run_
 		_cache_flush();
 
 		pdata = (unsigned int *)(CADDR(addr_base));
-#if 0
-		/* varify the data */
-		for(i=0; i<CFG_DCACHE_SIZE; i = i+4)
-		{
-			i = i + 28;
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-
-
-			data = *pdata++;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", pdata, data , write_value);
-				retcode = -1;
-			}
-                        pdata = (unsigned int *)((unsigned int)pdata+(unsigned int)0x1000);
-
-		}
-#else
 		/* varify the data */
 		for(i=0; i<CFG_DCACHE_SIZE; i = i+4)
 		{
@@ -1317,41 +1151,32 @@ int cache_flush_dispersed_toggle_word (unsigned int addr_base, unsigned int run_
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 		
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
-			}
-			pdata++;
-
-
-			data = *pdata;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 
@@ -1359,8 +1184,24 @@ int cache_flush_dispersed_toggle_word (unsigned int addr_base, unsigned int run_
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
+			}
+			pdata++;
+
+			data = *pdata;
+			if(data != write_value)
+			{
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
+			}
+			pdata++;
+
+			data = *pdata;
+			if(data != write_value)
+			{
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 
@@ -1368,28 +1209,14 @@ int cache_flush_dispersed_toggle_word (unsigned int addr_base, unsigned int run_
 			data = *pdata;
 			if(data != write_value)
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
+				retcode = MT_FAIL;
 			}
 			pdata++;
-
-
-			data = *pdata;
-			if(data != write_value)
-			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value);
-				retcode = -1;
-			}
-			pdata++;
-
-                        pdata = (unsigned int *)((unsigned int)pdata+(unsigned int)0x1000);
-
+            pdata = (unsigned int *)((unsigned int)pdata+(unsigned int)0x1000);
 		}
 
-#endif
 	}
-
-
 	return (retcode);
 }
 
@@ -1403,7 +1230,7 @@ int cache_flush_adjacent_toggle_line128(unsigned int addr_base, unsigned int run
 	unsigned int write_value[4];
 	int retcode;
 
-	retcode = 0;
+	retcode = MT_SUCCESS;
 
 	for(test_times = 0; test_times < run_times; test_times++)
 	{
@@ -1449,29 +1276,29 @@ int cache_flush_adjacent_toggle_line128(unsigned int addr_base, unsigned int run
 			data = *pdata;
 			if(data != write_value[0])
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[0]);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[0]);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 			data = *pdata;
 			if(data != write_value[1])
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[1]);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[1]);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 			data = *pdata;
 			if(data != write_value[2])
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[2]);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[2]);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 			data = *pdata;
 			if(data != write_value[3])
 			{
-				printf("pdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[3]);
-				retcode = -1;
+				printf("\npdata(0x%08x) 0x%08x != 0x%08x\n", (u32_t)pdata, data , write_value[3]);
+				retcode = MT_FAIL;
 			}
 			pdata++;
 		}
@@ -1482,7 +1309,7 @@ int cache_flush_adjacent_toggle_line128(unsigned int addr_base, unsigned int run
 
 int cache_flush_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
 {
-	int retcode;
+	int retcode=MT_SUCCESS;
 	unsigned int addr_base;
 	unsigned int test_times;
 	test_times = TEST_TIMES;
@@ -1491,183 +1318,260 @@ int cache_flush_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
 
 	for(addr_base = dram_start; addr_base < (dram_start + area_size) ;\
 		addr_base = addr_base + dram_size)
-	//for(addr_base = dram_start+0x6c00000; addr_base < (dram_start + area_size) ;
-	//	addr_base = addr_base + dram_size)
 	{
 		retcode = cache_flush_adjacent(addr_base , test_times, 0, 0);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
-#if 1
 		retcode = cache_flush_adjacent(addr_base, test_times, 1, 0);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_dispersed(addr_base, test_times, 0, 0);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
-#endif
-#if 1
 		retcode = cache_flush_dispersed(addr_base, test_times, 1, 0);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_adjacent(addr_base, test_times, 0, 1);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_adjacent(addr_base, test_times, 1, 1);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_dispersed(addr_base, test_times, 0, 1);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_dispersed(addr_base, test_times, 1, 1);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_adj_addr(addr_base, test_times, 1, 1);
 		if(retcode < 0){
 			printf("cache_flush_test error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_adjacent_toggle_word(addr_base, test_times);
 		if(retcode < 0){
 			printf("cache_flush_adjacent_toggle_word error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_dispersed_toggle_word(addr_base, test_times);
 		if(retcode < 0){
 			printf("cache_flush_dispersed_toggle_word error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
 		retcode = cache_flush_adjacent_toggle_line128(addr_base, test_times);
 		if(retcode < 0){
 			printf("cache_flush_adjacent_toggle_line128 error\n");
-			goto test_fail;
+			HANDLE_FAIL;
 		}
-#endif
 	}
 	MEMCTL_DEBUG_PRINTF("\n");
-	return 0;
-test_fail:
-	HANDLE_FAIL;
+	return retcode;
 }
 
 int _dram_test(u32_t dram_start, u32_t dram_size, u32_t area_size)
 {
-    if( (0==unaligned_test( dram_start, dram_size, area_size)) 
-    	&& (0==dram_addr_rot(dram_start, dram_size, area_size))
-    	&& (0==dram_com_addr_rot(dram_start, dram_size, area_size))
-  	  	&& (0==dram_byte_access(dram_start, dram_size, area_size))
-  	  	&& (0==dram_half_word_access(dram_start, dram_size, area_size))
-  	  	&& (0==cache_flush_test( dram_start, dram_size, area_size))
-  	  	&& (0==dram_normal_patterns(dram_start, dram_size, area_size))
-  	  	&& (0==dram_walking_of_1(dram_start, dram_size, area_size))
-  	  	&& (0==dram_walking_of_0(dram_start, dram_size, area_size))
-  	  	&& (0==memcpy_test(dram_start, dram_size, area_size))
-  	  	&& (0==dram_addr_rot(dram_start, area_size, area_size))
-  	  	&& (0==dram_com_addr_rot(dram_start, area_size, area_size)))
-	{	return 0;     }
-    return -1;
+    if(MT_FAIL == unaligned_test( dram_start, dram_size, area_size))
+		return MT_FAIL;	
+
+    if(MT_FAIL == dram_addr_rot(dram_start, dram_size, area_size))
+		return MT_FAIL;		
+
+    if(MT_FAIL == dram_com_addr_rot(dram_start, dram_size, area_size))
+		return MT_FAIL;	
+
+    if(MT_FAIL == dram_byte_access(dram_start, dram_size, area_size))
+		return MT_FAIL;	
+
+    if(MT_FAIL == dram_half_word_access(dram_start, dram_size, area_size))
+		return MT_FAIL;		
+
+    if(MT_FAIL == cache_flush_test( dram_start, dram_size, area_size))
+		return MT_FAIL;		
+
+    if(MT_FAIL == dram_normal_patterns(dram_start, dram_size, area_size))
+		return MT_FAIL;		
+
+    if(MT_FAIL == dram_walking_of_1(dram_start, dram_size, area_size))
+		return MT_FAIL;	
+
+    if(MT_FAIL == dram_walking_of_0(dram_start, dram_size, area_size))
+		return MT_FAIL;		
+
+    if(MT_FAIL == memcpy_test(dram_start, dram_size, area_size))
+		return MT_FAIL;		
+
+	return MT_SUCCESS;
 }
+
+int ddr_cmd_parsing(int argc, char *argv[], ddr_cmd_parsing_info_t *info)
+{
+	u32_t i;
+
+	#define ILL_CMD \
+	({ \
+		printf("ERR: Illegal command (%d).\n",__LINE__);\
+		return MT_FAIL;\
+	})
+
+	/* Initialize the memory test parameters..... */
+	g_err_handle_block_mode = 0;
+	info->area_num      = 2;
+	info->test_loops    = 1;
+	info->start_addr[0] = TEST_AREA_BASE1;
+	info->start_addr[1] = TEST_AREA_BASE2;
+	info->test_size[0]  = TEST_AREA_SIZE1;
+	info->test_size[1]  = TEST_AREA_SIZE2;
+
+	/* Parse the environment parameter for mt (non-)blocking error mode */
+	g_err_handle_block_mode = getenv_ulong("mt_block_e", 10, 0);
+
+	/* Parse command flag for test range / test loops / mt error (non-)blocking mode */
+	for(i=1 ; i<argc ;)	{
+		if('-' != *argv[i]) ILL_CMD;
+
+		if((strcmp(argv[i],"-loops") == 0) || (strcmp(argv[i],"-l") == 0)){
+			if(((i+1) >= argc) || (isxdigit(*argv[i+1])==0)) ILL_CMD;
+
+			info->test_loops = simple_strtoul(argv[i+1], NULL, 10);
+			info->test_loops = (info->test_loops==0)?1:(info->test_loops);
+			i = i+2;
+		}else if((strcmp(argv[i],"-range") == 0) || (strcmp(argv[i],"-r") == 0)){
+			if(((i+2) >= argc) || (isxdigit(*argv[i+1])==0) || (isxdigit(*argv[i+2])== 0)) ILL_CMD;	
+			
+			u32_t addr_tmp = simple_strtoul(argv[i+1], NULL, 10);
+			u32_t size_tmp = simple_strtoul(argv[i+2], NULL, 10);
+			if((0 == addr_tmp) || (0 == size_tmp)){
+				printf("ERR: Please assign the memory test range: -r <start address> <size>.\n");
+				return MT_FAIL;
+			}
+			if((size_tmp > initdram(0)) || (VA_TO_PA(addr_tmp) >= initdram(0))){
+				printf("ERR: Incorrect memory test rnage.\n");
+				return MT_FAIL;
+			}
+
+			info->area_num=1;
+			if(VA_TO_PA(addr_tmp) < TEST_AREA_SIZE1){
+				info->start_addr[0]= addr_tmp;
+				info->test_size[0] = (VA_TO_PA((addr_tmp+size_tmp)) >= TEST_AREA_BASE1_END)?(TEST_AREA_BASE1_END - VA_TO_PA(addr_tmp)):size_tmp;
+			}else if(VA_TO_PA(addr_tmp) >= VA_TO_PA(TEST_AREA_BASE2)){
+				info->start_addr[0]= addr_tmp;
+				info->test_size[0] = (VA_TO_PA((addr_tmp+size_tmp)) >= initdram(0))?(initdram(0)-VA_TO_PA(addr_tmp)):size_tmp;
+			}else{
+				printf("ERR: The assigned test range is for stack and u-boot use.\n");
+				return MT_FAIL;
+			}
+			i = i+3;
+		}else if((strcmp (argv[i], "-block_e") == 0) || (strcmp (argv[i], "-b") == 0)){
+			g_err_handle_block_mode = 1;
+			i = i+1;
+		}else if(strcmp(argv[i],"-reset") == 0){
+			g_reset_flag = UBOOT_RESET;
+			i = i+1;
+		}else if(strcmp(argv[i],"-reset_all") == 0){
+			g_reset_flag = WHOLE_CHIP_RESET;
+			i = i+1;
+		}else{
+			ILL_CMD;
+		}
+	}
+
+	if(VA_TO_PA(info->start_addr[1]) >= initdram(0)){
+		info->area_num = 1;
+		printf("<Only one test area!>\n");
+	}
+	return MT_SUCCESS;
+}
+
 
 int dram_test (int flag, int argc, char *argv[])
 {
-	u32_t start_addr, test_area_size;
-    u32_t dram_size, zidx=1;
-    u32_t l, testLoops;
-    volatile u32_t *mcr, oldmcr;
+    u32_t size_per_pattern=0x10000;
+	u32_t i,j;
+	int retcode = MT_SUCCESS;
+	ddr_cmd_parsing_info_t cmd_info;
 
-	if(argc > 1)
-        testLoops = simple_strtoul(argv[1], NULL, 10);
-    else
-        testLoops = 1;
-    
 	/*back the value of mcr*/
-	mcr = (u32_t *)MCR;
-    oldmcr = *mcr;
-    dram_size = 0x10000;
+	u32_t ori_mcr = REG32(MCR);
 
-	for(l=1; l<=testLoops; l++) {
-    	if(testLoops>1) MEMCTL_DEBUG_PRINTF("\n[Round %d]\n", l);
-ZONE_START:
-		if(zidx==2) {
-	        start_addr = TAREA2_START;
-	        test_area_size = TAREA2_SIZE;
-		} else {
-		    start_addr = TAREA1_START;
-			test_area_size = TAREA1_SIZE;
-	    }
-		if((0 >= test_area_size)||(initdram(0)<test_area_size)) goto IDX_CHECK;
-
-		/* disable prefetch mechanism */
-		disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
-		_cache_flush();
-		MEMCTL_DEBUG_PRINTF("Range [0x%x~0x%x]\n", start_addr, start_addr+test_area_size-1);
-
-		/*1. Uncached range */
-	    MEMCTL_DEBUG_PRINTF("No prefetch, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",
-				    UADDR(start_addr), dram_size, *mcr);
-	    if(-1 == _dram_test(UADDR(start_addr), dram_size, test_area_size))
-            return -1;
-
-		/*2. Cached range without prefetch */
-	    MEMCTL_DEBUG_PRINTF("\nNo prefetch, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",
-	                CADDR(start_addr), dram_size, *mcr);
-	    if(-1 == _dram_test(CADDR(start_addr), dram_size, test_area_size))
-            return -1;
-
-		disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
-
-		/*3. Cached range with data prefetch mechanism */
-		enable_DRAM_prefech(MCR_PREFETCH_OLD_MECH, MCR_PREFETCH_DATA_SIDE);
-		MEMCTL_DEBUG_PRINTF("\nEnable MCR_PREFETCH_DATA_SIDE, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",
-	    		    CADDR(start_addr), dram_size, *mcr);
-	   if(-1 == _dram_test(CADDR(start_addr), dram_size, test_area_size))
-        	return -1;
-
-		disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
-
-		/*4. Cached range with instruction prefetch mechanism */
-		enable_DRAM_prefech(MCR_PREFETCH_OLD_MECH, MCR_PREFETCH_INS_SIDE);
-	    MEMCTL_DEBUG_PRINTF("\nEnable MCR_PREFETCH_INS_SIDE, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",
-	               CADDR(start_addr), dram_size, *mcr);
-	    if(-1 == _dram_test(CADDR(start_addr), dram_size, test_area_size))
-            return -1;
-
-		disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+	if(MT_FAIL == ddr_cmd_parsing(argc, argv, &cmd_info))
+		goto test_fail;
 
 
-		/*5. Cached range with instruction/data prefetch mechanism */
-		enable_DRAM_prefech(MCR_PREFETCH_OLD_MECH, MCR_PREFETCH_DATA_SIDE | MCR_PREFETCH_INS_SIDE);
-	    MEMCTL_DEBUG_PRINTF("\nEnable MCR_PREFETCH_DATA_SIDE/MCR_PREFETCH_INS_SIDE, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",
-	               CADDR(start_addr), dram_size, *mcr);
-	    if(-1 == _dram_test(CADDR(start_addr), dram_size, test_area_size))
-           return -1;
+	for(j=0;j<cmd_info.test_loops;j++){
+		for(i=0;i<cmd_info.area_num;i++){
+			MEMCTL_DEBUG_PRINTF("<Range %d 0x%x~0x%x>\n",i+1, cmd_info.start_addr[i], cmd_info.start_addr[i]+cmd_info.test_size[i]-1);
+			_cache_flush();
 
-		disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+			/*1. Uncached range */
+			MEMCTL_DEBUG_PRINTF("No prefetch, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",UADDR(cmd_info.start_addr[i]), size_per_pattern, REG32(MCR));
+			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+			if(MT_FAIL == _dram_test(UADDR(cmd_info.start_addr[i]), size_per_pattern, cmd_info.test_size[i]))
+				goto test_fail;
 
-IDX_CHECK:
-		if((++zidx)<=TAREA_MAX)
-	        goto ZONE_START;
-        else
-            zidx=1;
+			/*2. Cached range without prefetch */
+			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+			MEMCTL_DEBUG_PRINTF("\nNo prefetch, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",CADDR(cmd_info.start_addr[i]),size_per_pattern,REG32(MCR));
+			if(MT_FAIL == _dram_test(CADDR(cmd_info.start_addr[i]), size_per_pattern, cmd_info.test_size[i]))
+				goto test_fail;
+
+			/*3. Cached range with data prefetch mechanism */
+			MEMCTL_DEBUG_PRINTF("\nEnable MCR_PREFETCH_DATA_SIDE, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",CADDR(cmd_info.start_addr[i]),size_per_pattern,REG32(MCR));
+			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+			enable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE);
+			if(MT_FAIL == _dram_test(CADDR(cmd_info.start_addr[i]), size_per_pattern, cmd_info.test_size[i]))
+				goto test_fail;
+
+			/*4. Cached range with instruction prefetch mechanism */
+			MEMCTL_DEBUG_PRINTF("\nEnable MCR_PREFETCH_INS_SIDE, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",CADDR(cmd_info.start_addr[i]),size_per_pattern,REG32(MCR));
+			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+			enable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE);	
+			if(MT_FAIL == _dram_test(CADDR(cmd_info.start_addr[i]), size_per_pattern, cmd_info.test_size[i]))
+				goto test_fail;
+
+			/*5. Cached range with instruction/data prefetch mechanism */
+			MEMCTL_DEBUG_PRINTF("\nEnable MCR_PREFETCH_DATA_SIDE/MCR_PREFETCH_INS_SIDE, DRAM Test start = 0x%x, DRAM Test Size = 0x%x, MCR = 0x%x\n",CADDR(cmd_info.start_addr[i]),size_per_pattern,REG32(MCR));
+			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+			enable_DRAM_prefech(MCR_PREFETCH_DATA_SIDE);
+			if(MT_FAIL == _dram_test(CADDR(cmd_info.start_addr[i]),size_per_pattern,cmd_info.test_size[i]))
+				goto test_fail;
+
+			disable_DRAM_prefech( MCR_PREFETCH_INS_SIDE | MCR_PREFETCH_DATA_SIDE );
+		}
+
+		MEMCTL_DEBUG_PRINTF("== %d runs mdram_test==\n\n",j);
 	}
-	/* restore memory controller register */
-    *mcr = oldmcr;
-	_cache_flush();
-    MEMCTL_DEBUG_PRINTF("\n\n");
-	return 0;
+	goto restore_setting;
+
+test_fail:
+	retcode = MT_FAIL;
+restore_setting:
+	/*Recover the setting of MCR & the error blocking manner */
+	REG32(MCR) = ori_mcr;
+
+	if(MT_SUCCESS== retcode){
+		/* Reset if the command is sent from the command line */
+		if(UBOOT_RESET == g_reset_flag){
+			do_reset (NULL, 0, 0, NULL);
+		}else if(WHOLE_CHIP_RESET == g_reset_flag){	
+			SYSTEM_RESET();
+		}
+	}
+	return retcode;
 }
+

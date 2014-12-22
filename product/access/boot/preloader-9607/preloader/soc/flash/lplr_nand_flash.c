@@ -18,6 +18,7 @@
 **  note:  one chunk = 2k data.
 **/
 
+
 int
 _nand_read_chunk(u8_t *chunk_buf, spare_u *spare, u32_t chunk_id) {
   int real_page = chunk_id*para_flash_info.page_per_chunk; //get real_page number
@@ -104,8 +105,8 @@ _nand_read_chunk(u8_t *chunk_buf, spare_u *spare, u32_t chunk_id) {
 
         //copy data
         memcpy(chunk_buf+(buf_pos*512), data_area, 512);
-        //copy oob
-        memcpy(spare->u8_oob+(buf_pos*6), oob_area, 6);
+	//copy oob
+	memcpy(spare->u8_oob+(buf_pos*6), oob_area, 6);  
  
       flash_addr_t += 528;//move next flash addr add (512+6+10)bytes
       dma_counter--;
@@ -591,9 +592,9 @@ load_plr(nand_dma_buf_t *dma_buf) {
         for (b=para_flash_info.pblr_start_block;b<n;b++) {
 
             if (bbt_is_bad_block(b*num_chunk_per_block)){
-				n++;
+		n++;
                 continue;
-			}
+		}
 
             for (c=0;c<(int)num_chunk_per_block; ++c) {
                 if ((ecc=_nand_read_chunk(chunk_buf, spare, b*num_chunk_per_block+c))<0) continue;

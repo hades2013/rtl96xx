@@ -21,10 +21,15 @@ WHITE           := \033[01;37m
 
 DATE_TAG:=$(shell date)
 VER_FILE:=./revision
+REL_VER_FILE:=./rel_ver
+
 ifeq ($(wildcard ./.svn), ./.svn)
 SVN_REV:=$(shell svn info 2>/dev/null | grep '^Last Changed Rev' | awk '{print $$NF}')
-DUMMY:=$(shell echo revision="r$(SVN_REV)" > $(VER_FILE).tmp)
+DUMMY:=$(shell echo revision="svn$(SVN_REV)" > $(VER_FILE).tmp)
 DUMMY:=$(shell cmp -s $(VER_FILE) $(VER_FILE).tmp && rm -f $(VER_FILE).tmp || mv -f $(VER_FILE).tmp $(VER_FILE))
+ifeq ($(gen_rel_ver), 1)
+DUMMY:=$(shell echo rel_ver="REL_R$(SVN_REV)" > $(REL_VER_FILE))
+endif
 else ifeq ($(wildcard ./.git),./.git)
 GIT_VCODE := git log | head -c 15 | sed -e 's|commit ||'
 GIT_MCODE := git status | grep 'modified:' > /dev/null 2>&1 && echo 'M' || echo ''
@@ -33,11 +38,18 @@ GIT_REV := $(GIT_REV)$(shell $(GIT_MCODE))
 DUMMY:=$(shell echo revision="$(GIT_REV)" > $(VER_FILE).tmp)
 DUMMY:=$(shell cmp -s $(VER_FILE) $(VER_FILE).tmp && rm -f $(VER_FILE).tmp || mv -f $(VER_FILE).tmp $(VER_FILE))
 endif
+
 ifeq ($(wildcard $(VER_FILE)), $(VER_FILE))
 include $(VER_FILE)
 else
 revision:="NA"
 endif
+ifeq ($(wildcard $(REL_VER_FILE)), $(REL_VER_FILE))
+include $(REL_VER_FILE)
+else
+rel_ver:="REL_NA"
+endif
+
 CC:=$(CROSS_COMPILE)gcc
 AS:=$(CROSS_COMPILE)as
 LD:=$(CROSS_COMPILE)ld
@@ -60,6 +72,7 @@ ifeq ($(wildcard $(PLATFORM_NAME)), $(PLATFORM_NAME))
     include $(PLATFORM_NAME)
 
     PROJ_H := $(shell ls $(OTTO_ROOT)/vendors/$(project_name)/proj.h 2> /dev/null)
+    PROJ_VER := $(OTTO_ROOT)/vendors/$(project_name)/proj_ver 
 endif
 
 # Createprj list for vendors folder
@@ -79,7 +92,7 @@ endif
 #release_file := $(shell for dir in  $(release_prj)) ; do grep "^variable preloader_platform" $$dir/soc.tcl  | tr -s "[\t]" " "| cut -d " " -f3; done)
 #release_file := $(addprefix otto/preloader/platform/,$(release_file))
 
-TO_RELEASE := toolkit_path.in release util/src/bch6_eccenc util/otto_composer util/parts_db Makefile revision
+TO_RELEASE := toolkit_path.in release util/otto_composer util/parts_db Makefile revision
 TO_RELEASE_SRC := $(TO_RELEASE) util preloader/*.c preloader/*.lds preloader/Makefile preloader/Makefile.pcfg preloader/arch_care.in preloader/include preloader/lib  preloader/soc
 TO_RELEASE_SRC := $(TO_RELEASE_SRC) Makefile.in
 
@@ -199,6 +212,10 @@ build_test: total_verification.cfg
 		PARA_FLAG=-j $${BUILD_CMD} > /dev/null 2>&1 ;\
 		test -e ./release/plr.img && echo " $(GREEN)[Pass]$(NONE)" || echo " $(RED)[Fail]$(NONE)" ;\
 	done < $^
+
+.PHONY: caffeine600mg
+caffeine600mg:
+	@$(MAKE) -C nor_spif_programmer clean all
 
 .EXPORT_ALL_VARIABLES:
 .PHONY: $(PRE_CFG_LIST) all release release_src clean distclean help build_test

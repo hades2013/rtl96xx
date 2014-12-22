@@ -19,7 +19,23 @@ add_model nor_spi WINBOND_W25Q128FV
 
 ## retrive dram gen2 database
 source $PARTS_DB_DIR/parts_for_dram_gen2.tcl
-namespace eval WINBOND_W631GG6KB {
+namespace eval WINBOND_W971GG6JB-25 {
+		variable zq_setting             0x000010b0
+		variable tx_clk_phs_delay       0
+		variable clkm_delay             0
+		variable clkm90_delay           0
+		variable mrs_odt                75
+		variable mrs_rtt_wr             0
+}
+namespace eval WINBOND_W971GG8JB-25 {
+		variable zq_setting             0x000010b0
+		variable tx_clk_phs_delay       0
+		variable clkm_delay             0
+		variable clkm90_delay           0
+		variable mrs_odt                75
+		variable mrs_rtt_wr             0
+}
+namespace eval WINBOND_W631GG6KB-15 {
 		## ODT=100, OCD=60
     variable zq_setting             0x00000cfc
     variable tx_clk_phs_delay       0x0D
@@ -46,9 +62,11 @@ namespace eval WINBOND_W631GG6KB {
     variable static_cal_data_14     0x00000000
     variable static_cal_data_15     0x01000000
 }
-add_model dram_gen2 WINBOND_W971GG6JB25
+add_model dram_gen2 TAK_DDR3_GENERIC_300MHZ
+add_model dram_gen2 TAK_DDR2_GENERIC_300MHZ
+# add_model dram_gen2 WINBOND_W971GG6JB-25
 #add_model dram_gen2 WINBOND_W971GG8JB25
-add_model dram_gen2 WINBOND_W631GG6KB
+# add_model dram_gen2 WINBOND_W631GG6KB-15
 
 ## PLL information
 # NOTE: when using "pin" in "set_by", the corresponding cpu/dsp/dram/lx clock 

@@ -21,7 +21,7 @@ void otto_pll_gen2_set(unsigned int sys_cpu_pll_ctl0,
 	 * Note: We assume it's running in the SRAM on OCP0 bus now.
 	 */
 
-	wait_loop_cnt = 0x1000;
+	wait_loop_cnt = 0x100000;	// 1.49 ms
 
 	/* Switch CPU/MEM/LX Clock to Fixed clock */
 	REG32(PLL_GLB_CTRL_A) = REG32(PLL_GLB_CTRL_A) | (PLL_GLB_CTRL_LXB_CLKSEL_FIXED_MASK | \
@@ -48,12 +48,12 @@ void otto_pll_gen2_set(unsigned int sys_cpu_pll_ctl0,
 	}
 
 	/* waiting for PLL */
-	wait_loop_cnt = 0x1000;
+	wait_loop_cnt = 0x100000;
 	while(wait_loop_cnt--);
 
 
 	/* Switch CPU/MEM/LX Clock to CPU/MEM/LX PLL clock */
-	wait_loop_cnt = 0x100;
+	wait_loop_cnt = 0x100000;
 	REG32(PLL_GLB_CTRL_A) = REG32(PLL_GLB_CTRL_A) & (~(PLL_GLB_CTRL_LXB_CLKSEL_FIXED_MASK | \
 	                                                   PLL_GLB_CTRL_MEM_CLKSEL_FIXED_MASK | \
 	                                                   PLL_GLB_CTRL_CPU_CLKSEL_FIXED_MASK));
@@ -116,17 +116,6 @@ void pll_gen2_setup(void) {
 	/* Retrive PLL register value */
 	pll_param_p = &(parameters.soc.pll_info);
 
-	//#define PLL_GEN2_DBG
-#ifdef PLL_GEN2_DBG
-	printf("set_by=%d\n", pll_param_p->set_by);
-	printf("sys_cpu_pll_ctl0=0x%08x\n",  pll_param_p->sys_cpu_pll_ctl0);
-	printf("sys_cpu_pll_ctl1=0x%08x\n",  pll_param_p->sys_cpu_pll_ctl1);
-	printf("sys_mem_pll_ctl0=0x%08x\n",  pll_param_p->sys_mem_pll_ctl0);
-	printf("sys_mem_pll_ctl1=0x%08x\n",  pll_param_p->sys_mem_pll_ctl1);
-	printf("sys_lx_pll_ctl0 =0x%08x\n",  pll_param_p->sys_lx_pll_ctl0);
-	printf("sys_lx_pll_ctl1 =0x%08x\n",  pll_param_p->sys_lx_pll_ctl1);
-#endif /* #ifdef PLL_GEN2_DBG */
-
 	if(pll_param_p->set_by == 1) { /* 1-software or 0-pin */
 		otto_pll_gen2_set(pll_param_p->sys_cpu_pll_ctl0,
 		                  pll_param_p->sys_cpu_pll_ctl1,
@@ -135,10 +124,7 @@ void pll_gen2_setup(void) {
 		                  pll_param_p->sys_lx_pll_ctl0,
 		                  pll_param_p->sys_lx_pll_ctl1,
 		                  (OTTO_PLL_CPU_SET | OTTO_PLL_MEM_SET | OTTO_PLL_LX_SET));
-		//printf("\rII: PLL is set by SW... ");
-	} else { /* PLL is set by HW pin */
-		//printf("\rPLL is set by HW pin... ");
-	}
+	} 
 
 	pll_query_freq(PLL_DEV_CPU);
 
@@ -157,9 +143,6 @@ u32_t pll_query_freq(u32_t dev) {
 			pll_freq[PLL_DEV_CPU] = pll_mhz.cpu;
 			pll_freq[PLL_DEV_LX]  = pll_mhz.lx;
 			pll_freq[PLL_DEV_MEM] = pll_mhz.mem;
-		} else {
-			printf("EE: %s fails: %d\n", __func__, res);
-			while (1);
 		}
 	}
 

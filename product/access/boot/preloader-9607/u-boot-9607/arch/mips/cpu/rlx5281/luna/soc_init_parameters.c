@@ -18,7 +18,7 @@ const dram_info_t dram_info_in_spare[SOC_NUM_DRAM_SPARE] = {
 	}
 };
 
-const flash_info_t flash_info_in_spare[SOC_NUM_FLASH_SPARE] = {
+const plr_flash_info_t flash_info_in_spare[SOC_NUM_FLASH_SPARE] = {
 	{
 		#include <NOR_SPI_F_EON_EN25Q64.h>
 	}, {

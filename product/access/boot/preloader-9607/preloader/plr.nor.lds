@@ -81,6 +81,9 @@ SECTIONS
         *(.cli_pll_para);
         cli_pll_para_end = .;
 
+	cli_cpu_para_begin = .;
+        *(.cli_cpu_para);
+        cli_cpu_para_end = .;
     }
     . = ALIGN(4);
     . -= on_flash_vma_gap;

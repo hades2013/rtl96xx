@@ -22,7 +22,8 @@ extern void test_get_timer(u32_t min);
 
 
 // command parsers
-#define MAX_ARGV 7
+#define CMD_INP_BUF_SZ  128
+#define MAX_ARGV        7
 typedef cpr_t (cli_cmd_t)(int argc, char *argv[]);
 typedef struct {
     const char *cmd_name;
@@ -37,7 +38,31 @@ extern cpr_t cli_std_load_word(int argc, char *argv[]);
 extern cpr_t cli_std_timer(int argc, char *argv[]);
 extern cpr_t cli_std_mdump(int argc, char *argv[]);
 extern cpr_t cli_std_save_para(int argc, char *argv[]);
+extern cpr_t cli_update_image_by_xmodem(int argc, char *argv[]);
 extern cpr_t cli_std_mt(int argc, char *argv[]);
+
+
+/***************************
+  * Macros for DRAM memory test
+  ***************************/ 
+#define CLI_MT_CASE_ADR_ROT_TEST (1<<0)
+#define CLI_MT_CASE_ULS_TEST     (1<<1)
+#define CLI_MT_CASE_MDRAM_TEST   (1<<2)
+#define CLI_MT_PASS              (0) 
+#define CLI_MT_FAIL              (-1)
+#define HANDLE_FAIL \
+({ \
+	printf("%s (%d) test failed.\n", __FUNCTION__,__LINE__);\
+	return CLI_MT_FAIL;\
+})
+
+
+/***********************************
+  * Extern Functions for DRAM memory test
+  ***********************************/ 
+extern int dram_adr_rotate_test(u32_t startAddr, u32_t size);
+extern int unaligned_test(u32_t startAddr, u32_t area_size);
+extern int mdram_test(u32_t start_addr, u32_t size);
 
 #endif //SWP_CLI_UTIL_H
 
