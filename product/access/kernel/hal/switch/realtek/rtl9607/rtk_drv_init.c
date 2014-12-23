@@ -519,9 +519,9 @@ DRV_RET_E Hal_SwitchInit(void)
     //    (void)Hal_SetPortTransparentMode(uiLPortIndex, &stVlanMode); //delete by luoruncai
     //}
 
-	//(void)rtk_classify_init(); //delete by luoruncai
+	(void)rtk_classify_init(); 
 
-	//(void)Hal_ClfRuleInit(); //delete by luoruncai
+	(void)Hal_ClfRuleInit();
 
 	#endif
 
