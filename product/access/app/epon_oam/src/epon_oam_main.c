@@ -1173,7 +1173,7 @@ main(
     /* Allow OAM packet to be trapped */
     rtk_trap_oamPduAction_set(ACTION_TRAP2CPU);
 	
-     rtk_oam_multiplexerAction_set(4,OAM_MULTIPLEXER_ACTION_DISCARD);   /* Init database */
+    rtk_oam_multiplexerAction_set(4,OAM_MULTIPLEXER_ACTION_DISCARD);   /* Init database */
     epon_oam_database_init();
     epon_oam_discovery_init();
     epon_oam_user_init();
