@@ -71,7 +71,7 @@ static int (*defVarCb)(
         oam_varDescriptor_t varDesc,
         oam_varContainer_t **ppVarContainer);
 static oam_counter_t oamCounter[EPON_OAM_VARIABLEDB_HASH_NUM];
-unsigned char oam_onu_vendor[4] = {'H','3','C',0x00};
+unsigned char oam_onu_vendor[4] = {'H','C',0x00,0x00};//{'H','3','C',0x00};
 unsigned char h3c_onu_vendor[4] = {'H','3','C',0x00};
 unsigned char yotc_onu_vendor[4] = {'Y','O','T','U'};
 unsigned char raisecom_onu_vendor[4] = {'R','C',0,0};

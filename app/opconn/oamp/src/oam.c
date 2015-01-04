@@ -37,7 +37,7 @@ oam_sate_t oams;
 
 /*EricYang add for the OAM version 2.0&2.1 merging */
 UINT32 oam_ver_type;
-UINT8   oam_cfg_ver_type = OAM_VER_CTC_20_21_MIX_SUPPORT;
+UINT8  oam_cfg_ver_type = OAM_VER_CTC_20_21_MIX_SUPPORT;
 /*!EricYang */
 
 /* EricYang add for EVENT callback */

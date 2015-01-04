@@ -66,15 +66,15 @@ OAMCLI := \
        $(EPON_OAM_SRC_DIR)/epon_oam_cli.o \
 
 USEROAM := \
-       $(USER_OAM_SRC_DIR)/ctc_oam.lib \
-       $(USER_OAM_SRC_DIR)/ctc_oam_var.lib \
-       $(USER_OAM_SRC_DIR)/drv_lw.lib \
-       $(USER_OAM_SRC_DIR)/ctc_oam_upgrade.lib \
-       $(USER_OAM_SRC_DIR)/oam_alarm.lib
+       $(USER_OAM_SRC_DIR)/ctc_oam.o \
+       $(USER_OAM_SRC_DIR)/ctc_oam_var.o \
+       $(USER_OAM_SRC_DIR)/drv_lw.o \
+       $(USER_OAM_SRC_DIR)/ctc_oam_upgrade.o \
+       $(USER_OAM_SRC_DIR)/oam_alarm.o 
 
 USEROAM_INC := $(shell ls $(USER_OAM_INC_DIR)/*.h)
 
-$(EXEC): $(OAMCORE) $(OAMCORE_INC)  $(USEROAM_INC)
+$(EXEC): $(OAMCORE) $(OAMCORE_INC) $(USEROAM) $(USEROAM_INC)
 	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $(OAMCORE) $(USEROAM) $(LIB) -lmcast -L./multicast  -L./ $(SOFTWAREDIR)/shared/libshared.a -T$(SOFTWAREDIR)/rules/shared.lds   -lifm -L$(PRODUCTDIR)/lwlib -lshared -L$(SOFTWAREDIR)/shared  -lcfg -L$(PRODUCTDIR)/lwlib -o $(BIN)/$@
 	$(STRIP) $(BIN)/$@
 

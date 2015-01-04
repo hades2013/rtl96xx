@@ -570,8 +570,40 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
     
     *********************************/
     
-    
+30. 使用最新的cfg和ifm的库，代码已经拷贝到代码中，有以下3个文件夹：
 
+   rtl9607/app/cfg
+   rtl9607/app/ifm
+   rtl9607/kernel/lwmodule/ifm
+   
+   如果以后这两个库有更新，也要替换这3个文件夹，使用方法如下：
+   
+   1. 在rtl9607/product/access 目录下：
+      make ifm-modules-clean  
+      make ifm-modules         ----这两个命令编译出ifm.ko文件，需要手动复制到config/EPN105目录下
+      
+      make software-cfg-clean
+      make software-cfg
+      把生成的.so文件 copy 到 config/xxxx(产品目录）
+      
+      make software-ifm-clean
+      make software-ifm       ----这两个命令编译出libifm.a, libifm.so文件，
+      
+      make sdk-app-clean
+      make sdk-app
+      make EPN105
+      
+   2. 以上的说明已经合入到目标： onu-support， 也就是说，在rtl9607/product/access 目录下 make onu-support后即自动地完成上述过程
+      
+   如果以后不要更新这两个库，不需要上面的处理过程，直接make EPN105就可以了
+
+31. 在OLT上，show epon onu-interface默认显示vendorid 为H3C，现在改为HC
+
+   修改：
+   
+   product/access/app/epon_oam/src/epon_oam_db.c
+   
+   unsigned char oam_onu_vendor[4] = {'H','C',0x00,0x00};//{'H','3','C',0x00};
 
 
 

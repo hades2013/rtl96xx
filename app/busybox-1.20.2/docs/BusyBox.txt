@@ -739,7 +739,7 @@ COMMAND DESCRIPTIONS
         wget [-c|--continue] [-s|--spider] [-q|--quiet]
         [-O|--output-document FILE] [--header 'header: value'] [-Y|--proxy
         on/off] [-P DIR] [--no-check-certificate] [-U|--user-agent AGENT]
-        [-T SEC] URL...
+        [-T SEC] [-p FILE] URL...
 
         Retrieve files via HTTP or FTP
 
@@ -751,6 +751,7 @@ COMMAND DESCRIPTIONS
                 -O FILE Save to FILE ('-' for stdout)
                 -U STR  Use STR for User-Agent header
                 -Y      Use proxy ('on' or 'off')
+                -p FILE Write pid to FILE
 
 LIBC NSS
     GNU Libc (glibc) uses the Name Service Switch (NSS) to configure the

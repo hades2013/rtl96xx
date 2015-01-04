@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.30.9
- * Thu Sep 11 17:12:03 2014
+ * Sun Jan  4 16:31:49 2015
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_SQUASHFS_LZMA 1
@@ -163,7 +163,7 @@
 #define CONFIG_NETFILTER 1
 #define CONFIG_CRC_CCITT 1
 #define CONFIG_USB_RTL8672_SUPPORT 1
-#define CONFIG_MTD_BLOCK_RO 1
+#define CONFIG_MTD_BLOCK 1
 #define CONFIG_PREVENT_FIRMWARE_BUILD 1
 #define CONFIG_CPU_HAS_LLSC 1
 #define CONFIG_ARCH_IRQ_CPU 1

@@ -825,7 +825,7 @@ Use 500ms to specify period in milliseconds
 
 wget [-c|--continue] [-s|--spider] [-q|--quiet] [-O|--output-document FILE]
 	[--header 'header: value'] [-Y|--proxy on/off] [-P DIR]
-	[--no-check-certificate] [-U|--user-agent AGENT] [-T SEC] URL...
+	[--no-check-certificate] [-U|--user-agent AGENT] [-T SEC] [-p FILE] URL...
 
 Retrieve files via HTTP or FTP
 
@@ -837,6 +837,7 @@ Retrieve files via HTTP or FTP
 	-O FILE	Save to FILE ('-' for stdout)
 	-U STR	Use STR for User-Agent header
 	-Y	Use proxy ('on' or 'off')
+	-p FILE	Write pid to FILE
 
 =back
 

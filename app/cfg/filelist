@@ -1,0 +1,9 @@
+./include/vos_types.h
+./include/config_api.h
+./include/config_oid.h
+./include/vos_config.h
+./include/lw_list.h
+./include/vos_hash.h
+./smalloc/dlmalloc.c
+./newcfg/vos_config.c
+./newcfg/vos_hash.c

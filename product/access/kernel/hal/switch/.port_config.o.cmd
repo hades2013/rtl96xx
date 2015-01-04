@@ -26,6 +26,8 @@ deps_drivers/lwdrv/hal/switch/port_config.o := \
     $(wildcard include/config/product/name/priv.h) \
     $(wildcard include/config/release/ver/priv.h) \
     $(wildcard include/config/develop/ver/priv.h) \
+    $(wildcard include/config/hexicom/menu/password.h) \
+    $(wildcard include/config/hexicom/boot/password.h) \
     $(wildcard include/config/boot/restore/app.h) \
     $(wildcard include/config/boot/multi/app.h) \
     $(wildcard include/config/master.h) \

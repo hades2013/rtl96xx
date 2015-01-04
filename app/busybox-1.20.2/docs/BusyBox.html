@@ -4,7 +4,7 @@
 <head>
 <title>BusyBox - The Swiss Army Knife of Embedded Linux</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<link rev="made" href="mailto:root@localhost" />
+<link rev="made" href="mailto:lrc@lrc.(none)" />
 </head>
 
 <body style="background-color: white">
@@ -851,7 +851,7 @@ When no file is given, use stdin/stdout.</p>
 <dd>
 <p><table cellspacing="0" cellpadding="0"><tr><td>wget [-c|--continue] [-s|--spider] [-q|--quiet] [-O|--output-document FILE]
 <tr><td><td>[--header 'header: value'] [-Y|--proxy on/off] [-P DIR]
-<tr><td><td>[--no-check-certificate] [-U|--user-agent AGENT] [-T SEC] URL...</table></p>
+<tr><td><td>[--no-check-certificate] [-U|--user-agent AGENT] [-T SEC] [-p FILE] URL...</table></p>
 <p>Retrieve files via HTTP or FTP</p>
 <pre>
         -s      Spider mode - only check file existence
@@ -861,7 +861,8 @@ When no file is given, use stdin/stdout.</p>
         -T SEC  Network read timeout is SEC seconds
         -O FILE Save to FILE ('-' for stdout)
         -U STR  Use STR for User-Agent header
-        -Y      Use proxy ('on' or 'off')</pre>
+        -Y      Use proxy ('on' or 'off')
+        -p FILE Write pid to FILE</pre>
 </dd>
 </dl>
 <p>

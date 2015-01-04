@@ -39,10 +39,12 @@ $(ALL_PRODUCT):
 #	$(MAKE) -C ../access uboot
 	$(MAKE) -C ../access all 
 	
-all: uboot linux linux-modules ifm-modules software rootfs app image ramfs
+all: uboot linux linux-modules ifm-modules software software-cfg software-ifm rootfs app image ramfs
 	@echo "make all finish....."
 	
-setup:platform.setup product.setup
+setup:onu-support platform.setup product.setup
+
+onu-support: software-cfg-clean software-ifm-clean software-cfg software-ifm ifm-modules
 
 software:
 	$(MAKE) -C $(SOFTWAREDIR) all
@@ -54,6 +56,7 @@ software-%:
 			$(MAKE) -C $(SOFTWAREDIR) $(patsubst %-clean,%,$(patsubst software-%,%,$@))-clean;\
 		fi \
 	else \
+		echo $@;\
 		$(MAKE) -C $(SOFTWAREDIR) $(patsubst software-%,%,$@)-build ;\
 	fi	
 	
@@ -72,6 +75,7 @@ distclean:clean product.distclean platform.distclean
 	
 ifm-modules:
 	$(MAKE) -C $(LINUXDIR) SUBDIRS=$(KERNELDIR)/lwmodule/ifm modules
+	cp $(KERNELDIR)/lwmodule/ifm/ifm.ko $(CONFIGDIR)/ifm.ko -f
 ifm-modules-clean:
 	$(MAKE) -C $(LINUXDIR) SUBDIRS=$(KERNELDIR)/lwmodule/ifm clean
 	

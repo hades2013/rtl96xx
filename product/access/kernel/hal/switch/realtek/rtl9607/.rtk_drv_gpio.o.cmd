@@ -26,6 +26,8 @@ deps_drivers/lwdrv/hal/switch/realtek/rtl9607/rtk_drv_gpio.o := \
     $(wildcard include/config/product/name/priv.h) \
     $(wildcard include/config/release/ver/priv.h) \
     $(wildcard include/config/develop/ver/priv.h) \
+    $(wildcard include/config/hexicom/menu/password.h) \
+    $(wildcard include/config/hexicom/boot/password.h) \
     $(wildcard include/config/boot/restore/app.h) \
     $(wildcard include/config/boot/multi/app.h) \
     $(wildcard include/config/master.h) \
@@ -206,6 +208,49 @@ deps_drivers/lwdrv/hal/switch/realtek/rtl9607/rtk_drv_gpio.o := \
   drivers/net/rtl86900/sdk/include/rtk/gpio.h \
   drivers/net/rtl86900/sdk/include/rtk/irq.h \
   drivers/net/rtl86900/sdk/include/rtk/intr.h \
+  include/linux/signal.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/signal.h \
+    $(wildcard include/config/trad/signals.h) \
+  include/asm-generic/signal-defs.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/sigcontext.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/siginfo.h \
+  include/asm-generic/siginfo.h \
+  include/linux/jiffies.h \
+    $(wildcard include/config/rtl/timer2.h) \
+  include/linux/math64.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/div64.h \
+  include/asm-generic/div64.h \
+  include/linux/time.h \
+  include/linux/cache.h \
+    $(wildcard include/config/arch/has/cache/line/size.h) \
+  include/linux/seqlock.h \
+  include/linux/spinlock.h \
+    $(wildcard include/config/preempt.h) \
+  include/linux/preempt.h \
+    $(wildcard include/config/debug/preempt.h) \
+    $(wildcard include/config/preempt/notifiers.h) \
+  include/linux/thread_info.h \
+    $(wildcard include/config/compat.h) \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/thread_info.h \
+    $(wildcard include/config/kernel/stack/size/order.h) \
+    $(wildcard include/config/debug/stack/usage.h) \
+  include/linux/stringify.h \
+  include/linux/bottom_half.h \
+  include/linux/spinlock_up.h \
+  include/linux/spinlock_api_up.h \
+  include/linux/timex.h \
+    $(wildcard include/config/no/hz.h) \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/timex.h \
+  include/linux/pid.h \
+  include/linux/rcupdate.h \
+    $(wildcard include/config/classic/rcu.h) \
+    $(wildcard include/config/tree/rcu.h) \
+    $(wildcard include/config/preempt/rcu.h) \
+  include/linux/completion.h \
+  include/linux/wait.h \
+  /opt/workspace/rtl9607/product/access/kernel/linux-2.6.x/arch/rlx/include/asm/current.h \
+  include/linux/rcuclassic.h \
+    $(wildcard include/config/rcu/cpu/stall/detector.h) \
 
 drivers/lwdrv/hal/switch/realtek/rtl9607/rtk_drv_gpio.o: $(deps_drivers/lwdrv/hal/switch/realtek/rtl9607/rtk_drv_gpio.o)
 

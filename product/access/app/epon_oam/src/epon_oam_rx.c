@@ -1403,7 +1403,7 @@ void *epon_oam_rxThread(void *argu)
     }
 
 	/*begin add by shipeng 2013-05-14*/
-    printf("(%s,%s,%d)Init LW drv ... ",__FILE__,__FUNCTION__,__LINE__);
+    printf("Init LW drv ... ");
     if(0 != DRV_LwInit())
     {
         printf("failed\r\n");
