@@ -42,7 +42,7 @@ $(ALL_PRODUCT):
 all: uboot linux linux-modules ifm-modules software software-cfg software-ifm rootfs app image ramfs
 	@echo "make all finish....."
 	
-setup:onu-support platform.setup product.setup
+setup:platform.setup product.setup
 
 onu-support: software-cfg-clean software-ifm-clean software-cfg software-ifm ifm-modules
 

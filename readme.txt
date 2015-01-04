@@ -594,6 +594,7 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
       make EPN105
       
    2. 以上的说明已经合入到目标： onu-support， 也就是说，在rtl9607/product/access 目录下 make onu-support后即自动地完成上述过程
+      但是要注意，要使make onu-support正常编译，需要先make EPN105通过。
       
    如果以后不要更新这两个库，不需要上面的处理过程，直接make EPN105就可以了
 

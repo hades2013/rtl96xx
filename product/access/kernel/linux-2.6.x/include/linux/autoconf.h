@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.30.9
- * Sun Jan  4 16:31:49 2015
+ * Sun Jan  4 17:15:03 2015
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_SQUASHFS_LZMA 1
