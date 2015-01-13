@@ -28,7 +28,7 @@
 
      进入product/access/release/EPN105目录，将文件EPN105V100R006.bin拷贝到tftp根目录下，并将tftp的IP设置为192.168.2.58
 
-     启动目标板，接好串口和网线，按CTRL + E进入boot模式，密码是EPN105，并接着按 4->2 直接升级。
+     启动目标板，接好串口和网线，按CTRL + E进入boot模式，密码是EPCM1103，并接着按 4->2 直接升级。
 
 
 CPU侧的flash厂家：CFEON ，器件名：EN25QH64@SOP8
@@ -500,7 +500,7 @@ cpu口逻辑：
 
 
 
-26. 修改boot和系统的菜单密码为hexicom
+26. 修改boot和系统的菜单密码为 EPCM1103
 
 1. 在product/access/config/EPN105/main.config下增加：
 
@@ -510,10 +510,10 @@ CONFIG_HEXICOM_BOOT_PASSWORD="EPCM1103"
 2. 在product/access/config/EPN105/config.in下增加：
 config CONFIG_HEXICOM_MENU_PASSWORD
 	string 'menu password'
-	default 'hexicom'
+	default 'EPCM1103'
 config CONFIG_HEXICOM_BOOT_PASSWORD
 	string 'boot password'
-	default 'hexicom'
+	default 'EPCM1103'
 	
 3. 在product/access/boot/preloader-9607/u-boot-9607/include/configs/luna.h中定义：
 
@@ -531,7 +531,7 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
  
   文件： /product/access/kernel/linux-2.6.x/drivers/mtd/chips/luna_nor_spi/spi_cmd.c
  
-  mtd_spi_erase函数  删除一下几句：
+  mtd_spi_erase 函数  删除一下几句：
   
     // skip 1st block erase
     #if 0
