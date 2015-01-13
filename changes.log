@@ -33,6 +33,17 @@
 
 CPU侧的flash厂家：CFEON ，器件名：EN25QH64@SOP8
 
+
+git tag 用法：
+
+1. 新建标签：   git tag -a v1.x.x -m "some illustrations"
+2. 删除标签：   git tag -d v1.x.x 
+3. 查看已有的标签： git tag
+
+4. push tag 到服务器： git push origin --tags
+5. 下载某个tag的代码：  git checkout -b v1.x.x v1.x.x
+
+
 修改记录：
 
 1. 修改文件：access/config/EPN105/rule.mk
