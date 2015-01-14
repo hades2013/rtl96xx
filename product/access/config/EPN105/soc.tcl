@@ -50,7 +50,7 @@ namespace eval rtk_pll_gen1 {
     variable set_by                 software
     variable cpu_clock_mhz          600
     variable dsp_clock_mhz          500
-    variable dram_clock_mhz         300
+    variable dram_clock_mhz         200
     variable lx_clock_mhz           200
 }
 add_model pll_gen1 rtk_pll_gen1 
