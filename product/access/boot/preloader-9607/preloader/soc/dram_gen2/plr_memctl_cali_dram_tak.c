@@ -559,14 +559,10 @@ u32_t _memctl_find_proper_RW_dealy(u32_t resolution, u32_t w_start, u32_t r_star
         _memctl_set_phy_delay_dqrf(bit_loc, max_w_seq_start, max_w_len, max_r_seq_start, max_r_len);
 
         if((max_w_len <= MEMCTL_CALI_MIN_WRITE_WINDOW) || (max_r_len <= MEMCTL_CALI_MIN_READ_WINDOW)){
-/*
-        if((max_w_len <= MEMCTL_CALI_MIN_WRITE_WINDOW) ){
-            printf("\nII: small max_w_len=%d, bit_loc=%d\n", max_w_len, bit_loc);
-        }
-        if(max_r_len <= MEMCTL_CALI_MIN_READ_WINDOW){
-*/
             printf("\nII: small max_w_len=%d max_r_len=%d, bit_loc=%d\n",max_w_len, max_r_len, bit_loc);
             bit_fail |= (1 << bit_loc);
+            printf("EE: Window is too small...\n");
+            SYSTEM_RESET();
         }
     }
 

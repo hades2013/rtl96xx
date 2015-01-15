@@ -1,1 +1,2 @@
 #define CMU_DIVISOR 2
+#define FORCE_8BIT_MODE 1

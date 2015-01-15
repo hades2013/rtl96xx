@@ -131,37 +131,58 @@ void memctlc_ddr3_mrs_setting(void)
     * 10. Issue ZQCL command to starting ZQ calibration.    
     */
 
+	volatile unsigned int loop_lim = 0;
+#define CHK_DMCR_RDY() do { \
+		loop_lim = 0; \
+		udelay(1); \
+		while (*dmcr & DMCR_MRS_BUSY) { \
+			if (loop_lim++ > 100) { \
+				pblr_puts("DD: DMCR does not respond during MRS. Reset...\n"); \
+				SYSTEM_RESET(); \
+			} \
+		} \
+	} while (0)
+
 	/* Set EMR2 */
 	*dmcr = (*dmcr & 0xFFFCFFFF) | 0x20000;
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
     
 	*dmcr = mr[2];
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
 
 	/* Set EMR3 */
     *dmcr = (*dmcr & 0xFFFCFFFF) | 0x30000;
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
     
 	*dmcr = mr[3];
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
 
 	/* Disable DLL */
     *dmcr = (*dmcr & 0xFFFCFFFF) | 0x10000;
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
     
 	*dmcr = mr[1] | DDR3_EMR1_DLL_DIS;
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
 
 	/* Enable DLL */
 	*dmcr = mr[1] & (~DDR3_EMR1_DLL_DIS);
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
 
     /* Reset DLL */
     *dmcr = (*dmcr & 0xFFFCFFFF);
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
     
 	*dmcr = mr[0] | DDR3_MR_DLL_RESET_YES ;
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
 
 	/* Waiting 200 clock cycles */
 	delay_time = 0x1000;
@@ -169,7 +190,8 @@ void memctlc_ddr3_mrs_setting(void)
 
 	/* Set mr1@DDR3, to cover DLL disable case */
 	*dmcr = mr[1];
-	while(*dmcr & DMCR_MRS_BUSY);
+	/* while(*dmcr & DMCR_MRS_BUSY); */
+	CHK_DMCR_RDY();
     
 #endif
 

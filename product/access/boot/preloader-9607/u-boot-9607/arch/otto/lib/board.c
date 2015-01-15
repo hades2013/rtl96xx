@@ -220,7 +220,7 @@ void boot_gpio_mode_set(unsigned int gpioId, unsigned int mode)
 	groupId = gpioId / 32;
 	offset	= gpioId % 32;
 
-	reg = groupId?BOOT_GPIO_DIR_EFGHr:BOOT_GPIO_DIR_ABCDr;
+	reg = groupId ? BOOT_GPIO_DIR_EFGHr : BOOT_GPIO_DIR_ABCDr;
 	value = READ_MEM32(reg);
 	tmp = 1 << offset;
 	value = ~tmp & value;
@@ -235,14 +235,14 @@ void boot_gpio_state_set(unsigned int gpioId, unsigned int enable)
     groupId = gpioId / 32;
     offset  = gpioId % 32;
 
-	reg_com = groupId?GPIO_STATE_REGADDR_COM_H:GPIO_STATE_REGADDR_COM_L;
+	reg_com = groupId ? GPIO_STATE_REGADDR_COM_H : GPIO_STATE_REGADDR_COM_L;
 	value = READ_MEM32(reg_com);
 	tmp = 1 << offset;
 	value = ~tmp & value;
 	value = enable << offset | value;
 	WRITE_MEM32(reg_com, value);
 
-	reg = groupId?BOOT_GPIO_CTRL_EFGHr:BOOT_GPIO_CTRL_ABCDr;
+	reg = groupId ? BOOT_GPIO_CTRL_EFGHr : BOOT_GPIO_CTRL_ABCDr;
 	value = READ_MEM32(reg);
 	tmp = 1 << offset;
 	value = ~tmp & value;
@@ -259,7 +259,7 @@ void boot_gpio_databit_set(unsigned int gpioId, unsigned int data)
 	groupId = gpioId / 32;
 	offset	= gpioId % 32;
 
-	reg = groupId?BOOT_GPIO_DATA_EFGHr:BOOT_GPIO_DATA_ABCDr;
+	reg = groupId ? BOOT_GPIO_DATA_EFGHr : BOOT_GPIO_DATA_ABCDr;
 	value = READ_MEM32(reg);
 	tmp = 1 << offset;
 	value = ~tmp & value;

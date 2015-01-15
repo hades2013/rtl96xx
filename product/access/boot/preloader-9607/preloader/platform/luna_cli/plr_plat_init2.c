@@ -121,12 +121,53 @@ static u32_t soc_reg_init(void) {
 
 void pll_setup_info(void);
 
+
+#define PLR_WRITE_MEM32(addr, val)   (*(volatile unsigned int *) (addr)) = (val)
+#define PLR_READ_MEM32(addr)         (*(volatile unsigned int *) (addr))
+#define PLR_WRITE_MEM16(addr, val)   (*(volatile unsigned short *) (addr)) = (val)
+#define PLR_READ_MEM16(addr)         (*(volatile unsigned short *) (addr))
+#define PLR_WRITE_MEM8(addr, val)    (*(volatile unsigned char *) (addr)) = (val)
+#define PLR_READ_MEM8(addr)          (*(volatile unsigned char *) (addr))
+
+void plr_led_set(int gpioid, int data)//data = 1 or 0
+{
+    unsigned int reg, flag, offset, value;
+
+    offset = gpioid%32;
+    flag = gpioid/32;
+
+    reg = flag ? 0xBB0000F4 : 0xBB0000F0;
+    value = PLR_READ_MEM32(reg);
+    value |= (1ul<<offset);
+    PLR_WRITE_MEM32(reg,value);
+
+    reg = flag ? 0xB800331C : 0xB8003300;
+    value = PLR_READ_MEM32(reg);
+    value |= (1ul<<offset);
+    PLR_WRITE_MEM32(reg,value);
+
+    reg = flag ? 0xB8003324 : 0xB8003308;
+    value = PLR_READ_MEM32(reg);
+    value |= (1ul<<offset);
+    PLR_WRITE_MEM32(reg,value);
+
+    reg = flag ? 0xB8003328 : 0xB800330C;
+    value = PLR_READ_MEM32(reg);
+    if (data)
+        value |= (1ul<<offset);
+    else
+        value &= ~(1ul<<offset);
+    PLR_WRITE_MEM32(reg,value);
+}
+
 void platform_init_phase_2(void) {
 	u32_t chip_ver;
 
 	/* soc registetr remap */
 	chip_ver = soc_reg_init();
+    plr_led_set(58,1);//dislight lan0
 	pll_setup();
+    plr_led_set(60,0);//light lan1
 	console_init();
 	PRINT_PLR_INFO(chip_ver);
 	

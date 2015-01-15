@@ -579,6 +579,11 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
     
     -DCMU_DIVISOR=2
     
+    # compilation flags
+CINCF=-I./include -I./platform/current/cpu -I./platform/current -I../release
+CDEBUGF=-g -Wall -Wno-unused-parameter
+CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DTBASE=$(TBASE) -DREVISION="\"$(revision)\"" -DREL_VER="\"$(rel_ver)\"" -DCMU_DIVISOR=2
+    
     *********************************/
     
 30. 使用最新的cfg和ifm的库，代码已经拷贝到代码中，有以下3个文件夹：
@@ -617,42 +622,46 @@ config CONFIG_HEXICOM_BOOT_PASSWORD
    
    unsigned char oam_onu_vendor[4] = {'H','C',0x00,0x00};//{'H','3','C',0x00};
 
-+==============================================================================================================+
-  标题： 32  修改DDR的速率为200M
-+==============================================================================================================+
-  问题描述： 最近在现场发现有的版子启动失败，串口没有打印，怀疑是DDR出问题，代码没有正确copy到DDR 运行
 
-  修改原因： 修改成200M后，测试比较稳定，原来是300M
-
-  修改方法： 在product/access/config/EPN105/soc.tcl
-           
-           variable dram_clock_mhz         200  --原来是300
-
-  修改影响： 修改后需要测试命令行，页面，MIB是否可以正常工作
-  
-  使用范围： 所有的RTL9607版本
-                                                                                                               
-  修改文件及代码说明：           
-  
-  修改时间及作者邮箱： 2015-01-14 luoruncai@hexicomtech.com                                                                                            
-+==============================================================================================================+
 
 +==============================================================================================================+
-  标题： 33  xxxx
+  标题： 33  增加点灯功能
 +==============================================================================================================+
-  问题描述： ［如果针对某个版本的修改，必须明确指出；公有还是私有特性，问题描述简略，清楚］
+  问题描述： 为了方便追查问题，系统启动后增加点灯的过程
 
   修改原因：
 
-  修改方法：
-
-  修改影响： ［描述影响的功能，如：本修改后，需要重点测试VLAN逻辑］
+  修改方法： 修改有两处：
   
-  使用范围： ［描述修改平台或者特定的版本，比如本次修改只正对江阴版本］
+           1. 汇编代码刚起来的时候，将lan0灯点亮：
+           
+              product/access/boot/preloader-9607/preloader/platform/luna_cli/lplr_entry.S  增加如下代码：
+              
+              lpreloader_start:
+							
+							lui	a2,0xbb00
+							
+							。。。。
+							
+							sw	v0,0(v1)
+							
+		   2. 在启动第二阶段时，将 lan0 灯熄灭，等到pll将CPU 和 DDR 等的时钟拉起来后，将 lan1 灯点亮：
+		   
+			  product/access/boot/preloader-9607/preloader/platform/luna_cli/plr_plat_init2.c
+			  
+			  platform_init_phase_2 函数中 ：
+			  
+			      plr_led_set(58,1);//dislight lan0  --熄灭 LAN0 灯
+				  pll_setup();
+				  plr_led_set(60,0);//light lan1  --点亮 LAN1 灯
+		      
+  修改影响： 无
+  
+  使用范围： 无
                                                                                                                
-  修改文件及代码说明：           
+  修改文件及代码说明： 版本号变更为 V1.0.1.R9607
   
-  修改时间及作者邮箱： 2015-01-04 xxx@hexicomtech.com                                                                                            
+  修改时间及作者邮箱： 2015-01-15 luoruncai@hexicomtech.com                                                                                            
 +==============================================================================================================+
 
 

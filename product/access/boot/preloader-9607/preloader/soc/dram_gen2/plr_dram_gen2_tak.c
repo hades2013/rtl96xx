@@ -85,6 +85,24 @@ void _memctl_update_phy_param(void);
 static void _memctl_delay_clkm_cycles(unsigned int delay_cycles);
 void memctlc_DDR3_ZQ_long_calibration(void);
 
+void _DRAM_PLL_CLK_power_switch(unsigned char power_on) {
+	volatile unsigned int *dpcpw;
+	unsigned int    delay_tmp;
+
+#ifdef FORCE_8BIT_MODE
+		return;
+#endif
+
+	dpcpw = (unsigned int *)0xB8000204;
+	if(power_on)
+		*dpcpw &=  ~(1<<4);
+	else  //power off
+		*dpcpw |=  (1<<4);
+	delay_tmp=0x3fff;
+	while(delay_tmp--);
+	return;
+}
+
 #if 0
 void _set_dmcr(unsigned int dmcr_value)
 {
@@ -723,8 +741,12 @@ void memctlc_set_dqm_delay_patch(unsigned int mem_clk_mhz)
 			else
 				clk_delay=31;
 			//*ddrckodl=((*ddrckodl)&0xffe0e0e0)|(clkm90_delay<<16)|(clkm_delay<<8)|clk_delay;
+
+			_DRAM_PLL_CLK_power_switch(0);  //KevinChung,DDR PLL_CLK power down/up
 			*ddrckodl=((*ddrckodl)& ~(SYSREG_DDRCKODL_DDRCLM_TAP_MASK |SYSREG_DDRCKODL_DDRCK_PHS_MASK))|
 			(clkm_delay<<SYSREG_DDRCKODL_DDRCLM_TAP_FD_S)|clk_delay;			
+			_DRAM_PLL_CLK_power_switch(1);  //KevinChung,DDR PLL_CLK power down/up
+
 			/**********************************
 			**	Calibrate DQM0, DQM1 windows first   **
 			***********************************/			
@@ -743,8 +765,8 @@ void memctlc_set_dqm_delay_patch(unsigned int mem_clk_mhz)
 						//printf("dqmX_delay=%d, dqmX_window[%d]=0x%x\n",dqmX_delay,i,dqmX_window[i]);
 					}	
 				}
-			printf("clkm_delay=%d\t",clkm_delay);
-			printf("==>dqmX_window[%d]=0x%x\n",i,dqmX_window[i]);
+			//printf("clkm_delay=%d\t",clkm_delay);
+			//printf("==>dqmX_window[%d]=0x%x\n",i,dqmX_window[i]);
 			}
 			/***************************************************************
 			*	Check dqm0_window & dqm1_window max value of window. Analysis window *
@@ -828,12 +850,15 @@ void memctlc_set_dqm_delay_patch(unsigned int mem_clk_mhz)
 						//ccwei:test!!!!
 						//clkm90_delay = clkm_delay-5;
 						//clk_delay = clkm_delay+2;
+
+						_DRAM_PLL_CLK_power_switch(0);  //KevinChung,DDR PLL_CLK power down/up
 						*ddrckodl=((*ddrckodl)& ~(SYSREG_DDRCKODL_DDRCK_PHS_MASK |SYSREG_DDRCKODL_DDRCLM_TAP_MASK |
 							SYSREG_DDRCKODL_DDRCLM90_TAP_MASK) )|
 							(clkm90_delay << SYSREG_DDRCKODL_DDRCLM90_TAP_FD_S) |
 							(clkm_delay << SYSREG_DDRCKODL_DDRCLM_TAP_FD_S)|
 							(clk_delay << SYSREG_DDRCKODL_DDRCK_PHS_FD_S);
-				
+						_DRAM_PLL_CLK_power_switch(1);  //KevinChung,DDR PLL_CLK power down/up
+
 						*dcdqmr = temp32;						
 						_memctl_update_phy_param();
 						return ;
@@ -972,6 +997,7 @@ unsigned int memctlc_config_DRAM_size(void)
 	printf("%s-%d *dram_addr=0x%x\n",__func__,__LINE__,*dram_addr);
 	*dram_addr = 0x5A0FF0A5;
 	printf("%s-%d *dram_addr=0x%x\n",__func__,__LINE__,*dram_addr);
+	udelay(5);
 	for(i=0;i<4;i++){
 		if( REG32(_dram_detection_addr[loc][i]) == 0x5A0FF0A5 ){
 			dcr_value = _dram_MCR_setting[loc][i];
@@ -1627,14 +1653,17 @@ void dram_setup(void) {
         memctlc_DBFM_enable();    
     }
 	//ccwei: patch from czyao for dram auto parameters
-	ddrkodl_reg = (volatile unsigned int *)SYSREG_DDRCKODL_REG;
-	*ddrkodl_reg = 0x00000208;
+    ddrkodl_reg = (volatile unsigned int *)SYSREG_DDRCKODL_REG;
+
+    _DRAM_PLL_CLK_power_switch(0);  //KevinChung,DDR PLL_CLK power down/up
+    *ddrkodl_reg = 0x00000208;
+    _DRAM_PLL_CLK_power_switch(1);  //KevinChung,DDR PLL_CLK power down/up
 
     if(DRAMI.calibration_type == 0) { /* Static calibration */
         printf("II: DRAM is set by static calibration... ");
         dram_static_calibration();
     } else {/* software calibration */
-        printf("II: DRAM is set by software calibration...\n");
+        printf("II: DRAM is set by TAK software calibration...\n");
         if(dram_software_calibration() == 0) {
             printf("PASSED\n");
         } else {            
@@ -1701,6 +1730,7 @@ void _memctl_update_phy_param(void)
     volatile unsigned int *dacr;
     volatile unsigned int dacr_tmp1, dacr_tmp2;
     volatile unsigned int dmcr_tmp;
+    volatile unsigned int loop_lim = 0;
  
     dmcr = (unsigned int *)DMCR;
     dcr = (unsigned int *)DCR;
@@ -1710,9 +1740,15 @@ void _memctl_update_phy_param(void)
     dmcr_tmp = *dmcr;
     *dmcr = dmcr_tmp;
     _memctl_delay_clkm_cycles(10);
+
     /* Waiting for the completion of the update procedure. */
-    while((*dmcr & ((unsigned int)DMCR_MRS_BUSY)) != 0);
- 
+    while((*dmcr & ((unsigned int)DMCR_MRS_BUSY)) != 0) {
+	    if (loop_lim++ > 100) {
+		    pblr_puts("EE: DMCR does not respond. Reset...\n");
+		    SYSTEM_RESET();
+	    }
+    }
+
     __asm__ __volatile__("": : :"memory");
  
     /* reset phy buffer pointer */

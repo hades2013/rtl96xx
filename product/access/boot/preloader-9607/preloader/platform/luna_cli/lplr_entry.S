@@ -26,8 +26,32 @@ pre_flash_info:
 							.global	lpreloader_start
 							.ent	lpreloader_start
 lpreloader_start:
+							
+							lui	a2,0xbb00
+							lui	v0,0x400
+							ori	a2,a2,0xf4
+							lui	v1,0xb800
+							lw	a3,0(a2)
+							ori	a1,v1,0x331c
+							ori	a0,v1,0x3324
+							or	a3,a3,v0
+							sw	a3,0(a2)
+							ori	v1,v1,0x3328
+							lw	a2,0(a1)
+							or	a2,a2,v0
+							sw	a2,0(a1)
+							lw	a1,0(a0)
+							or	v0,a1,v0
+							sw	v0,0(a0)
+							lui	v0,0xfbff
+							lw	a0,0(v1)
+							ori	v0,v0,0xffff
+							and	v0,a0,v0
+							sw	v0,0(v1)
+							
+							
 							REBASED_CALL(platform_init_phase1, UCFLASH_BASE);
-
+							
 							REBASED_CALL(flash_to_sram, FLASH_BASE);
 
 /* Setup stack on SRAM */

@@ -85,11 +85,11 @@ void c_start_epilogue(void)
 
 	// while(1) for any fail
 	if(parameters.dram_init_result != INI_RES_OK) {
-		//printf("II: DRAM failed with error=%d\n", parameters.dram_init_result);
+		printf("II: DRAM failed with error=%d\n", parameters.dram_init_result);
 		while(1);
 	}
 	if(parameters.flash_init_result != INI_RES_OK) {
-		//printf("II: FLASH failed with error=%d\n", parameters.flash_init_result);
+		printf("II: FLASH failed with error=%d\n", parameters.flash_init_result);
 		while(1);
 	}
 	
