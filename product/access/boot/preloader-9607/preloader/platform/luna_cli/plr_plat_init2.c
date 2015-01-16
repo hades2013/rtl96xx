@@ -165,11 +165,14 @@ void platform_init_phase_2(void) {
 
 	/* soc registetr remap */
 	chip_ver = soc_reg_init();
-    plr_led_set(58,1);//dislight lan0
+    plr_led_set(58,0);//dislight lan0
+    plr_led_set(60,0);//dislight lan3
 	pll_setup();
-    plr_led_set(60,0);//light lan1
+    plr_led_set(46,0);//light lan2
 	console_init();
+    plr_led_set(23,0);//light los
 	PRINT_PLR_INFO(chip_ver);
+    plr_led_set(42,0);//light link
 	
 	/* Disable LX bus time out control */
 	REG32(SYSREG_LX_BUS_TIMEOUT_CTRL_REG) &= ~SYSREG_LBTC_MASK;

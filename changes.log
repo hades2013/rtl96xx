@@ -633,6 +633,13 @@ CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DT
 
   修改方法： 修改有两处：
   
+     增加点灯代码：  
+     >  当系统从flash 起来执行时，立刻点亮 lan0 灯
+     >  当系统准备通过 pll 拉起 CPU 和 DDR 的时钟前，刻点亮 lan3 灯，
+     >  系统时钟被 pll 拉起来后，再把 lan2 灯点亮
+     >  初始化串口完成后，点亮 los 灯
+     >  串口上发送第一个字符串后，点亮  link 灯
+  
            1. 汇编代码刚起来的时候，将lan0灯点亮：
            
               product/access/boot/preloader-9607/preloader/platform/luna_cli/lplr_entry.S  增加如下代码：
@@ -654,6 +661,8 @@ CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DT
 			      plr_led_set(58,1);//dislight lan0  --熄灭 LAN0 灯
 				  pll_setup();
 				  plr_led_set(60,0);//light lan1  --点亮 LAN1 灯
+				  
+	 
 		      
   修改影响： 无
   
