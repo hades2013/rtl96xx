@@ -35,7 +35,31 @@ source $PARTS_DB_DIR/parts_for_dram_gen2.tcl
 #     variable mrs_odt                120        ;#(DDR1) none, (DDR2) 0, 50, 75, 150; (DDR3-ntt_nom) 0, 20, 30, 40, 60, 120
 #     variable mrs_rtt_wr             120        ;#(DDR3) 0->disable, 60, 120
 # }
-#add_model dram_gen2 WINBOND_W971GG6JB25
+namespace eval WINBOND_W971GG6JB-25 {
+		variable zq_setting             0x000010b0
+		variable tx_clk_phs_delay       0
+		variable clkm_delay             0
+		variable clkm90_delay           0
+		variable mrs_odt                75
+		variable mrs_rtt_wr             0
+}
+namespace eval WINBOND_W971GG8JB-25 {
+		variable zq_setting             0x000010b0
+		variable tx_clk_phs_delay       0
+		variable clkm_delay             0
+		variable clkm90_delay           0
+		variable mrs_odt                75
+		variable mrs_rtt_wr             0
+}
+namespace eval WINBOND_W631GG6KB-15 {
+		variable zq_setting             0x000010b0
+		variable tx_clk_phs_delay       0x10
+		variable clkm_delay             0x4
+		variable clkm90_delay           0
+		variable mrs_odt                60
+		variable mrs_rtt_wr             60
+}
+#add_model dram_gen2 WINBOND_W971GG6JB-25
 #add_model dram_gen2 WINBOND_W971GG8JB25
 #add_model dram_gen2 WINBOND_W631GG6KB
 ## add for EPN104N or EPN104W or 5500

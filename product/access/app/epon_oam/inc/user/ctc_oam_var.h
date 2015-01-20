@@ -148,7 +148,7 @@
 #define OAM_PORT_MODE_100F  0x4
 #define OAM_PORT_MODE_1000F  0x5
 
-#if 1
+#if 0
 #define CTC_DEBUG printf
 #else
 #define CTC_DEBUG(fmt, ...)

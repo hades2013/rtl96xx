@@ -136,6 +136,9 @@ void platform_init_phase_2(void) {
 	pll_setup_info();
 	dram_setup();
 
+	/* Forced to enable Dynamic FIFO reset. */
+	REG32(DACCR_A) |= (1 << 5);
+
 	/* Turn on mapping SPI FLASH to 0xbd00_0000 */
 	REG32(MCR_A) = REG32(MCR_A) & ~MCR_FLASH_MAP1_DIS_MASK;
 
