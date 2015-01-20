@@ -165,8 +165,8 @@ void platform_init_phase_2(void) {
 
 	/* soc registetr remap */
 	chip_ver = soc_reg_init();
-    plr_led_set(58,0);//dislight lan0
-    plr_led_set(60,0);//dislight lan3
+    plr_led_set(58,0);//light lan0
+    plr_led_set(60,0);//light lan3
 	pll_setup();
     plr_led_set(46,0);//light lan2
 	console_init();

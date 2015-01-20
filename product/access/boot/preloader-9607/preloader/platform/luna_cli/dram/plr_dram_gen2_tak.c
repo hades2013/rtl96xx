@@ -1634,7 +1634,7 @@ void dram_setup(void) {
         printf("II: DRAM is set by static calibration... ");
         dram_static_calibration();
     } else {/* software calibration */
-        printf("II: DRAM is set by software calibration...\n");
+        printf("II: DRAM is set by TAK software calibration...\n");
         if(dram_software_calibration() == 0) {
             printf("PASSED\n");
         } else {            

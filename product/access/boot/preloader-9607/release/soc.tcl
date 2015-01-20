@@ -59,6 +59,9 @@ namespace eval WINBOND_W631GG6KB-15 {
 		variable mrs_odt                60
 		variable mrs_rtt_wr             60
 }
+add_model dram_gen2 TAK_DDR3_GENERIC_300MHZ
+add_model dram_gen2 TAK_DDR2_GENERIC_300MHZ
+
 #add_model dram_gen2 WINBOND_W971GG6JB-25
 #add_model dram_gen2 WINBOND_W971GG8JB25
 #add_model dram_gen2 WINBOND_W631GG6KB
