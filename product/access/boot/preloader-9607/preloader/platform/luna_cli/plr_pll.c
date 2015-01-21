@@ -63,8 +63,14 @@ void pll_setup(void) {
 	CMUCTRL = cmuctrl;
 	udelay(100);
 
+    REG32(WDTCNTRR_A) = (1ul<<31);// Clear watchdog counters
+	REG32(WDTINTRR_A) = (PH1_IP) | (PH2_IP); /* Clear interrupt(s) */
+    REG32(WDTCTRLR_A) = (1ul<<31) | (1ul<<29) | (0x1 << 22) | (0x1 << 15);/* Enable */
+
 	/* Enable LX jitter tolerance. */
 	REG32(0xB8001004) = REG32(0xB8001004) | 0x80000000;
+
+    REG32(WDTCTRLR_A) = 0;/* Disable */
 
 	return;
 }
