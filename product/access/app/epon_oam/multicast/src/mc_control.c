@@ -1462,6 +1462,7 @@ int mcGroupInfoShow(UINT32 uiIndex, UINT32 *puiReIndex, CHAR *pszIgspInfoStr)
         pstTempNode = astMcGroupEntry;
         uiNodeNum = 0;
         uiIgspIndex = 0;
+        
         switch(mcControlBlock.mcMode) 
         {
         case MC_MODE_SNOOPING:
@@ -1627,9 +1628,11 @@ OPL_STATUS mcControlBlockInit()
   vosMemSet(&mcControlBlock,0,sizeof(mcControlBlock));
 
   /* set default values */
-  mcControlBlock.mcRecvEn = OPL_ENABLE;
-  mcControlBlock.mcMode = MC_MODE_SNOOPING;
- 
+  //mcControlBlock.mcRecvEn = OPL_ENABLE;
+  //mcControlBlock.mcMode = MC_MODE_SNOOPING;
+  
+  mcControlBlock.mcRecvEn = OPL_DISABLE;// modify by luoruncai 2015-01-23
+  mcControlBlock.mcMode = MC_MODE_CTC;  // modify by luoruncai 2015-01-23
  
   mcControlBlock.ctcControlType = MC_CTL_GDA_MAC_VID;/*Modified by huangmingjian 2013-12-12*/
   MC_BITMAP = CTC_CONTROL_BITMAP_GDA_MAC_VLAN_ID;
@@ -1697,7 +1700,6 @@ OPL_STATUS odmMcControlBlockRecvEnSet(uint32 mcRecvEn)
   ret = 0;
 
   MC_DEBUG(DEBUG_LEVEL_DEBUGGING, "odmMcControlBlockRecvEnSet: mcRecvEn=%d.\r\n", mcRecvEn);
-
   /* dal */
   if(mcRecvEn!=OPL_DISABLE) {
    
@@ -1770,6 +1772,7 @@ OPL_STATUS odmMcControlBlockModeSet(uint32 mcMode)
 {
   /* fal */
   mcControlBlock.mcMode = mcMode;
+  
 
   /* odm */
   vosConfigUInt32Set(CFGFILE_MULTICAST, CFGSECTION_MULTICAST_IGMP_MANAGEMENT,
@@ -2706,8 +2709,10 @@ OPL_STATUS mcInitFromConfigFile()
   mcControlBlock.mcRecvEn = vosConfigUInt32Get(CFGFILE_MULTICAST,
     CFGSECTION_MULTICAST_IGMP_MANAGEMENT,
     CFGKEY_MULTICAST_IGMP_MANAGEMENT_IGMP_MODE, mcControlBlock.mcRecvEn);
+  
+    
 
-  if(mcControlBlock.mcRecvEn) {    
+    if(mcControlBlock.mcRecvEn) {    
     
     {
    
@@ -2744,6 +2749,13 @@ OPL_STATUS mcInitFromConfigFile()
   mcControlBlock.mcMode = vosConfigUInt32Get(CFGFILE_MULTICAST,
     CFGSECTION_MULTICAST_IGMP_MANAGEMENT,
     CFGKEY_MULTICAST_IGMP_MANAGEMENT_MODE, mcControlBlock.mcMode);
+
+  
+
+    #if defined(CONFIG_PRODUCT_EPN105)
+        mcControlBlock.mcMode = MC_MODE_CTC;
+    #endif
+
 
   if(mcControlBlock.mcMode==MC_MODE_SNOOPING) {
     mcControlBlock.hostBitmap = MC_BITMAP_HOST_SRC_IP;
@@ -4642,6 +4654,8 @@ OPL_STATUS mcModeSwitch()
   }
   MC_MODE_SWITCH_OCCUR = 0;/*Add by huangmingjian 2013-12-06 for Bug 294*/
 
+  
+  
   /*Begin modified by huangmignjian 2013-12-13*/
   /*when switch mode ,it also need to switch the MC_BITMAP and ctcControlType*/
   if(mcControlBlock.mcMode==MC_MODE_SNOOPING) 
@@ -5163,34 +5177,68 @@ INT32 DRV_SwitchMcInit(void)
 	#define DLF_TYPE_MCAST 3
 	#define DLF_TYPE_IPMC  0
 
-    /*Trap igmp protocol packet to cpu.*/
+    
+
+    #if defined(CONFIG_PRODUCT_EPN105)
+        /*Trap igmp protocol packet to all ports.*/
+        Ret = Ioctl_SetIgmpPktAction(PASS_TYPE_ALLPORTS);
+        if (DRV_OK != Ret)
+        {
+            mc_printf("\nfunc:%s, line:%d.\n",__FUNCTION__,__LINE__);
+            return ERROR;
+        }
+        
+        /*Forward unknown igmp data.*/
+        Ret = Ioctl_SetMcastLookupMissDrop(DISABLE);
+        if (DRV_OK != Ret)
+        {
+            mc_printf("\nfunc:%s, line:%d.\n",__FUNCTION__,__LINE__);
+            return ERROR;
+        }
+        
+        /*Begin add by huangmingjian 2013-09-24*/
+        /*enable all port flood for unkonw multicast packets.*/
+        memset(&portmask, 0xff, sizeof(portmask));
+        if(0 != Ioctl_SetLookupMissFloodEnable(DLF_TYPE_MCAST, portmask))       
+        {
+            mc_printf("MC set flood port for none:DLF_TYPE_MCAST failed\n");
+        }
+        if(0 != Ioctl_SetLookupMissFloodEnable(DLF_TYPE_IPMC, portmask))        
+        {
+            mc_printf("MC set flood port for none:DLF_TYPE_IPMC failed\n");
+        }
+        /*End add by huangmingjian 2013-09-24*/
+    #else
+        /*Trap igmp protocol packet to cpu.*/
         Ret = Ioctl_SetIgmpPktAction(PASS_TYPE_CPU_ONLY);
-    if (DRV_OK != Ret)
-    {
-        mc_printf("\nfunc:%s, line:%d.\n",__FUNCTION__,__LINE__);
-        return ERROR;
-    }
+        if (DRV_OK != Ret)
+        {
+            mc_printf("\nfunc:%s, line:%d.\n",__FUNCTION__,__LINE__);
+            return ERROR;
+        }
 
-    /*Drop unknown igmp data.*/
+        /*Drop unknown igmp data.*/
         Ret = Ioctl_SetMcastLookupMissDrop(ENABLE);
-    if (DRV_OK != Ret)
-    {
-        mc_printf("\nfunc:%s, line:%d.\n",__FUNCTION__,__LINE__);
-        return ERROR;
-    }
+        if (DRV_OK != Ret)
+        {
+            mc_printf("\nfunc:%s, line:%d.\n",__FUNCTION__,__LINE__);
+            return ERROR;
+        }
 
-	/*Begin add by huangmingjian 2013-09-24*/
-    /*disabled all port flood for unkonw multicast packets.*/
-	memset(&portmask, 0, sizeof(portmask));
-	if(0 != Ioctl_SetLookupMissFloodEnable(DLF_TYPE_MCAST, portmask)) 		
-	{
-		mc_printf("MC set flood port for none:DLF_TYPE_MCAST failed\n");
-	}
-	if(0 != Ioctl_SetLookupMissFloodEnable(DLF_TYPE_IPMC, portmask)) 		
-	{
-		mc_printf("MC set flood port for none:DLF_TYPE_IPMC failed\n");
-	}
-	/*End add by huangmingjian 2013-09-24*/
+    	/*Begin add by huangmingjian 2013-09-24*/
+        /*disabled all port flood for unkonw multicast packets.*/
+    	memset(&portmask, 0, sizeof(portmask));
+    	if(0 != Ioctl_SetLookupMissFloodEnable(DLF_TYPE_MCAST, portmask)) 		
+    	{
+    		mc_printf("MC set flood port for none:DLF_TYPE_MCAST failed\n");
+    	}
+    	if(0 != Ioctl_SetLookupMissFloodEnable(DLF_TYPE_IPMC, portmask)) 		
+    	{
+    		mc_printf("MC set flood port for none:DLF_TYPE_IPMC failed\n");
+    	}
+    	/*End add by huangmingjian 2013-09-24*/
+    #endif
+
 
     return NO_ERROR;
 }

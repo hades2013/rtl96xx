@@ -360,7 +360,7 @@ int main(int argc, char* argv[])
     memset(m_pucFilePtr, 0xff, file_len);
 
 	#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_5500) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
-		printf("EPN104N is not use add APP_HEADER\n");
+		printf("EPN105 is not use add APP_HEADER\n");
 	#else
   		/*------------------------------------------------------------------------
      		* 制作APP升级文件，APP升级文件包含kernel升级文件和应用软件升级文件
@@ -382,7 +382,7 @@ int main(int argc, char* argv[])
     memset(m_pucFilePtr, 0xff, file_len);
 
 	#if defined(CONFIG_PRODUCT_EPN104N) || defined(CONFIG_PRODUCT_5500) || defined(CONFIG_PRODUCT_EPN104W) || defined(CONFIG_PRODUCT_EPN101R) || defined(CONFIG_PRODUCT_EPN101ZG) || defined(CONFIG_PRODUCT_EPN104ZG) || defined(CONFIG_PRODUCT_EPN104ZG_A) || defined(CONFIG_PRODUCT_EPN105) || defined(CONFIG_PRODUCT_GPN104N)
-		printf("EPN104N is not use add aucMagic\n");
+		printf("EPN105 is not use add aucMagic\n");
 	#else
     	/*add magic for opl boot*/
     	memcpy(m_pucFilePtr, (unsigned char *)aucMagic, sizeof(aucMagic));

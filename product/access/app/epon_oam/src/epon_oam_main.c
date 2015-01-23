@@ -1164,7 +1164,7 @@ main(
     oam_fd = ipc_client_connect("eponoamd");
     if(oam_fd < 0)
     {
-        printf("%s %d\n", __FUNCTION__, __LINE__);
+        printf("%s %s %d pro=%s\n", __FILE__, __FUNCTION__, __LINE__, argv[0]);
     }
 	#if defined(CONFIG_ONU_COMPATIBLE)
     signal(SIGUSR1, signal_handler);

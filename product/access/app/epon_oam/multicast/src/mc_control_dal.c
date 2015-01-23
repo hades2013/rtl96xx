@@ -329,14 +329,13 @@ INT32 DRV_DelPortFromMcastAddr(UINT32 uiLPort, UINT32 uiVlan, UINT8 aucMac[MAC_A
 			mc_printf("\nfunc:%s,line:%d\n",__FUNCTION__,__LINE__);
 			return ERROR;
 		}
-
-		}
-		else
-		{
-			/*not exist*/
-		mc_printf("\nfunc:%s,line:%d\n",__FUNCTION__,__LINE__);
-			return ERROR;
-		}
+	}
+	else
+	{
+		/*not exist*/
+	    mc_printf("\nfunc:%s,line:%d\n",__FUNCTION__,__LINE__);
+		return ERROR;
+	}
 
 	return NO_ERROR;
 }

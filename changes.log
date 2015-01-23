@@ -728,13 +728,115 @@ CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DT
 +==============================================================================================================+
 
 
++==============================================================================================================+
+  标题： 36 关于 diag 工具的问题
++==============================================================================================================+
+  问题描述： 开发中，经常需要独立的调试 switch ,可以用diag工具
 
+  修改原因： 在 乐佩原来的版本中，系统集成了 diag 功能， 在 kernel 中有相关的文件： product/access/app/diag_rtk/src/diag_***.c
+           但是当我们改成双备份的功能时，如果将diag包含到rootfs里面去，那么不能编译出版本来，因为版本太大了。
+           
+           所以我现在将 diag 进程单独编译出来，放在目录 /opt/workspace/rtl9607/tools/diag
+           如果你需要使用 diag 来调试，需要将diag通过tftp 或者 ftp的方式 导入到 目标板的 /tmp 目录下面， 加上权限后 可直接运行
+           
+           当然，如果你觉得 这个编译的版本太老了，需要自己再编译一个，也是可以的，下面会介绍具体的编译方法
 
+  修改方法： 
+  
+		   使用现有的 diag 工具：
+		   
+		     用 tftp 工具 将 diag 导入目标版的 /tmp 目录
+		   
+		     * 将 diag 拷贝到我们的 tftp 服务器的 目录： /opt/tftpboot
+		     * 启动目标版，并 在 config terminal 节点下 : debug -> 输入密码 -> vtysh exit -> 进入系统的根目录
+		     * cd /tmp; tftp -l diag -g 192.168.0.158;chmod +x diag;./diag;  --- 192.168.0.158 是我的 tftp 服务器，使用时 需要改成你的 tftp 服务器地址
+		     * 进入后 提示符是这样的： RTK.0>
+		     * 在 RTK.0> 里面，你可以使用 Tab 或者 Shift ? 按键来查看支持哪些命令，你也可以 看看 product/access/app/diag_rtk/src 目录下有 有哪些 diag_***.c 的文件，每一个 文件代码一系列命令
+		     
+		     
+		     
+		   编译 diag 工具：
+		   
+		   在 product/access/config/EPN105/main.config 我文件里面修改：
+		   
+		   
+		   将：
+		     
+		     # CONFIG_DIAG_DEBUG is not set
+		   
+		   删除，并修改为:
+		   
+		     CONFIG_DIAG_DEBUG=y
+		     
+		   
+		   然后在 product/access/ 下面 make EPN105
+		   
+		   整个编译过程会出错，但是不用管他，只要将 product/access/app/diag_rtk/bin/diag 文件拷贝出来，因为这就是我们需要的 diag 
+		   
+		   然后将 product/access/rootfs 目录删除，并 将 product/access/config/EPN105/main.config 恢复成原样，也就是说，CONFIG_DIAG_DEBUG 要设置成这样：  # CONFIG_DIAG_DEBUG is not set
+		   
+		   接着再 make EPN105
+		     
+  修改影响： 无
+  
+  使用范围： 无
+                                                                                                               
+  修改文件及代码说明： 无
+  
+  修改时间及作者邮箱： 2015-01-23 luoruncai@hexicomtech.com                                                                                            
++==============================================================================================================+
 
++==============================================================================================================+
+  标题： 37 组播不转发的问题
++==============================================================================================================+
+  问题描述： 测试中发现，业务口的组播流无法转发
 
+  修改原因： 我们使用的版本，默认启用了 igmpsnooping 功能，但是实际上我们不需要这个功能
+           因为这个功能的目的是 所有端口的 组播流全部导入 CPU ，再由CPU 决定是否转发到 特定的端口
+           
+           我们的需求是，组播该转发哪个口就转发，不需要 CPU 介入管理
+           
 
+  修改方法： 
+			需要修改两个地方：
+			 
+			* 将igmp 的模式 设置为 CTC 模式，而不是 igmpsnooping 模式
+			* 设置组播流转发，而不是导入 CPU
+			
+			注意： 这个修改是在 eponoamd 进程中进行的，也就是说，如果那天 eponoamd 进程不需要了，我们需要做一个移植操作，将设置 igmp 这部分代码 移植到可以执行的地方，比如 master 进程
+			
+			修改文件是：
+			
+			product/access/app/epon_oam/multicast/src/mc_control.c
+			
+			* 函数 ： OPL_STATUS mcControlBlockInit()
 
+			/* set default values */
 
+			//mcControlBlock.mcRecvEn = OPL_ENABLE;
+			//mcControlBlock.mcMode = MC_MODE_SNOOPING;  --  原来的设置
+
+			mcControlBlock.mcRecvEn = OPL_DISABLE;// modify by luoruncai 2015-01-23
+			mcControlBlock.mcMode = MC_MODE_CTC;  // modify by luoruncai 2015-01-23  -- 默认值修改为 CTC
+			
+			* 函数 ： INT32 DRV_SwitchMcInit(void)
+			
+			增加了宏 ： 
+			#if defined(CONFIG_PRODUCT_EPN105)
+			-- 这里是修改后的代码，我们需要所有端口转发，所以设置为 PASS_TYPE_ALLPORTS
+			#else
+			-- 这里是修改前的代码，使用 igmpsnooping ， 所有igmp 流全部导入 CPU ，所以设置为 PASS_TYPE_CPU_ONLY
+			#endif
+			
+			
+  修改影响： 需要测试性组播流是否通
+  
+  使用范围： 无
+                                                                                                               
+  修改文件及代码说明： 版本号变更为 V1.0.4.R9607
+  
+  修改时间及作者邮箱： 2015-01-23 luoruncai@hexicomtech.com                                                                                            
++==============================================================================================================+
 
 
 
