@@ -743,8 +743,8 @@ void memctlc_set_dqm_delay_patch(unsigned int mem_clk_mhz)
 						//printf("dqmX_delay=%d, dqmX_window[%d]=0x%x\n",dqmX_delay,i,dqmX_window[i]);
 					}	
 				}
-			printf("clkm_delay=%d\t",clkm_delay);
-			printf("==>dqmX_window[%d]=0x%x\n",i,dqmX_window[i]);
+			//printf("clkm_delay=%d\t",clkm_delay);
+			//printf("==>dqmX_window[%d]=0x%x\n",i,dqmX_window[i]);
 			}
 			/***************************************************************
 			*	Check dqm0_window & dqm1_window max value of window. Analysis window *

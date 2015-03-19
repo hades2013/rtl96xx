@@ -652,7 +652,6 @@ DRV_RET_E Hal_SwitchInit(void)
     	int ret;
 		portStatus = 0;       
         ret = rtk_port_link_get(i, &portStatus);
-        printk("rtk_port_link_get(%d) return %d, (status=%d)\n", i, ret, portStatus);
     }
     
 /* end */

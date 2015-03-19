@@ -4431,7 +4431,7 @@ static DRV_RET_E Hal_AclForMmeTrapToCpu(logic_pmask_t *pstLgcMask, UINT8 *aucMac
 
     if (NULL != aucMac)
     {
-        printk("%s %d: _Hal_AclRuleCfgCreate(%d, %02X:%02X:%02X:%02X:%02X:%02X);\n", __FUNCTION__, __LINE__, uiAclRuleId, aucMac[0], aucMac[1], aucMac[2], aucMac[3], aucMac[4], aucMac[5]);    
+       // printk("%s %d: _Hal_AclRuleCfgCreate(%d, %02X:%02X:%02X:%02X:%02X:%02X);\n", __FUNCTION__, __LINE__, uiAclRuleId, aucMac[0], aucMac[1], aucMac[2], aucMac[3], aucMac[4], aucMac[5]);    
         enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_DMAC, ACL_ACTION_TRAP_TO_CPU, aucMac, aucMac);
         if (DRV_OK != enRet)
         {
@@ -4455,7 +4455,7 @@ static DRV_RET_E Hal_AclForMmeTrapToCpu(logic_pmask_t *pstLgcMask, UINT8 *aucMac
         }
     }    
 
-    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
+//    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
     enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
     if (DRV_OK != enRet) 
     {
@@ -4516,7 +4516,7 @@ static DRV_RET_E Hal_AclForIpFromCableToCpuDrop(logic_pmask_t *pstLgcMask, UINT8
         }
     }   
 
-    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
+//    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
     enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
     if (DRV_OK != enRet) 
     {
