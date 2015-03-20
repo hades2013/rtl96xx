@@ -838,7 +838,44 @@ CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DT
   修改时间及作者邮箱： 2015-01-23 luoruncai@hexicomtech.com                                                                                            
 +==============================================================================================================+
 
++==============================================================================================================+
+  标题： 38 wifi 终端无法读取配置并频繁离线
++==============================================================================================================+
+  问题描述： 当wifi的业务口设置为路由模式而且vlan不为1后，wifi无法读取到端口配置，频繁离线，无法管理问题。
 
+  修改原因： 由于wifi发送广播报文时带了业务vlan，导致cable也有该vlan，cpu 的vlan存储表把cable对应的vlan存储起来，
+             并带上该vlan回复wifi报文，导致无法正常通信。
+  
+  修改方法： 
+			在 product\access\kernel\linux-2.6.x\drivers\net\re8686.c 文件中 的 re8670_start_xmit 函数内增加，使发送的MME报文不包含tag： 
+			 #ifdef CONFIG_EOC_EXTEND
+        /* MME packet, has vlan tag or not. wifi slave should be set mme_untagged = 1.*/      
+        if (mme_untagged
+        && ((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
+        && ((0x88 == skb->data[16]) && (0xE1 == skb->data[17]))
+        )
+        {            
+            memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
+        }
+        #endif 
+		   在 product\access\kernel\linux-2.6.x\drivers\lwdrv\hal\switch\realtek\rtl9607\rtk_drv_vlan.c 增加接口函数获取mme_untagged的值： 
+				#ifdef CONFIG_EOC_EXTEND
+				/* Cable should be send mme untag packet to wifi slave,otherwise can not manage wifi.Add by Alan Lee,at 2015-03-20 */
+				void Hal_SetMMEUntagged(UINT32 untagged)
+				{
+					mme_untagged = untagged;
+					//printk("set mme untagged=%d\n", mme_untagged);
+				}				
+				#endif
+				  
+  修改影响： 需要测试wifi业务
+  
+  使用范围： 无
+                                                                                                               
+  修改文件及代码说明： 版本号变更为 V1.0.5.R9607
+  
+  修改时间及作者邮箱： 2015-03-20 lizhihui@hexicomtech.com                                                                                            
++==============================================================================================================+
 
 
 
