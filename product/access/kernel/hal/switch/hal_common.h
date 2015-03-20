@@ -390,6 +390,8 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_PortInit)(void);
 
     DRV_RET_E (*p_Hal_SetVlanFilter)(BOOL bEnable);
+
+    DRV_RET_E (*p_Hal_SetMMEUntagged)(UINT32 untagged);
     
 	DRV_RET_E (*p_Hal_SetManageVlan)(unsigned int uiVlanIndex);
 
@@ -987,7 +989,6 @@ DRV_RET_E Hal_GetEponMibCounter(rtk_epon_counter_app_t *pCounter);
 DRV_RET_E Hal_EponMibGlobal_Reset();
 DRV_RET_E Hal_GetPonmacTransceiver(rtk_transceiver_parameter_type_app_t type, rtk_transceiver_data_app_t*pData);
 /*End add by huangmingjian 2013-08-27*/
-
 DRV_RET_E Hal_SetManageVlan(unsigned int uiVlanIndex);
 DRV_RET_E Hal_SetWirelessUpServiceVlan(unsigned int uiVlanIndex);
 
@@ -1031,6 +1032,7 @@ DRV_RET_E Hal_SetVlanFilter(BOOL bEnable);
 DRV_RET_E Hal_SetEocLowLevelFunction(eoc_low_level_t *peocLowLevel);
 DRV_RET_E Hal_SetRatelimitStormCtrlByPort(PORT_STORM_TYPE_E stormType, logic_pmask_t lPortMask, UINT32 ulKBps);
 DRV_RET_E Hal_GetMibPortStatisticsRaw(port_num_t lport, UINT32 mibType, UINT64 *p_ullStat);
+void Hal_SetMMEUntagged(UINT32 untagged); /* Add by Alan Lee,at 2015-03-19 */
 #endif 
 /* End */
 

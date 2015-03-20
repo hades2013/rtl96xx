@@ -250,6 +250,7 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_DelC2sEntryFromPort=Hal_DelC2sEntryFromPort;
 	g_LW_Drv_Ops.p_Hal_PortInit=Hal_PortInit;
     g_LW_Drv_Ops.p_Hal_SetVlanFilter=Hal_SetVlanFilter;
+    g_LW_Drv_Ops.p_Hal_SetMMEUntagged=Hal_SetMMEUntagged;
 	g_LW_Drv_Ops.p_Hal_SetManageVlan=Hal_SetManageVlan;
 	/*Begin add by shipeng 2013-11-11*/
 	g_LW_Drv_Ops.p_Hal_SetWirelessUpServiceVlan=Hal_SetWirelessUpServiceVlan;

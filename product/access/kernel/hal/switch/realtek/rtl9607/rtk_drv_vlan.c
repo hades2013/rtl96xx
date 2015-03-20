@@ -15,6 +15,8 @@
 #include <rtk/svlan.h>
 #include <rtk/qos.h>
 #include <rtk/switch.h>
+#include <linux/module.h>
+
 
 #ifndef CONFIG_SDK_KERNEL_LINUX
 #define CONFIG_SDK_KERNEL_LINUX
@@ -34,6 +36,12 @@
  *----------------------------------------------*/
 extern unsigned int s_ui_management_vlan;
 unsigned int wireless_up_service_vlan=4094;
+
+#ifdef CONFIG_EOC_EXTEND
+extern unsigned int mme_untagged;
+module_param(mme_untagged, int, 0644);
+MODULE_PARM_DESC(mme_untagged,"remove mme vlan tag or not");
+#endif
 
 /*----------------------------------------------*
  * 外部函数原型说明                             *
@@ -251,7 +259,6 @@ DRV_RET_E Hal_SetVlanFilter(BOOL bEnable)
     return DRV_OK;
 
 }
-
 
 /*****************************************************************************
     Func Name:  Hal_SetVlanEntryCreate
@@ -4361,6 +4368,17 @@ DRV_RET_E Hal_CfgPortCtcVlanGet(UINT32 uiLPortId, CTC_VLAN_CFG_S *pstCtcVlanMode
 
     return DRV_OK;
 }
+
+#ifdef CONFIG_EOC_EXTEND
+/* Cable should be send mme untag packet to wifi slave,otherwise can not manage wifi.Add by Alan Lee,at 2015-03-20 */
+void Hal_SetMMEUntagged(UINT32 untagged)
+{
+    mme_untagged = untagged;
+    //printk("set mme untagged=%d\n", mme_untagged);
+}
+
+#endif
+
 
 DRV_RET_E Hal_SetManageVlan(unsigned int uiVlanIndex)
 {

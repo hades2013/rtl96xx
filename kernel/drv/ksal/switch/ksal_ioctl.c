@@ -1140,6 +1140,11 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
             	return g_LW_Drv_Ops.p_Hal_SetVlanFilter(pstDrvReq->para1_u.uiValue);
 			else
 				return DRV_NULL_POINTER;
+        case DRV_CMD_SET_MME_UNTAGGED:
+            if(g_LW_Drv_Ops.p_Hal_SetMMEUntagged!=NULL)
+            	return g_LW_Drv_Ops.p_Hal_SetMMEUntagged(pstDrvReq->para1_u.uiValue);
+			else
+				return DRV_NULL_POINTER;    
 		case DRV_CMD_SET_MANAGE_VLAN:
             if(g_LW_Drv_Ops.p_Hal_SetManageVlan!=NULL)
             	return g_LW_Drv_Ops.p_Hal_SetManageVlan(pstDrvReq->para1_u.uiValue);

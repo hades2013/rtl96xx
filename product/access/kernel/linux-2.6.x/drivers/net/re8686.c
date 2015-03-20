@@ -208,6 +208,11 @@ static inline void write_buffer_flush(void){
 
 #endif
 
+
+#ifdef CONFIG_EOC_EXTEND
+unsigned int mme_untagged = 0;
+#endif
+
 /* Jonah + for FASTROUTE */
 struct net_device *eth_net_dev;
 struct tasklet_struct *eth_rx_tasklets=NULL;
@@ -1168,7 +1173,7 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
     uint32 pvid = 0;
     if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pRxInfo->opts3.bit.src_port_num != CLT1_PORT)
     {   
-        rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);
+        rtk_vlan_portPvid_get(pRxInfo->opts3.bit.src_port_num, &pvid);        
     }
 #endif
     skb->dev = decideRxDevice(cp, pRxInfo);
@@ -1181,17 +1186,23 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
     //printk("[name=%s]\n",skb->dev->name);
 
 	skb->vlan_tci = (pRxInfo->opts2.bit.ctagva) ? VTAG2VLANTCI(pRxInfo->opts2.bit.cvlan_tag) : 0;
+    
+    //if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT))    
+	//printk("\n 11 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,        
+    //    skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
+    //    skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
+    //    skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
 
     if(((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT)) && //from cable and vlan tag is not 0 and type is mme packet,remove tag
         (skb->vlan_tci & VLAN_VID_MASK)               &&
         (skb->data[12]== 0x88 && skb->data[13] == 0xE1)){
-        skb->vlan_tci = 0;
+        skb->vlan_tci = 0;        
     }
 
 	ETHDBG_PRINT(RTL8686_SKB_RX, "This packet comes from %s(vlan %u)\n", skb->dev->name, skb->vlan_tci);
 	skb->from_dev=skb->dev;
 	//if(skb->data[12]==0x08&&skb->data[13]==0x00)
-  //  printk("This arp packet comes from %s(vlan %u) %02x %02x %02x\n", skb->dev->name, skb->vlan_tci,skb->data[12],skb->data[13],skb->data[14]);
+    //printk("This arp packet comes from %s(vlan %u) %02x %02x %02x\n", skb->dev->name, skb->vlan_tci,skb->data[12],skb->data[13],skb->data[14]);
 	Drv_MT_AddEntry(skb->data,PortPhyID2Logic(pRxInfo->opts3.bit.src_port_num),
 	(skb->vlan_tci & VLAN_VID_MASK) ? (skb->vlan_tci & VLAN_VID_MASK) : pvid);
     
@@ -1281,6 +1292,14 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
         
 		skb->protocol = eth_type_trans (skb, skb->dev);
 		skb->vlan_tci = 0;
+
+        /*
+        if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT))    
+        printk("\n 22 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,
+            skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
+            skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
+            skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
+        */
         
         //printk("skb->protocol=%x\n",ntohs(skb->protocol));
         //printk("333 skb->head=%p,skb->data=%p\n",skb->head,skb->data);
@@ -2248,7 +2267,7 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
     }
     #endif
 
-	#ifdef ONU_STYLE
+	#ifdef ONU_STYLE      
 	if(vid)
 	{
 		 if((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
@@ -2260,7 +2279,17 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 		 {
 			 skb_push_qtag(skb, vid, 0);//use pri=0
 		 }
-	 }
+        #ifdef CONFIG_EOC_EXTEND
+        /* MME packet, has vlan tag or not. wifi slave should be set mme_untagged = 1.*/      
+        if (mme_untagged
+        && ((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
+        && ((0x88 == skb->data[16]) && (0xE1 == skb->data[17]))
+        )
+        {            
+            memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
+        }
+        #endif 
+	 }   
 	 else
 	 {
 			 /* Delete vlan tag if vid of soft atu is 0. */
@@ -2414,9 +2443,15 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 		txInfo.opts3.bit.extspa,
 		txInfo.opts3.bit.tx_portmask,
 		txInfo.opts3.bit.l34_keep);
-			
+	/*		
+    if(skb->data[16] == 0x88 && skb->data[17] == 0xE1)
+       printk("\n TX packet 88E1 send outside vlan:%d,\n txport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",vid,        
+       skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
+       skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
+       skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
+    */
 
-	
+
 	dev->trans_start = jiffies;
 	return 0;
 }
