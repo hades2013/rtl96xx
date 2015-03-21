@@ -335,6 +335,7 @@ typedef enum tagDrv_cmd{
 	DRV_CMD_DELTRSLMC_MBR,
 	DRV_CMD_LOOKUP_MISS_FLOOD_SET,  /*Add by huangmingjian 2013-09-24 for Bug 234: flood-ports none for unkown multcast packet*/
     DRV_CMD_SET_VLAN_FILTER,
+    DRV_CMD_SET_MME_UNTAGGED,
     DRV_CMD_SET_EOC_LOW_LEVEL_FUNCTION,
     DRV_CMD_SET_RATELIMIT_STORM_PORT,
     DRV_CMD_GET_MIB_COUNT_RAW,   
@@ -1166,6 +1167,13 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
 #define Ioctl_SetVlanFilter(_vlan_filter)\
     Ioctl_SetUnionUint32(DRV_CMD_SET_VLAN_FILTER, (UINT32)_vlan_filter)
 
+/* Modified by Einsn, 20130929 */
+#ifdef CONFIG_EOC_EXTEND
+#define Ioctl_SetMMEUntagged(_mme_untagged)\
+    Ioctl_SetUnionUint32(DRV_CMD_SET_MME_UNTAGGED, (UINT32)_mme_untagged)
+#endif 
+
+/* End */
 
 /* 014325 */
 /*  */
