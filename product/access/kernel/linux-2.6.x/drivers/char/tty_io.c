@@ -115,12 +115,12 @@
 struct ktermios tty_std_termios = {	/* for the benefit of tty drivers  */
 	.c_iflag = ICRNL | IXON,
 	.c_oflag = OPOST | ONLCR,
-	.c_cflag = B38400 | CS8 | CREAD | HUPCL,
+	.c_cflag = /*B38400*/B115200 | CS8 | CREAD | HUPCL,
 	.c_lflag = ISIG | ICANON | ECHO | ECHOE | ECHOK |
 		   ECHOCTL | ECHOKE | IEXTEN,
 	.c_cc = INIT_C_CC,
-	.c_ispeed = 38400,
-	.c_ospeed = 38400
+	.c_ispeed = 115200,//38400,
+	.c_ospeed = 115200//38400
 };
 
 EXPORT_SYMBOL(tty_std_termios);

@@ -1277,9 +1277,9 @@ static void uart_close(struct tty_struct *tty, struct file *filp)
 
 	mutex_lock(&state->mutex);
 
-	if (tty_hung_up_p(filp))
+	if (tty_hung_up_p(filp)){
 		goto done;
-
+   }
 	if ((tty->count == 1) && (state->count != 1)) {
 		/*
 		 * Uh, oh.  tty->count is 1, which means that the tty
@@ -1297,8 +1297,9 @@ static void uart_close(struct tty_struct *tty, struct file *filp)
 		       tty->name, state->count);
 		state->count = 0;
 	}
-	if (state->count)
+	if (state->count){
 		goto done;
+       }
 
 	/*
 	 * Now we wait for the transmit buffer to clear; and we notify
@@ -1314,6 +1315,7 @@ static void uart_close(struct tty_struct *tty, struct file *filp)
 	 * At this point, we stop accepting input.  To do this, we
 	 * disable the receive line status interrupts.
 	 */
+	 
 	if (state->info.flags & UIF_INITIALIZED) {
 		unsigned long flags;
 		spin_lock_irqsave(&port->lock, flags);
@@ -2147,6 +2149,9 @@ uart_report_port(struct uart_driver *drv, struct uart_port *port)
 			 "I/O 0x%lx offset 0x%x", port->iobase, port->hub6);
 		break;
 	case UPIO_MEM:
+		snprintf(address, sizeof(address),
+			 "MMIO 0x%lx", (unsigned long)port->membase);
+        break;
 	case UPIO_MEM32:
 	case UPIO_DWAPB:
 		snprintf(address, sizeof(address),
@@ -2355,8 +2360,8 @@ int uart_register_driver(struct uart_driver *drv)
 	normal->type		= TTY_DRIVER_TYPE_SERIAL;
 	normal->subtype		= SERIAL_TYPE_NORMAL;
 	normal->init_termios	= tty_std_termios;
-	normal->init_termios.c_cflag = B9600 | CS8 | CREAD | HUPCL | CLOCAL;
-	normal->init_termios.c_ispeed = normal->init_termios.c_ospeed = 9600;
+	normal->init_termios.c_cflag = B115200/*B9600*/ | CS8 | CREAD | HUPCL | CLOCAL;
+	normal->init_termios.c_ispeed = normal->init_termios.c_ospeed = 115200;//9600;
 	normal->flags		= TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV;
 	normal->driver_state    = drv;
 	tty_set_operations(normal, &uart_ops);
