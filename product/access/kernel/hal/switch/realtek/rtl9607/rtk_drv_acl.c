@@ -4568,7 +4568,18 @@ static DRV_RET_E Hal_AclForMmeDrop(logic_pmask_t *pstLgcMask, UINT32 *puiAclRule
             uiPhyId = PortLogic2PhyPortId(lgcPort);
             uiPortMask |= (1U << uiPhyId);
         }
-    }       
+    }
+
+    //drop MME ?
+    if (TstLgcMaskBit(LOGIC_PON_PORT, pstLgcMask))
+    {
+        uiPhyId = PortLogic2PhyID(LOGIC_PON_PORT);
+        if(uiPhyId != INVALID_PORT)
+        {
+            uiPortMask |= (1U << uiPhyId);
+        }
+    }
+
 
     //printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
     
@@ -4652,7 +4663,7 @@ DRV_RET_E Hal_SetEocLowLevelFunction(eoc_low_level_t *peocLowLevel)
             }            
         }        
     }
-    
+
     if (LgcMaskNotNull(&peocLowLevel->drop_mme_ports)){
         enRet = Hal_AclForMmeDrop(&peocLowLevel->drop_mme_ports, &eocDropMmeAclId);
         if (DRV_OK != enRet)
@@ -4706,12 +4717,9 @@ static DRV_RET_E Hal_AclForMpcpDrop(logic_pmask_t *pstLgcMask, UINT32 *puiAclRul
         {
             uiPhyId = PortLogic2PhyPortId(lgcPort);
             uiPortMask |= (1U << uiPhyId);
-            printk("%s %d: uiPhyId(%d);\n", __FUNCTION__, __LINE__,uiPhyId);
         }
     }       
 
-    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
-    
     enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
     if (DRV_OK != enRet) 
     {

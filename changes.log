@@ -927,6 +927,38 @@ CDEFF=-DSELFTEST=0 -DDECOMP_ALGO=$(DECOMP_ALGO) -DDATE_TAG="\"$(DATE_TAG)\"" -DT
   修改时间及作者邮箱： 2015-04-20 luoruncai@hexicomtech.com                                                                                            
 +==============================================================================================================+
 
++==============================================================================================================+
+  标题： 41  设置MME DROP ACL规则时，增加对PON的检查并设置
++==============================================================================================================+
+  问题描述： 有的局端的PON口会串入MME报文，会影响上行设备，需要去掉这些MME报文。
+
+  修改原因： 
+  
+  修改方法： 
+	    product/access/kernel/hal/switch/realtek/rtl9607/rtk_drv_acl.c 函数： DRV_RET_E Hal_AclForMmeDrop(logic_pmask_t *pstLgcMask)
+	    
+	    增加：
+	    
+            //drop MME ?
+            if (TstLgcMaskBit(LOGIC_PON_PORT, pstLgcMask))
+            {
+                uiPhyId = PortLogic2PhyID(LOGIC_PON_PORT);
+                if(uiPhyId != INVALID_PORT)
+                {
+                    uiPortMask |= (1U << uiPhyId);
+                }
+            }
+
+	
+  修改影响：  测试是否影响以太网的MME DROP 规则
+  
+  使用范围： 无
+                                                                                                               
+  修改文件及代码说明： 版本号变更为 V1.0.7.R9607
+  
+  修改时间及作者邮箱： 2015-04-20 luoruncai@hexicomtech.com                                                                                            
++==============================================================================================================+
+
 
 
 
