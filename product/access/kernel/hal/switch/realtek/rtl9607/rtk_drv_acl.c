@@ -3571,7 +3571,8 @@ static void Hal_Acl_FieldSelect_init(void)
 DRV_RET_E __Hal_CreateRuleForCpuMac(void);
 
 #ifdef CONFIG_EOC_EXTEND
-    void Hal_EocLowLevelFunctionInit(void);   
+    void Hal_EocLowLevelFunctionInit(void);
+    DRV_RET_E Hal_DropMpcp(logic_pmask_t *pstLgcMask);
 #endif /* EOC_PORTING */
 
 /*****************************************************************************
@@ -3688,7 +3689,8 @@ DRV_RET_E Hal_AclRuleInit(void)
 #endif
 /*End add by huangmingjian 2014-05-12  for Bug 583*/	
 #ifdef CONFIG_EOC_EXTEND
-        Hal_EocLowLevelFunctionInit();   
+    Hal_EocLowLevelFunctionInit();   
+    Hal_DropMpcp(NULL);
 #endif /* EOC_PORTING */
 
     printk("done.##############\n");
@@ -4407,6 +4409,7 @@ static UINT32 eocBcastMmeTrapToCpuAclId;
 static UINT32 eocCpuMmeTrapToCpuAclId;
 static UINT32 eocDropMmeAclId;
 static UINT32 eocDropIpFromCableToCpuAclId;
+static UINT32 eocDropMpcpAclId;
 
 
 static DRV_RET_E Hal_AclForMmeTrapToCpu(logic_pmask_t *pstLgcMask, UINT8 *aucMac, UINT32 *puiAclRuleId)
@@ -4565,9 +4568,20 @@ static DRV_RET_E Hal_AclForMmeDrop(logic_pmask_t *pstLgcMask, UINT32 *puiAclRule
             uiPhyId = PortLogic2PhyPortId(lgcPort);
             uiPortMask |= (1U << uiPhyId);
         }
-    }       
+    }
 
-    printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
+    //drop MME ?
+    if (TstLgcMaskBit(LOGIC_PON_PORT, pstLgcMask))
+    {
+        uiPhyId = PortLogic2PhyID(LOGIC_PON_PORT);
+        if(uiPhyId != INVALID_PORT)
+        {
+            uiPortMask |= (1U << uiPhyId);
+        }
+    }
+
+
+    //printk("%s %d: _Hal_AclRuleBind(%08X, %d);\n", __FUNCTION__, __LINE__, uiPortMask, uiAclRuleId);
     
     enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
     if (DRV_OK != enRet) 
@@ -4649,7 +4663,7 @@ DRV_RET_E Hal_SetEocLowLevelFunction(eoc_low_level_t *peocLowLevel)
             }            
         }        
     }
-    
+
     if (LgcMaskNotNull(&peocLowLevel->drop_mme_ports)){
         enRet = Hal_AclForMmeDrop(&peocLowLevel->drop_mme_ports, &eocDropMmeAclId);
         if (DRV_OK != enRet)
@@ -4668,8 +4682,87 @@ void Hal_EocLowLevelFunctionInit(void)
     eocCpuMmeTrapToCpuAclId = ACL_RULE_ID_IVALLID;
     eocDropMmeAclId = ACL_RULE_ID_IVALLID;
     eocDropIpFromCableToCpuAclId = ACL_RULE_ID_IVALLID; 
+    eocDropMpcpAclId = ACL_RULE_ID_IVALLID;
 }
 
+static DRV_RET_E Hal_AclForMpcpDrop(logic_pmask_t *pstLgcMask, UINT32 *puiAclRuleId)
+{
+    DRV_RET_E enRet;   
+    UINT32 uiAclRuleId;
+    UINT32 uiMmeEthType = 0x8808;
+    UINT32 uiPortMask;
+    UINT32 lgcPort, uiPhyId;
+
+    if (!LgcMaskNotNull(pstLgcMask))
+    {
+        return DRV_ERR_PARA;
+    }
+
+    enRet = _Hal_AclRuleEmptyIdGet(&uiAclRuleId);
+    if (DRV_OK != enRet)
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    enRet = _Hal_AclRuleCfgCreate(uiAclRuleId, ACL_TRUST_ETHTYPE, ACL_ACTION_DROP, &uiMmeEthType, &uiMmeEthType);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    uiPortMask = 0;
+    LgcPortFor(lgcPort)
+    {
+        if (TstLgcMaskBit(lgcPort, pstLgcMask))
+        {
+            uiPhyId = PortLogic2PhyPortId(lgcPort);
+            uiPortMask |= (1U << uiPhyId);
+        }
+    }       
+
+    enRet = _Hal_AclRuleBind(uiPortMask, uiAclRuleId);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }
+
+    if (puiAclRuleId){
+        *puiAclRuleId = uiAclRuleId;
+    }
+
+    return DRV_OK;
+}
+
+DRV_RET_E Hal_DropMpcp(logic_pmask_t *pstLgcMask)
+{
+    DRV_RET_E enRet = DRV_OK;
+    logic_pmask_t ports;
+
+    pstLgcMask = pstLgcMask ? pstLgcMask : (&ports);
+
+    SetLgcMaskAll(&ports);
+    ClrLgcMaskBit(LOGIC_PON_PORT, &ports);
+    ClrLgcMaskBit(LOGIC_CPU_PORT, &ports);
+
+    if (eocDropMpcpAclId != ACL_RULE_ID_IVALLID){
+        enRet = ACL_DeleteRuleByAclid(eocDropMpcpAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }   
+        eocDropMpcpAclId = ACL_RULE_ID_IVALLID;
+    }  
+   
+    if (LgcMaskNotNull(pstLgcMask)){
+        enRet = Hal_AclForMpcpDrop(pstLgcMask, &eocDropMpcpAclId);
+        if (DRV_OK != enRet)
+        {
+            return DRV_ERR_UNKNOW;
+        }        
+    }
+
+    return enRet;    
+}
 
 
 #endif /* CONFIG_EOC_EXTEND */
