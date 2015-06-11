@@ -208,6 +208,169 @@ int epon_oam_discovery_proc(
         pOamInfo->valid = 1;
         epon_oam_remoteInfo_set(pOamPdu->llidIdx, pOamInfo);
         oampdu_flag[llidIdx] = EPON_OAM_FLAG_LOCAL_STABLE;
+        unsigned int  data = 0x0e; /*ADJ_BC*/ //modified by wanghuanyu for bug1056
+        /* Once we can receive the OAM for specified LLID,
+         * that means the MPCP already registered
+         * So we can retrive the LLID config back for specified LLID
+         */
+        epon_oam_config_get(llidIdx, &oamConfig);
+        if((0 == oamConfig.macAddr[0]) &&
+            (0 == oamConfig.macAddr[1]) &&
+            (0 == oamConfig.macAddr[2]) &&
+            (0 == oamConfig.macAddr[3]) &&
+            (0 == oamConfig.macAddr[4]) &&
+            (0 == oamConfig.macAddr[5]))
+        {
+            llidEntry.llidIdx = llidIdx;
+            ret = rtk_epon_llid_entry_get(&llidEntry);
+            if(RT_ERR_OK == ret)
+            {
+                oam_oamInfo_t localInfo;
+               
+                memcpy(&oamConfig.macAddr[0], &llidEntry.mac.octet[0], sizeof(oamConfig.macAddr));
+                epon_oam_config_set(llidIdx, &oamConfig);
+                epon_oam_localInfo_get(llidIdx,&localInfo);
+                localInfo.venderSpecInfo[0]=oamConfig.macAddr[2];
+                localInfo.venderSpecInfo[1]=oamConfig.macAddr[3];
+                localInfo.venderSpecInfo[2]=oamConfig.macAddr[4];
+                localInfo.venderSpecInfo[3]=oamConfig.macAddr[5];
+                epon_oam_localInfo_set(llidIdx, &localInfo);
+            }
+            else
+            {
+                EPON_OAM_PRINT(EPON_OAM_DBGFLAG_WARN,
+                    "[OAM:%s:%d] LLID MAC update failed %d\n", __FILE__, __LINE__, ret);
+            }
+           
+        }		
+
+        #include <hal/chipdef/apollomp/rtk_apollomp_reg_struct.h>
+        dal_apollomp_epon_reportMode_set(RTK_EPON_REPORT_0_F); 
+        reg_field_write(APOLLOMP_EPON_ASIC_TIMING_ADJUST2r,APOLLOMP_ADJ_BCf,&data); 
+		
+		
+	#if defined(CONFIG_ONU_COMPATIBLE)
+//		epon_oam_localInfo_get(llidIdx, &oamInfo);
+    	compatible_setting_t *sys = &sys_compatible;
+        if(sys->enable)
+        {
+            memcpy(oam_onu_vendor, own_onu_vendor, 4);
+            if(!memcmp(h3c_oui, pOamPdu->srcMacAddr, 3))
+            {
+                OamSetOltFlag(OLT_FLAG_H3C);
+                memcpy(oam_onu_vendor, h3c_onu_vendor, 4);
+            }
+            else if(!memcmp(share_oui, pOamPdu->srcMacAddr, 3))
+            {
+                OamSetOltFlag(OLT_FLAG_YOTC);
+                memcpy(oam_onu_vendor, yotc_onu_vendor, 4);
+            }
+            else if(!memcmp(raisecom_oui, pOamPdu->srcMacAddr, 3))
+            {
+                if(!memcmp(zte_c300_olt_vender, pOamInfo->venderSpecInfo, sizeof(pOamInfo->venderSpecInfo)))
+                {
+                    OamSetOltFlag(OLT_FLAG_ZTE);
+                    memcpy(oam_onu_vendor, zte_onu_vendor, 4);
+                }
+                else
+                {
+                    OamSetOltFlag(OLT_FLAG_RAISECOM);
+                    memcpy(oam_onu_vendor, raisecom_onu_vendor, 4);
+                }
+            }
+            else if(!memcmp(zte_onu_id, pOamPdu->srcMacAddr, 3))
+            {
+                /*Begin modified by linguobin 2013-11-28*/
+                #if 0
+                OamSetOltFlag(OLT_FLAG_ZTE);
+                memcpy(oam_onu_vendor, zte_onu_vendor, 4);
+                #endif
+                if(!memcmp(zte_olt_vender, pOamInfo->venderSpecInfo, sizeof(pOamInfo->venderSpecInfo)))
+                {
+                    OamSetOltFlag(OLT_FLAG_ZTE);
+                    memcpy(oam_onu_vendor, zte_onu_vendor, 4);
+                }     
+                else if(!memcmp(fiberhome_olt_vender, pOamInfo->venderSpecInfo, sizeof(pOamInfo->venderSpecInfo)))
+                {
+                    OamSetOltFlag(OLT_FLAG_FIBERHOME);
+                    memcpy(oam_onu_vendor, fiberhome_onu_vendor, 4);
+                }
+            /*End modified by linguobin 2013-11-28*/
+            }
+            memcpy(oamInfo.venderSpecInfo, oam_onu_vendor, 4);
+        }
+	#endif
+//		epon_oam_localInfo_set(llidIdx, &oamInfo);
+        break;
+    case EPON_OAM_FSM_STATE_WAIT_REMOTE_OK:
+        /* Update the remote's "LOCAL" TLV */
+        pOamInfo->valid = 1;
+        epon_oam_remoteInfo_set(pOamPdu->llidIdx, pOamInfo);
+        if(0 != (pOamPdu->flag & EPON_OAM_FLAG_LOCAL_STABLE))
+        {
+            oam_fsm_state[llidIdx] = EPON_OAM_FSM_STATE_COMPLETE;
+            local_pdu[llidIdx] = EPON_OAM_LOCALPDU_ANY;
+        }
+        oampdu_flag[llidIdx] = EPON_OAM_FLAG_LOCAL_STABLE;
+        /* Send event to state keeper to start timer for OAM keepalive */
+        epon_oam_event_send(llidIdx, EPON_OAM_EVENT_DISCOVERY_COMPLETE);
+        break;
+    case EPON_OAM_FSM_STATE_COMPLETE:
+        /* Update the remote's "LOCAL" TLV */
+        pOamInfo->valid = 1;
+        epon_oam_remoteInfo_set(pOamPdu->llidIdx, pOamInfo);
+        if(0 == (pOamPdu->flag & EPON_OAM_FLAG_REMOTE_STABLE))
+        {
+            oam_fsm_state[llidIdx] = EPON_OAM_FSM_STATE_WAIT_REMOTE_OK;
+            local_pdu[llidIdx] = EPON_OAM_LOCALPDU_INFO;
+        }
+        oampdu_flag[llidIdx] = EPON_OAM_FLAG_LOCAL_STABLE;
+        break;
+    default:
+        /* Not supported states */
+        break;
+    }
+    /* Update remote flag */
+    oampdu_flag[llidIdx] |=
+        (pOamPdu->flag & EPON_OAM_FLAG_LOCAL_EVAL) ? EPON_OAM_FLAG_REMOTE_EVAL : 0;
+    oampdu_flag[llidIdx] |=
+        (pOamPdu->flag & EPON_OAM_FLAG_LOCAL_STABLE) ? EPON_OAM_FLAG_REMOTE_STABLE : 0;
+    sem_post(&oamStateAccessSem);
+
+    return EPON_OAM_ERR_OK;
+}
+
+int epon_oam_discovery_proc1_0_0(
+    unsigned char llidIdx,
+    oam_oamPdu_t *pOamPdu,
+    oam_oamInfo_t *pOamInfo)
+{
+    int ret;
+    oam_oamInfo_t localInfo;
+    oam_config_t oamConfig;
+    rtk_epon_llid_entry_t llidEntry;
+	oam_oamInfo_t oamInfo;
+	unsigned char  own_onu_vendor[4] = {"RTL"}; 
+    /* Parameter check */
+    if(llidIdx >= EPON_OAM_SUPPORT_LLID_NUM)
+    {
+        return EPON_OAM_ERR_PARAM;
+    }
+
+    if((NULL == pOamPdu) || (NULL == pOamInfo))
+    {
+        return EPON_OAM_ERR_PARAM; 
+    }
+
+    sem_wait(&oamStateAccessSem);
+    switch(oam_fsm_state[llidIdx])
+    {
+    case EPON_OAM_FSM_STATE_WAIT_REMOTE:
+        oam_fsm_state[llidIdx] = EPON_OAM_FSM_STATE_WAIT_REMOTE_OK;
+        /* Save the remote's "LOCAL" TLV */
+        pOamInfo->valid = 1;
+        epon_oam_remoteInfo_set(pOamPdu->llidIdx, pOamInfo);
+        oampdu_flag[llidIdx] = EPON_OAM_FLAG_LOCAL_STABLE;
 
         /* Once we can receive the OAM for specified LLID,
          * that means the MPCP already registered

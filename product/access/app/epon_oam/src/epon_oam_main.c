@@ -1155,10 +1155,12 @@ main(
 {
     int i;
 	pthread_t th1, th2, th3, th4, th5, th6;
- 	rtk_core_init();
-	
-	rtk_epon_init();	  
+ 		  
 	Syslog_Init();
+    Cfginit(SLAVER);
+    
+    rtk_core_init();
+	rtk_epon_init();
     /*Begin add by linguobin 2013-12-11*/
 	
     oam_fd = ipc_client_connect("eponoamd");
