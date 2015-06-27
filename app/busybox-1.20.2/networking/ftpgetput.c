@@ -23,6 +23,7 @@
 //usage:     "\n	-u,--username USER	Username"
 //usage:     "\n	-p,--password PASS	Password"
 //usage:     "\n	-P,--port NUM		Port"
+//usage:     "\n	-i	PID_File"
 //usage:	)
 //usage:	IF_NOT_FEATURE_FTPGETPUT_LONG_OPTIONS(
 //usage:     "\n	-c	Continue previous transfer"
@@ -30,6 +31,7 @@
 //usage:     "\n	-u USER	Username"
 //usage:     "\n	-p PASS	Password"
 //usage:     "\n	-P NUM	Port"
+//usage:     "\n	-i	PID_File"
 //usage:	)
 //usage:
 //usage:#define ftpput_trivial_usage
@@ -41,12 +43,14 @@
 //usage:     "\n	-u,--username USER	Username"
 //usage:     "\n	-p,--password PASS	Password"
 //usage:     "\n	-P,--port NUM		Port"
+//usage:     "\n	-i	PID_File"
 //usage:	)
 //usage:	IF_NOT_FEATURE_FTPGETPUT_LONG_OPTIONS(
 //usage:     "\n	-v	Verbose"
 //usage:     "\n	-u USER	Username"
 //usage:     "\n	-p PASS	Password"
 //usage:     "\n	-P NUM	Port number"
+//usage:     "\n	-i	PID_File"
 //usage:	)
 
 #include "libbb.h"
@@ -54,6 +58,7 @@
 struct globals {
 	const char *user;
 	const char *password;
+	const char *fname_pid;
 	struct len_and_sockaddr *lsa;
 	FILE *control_stream;
 	int verbose_flag;
@@ -67,6 +72,7 @@ struct BUG_G_too_big {
 };
 #define user           (G.user          )
 #define password       (G.password      )
+#define fname_pid      (G.fname_pid     )
 #define lsa            (G.lsa           )
 #define control_stream (G.control_stream)
 #define verbose_flag   (G.verbose_flag  )
@@ -342,9 +348,17 @@ int ftpgetput_main(int argc UNUSED_PARAM, char **argv)
 	applet_long_options = ftpgetput_longopts;
 #endif
 	opt_complementary = "-2:vv:cc"; /* must have 2 to 3 params; -v and -c count */
-	getopt32(argv, "cvu:p:P:", &user, &password, &port,
+	getopt32(argv, "cvu:p:P:i:", &user, &password, &port, &fname_pid,
 					&verbose_flag, &do_continue);
 	argv += optind;
+
+	if (fname_pid){
+		FILE *fp = fopen(fname_pid, "w");
+		if (fp){
+			fprintf(fp, "%d", getpid());
+			fclose(fp);
+		}
+	}
 
 	/* We want to do exactly _one_ DNS lookup, since some
 	 * sites (i.e. ftp.us.debian.org) use round-robin DNS
