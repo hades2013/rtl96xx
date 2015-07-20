@@ -2254,16 +2254,16 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 	int ring_num=0;
 
 	memset(&txInfo, 0, sizeof(struct tx_info));
-	sendport=Drv_MT_GetPortByMac(skb->data,&vid);
+	sendport=Drv_MT_GetPortByMac(skb->data, &vid);
     
     #if 0
     if((0x81 == skb->data[12]) && (0x00 == skb->data[13])){
-        printk("\n re8670_start_xmit sendport=%d,vid=%d,vlan=%d,management_vlan=%d,potoc=%.4x \n",sendport,vid,
+        printk("\n re8670_start_xmit sendport=%d,vid=%d,vlan=%d,management_vlan=%d,potoc=%.4x,opcode=%.4x \n",sendport,vid,
             (((skb->data[14] & 0xF) << 8) + skb->data[15]),
-            s_ui_management_vlan,((skb->data[16] << 8) | skb->data[17]));
+            s_ui_management_vlan,((skb->data[16] << 8) | skb->data[17]), ((skb->data[25] << 8) | skb->data[24]));
     }else{
-        printk("\n re8670_start_xmit sendport=%d,vid=%d,potoc=%.4x,management_vlan=%d \n",sendport,vid,
-            ((skb->data[12] << 8) | skb->data[13]), s_ui_management_vlan);
+        printk("\n re8670_start_xmit sendport=%d,vid=%d,potoc=%.4x,opcode=%.4x,management_vlan=%d \n",sendport,vid,
+            ((skb->data[12] << 8) | skb->data[13]), ((skb->data[21] << 8) | skb->data[20]), s_ui_management_vlan);
     }
     #endif
 
@@ -2280,11 +2280,16 @@ __IRAM_NIC int re8670_start_xmit (struct sk_buff *skb, struct net_device *dev)	/
 			 skb_push_qtag(skb, vid, 0);//use pri=0
 		 }
         #ifdef CONFIG_EOC_EXTEND
+        
+        //printk("mme_untagged=%d, tag=%.4x, mmetype=%.4x,opcode=%.4x\n", mme_untagged, 
+        //((skb->data[12] << 8) | skb->data[13]),
+        //((skb->data[16] << 8) | skb->data[17]),
+        //((skb->data[25] << 8) | skb->data[24]));
+        
         /* MME packet, has vlan tag or not. wifi slave should be set mme_untagged = 1.*/      
-        if (mme_untagged
-        && ((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
-        && ((0x88 == skb->data[16]) && (0xE1 == skb->data[17]))
-        )
+        if (/*mme_untagged&& */
+        ((0x81 == skb->data[12]) && (0x00 == skb->data[13]))
+        && ((0x88 == skb->data[16]) && (0xE1 == skb->data[17])))
         {            
             memmove(skb->data + 12, skb->data + 16, (skb->len) - 16);
         }
