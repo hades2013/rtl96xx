@@ -1127,9 +1127,61 @@ void str2mac(unsigned char *mac_string, unsigned char *MacEntry)
 extern void skb_push_qtag(struct sk_buff *pSkb, unsigned short usVid, unsigned char ucPriority);
 extern	void Drv_MT_AddEntry(unsigned char* pucPkt, int enPort,int vid);
 
+int skb_push_cputag_for_ghn(struct sk_buff *pSkb, u32 phy)
+{
+    cpu_tag_t *ptag;
+
+    int gnh_phy[GHN_PORT_MAX]={GHN_PORT_LIST};
+    int i;
+    int has_vlan = 0;
+
+    ptag = (cpu_tag_t *)(pSkb->data + (2 * MAC_ADDR_LEN));
+
+    if (ntohs(ptag->rtl_eth_type) == 0x8100)
+    {
+        has_vlan = 4;
+        ptag = (cpu_tag_t *)(pSkb->data + (2 * MAC_ADDR_LEN) + has_vlan);
+    }
+
+    if (ntohs(ptag->rtl_eth_type) != 0x22e3)
+    {
+        //if it is not ghn packet
+        //printk("eth 11 type=%x, phy=%d\n", ntohs(ptag->rtl_eth_type), phy);
+        return 0;
+    }
+    printk("\n eth type=%x, phy=%d\n", ntohs(ptag->rtl_eth_type), phy);
+    
+    for (i=0; i<GHN_PORT_MAX; i++)
+    {
+        if (gnh_phy[i] == phy)
+        {
+            break;
+        }
+    }
+
+    if (i == GHN_PORT_MAX) 
+    { 
+        //if it is not from ghn port,return.
+        //printk("phy = %d\n",phy);
+        return 0; 
+    }
+    
+    /*push cnutag header*/
+    skb_push(pSkb, sizeof(*ptag)); 
+    memmove(pSkb->data, 
+            pSkb->data + sizeof(*ptag), 
+            (2 * MAC_ADDR_LEN) + has_vlan);
+
+    ptag = (cpu_tag_t *)(pSkb->data + (2 * MAC_ADDR_LEN) + has_vlan);
+
+    ptag->rtl_eth_type = htons(0x8899);
+    ptag->rxport = phy;
+
+    return 1;
+}
 
 
-void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
+int skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 {
     cpu_tag_t *ptag;
 
@@ -1138,9 +1190,11 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 
     ptag = (cpu_tag_t *)(pSkb->data+(2 * MAC_ADDR_LEN));
 
-    if (ntohs(ptag->rtl_eth_type) != 0x88E1){//if it is not MME packet
+    if (ntohs(ptag->rtl_eth_type) != 0x88E1)
+    {
+        //if it is not MME packet
         //printk("eth type=%x\n",ntohs(ptag->rtl_eth_type));
-        return;
+        return 0;
     }
 
     for (i=0; i<CLT_PORT_MAX; i++){
@@ -1151,7 +1205,7 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 
     if (i == CLT_PORT_MAX) { //if it is not from cable,return.
         //printk("phy = %d\n",phy);
-        return; 
+        return 0; 
     }
     
     /*push cnutag header*/
@@ -1164,6 +1218,8 @@ void skb_push_cputag(struct sk_buff *pSkb, u32 phy)
 
     ptag->rtl_eth_type = htons(0x8899);
     ptag->rxport = phy;
+
+    return 1;
 }
 
 __IRAM_NIC
@@ -1288,18 +1344,23 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 #else
 	{
                 
-        skb_push_cputag (skb, pRxInfo->opts3.bit.src_port_num);
-        
+        if (0 == skb_push_cputag (skb, pRxInfo->opts3.bit.src_port_num))
+        {
+            skb_push_cputag_for_ghn (skb, pRxInfo->opts3.bit.src_port_num);
+        }
+
 		skb->protocol = eth_type_trans (skb, skb->dev);
 		skb->vlan_tci = 0;
 
-        /*
-        if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT))    
-        printk("\n 22 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,
+        #if 0
+        if((pRxInfo->opts3.bit.src_port_num != CLT0_PORT) && (pRxInfo->opts3.bit.src_port_num != CLT1_PORT))    
+
+            printk("\n <port : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",
+            pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,
             skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
             skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
             skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
-        */
+        #endif
         
         //printk("skb->protocol=%x\n",ntohs(skb->protocol));
         //printk("333 skb->head=%p,skb->data=%p\n",skb->head,skb->data);

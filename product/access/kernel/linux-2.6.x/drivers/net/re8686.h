@@ -33,12 +33,18 @@
 #define CPU_PORT 6//phy 6
 
 #define CLT0_PORT 5 //cable 0 port,use phy 5
-#define CLT1_PORT 0//cable 1 port use phy 1 -- add by an
+#define CLT1_PORT 0//cable 1 port use phy 0 -- add by an
 #define CLT2_PORT (-1)// phy==-1 means no use it now
 #define CLT3_PORT (-1)// phy==-1 means no use it now
 
 #define CLT_PORT_LIST CLT0_PORT,CLT1_PORT //eg : CLT0_PORT,CLT1_PORT,CLT2_PORT,CLT3_PORT--add by an
 #define CLT_PORT_MAX 2//max is 4 //add by an
+
+#define GHN0_PORT 2 //GHN 1 port,use phy 2
+#define GHN1_PORT 3//GHN 2 port use phy 3 
+#define GHN_PORT_LIST GHN0_PORT,GHN1_PORT 
+#define GHN_PORT_MAX 2//max is 4 
+
 
 #define ETHBASE	0xB8012000	//internal phy
 
