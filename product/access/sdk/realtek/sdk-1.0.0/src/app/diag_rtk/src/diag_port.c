@@ -1661,6 +1661,9 @@ cparser_cmd_port_set_mac_force_port_ports_all_ability_10h_10f_100h_100f_1000f_fl
 	    portAbilityR.speed = portAbilityW.speed;
 	    portAbilityR.duplex = portAbilityW.duplex;
 
+        portAbilityR.linkFib1g = ENABLED;
+        portAbilityR.masterMod = ENABLED;
+
 	    DIAG_UTIL_ERR_CHK(rtk_port_macForceAbility_set(port,portAbilityR), ret);
 	    
     }

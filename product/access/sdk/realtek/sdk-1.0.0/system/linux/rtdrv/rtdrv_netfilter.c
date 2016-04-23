@@ -5619,7 +5619,19 @@ int32 do_rtdrv_get_ctl(struct sock *sk, int cmd, void *user, int *len)
             ret = rtk_time_rxTime_get(&buf.time_cfg.timeStamp);
             copy_to_user(user, &buf.time_cfg, sizeof(rtdrv_timeCfg_t));
             break;
-
+        case RTDRV_PONMAC_SCHEDULINGTYPE_GET:
+            //copy_from_user(&buf.ponmac_cfg, user, sizeof(rtdrv_ponmacCfg_t));
+            ret = rtk_ponmac_schedulingType_get(&buf.ponmac_cfg.queueType);
+            copy_to_user(user, &buf.ponmac_cfg, sizeof(rtdrv_ponmacCfg_t));
+            break;
+        case RTDRV_PONMAC_MODE_GET:
+            ret = rtk_ponmac_mode_get(&buf.ponmac_cfg.mode);
+            copy_to_user(user, &buf.ponmac_cfg, sizeof(rtdrv_ponmacCfg_t));
+            break;
+        case RTDRV_PONMAC_MODE_SET:
+            copy_from_user(&buf.ponmac_cfg, user, sizeof(buf.ponmac_cfg));
+            ret = rtk_ponmac_mode_set(buf.ponmac_cfg.mode);
+            break;
         default:
             break;
     }

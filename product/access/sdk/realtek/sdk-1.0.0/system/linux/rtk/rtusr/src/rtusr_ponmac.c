@@ -268,7 +268,7 @@ rtk_ponmac_schedulingType_get(rtk_qos_scheduling_type_t *pQueueType)
 
     /* function body */
 
-    osal_memcpy(&ponmac_cfg.queueType, pQueueType, sizeof(rtk_qos_scheduling_type_t));
+    //osal_memcpy(&ponmac_cfg.queueType, pQueueType, sizeof(rtk_qos_scheduling_type_t));
     GETSOCKOPT(RTDRV_PONMAC_SCHEDULINGTYPE_GET, &ponmac_cfg, rtdrv_ponmacCfg_t, 1);
     osal_memcpy(pQueueType, &ponmac_cfg.queueType, sizeof(rtk_qos_scheduling_type_t));
 
@@ -392,3 +392,50 @@ rtk_ponmac_transceiver_get(rtk_transceiver_parameter_type_t type, rtk_transceive
 
     return RT_ERR_OK;
 }   /* end of rtk_transceiver_get */    
+
+/* Function Name:
+ *      rtk_ponmac_mode_get
+ * Description:
+ *      Get the scheduling types and weights of queues on specific port in egress scheduling.
+ * Input:
+ *      None
+ * Output:
+ *      pQueueType  - the WFQ schedule type (RTK_QOS_WFQ or RTK_QOS_WRR)
+ * Return:
+ *      RT_ERR_OK
+ *      RT_ERR_FAILED
+ *      RT_ERR_NULL_POINTER - NULL pointer
+ * Note:
+ */
+int32
+rtk_ponmac_mode_get(rtk_ponmac_mode_t *pQueueType)
+{
+    rtdrv_ponmacCfg_t ponmac_mode;
+
+    /* parameter check */
+    RT_PARAM_CHK((NULL == pQueueType), RT_ERR_NULL_POINTER);
+
+    /* function body */
+
+    GETSOCKOPT(RTDRV_PONMAC_MODE_GET, &ponmac_mode, rtdrv_ponmacCfg_t, 1);
+    osal_memcpy(pQueueType, &ponmac_mode.mode, sizeof(rtk_ponmac_mode_t));
+
+    return RT_ERR_OK;
+}   /* end of rtk_ponmac_mode_get */
+
+
+int32
+rtk_ponmac_mode_set(rtk_ponmac_mode_t mode)
+{
+    rtdrv_ponmacCfg_t ponmac_mode;
+
+    /* function body */
+    ponmac_mode.mode = mode;
+    GETSOCKOPT(RTDRV_PONMAC_MODE_SET, &ponmac_mode, rtdrv_ponmacCfg_t, 1);
+
+    return RT_ERR_OK;
+}   /* end of rtk_ponmac_mode_get */
+
+
+
+

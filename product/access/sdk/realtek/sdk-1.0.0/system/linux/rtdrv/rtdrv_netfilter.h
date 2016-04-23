@@ -975,7 +975,9 @@ enum rtdrv_ponmac_get_e
     RTDRV_PONMAC_QUEUE_GET,
     RTDRV_PONMAC_FLOW2QUEUE_GET,
 	RTDRV_PONMAC_SCHEDULINGTYPE_GET,
-    RTDRV_PONMAC_TRANSCEIVER_GET
+    RTDRV_PONMAC_TRANSCEIVER_GET,
+    RTDRV_PONMAC_MODE_GET,
+    RTDRV_PONMAC_MODE_SET
 };
 
 enum rtdrv_port_get_e
@@ -1705,6 +1707,7 @@ typedef struct rtdrv_ponmacCfg_s
     rtk_qos_scheduling_type_t   	queueType;
     rtk_transceiver_parameter_type_t    type;
     rtk_transceiver_data_t              data;
+    rtk_ponmac_mode_t               mode;
 }rtdrv_ponmacCfg_t;
 
 

@@ -818,18 +818,31 @@ cparser_cmd_pon_get_scheduling_type(
     cparser_context_t *context)
 {
     rtk_qos_scheduling_type_t type;
+    rtk_ponmac_mode_t mode;
     int32 ret = RT_ERR_FAILED;
 
     DIAG_UTIL_PARAM_CHK();
     DIAG_UTIL_OUTPUT_INIT();
+    
+    diag_util_mprintf("cparser_cmd_pon_get_scheduling_type ...\n");
     DIAG_UTIL_ERR_CHK(rtk_ponmac_schedulingType_get(&type), ret); 
-
     diag_util_mprintf("schedule type:");
-
+dfdfytyty
     if(RTK_QOS_WRR==type)
         diag_util_mprintf("WRR\n");
     else
-        diag_util_mprintf("WFQ\n");
+        diag_util_mprintf("WFQ\n");0-0-iiii
+
+    DIAG_UTIL_ERR_CHK(rtk_ponmac_mode_get(&mode), ret); 
+
+    if (PONMAC_MODE_GPON==mode)
+        diag_util_mprintf("GPON mode\n");
+    else if (PONMAC_MODE_EPON==mode)
+        diag_util_mprintf("EPON mode\n");
+    else if (PONMAC_MODE_FIBER==mode)
+        diag_util_mprintf("FIBER mode\n");
+    else
+        diag_util_mprintf("error mode\n");
     
     return CPARSER_OK;
 }    /* end of cparser_cmd_pon_get_scheduling_type */

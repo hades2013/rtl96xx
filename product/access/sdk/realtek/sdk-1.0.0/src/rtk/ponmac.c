@@ -263,7 +263,7 @@ rtk_ponmac_mode_set(rtk_ponmac_mode_t mode)
         return RT_ERR_DRIVER_NOT_FOUND;
 
     RTK_API_LOCK();
-    ret = RT_MAPPER->ponmac_mode_set( mode);
+    ret = RT_MAPPER->ponmac_mode_set(mode);
     RTK_API_UNLOCK();
     return ret;
 }
@@ -318,7 +318,7 @@ rtk_ponmac_schedulingType_get(rtk_qos_scheduling_type_t *pQueueType)
     int32   ret;
 
     /* function body */
-    if (NULL == RT_MAPPER->ponmac_schedulingType_set)
+    if (NULL == RT_MAPPER->ponmac_schedulingType_get)
         return RT_ERR_DRIVER_NOT_FOUND;
     RTK_API_LOCK();
     ret = RT_MAPPER->ponmac_schedulingType_get(pQueueType);

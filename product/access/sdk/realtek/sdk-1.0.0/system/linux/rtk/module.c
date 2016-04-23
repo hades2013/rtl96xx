@@ -430,6 +430,7 @@ EXPORT_SYMBOL(rtk_ponmac_queue_del);
 EXPORT_SYMBOL(rtk_ponmac_flow2Queue_set);
 EXPORT_SYMBOL(rtk_ponmac_flow2Queue_get);
 EXPORT_SYMBOL(rtk_ponmac_mode_set);
+EXPORT_SYMBOL(rtk_ponmac_mode_get);
 EXPORT_SYMBOL(rtk_ponmac_transceiver_get);
 EXPORT_SYMBOL(rtk_oam_init);
 EXPORT_SYMBOL(rtk_oam_parserAction_set);
