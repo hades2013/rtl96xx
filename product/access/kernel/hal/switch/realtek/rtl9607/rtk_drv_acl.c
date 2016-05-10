@@ -5,6 +5,9 @@
 #ifdef  __cplusplus
     extern "C"{
 #endif
+
+//#include "re8686.h"
+
 #include <lw_type.h>
 #include "lw_drv_pub.h"
 #include "lw_drv_req.h"
@@ -30,6 +33,7 @@
 #include <linux/delay.h>
 #include <linux/slab.h>
 
+
 /*----------------------------------------------*
  * extern function                              *
  *----------------------------------------------*/
@@ -42,6 +46,8 @@ static DRV_RET_E _Hal_CfgPortFilterModeSet(UINT32 uiLPortId, UINT32 uiFilterInde
 static DRV_RET_E _Hal_CfgPortFilterRuleIdSet(UINT32 uiLPortId, UINT32 uiFilterIndex, ACL_DIRECTION_E enAclDir, UINT32 uiAclId);
 static DRV_RET_E _Hal_CfgPortClfRmkModeSet(UINT32 uiLPortId, UINT32 uiClfRmkIndex, ACL_TRUST_MODE_E enMode);
 static DRV_RET_E _Hal_CfgPortClfRmkAclRuleIdSet(UINT32 uiLPortId, UINT32 uiClfRmkIndex, UINT32 uiAclId);
+
+extern skb_rings_read(char * buf,UINT32 *len);
 
 //#ifdef CTC_MULTICAST_SURPORT
 #if 1
@@ -4767,9 +4773,24 @@ DRV_RET_E Hal_DropMpcp(logic_pmask_t *pstLgcMask)
 
 #endif /* CONFIG_EOC_EXTEND */
 
+#ifdef CONFIG_ETH_DEBUG  //lzh0808 ETH_DEBUG
+DRV_RET_E Hal_DumpPacketDebugToFile( rtk_packet_data_app_t *pBuf,UINT32 *len )
+{    
+    DRV_RET_E enRet = DRV_OK;
+    UINT32 length = 0;
+    if(pBuf == NULL){
+        return DRV_ERR_PARA;
+    }
+    enRet = skb_rings_read(pBuf->buf, &length);
+    if (DRV_OK != enRet) 
+    {
+        return DRV_ERR_UNKNOW;
+    }    
+    *len = length;
+    return DRV_OK;    
+}
 
-
-
+#endif
 
 
 #ifdef  __cplusplus

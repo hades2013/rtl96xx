@@ -486,6 +486,13 @@ struct re_private {
 #endif
 };
 
+/* CONFIG_ETH_DEBUG*/ //lzh0808
+#define MAX_SKB_RING_NUM 160
+
+typedef struct{
+    char *rxBuf;
+}skb_packet_t;
+
 
 //must be same with port2rxfunc define in cp
 typedef int (*p2rfunc_t)(struct re_private *cp, struct sk_buff *skb, struct rx_info *pRxInfo);

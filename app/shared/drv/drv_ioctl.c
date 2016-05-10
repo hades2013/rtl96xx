@@ -1765,6 +1765,27 @@ DRV_RET_E Ioctl_EocLowLevelFunction(DRV_CMD_E ioctlCmd, eoc_low_level_t *peocLow
     return rv;
 }
 
+#if CONFIG_ETH_DEBUG //lzh0808 DEBUG
+DRV_RET_E Ioctl_DumpPacketToFile(DRV_CMD_E ioctlCmd, rtk_packet_data_app_t *pBuf, UINT32 *len)
+{
+    DRV_REQ_S stDrv;
+    DRV_RET_E rev = DRV_OK;
+
+    memset(&stDrv, 0, sizeof(stDrv));
+    stDrv.cmd = ioctlCmd;
+	//stDrv.para1_u.uiValue  = len;
+	//stDrv.para2_u.pBuf  = pBuf;
+	
+    rev = Drv_IoctlCmd(DEV_SWTICH, &stDrv);
+
+    *len = stDrv.para1_u.uiValue;
+
+    memcpy(pBuf->buf, stDrv.para2_u.pBuf.buf, stDrv.para1_u.uiValue);
+
+    return rev;
+}
+#endif
+
 #ifdef  __cplusplus
 }
 #endif  /* end of __cplusplus */

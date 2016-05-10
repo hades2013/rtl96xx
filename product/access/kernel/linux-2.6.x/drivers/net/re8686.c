@@ -91,7 +91,6 @@
 #include "lw_drv_pub.h"
 #include "lw_drv_req.h"
 
-
 #ifdef CONFIG_RTL8686_SWITCH
 #include "rtl86900/sdk/include/dal/apollo/raw/apollo_raw_port.h"
 #include <rtk/l2.h>
@@ -160,6 +159,11 @@ extern int vwlan_set_hwaddr(struct net_device *dev, void *addr);
 extern unsigned int PortPhyID2Logic(unsigned int uiPhyId);
 unsigned int s_ui_management_vlan=1;
 
+#ifdef CONFIG_ETH_DEBUG // lzh0808
+void skb_rings_init(void);
+int skb_rings_write(char *buf, UINT32 len);
+int skb_rings_read(char *buf, UINT32 *len);
+#endif
 
 #if 0 //def CONFIG_APOLLO_ROMEDRIVER
 #include <rtk_rg_fwdEngine.h>
@@ -496,6 +500,13 @@ struct re_dev_private {
 };
 
 static struct re_private re_private_data;
+
+#ifdef CONFIG_ETH_DEBUG // lzh0808
+skb_packet_t eth_private_data[MAX_SKB_RING_NUM];
+static int eth_private_data_read = 0;
+static int eth_private_data_write = 0;
+#endif
+    
 int dev_num = 0;
 
 #define DEV2CP(dev)  (((struct re_dev_private*)dev->priv)->pCp)
@@ -1222,9 +1233,14 @@ int skb_push_cputag(struct sk_buff *pSkb, u32 phy)
     return 1;
 }
 
+
 __IRAM_NIC
 int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *pRxInfo)
 {	
+    #ifdef CONFIG_ETH_DEBUG
+	int len = 0; 
+    char tmpbuffer[500] = {0};
+    #endif
 #if 1
     uint32 pvid = 0;
     if (pRxInfo->opts3.bit.src_port_num != CLT0_PORT && pRxInfo->opts3.bit.src_port_num != CLT1_PORT)
@@ -1243,12 +1259,27 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 
 	skb->vlan_tci = (pRxInfo->opts2.bit.ctagva) ? VTAG2VLANTCI(pRxInfo->opts2.bit.cvlan_tag) : 0;
     
-    //if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT))    
-	//printk("\n 11 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,        
-    //    skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
-    //    skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
-    //    skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
+    if((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT))    
+    {
+#ifdef CONFIG_ETH_DEBUG
+        len += sprintf(tmpbuffer +len,"\n 11 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",
+        pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,        
+        skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
+        skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
+        skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23] );
+#else
+        printk("\n 11 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,       
+        skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
+        skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
+        skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
+#endif
 
+    }
+
+    #ifdef CONFIG_ETH_DEBUG  // lzh0808
+    skb_rings_write(tmpbuffer,len);
+    #endif
+    
     if(((pRxInfo->opts3.bit.src_port_num == CLT0_PORT) || (pRxInfo->opts3.bit.src_port_num == CLT1_PORT)) && //from cable and vlan tag is not 0 and type is mme packet,remove tag
         (skb->vlan_tci & VLAN_VID_MASK)               &&
         (skb->data[12]== 0x88 && skb->data[13] == 0xE1)){
@@ -1353,9 +1384,8 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
 		skb->vlan_tci = 0;
 
         #if 0
-        if((pRxInfo->opts3.bit.src_port_num != CLT0_PORT) && (pRxInfo->opts3.bit.src_port_num != CLT1_PORT))    
-
-            printk("\n <port : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",
+        if((pRxInfo->opts3.bit.src_port_num != CLT0_PORT) && (pRxInfo->opts3.bit.src_port_num != CLT1_PORT))                    
+           printk("\n <port : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",
             pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,
             skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
             skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
@@ -1366,13 +1396,13 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
         //printk("333 skb->head=%p,skb->data=%p\n",skb->head,skb->data);
 
 		if (netif_rx(skb) == NET_RX_DROP){
-            printk("%s,%s,%d rx drop\n",__FILE__,__FUNCTION__,__LINE__);
+            printk("%s,%s,%d [Error] rx packets drop !!!\n",__FILE__,__FUNCTION__,__LINE__);          
 			DEVPRIV(skb->dev)->net_stats.rx_dropped++;
         }
 	}
 #endif
 /*end add by shipeng for vlan dev hwaccel, 2013-11-13 */
-
+   
 	return RE8670_RX_STOP;
 }
 
@@ -4182,6 +4212,69 @@ static int tx_ring_read(char *page, char **start, off_t off, int count, int *eof
 }
 
 
+#ifdef CONFIG_ETH_DEBUG //lzh0808
+void skb_rings_init(void)
+{        
+    memset(eth_private_data, 0, sizeof(eth_private_data));     
+}
+
+int skb_rings_write(char *buf, UINT32 len)
+{
+    int i;
+    skb_packet_t *cp = NULL;   
+    
+    for( i = eth_private_data_write; len > 0 && i < MAX_SKB_RING_NUM; i++ )
+    {
+        cp = &eth_private_data[i];
+
+        if (cp->rxBuf == NULL)
+        {
+            cp->rxBuf = kzalloc(len+1,GFP_KERNEL|__GFP_NOFAIL);            
+            memcpy(cp->rxBuf, buf, len);
+            cp->rxBuf[len] = 0;
+
+            eth_private_data_write++;
+
+            if (eth_private_data_write >= MAX_SKB_RING_NUM)
+            {
+                eth_private_data_write = 0;
+            }
+            break;
+        }
+    }
+    return 0;
+}
+
+
+int skb_rings_read(char *buf, UINT32 *len)
+{   
+    int i;
+    skb_packet_t *cp = NULL;
+    
+    for( i = eth_private_data_read; i < MAX_SKB_RING_NUM; i++ )
+    {
+        cp = &eth_private_data[i];
+
+        if (cp->rxBuf)
+        {
+            *len = strlen(cp->rxBuf);
+            memcpy(buf, cp->rxBuf, *len);
+            kfree(cp->rxBuf);
+            cp->rxBuf = NULL;
+
+            eth_private_data_read++;
+
+            if (eth_private_data_read >= MAX_SKB_RING_NUM)
+            {
+                eth_private_data_read = 0;
+            }
+            break;
+        }          
+    }
+    
+    return 0;     
+}
+#endif
 
 #ifdef KERNEL_SOCKET	
 struct workqueue_struct *wq=NULL;
@@ -4237,7 +4330,7 @@ void nic_tx_ring_dump(void)
 	#error "not config"
 #endif
 	if (!wq){
-		printk("ERR AT:%s %d\n",__func__,__LINE__);			
+		printk("ERR AT:%s %d\n",__func__,__LINE__);	
 		return;
 	}
 	queue_work(wq, &wq_data.worker);	
@@ -4673,7 +4766,9 @@ int __init re8670_probe (void)
 	re8670_save_trx_cdo(&re_private_data);
 	#endif
 
-
+    #ifdef CONFIG_ETH_DEBUG //lzh0808
+    skb_rings_init();    
+    #endif
 	return 0;
 
 err_out_iomap:
