@@ -1268,10 +1268,10 @@ int re8670_rx_skb (struct re_private *cp, struct sk_buff *skb, struct rx_info *p
         skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
         skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23] );
 #else
-        printk("\n 11 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,       
-        skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
-        skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
-        skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
+        //printk("\n 11 <cable : %d> vlan:%d,\n rxport:%02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X %02X \n\n",pRxInfo->opts3.bit.src_port_num, skb->vlan_tci,       
+        //skb->data[0],skb->data[1],skb->data[2],skb->data[3],skb->data[4],skb->data[5],skb->data[6],skb->data[7],
+        //skb->data[8],skb->data[9],skb->data[10],skb->data[11],skb->data[12],skb->data[13],skb->data[14],skb->data[15],
+        //skb->data[16],skb->data[17],skb->data[18],skb->data[19],skb->data[20],skb->data[21],skb->data[22],skb->data[23]);
 #endif
 
     }
