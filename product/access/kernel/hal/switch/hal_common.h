@@ -454,7 +454,9 @@ typedef struct tagLW_DRV_OP_S
 	DRV_RET_E (*p_Hal_ClfRuleForCtcClfPriToQueueClear)(UINT32 uiLPortId);
 	DRV_RET_E (*p_Hal_LookupMissFloodPortMaskSet)(UINT32 type, rtk_portmask_t *pFlood_portmask);
 	DRV_RET_E (*p_Hal_SetPonLaserState)(UINT32 uistate); // add by an for set epon laser state
-    
+	#ifdef CONFIG_ETH_DEBUG
+	DRV_RET_E (*p_Hal_DumpPacketDebugToFile)(rtk_packet_data_app_t *pBuf,UINT32 *len);  // lzh0808 ETH_DEBUG
+    #endif
 }LW_DRV_OP_S;
 extern LW_DRV_OP_S g_LW_Drv_Ops;
 
@@ -1036,6 +1038,9 @@ void Hal_SetMMEUntagged(UINT32 untagged); /* Add by Alan Lee,at 2015-03-19 */
 #endif 
 /* End */
 
+#ifdef CONFIG_ETH_DEBUG //lzh0808 ETH_DEBUG
+DRV_RET_E Hal_DumpPacketDebugToFile( rtk_packet_data_app_t *pBuf,UINT32 *len );
+#endif
 
 #ifdef  __cplusplus
 }

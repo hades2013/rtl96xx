@@ -1377,6 +1377,13 @@ DRV_RET_E Drv_L2SwtichIoctl(DRV_REQ_S *pstDrvReq)
 				return g_LW_Drv_Ops.p_Hal_LookupMissFloodPortMaskSet(pstDrvReq->para1_u.uiValue, &(pstDrvReq->para2_u.lgcMask));	
 			else
 				return DRV_NULL_POINTER;
+        #ifdef CONFIG_ETH_DEBUG    
+        case DRV_CMD_DUMP_ETH_DEBUG_TO_FILE:  // lzh0808 ETH_DEBUG
+            if(g_LW_Drv_Ops.p_Hal_DumpPacketDebugToFile != NULL)
+                return g_LW_Drv_Ops.p_Hal_DumpPacketDebugToFile( &pstDrvReq->para2_u.pBuf , &(pstDrvReq->para1_u.uiValue));
+            else
+                return DRV_NULL_POINTER;   
+        #endif            
         default:
             break;
     }

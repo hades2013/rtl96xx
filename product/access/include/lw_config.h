@@ -23,6 +23,8 @@
  */
 #define CONFIG_EOC_EXTEND 1
 
+#undef CONFIG_ETH_DEBUG
+
 
 /*
  * SDK Configuration

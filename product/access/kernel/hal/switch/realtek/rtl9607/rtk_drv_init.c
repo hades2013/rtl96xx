@@ -288,6 +288,10 @@ void Hal_Register()
 	g_LW_Drv_Ops.p_Hal_ClfRuleForCtcClfPriToQueueClear=Hal_ClfRuleForCtcClfPriToQueueClear;
 	g_LW_Drv_Ops.p_Hal_LookupMissFloodPortMaskSet = Hal_LookupMissFloodPortMaskSet;
     g_LW_Drv_Ops.p_Hal_SetPonLaserState = Hal_SetPonLaserState;
+    //g_LW_Drv_Ops.p_Hal_SetPonLaserState = Hal_SetPonLaserState;
+    #ifdef CONFIG_ETH_DEBUG/*lzh0808 ETH_DEBUG*/
+    g_LW_Drv_Ops.p_Hal_DumpPacketDebugToFile = Hal_DumpPacketDebugToFile;    
+    #endif
 }
 
 DRV_RET_E Hal_SwitchInit(void)

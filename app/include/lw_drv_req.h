@@ -338,7 +338,10 @@ typedef enum tagDrv_cmd{
     DRV_CMD_SET_MME_UNTAGGED,
     DRV_CMD_SET_EOC_LOW_LEVEL_FUNCTION,
     DRV_CMD_SET_RATELIMIT_STORM_PORT,
-    DRV_CMD_GET_MIB_COUNT_RAW,   
+    DRV_CMD_GET_MIB_COUNT_RAW,
+    #ifdef CONFIG_ETH_DEBUG
+    DRV_CMD_DUMP_ETH_DEBUG_TO_FILE, /*lzh0808 ETH_DEUBG,2016-05-09*/ 
+    #endif
     DRV_CMD_NUM
 }DRV_CMD_E;
 
@@ -387,6 +390,12 @@ typedef enum rtk_transceiver_patameter_type_app_e{
 
 /*End add by huangmingjian 2013-08-27*/
 
+#ifdef CONFIG_ETH_DEBUG //lzh0808 ETH_DEBUG
+#define MAX_PACKET_LEN 1518
+typedef struct rtk_packet_data_app_s{
+    unsigned char buf[MAX_PACKET_LEN];
+}rtk_packet_data_app_t;
+#endif
 
 typedef struct tagDrvReq{
     DRV_CMD_E cmd;
@@ -423,7 +432,9 @@ typedef struct tagDrvReq{
 		struct rtk_epon_counter_app_s *Counter;
 		rtk_transceiver_data_app_t *pData;
 		/*End add by huangmingjian 2013-08-27*/
-        
+        #ifdef CONFIG_ETH_DEBUG // lzh0808 ETH_DEBUG
+        rtk_packet_data_app_t pBuf;
+        #endif
         CTC_VLAN_CFG_S *pstCtcVlanCfg;
         
     }para2_u;    
@@ -1217,6 +1228,11 @@ DRV_RET_E Ioctl_GetUnionFdbEntryByIndex(DRV_CMD_E ioctlCmd, UINT32 uiIndex,  UIN
 #define Ioctl_SetLookupMissFloodEnable(type, flood_portmask)\
     Ioctl_SetLookupMissFloodPortMask(DRV_CMD_LOOKUP_MISS_FLOOD_SET, type, flood_portmask)
 /*End add by huangmingjian 2013-09-24 */
+
+#ifdef CONFIG_ETH_DEBUG //lzh0808 ETH_DEBUG
+#define Ioctl_DumpPacketDebugToFile(_pBuf, _len)\
+    Ioctl_DumpPacketToFile(DRV_CMD_DUMP_ETH_DEBUG_TO_FILE, _pBuf, _len)
+#endif
 
 DRV_RET_E ioctl_SetMctransltVlanMemberRmv(UINT32 usrvlan,UINT32 mvlan, logic_pmask_t stLgcMask);
 DRV_RET_E ioctl_SetMcTransltVlanMemberAdd(UINT32 usrvlan, UINT32 mvlan, logic_pmask_t stLgcMask, logic_pmask_t stLgcMaskUntag,logic_pmask_t stLgcMasksvlanUntag);
