@@ -33,6 +33,9 @@ menu "Product Board Features select"
 config CONFIG_EOC_EXTEND
 	bool "Modification for EOC Requirements"
 
+config CONFIG_ETH_DEBUG
+	bool "kernel packet debug API"
+	
 endmenu
 #----End 
 menu "SDK Configuration"
