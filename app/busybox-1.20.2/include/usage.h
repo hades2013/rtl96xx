@@ -3590,6 +3590,7 @@
      "\n	-u,--username USER	Username" \
      "\n	-p,--password PASS	Password" \
      "\n	-P,--port NUM		Port" \
+     "\n	-i	PID_File" \
 	) \
 	IF_NOT_FEATURE_FTPGETPUT_LONG_OPTIONS( \
      "\n	-c	Continue previous transfer" \
@@ -3597,6 +3598,7 @@
      "\n	-u USER	Username" \
      "\n	-p PASS	Password" \
      "\n	-P NUM	Port" \
+     "\n	-i	PID_File" \
 	) \
 
 #define ftpput_trivial_usage \
@@ -3609,12 +3611,14 @@
      "\n	-u,--username USER	Username" \
      "\n	-p,--password PASS	Password" \
      "\n	-P,--port NUM		Port" \
+     "\n	-i	PID_File" \
 	) \
 	IF_NOT_FEATURE_FTPGETPUT_LONG_OPTIONS( \
      "\n	-v	Verbose" \
      "\n	-u USER	Username" \
      "\n	-p PASS	Password" \
      "\n	-P NUM	Port number" \
+     "\n	-i	PID_File" \
 	) \
 
 #define hostname_trivial_usage \

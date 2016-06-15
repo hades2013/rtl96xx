@@ -127,6 +127,6 @@
 #define CONFIG_IPADDR      192.168.1.3
 #define CONFIG_SERVERIP    192.168.1.7
 #define CONFIG_NETMASK     255.255.255.0
-#define CONFIG_ETHADDR     00:E0:4C:86:70:01
+#define CONFIG_ETHADDR     40:C2:45:01:23:45
 
 #endif  /* __CONFIG_H */

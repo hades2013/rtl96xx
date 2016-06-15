@@ -120,7 +120,7 @@ rootfs:oam-vendor-clean oam-vendor sdk-app
 	cp -rf $(PRODUCTDIR)/app/bin/* $(ROOTFSDIR)/usr/sbin/
 #	cp -rf $(PRODUCTDIR)/lwlib/*.so $(ROOTFSDIR)/lib/
 	@echo "=== Strip unneeded ==="
-	$(CROSS_COMPILE)strip $(ROOTFSDIR)/usr/lib/ifm.ko
+#	$(CROSS_COMPILE)strip $(ROOTFSDIR)/usr/lib/ifm.ko
 	$(CROSS_COMPILE)strip $(ROOTFSDIR)/usr/lib/libshared.so
 	find $(ROOTFSDIR) -name ".svn" | xargs rm -rf
 	touch $(ROOTFSDIR)/.init_enable_core
