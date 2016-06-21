@@ -2113,9 +2113,10 @@ int ctc_oam_varCb_mxUMngGlobalParameter_set(
 #if 1
 	if(*ip_val != 0)
 	{
-		ret = eopl_ip_processing(p_mng_global_para->mng_ip_addr,
-							p_mng_global_para->mng_ip_mask,
-							p_mng_global_para->mng_gw);
+		//ret = eopl_ip_processing(p_mng_global_para->mng_ip_addr,
+		//					p_mng_global_para->mng_ip_mask,
+		//					p_mng_global_para->mng_gw);
+		ret = NO_ERROR;
 		if(NO_ERROR != ret)
 		{
 			goto send_rsp;
@@ -2124,7 +2125,8 @@ int ctc_oam_varCb_mxUMngGlobalParameter_set(
 	}
 	if(0 != p_mng_global_para->mng_data_cvlan)
 	{
-		ret = eopl_mgmtvlan_processing(p_mng_global_para->mng_data_cvlan);
+		//ret = eopl_mgmtvlan_processing(p_mng_global_para->mng_data_cvlan);
+		ret = NO_ERROR;
 		if(NO_ERROR != ret)
 		{
 			goto send_rsp;
