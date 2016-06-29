@@ -74,7 +74,7 @@
  * Symbol Definition 
  */
 #define EPON_OAM_STATEKEEPER_SIG_START          (SIGRTMIN+3)
-#define EPON_OAM_KEEPALIVE_TIME                 (5000) /* In unit of ms */
+#define EPON_OAM_KEEPALIVE_TIME                 (10000) /* In unit of ms */
 int oam_fd;
 
 /*  
@@ -261,7 +261,7 @@ static void epon_stateKeeper_timer_init(void)
         sevp.sigev_notify = SIGEV_SIGNAL;
         sevp.sigev_signo = EPON_OAM_STATEKEEPER_SIG_START + i;
         sevp.sigev_value.sival_ptr = &skKeepalive[i];
-        if(-1 == timer_create(CLOCK_REALTIME, &sevp, &skKeepalive[i]))
+        if(-1 == timer_create(CLOCK_MONOTONIC/*CLOCK_REALTIME*/, &sevp, &skKeepalive[i]))
         {
             EPON_OAM_PRINT(EPON_OAM_DBGFLAG_ERROR,
                 "[OAM:%s:%d] keepalive timer create failed %d\n", __FILE__, __LINE__, errno);
@@ -503,6 +503,8 @@ void *epon_oam_stateKeeper(void *argu)
     oam_oamInfo_t oamInfo;
 	rtk_epon_llid_entry_t llidEntry;
 	struct msginfo mqAttr; 
+
+        
     /* Create message queue for receiving the event from others */
     /* S_IRUSR | S_IWUSR | State keeper can read/write message
      * S_IRGRP | S_IWGRP | All others can read/write message
@@ -539,6 +541,7 @@ void *epon_oam_stateKeeper(void *argu)
             {
                 EPON_OAM_PRINT(EPON_OAM_DBGFLAG_ERROR,
                     "[OAM:%s:%d] msgq recv failed %d\n", __FILE__, __LINE__, errno);
+                
             }
             continue;
         }
@@ -551,7 +554,8 @@ void *epon_oam_stateKeeper(void *argu)
         }
 
         EPON_OAM_PRINT(EPON_OAM_DBGFLAG_INFO, 
-            "LLIDIdx %u EventType %u\n", llidIdx, eventData.mtype);
+            "LLIDIdx %u EventType %x\n", llidIdx, eventData.mtype);
+        
         switch(eventData.mtype)
         {
         case EPON_OAM_EVENT_DISCOVERY_COMPLETE:
@@ -562,6 +566,8 @@ void *epon_oam_stateKeeper(void *argu)
                 epon_oam_dyingGasp_send(llidIdx, dyingGaspBuf, pushedLen);
             }
 			discovery_count++;
+            
+            
 			//printf("oam complete count %d\n",discovery_count);
             /* Start keepalive tiemr */
             EPON_TIMER_SET(skKeepalive[llidIdx], EPON_OAM_KEEPALIVE_TIME, ret)
@@ -586,6 +592,7 @@ void *epon_oam_stateKeeper(void *argu)
 			timeout_count++;
         case EPON_OAM_EVENT_LOS:
 			los_count++;
+//#if 0
             /* Stop timer */
             EPON_TIMER_SET(skKeepalive[llidIdx], 0, ret)
             if(0 != ret)
@@ -610,7 +617,7 @@ void *epon_oam_stateKeeper(void *argu)
 			/*规避概率性注册不上的问题*/
 			if(timeout_count==3)
 			{
-				ipc_system_request(IPC_SYS_REBOOT);
+				//ipc_system_request(IPC_SYS_REBOOT);
 			}
             if((ret = rtk_oam_multiplexerAction_set(4,OAM_MULTIPLEXER_ACTION_DISCARD)) != RT_ERR_OK)
             {
@@ -622,7 +629,9 @@ void *epon_oam_stateKeeper(void *argu)
             break;
         case EPON_OAM_EVENT_KEEPALIVE_RESET:
             /* Valid OAMPDU received, reest the keepalive timer */
-            EPON_TIMER_SET(skKeepalive[llidIdx], EPON_OAM_KEEPALIVE_TIME, ret)
+            EPON_TIMER_SET(skKeepalive[llidIdx], EPON_OAM_KEEPALIVE_TIME, ret);
+            
+            
             if(0 != ret)
             {
                 EPON_OAM_PRINT(EPON_OAM_DBGFLAG_ERROR,
@@ -1127,6 +1136,9 @@ static void signal_handler(int sig)
 #endif
 extern void *epon_muticast_rxThread(void *argu);
 extern void *epon_oam_raisecom_thread(void *argu);
+
+#if !defined(CONFIG_ONU_COMPATIBLE)
+
 int oam_ipc_get_sys_epon(sys_epon_t *info)
 {
         ipc_sys_epon_ack_t *pack;
@@ -1147,6 +1159,8 @@ int oam_ipc_get_sys_epon(sys_epon_t *info)
         if(pack) free(pack);            
         return ret;
 }
+
+#endif
 
 int
 main(
@@ -1175,7 +1189,8 @@ main(
     /* Allow OAM packet to be trapped */
     rtk_trap_oamPduAction_set(ACTION_TRAP2CPU);
 	
-     rtk_oam_multiplexerAction_set(4,OAM_MULTIPLEXER_ACTION_DISCARD);   /* Init database */
+    rtk_oam_multiplexerAction_set(4,OAM_MULTIPLEXER_ACTION_DISCARD);   /* Init database */
+    printf("%s %s %d pro=%s\n", __FILE__, __FUNCTION__, __LINE__, argv[0]);
     epon_oam_database_init();
     epon_oam_discovery_init();
     epon_oam_user_init();

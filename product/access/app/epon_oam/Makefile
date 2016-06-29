@@ -7,11 +7,16 @@
 APOLLO_SDK_PATH = $(SDKDIR)
 
 include $(APOLLODIR)/Compiler_Flag
+include ../../.config
 
 
 LIB += $(APOLLODIR)/object/src/librtk.a
 LIB += ../lib/libpr.a
 LIB += -l pthread -lrt -lm
+
+if [ $(CONFIG_PONMONITOR) = y ]; then \
+LIB += ./libvendor.a \
+fi
 
 #ASIC mode
 CFLAGS := -DRTK_X86_CLE -DRTK_X86_ASICDRV -DCONFIG_APOLLO_CMD -DCONFIG_SMIDA1011 -DDISABLE_VLAN_SHADOW -DCONFIG_LINUX_USER_SHELL
@@ -75,7 +80,7 @@ USEROAM := \
 USEROAM_INC := $(shell ls $(USER_OAM_INC_DIR)/*.h)
 
 $(EXEC): $(OAMCORE) $(OAMCORE_INC) $(USEROAM) $(USEROAM_INC)
-	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $(OAMCORE) $(USEROAM) $(LIB) -lmcast -L./multicast  -L./ $(SOFTWAREDIR)/shared/libshared.a -T$(SOFTWAREDIR)/rules/shared.lds   -lifm -L$(PRODUCTDIR)/lwlib -lshared -L$(SOFTWAREDIR)/shared  -lcfg -L$(PRODUCTDIR)/lwlib -o $(BIN)/$@
+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $(INCLUDE) $(OAMCORE) $(USEROAM) $(LIB) -lmcast -L./multicast $(SOFTWAREDIR)/shared/libshared.a -T$(SOFTWAREDIR)/rules/shared.lds   -lifm -L$(PRODUCTDIR)/lwlib -lshared -L$(SOFTWAREDIR)/shared  -lcfg -L$(PRODUCTDIR)/lwlib -o $(BIN)/$@
 	$(STRIP) $(BIN)/$@
 
 $(EXECLI): $(OAMCLI) $(OAMCORE_INC)

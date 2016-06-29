@@ -457,8 +457,14 @@ static void ctc_oam_orgSpecOnuAuthLoid_gen(
 	extern int oam_ipc_get_sys_epon(sys_epon_t *info);
 	
     pPtr = pReplyBuf;
+    #if 0// delete by luoruncai@hexicomtech.com , set loid to sysmac 
 	oam_ipc_get_sys_epon(&epon_info);
-//	printf("Loid %s; passwd %s\n", epon_info.epon_loid, epon_info.epon_passwd);
+    #else
+	//memset(&epon_info, 0, sizeof(epon_info));
+    strncpy(epon_info.epon_loid, pAuthLoid->loid, sizeof(epon_info.epon_loid));
+    strncpy(epon_info.epon_passwd, pAuthLoid->password, sizeof(epon_info.epon_passwd));
+    #endif
+	//printf(" Loid %s; passwd %s\n", epon_info.epon_loid, epon_info.epon_passwd);
     length = CTC_ORGSPEC_ONUAUTH_RESP_LOID_LEN;
     *pPtr = CTC_ORGSPEC_ONUAUTH_CODE_RESP;
     pPtr += 1; /* Auth code */
@@ -1871,7 +1877,6 @@ static int ctc_oam_extInfo_handler(
     {
         return EPON_OAM_ERR_PARAM;
     }
-
     dump_ctc_infoOam(pInfoOam);
 
     switch(ctc_discovery_state[pOamPdu->llidIdx])
@@ -1880,6 +1885,7 @@ static int ctc_oam_extInfo_handler(
         ctc_discovery_state[pOamPdu->llidIdx] = CTC_OAM_FSM_STATE_WAIT_REMOTE_OK;
         extSupport = ctc_oam_version_support(pInfoOam->oui, pInfoOam->version);
         expectLen = CTC_INFO_OAM_MIN + sizeof(supportedVerList);
+        
         if(bufLen < expectLen)
         {
             *pReplyLen = 0;
@@ -1900,7 +1906,8 @@ static int ctc_oam_extInfo_handler(
     case CTC_OAM_FSM_STATE_WAIT_REMOTE_OK:
         /* Check if the OUI/version pair in reply is supported */
         extSupport = ctc_oam_version_support(pInfoOam->oui, pInfoOam->version);
-        if((1 == extSupport) && (1 == pInfoOam->extSupport))
+
+        if((1 == extSupport) && 1 == pInfoOam->extSupport)
         {
             /* Both ONU and OLT accept the OUI/Version pair */
             ctc_discovery_state[pOamPdu->llidIdx] = CTC_OAM_FSM_STATE_COMPLETE;
@@ -1930,6 +1937,7 @@ static int ctc_oam_extInfo_handler(
     case CTC_OAM_FSM_STATE_COMPLETE:
         /* Ignore any extended info after extended discovery compelete */
         ret = EPON_OAM_ERR_OK;
+        
 		if(pInfoOam->vertionList!=NULL&&pInfoOam->extSupport==1)
 		{			
 			 ctc_discovery_state[pOamPdu->llidIdx] = CTC_OAM_FSM_STATE_WAIT_REMOTE;
@@ -2177,6 +2185,7 @@ int ctc_oam_evtNotification_send(
     return EPON_OAM_ERR_OK;
 }
 
+
 int ctc_oam_init(void)
 {
     int i, ret;
@@ -2191,6 +2200,7 @@ int ctc_oam_init(void)
         EPON_OAM_CBTYPE_INFO_ORGSPEC,
         oui,
         (void *) &infoCb);
+    
     if(EPON_OAM_ERR_OK != ret)
     {
         EPON_OAM_PRINT(EPON_OAM_DBGFLAG_CTC_ERROR,
@@ -2218,6 +2228,12 @@ int ctc_oam_db_init(
     unsigned char llidIdx)
 {
     ctc_onuAuthLoid_t loidAuth;
+    UINT8   sysmac[6] = {0};
+    struct timeval tv;
+    unsigned long long ts, old_ts;
+
+    gettimeofday(&tv, NULL);
+    ts = (unsigned long long)tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
     /* MODIFY ME - all those variables need semaphore protection */
     /* Init extended discovery state */
@@ -2225,7 +2241,15 @@ int ctc_oam_db_init(
     memset(&currCtcVer[llidIdx], 0x0, sizeof(ctc_infoOamVer_t));
 
     memset(&loidAuth, 0x0, sizeof(ctc_onuAuthLoid_t));
+    /* add by luoruncai@hexicomtech.com , use sysmac for loid */
+    #if 1
+    vosHWAddrGet("eth0", sysmac);
+    strncpy(loidAuth.loid, mac2str(sysmac), sizeof(loidAuth.loid));
+    //printf(" (%lld)[%s.%s.%d] sysmac = %s\n", ts, __FILE__, __FUNCTION__, __LINE__,mac2str(sysmac));
+    //printf(" (%lld)[%s.%s.%d] loid = %s\n", ts, __FILE__, __FUNCTION__, __LINE__,loidAuth.loid);
+    #else
     strncpy(loidAuth.loid, "user", sizeof("user"));
+    #endif
     strncpy(loidAuth.password, "password", sizeof("password"));
     ctc_oam_onuAuthLoid_set(llidIdx, &loidAuth);
     ctc_oam_onuAuthState_set(llidIdx, CTC_OAM_ONUAUTH_STATE_NOTCOMPLETE, 0);

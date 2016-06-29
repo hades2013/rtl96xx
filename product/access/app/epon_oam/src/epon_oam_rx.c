@@ -40,6 +40,7 @@
 #include <memshare.h> 
 #include <rtk/epon.h>
 
+
 /* 
  * Symbol Definition 
  */ 
@@ -276,7 +277,7 @@ static int epon_oam_orgSpecInfo_parser(
     orgSpecLen = *pParsePtr;
     if(length < orgSpecLen)
     {
-        /* Remain length is not enough for parsing
+     /* Remain length is not enough for parsing
          * Skip the TLV
          */
         *pExtractLen = length;
@@ -287,13 +288,15 @@ static int epon_oam_orgSpecInfo_parser(
 
     pParsePtr += 1; /* length */
     memcpy(oui, pParsePtr, EPON_OAM_OUI_LENGTH);
+    
     pParsePtr += 3; /* OUI */
     orgSpecCb.parser = NULL;
     orgSpecCb.handler = NULL;
     ret = epon_oam_orgSpecCb_get(EPON_OAM_CBTYPE_INFO_ORGSPEC, oui, (void *) &orgSpecCb);
+    
     if(EPON_OAM_ERR_OK != ret)
     {
-        /* No such OUI found
+     /* No such OUI found
          * Get the default callback function
          */
        epon_oam_defOrgSpecCb_get(EPON_OAM_CBTYPE_INFO_ORGSPEC, (void *) &orgSpecCb);
@@ -346,9 +349,10 @@ static int epon_oam_orgSpecInfo_handler(
     orgSpecCb.parser = NULL;
     orgSpecCb.handler = NULL;
     ret = epon_oam_orgSpecCb_get(EPON_OAM_CBTYPE_INFO_ORGSPEC, oui, (void *) &orgSpecCb);
+    
     if(EPON_OAM_ERR_OK != ret)
     {
-        /* No such OUI found
+     /* No such OUI found
          * Get the default callback function
          */
        epon_oam_defOrgSpecCb_get(EPON_OAM_CBTYPE_INFO_ORGSPEC, (void *) &orgSpecCb);
@@ -690,6 +694,7 @@ static int epon_oam_stdInfo_process(
 
             /* The info should be exact the same as the one sent to remote */
             epon_oam_localInfo_get(pOamPdu->llidIdx, &localOamInfo);
+
             if(memcmp(&oamInfo, &localOamInfo, sizeof(oam_oamInfo_t)) != 0)
             {
                 EPON_OAM_PRINT(EPON_OAM_DBGFLAG_DUMP,
@@ -698,7 +703,7 @@ static int epon_oam_stdInfo_process(
 			
 			if(memcmp(&oamInfo.oui[0], &localOamInfo.oui[0], 4) == 0)
 			{
-	            if(memcmp(&oamInfo.venderSpecInfo[0], &localOamInfo.venderSpecInfo[0], 4) != 0)
+                if(memcmp(&oamInfo.venderSpecInfo[0], &localOamInfo.venderSpecInfo[0], 4) != 0)
 	            {
 	                rtk_epon_llid_entry_t llidEntry;
 	                
@@ -716,7 +721,6 @@ static int epon_oam_stdInfo_process(
 	                {
 	                    return ret;
 	                }
-	                //printf("\nOUI mismatch %2.2x %2.2x %2.2x %2.2x\n",oamInfo.venderSpecInfo[0],oamInfo.venderSpecInfo[1],oamInfo.venderSpecInfo[2],oamInfo.venderSpecInfo[3]);
 	            }
 			}
             break;
@@ -730,6 +734,7 @@ static int epon_oam_stdInfo_process(
                 &extractLen,
                 oui,
                 &pOrgSpecData);
+            
             if((EPON_OAM_ERR_OK != ret) || (remainLen < extractLen))
             {
                 remainLen = 0;
@@ -756,6 +761,7 @@ static int epon_oam_stdInfo_process(
             }
             pReplyPtr += replyLen;
             bufLen -= replyLen;
+            
             break;
         case EPON_INFO_OAMPDU_TYPE_RESERVED:
         default:
@@ -1282,6 +1288,7 @@ epon_oam_rx_handler(
     EPON_OAM_PRINT(EPON_OAM_DBGFLAG_RXOAM, "\n");
     epon_oam_counter_inc(llidIdx, EPON_OAM_COUNTERTYPE_RX);
 
+
     /* 1. Parsing the frame
      * 2. Process frame according to the OAMPDU code
      * 3. Reply OAMPDU
@@ -1292,7 +1299,6 @@ epon_oam_rx_handler(
         EPON_OAM_PRINT(EPON_OAM_DBGFLAG_WARN, "[OAM:%s:%d] frame under size\n", __FILE__, __LINE__);
         return EPON_OAM_ERR_PARAM;
     }
-
     memset((unsigned char *)&oamPdu, 0x0, sizeof(oam_oamPdu_t));
     oamPdu.llidIdx = llidIdx;
     ret = epon_oam_stdHdr_parser(&oamPdu, frame, length, &extractLen);
@@ -1361,12 +1367,14 @@ epon_oam_rx_handler(
     {
         ret = epon_oam_reply_send(oamPdu.llidIdx, oamPdu.code, pReplyOamPdu, replyLen);
         EPON_OAM_PRINT(EPON_OAM_DBGFLAG_INFO, 
-            "[OAM:%s:%d] epon_oam_reply_send %d\n", __FILE__, __LINE__, oamPdu.code);
+            "[OAM:%s:%d] epon_oam_reply_send %d, len=%d\n", __FILE__, __LINE__, oamPdu.code, replyLen);
 
-        /* If there anything to be sent, the incoming OAMPDU must have at least
+
+     /* If there anything to be sent, the incoming OAMPDU must have at least
          * one parsable TLV
          */
         epon_oam_event_send(oamPdu.llidIdx, EPON_OAM_EVENT_KEEPALIVE_RESET);
+     
     }
     else
     {
@@ -1376,6 +1384,7 @@ epon_oam_rx_handler(
     if(NULL != pReplyOamPdu)
     {
         free(pReplyOamPdu);
+        pReplyOamPdu = NULL;
     }
 
     return ret;

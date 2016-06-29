@@ -1008,6 +1008,8 @@ ipc_system_ack_t *ipc_system_req(int ipc_fd, uint8_t access, uint8_t process)
 	ipc_system_req_t req;
 	ipc_system_ack_t *pack;
 
+    if (ipc_fd < 0)return NULL;
+
 	req.hdr.ipc_type = IPC_SYSTEM;
 	req.access = access;
 	req.process = process;
@@ -1052,6 +1054,8 @@ ipc_compatible_setting_ack_t *ipc_compatible_setting_config(int ipc_fd, uint8_t 
 	ipc_compatible_setting_req_t req;
 	ipc_compatible_setting_ack_t *pack;
 
+    if (ipc_fd < 0) return NULL;
+
 	if (cfg) memcpy(&req.compatible_setting, cfg, sizeof(compatible_setting_t));
 	req.access = access;
 	req.apply_option = apply_option;
@@ -1067,6 +1071,7 @@ int oam_ipc_get_sys_compatible(int ipc_fd,compatible_setting_t *info)
 {
 	ipc_compatible_setting_ack_t *pack;
 	int ret;
+    if (ipc_fd < 0) return IPC_STATUS_OK;
 	pack = ipc_compatible_setting_config(ipc_fd, IPC_CONFIG_GET, IPC_APPLY_NONE, NULL);
 	if (pack && pack->hdr.status == IPC_STATUS_OK) {
 		if (info){

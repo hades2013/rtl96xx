@@ -158,6 +158,7 @@ static int epon_oam_dummyHandler(
     DUMP_HEX_VALUE(EPON_OAM_DBGFLAG_DUMP, pOamDummy->data, pOamDummy->length);
 
     *pReplyLen = 0;
+    
 
     free(pOamDummy->data);
     free(pOamDummy);
@@ -709,6 +710,7 @@ int epon_oam_database_init(void)
         printf("sem_init %d (%d)\n", ret, errno);
     }
 
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
     /* Init configuration */
     memset((unsigned char *) &oamConfig, 0x0, sizeof(oam_config_t) * EPON_OAM_SUPPORT_LLID_NUM);
 
@@ -765,9 +767,13 @@ int epon_oam_database_init(void)
 
     /* Register object identifier number */
     epon_oam_initObjIdNum();
+    
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
 
     /* MODIFY ME - For testing only, init values for testing */
     epon_oam_test_init();
+    
+    printf("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
     /*Begin add by linguobin 2013-12-6*/
 	#if defined(CONFIG_ONU_COMPATIBLE)
 	compatible_setting_t *sys = &sys_compatible;
@@ -775,8 +781,9 @@ int epon_oam_database_init(void)
 	if(val)
 	{
 		sys->enable = 1;
-		printf("Get compatible mode failed\n");
 	}
+    sys->enable = 1;
+    printf("Get compatible mode %d \n", sys->enable);
 	#endif
     /*End add by linguobin 2013-12-6*/
     return EPON_OAM_ERR_OK;
@@ -1180,6 +1187,7 @@ int epon_oam_orgSpecCb_get(
     }
 
     sem_wait(&oamDbAccessSem);
+
     switch(regType)
     {
     case EPON_OAM_CBTYPE_INFO_ORGSPEC:

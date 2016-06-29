@@ -200,6 +200,7 @@ int epon_oam_discovery_proc(
     }
 
     sem_wait(&oamStateAccessSem);
+    
     switch(oam_fsm_state[llidIdx])
     {
     case EPON_OAM_FSM_STATE_WAIT_REMOTE:
@@ -209,7 +210,7 @@ int epon_oam_discovery_proc(
         epon_oam_remoteInfo_set(pOamPdu->llidIdx, pOamInfo);
         oampdu_flag[llidIdx] = EPON_OAM_FLAG_LOCAL_STABLE;
         unsigned int  data = 0x0e; /*ADJ_BC*/ //modified by wanghuanyu for bug1056
-        /* Once we can receive the OAM for specified LLID,
+     /* Once we can receive the OAM for specified LLID,
          * that means the MPCP already registered
          * So we can retrive the LLID config back for specified LLID
          */
@@ -298,6 +299,7 @@ int epon_oam_discovery_proc(
             /*End modified by linguobin 2013-11-28*/
             }
             memcpy(oamInfo.venderSpecInfo, oam_onu_vendor, 4);
+            
         }
 	#endif
 //		epon_oam_localInfo_set(llidIdx, &oamInfo);

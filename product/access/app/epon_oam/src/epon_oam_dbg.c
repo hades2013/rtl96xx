@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <sys/time.h>
+
 
 #include "epon_oam_config.h"
 #include "epon_oam_err.h"
@@ -77,10 +79,10 @@ void dump_hex_value(unsigned int flag, unsigned char *hexValue, unsigned short l
     {
         if((i % 0x10) == 0)
         {
-            EPON_OAM_PRINT(flag, "%04x ", j);
+            EPON_OAM_PRINT(flag, "%04x| ", j);
             j++;
         }
-        EPON_OAM_PRINT(flag, "%02x ", hexValue[i]);
+        EPON_OAM_PRINT(flag, "%02x   ", hexValue[i]);
         if((i % 0x10) == 0x0f)
         {
             EPON_OAM_PRINT(flag, "\n");
