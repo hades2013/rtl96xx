@@ -595,12 +595,12 @@ static unsigned char src_mac[ETH_ALEN];
 static struct rtl8686_dev_table_entry rtl8686_dev_table[] = {	
 	//ifname, ifflag, vid, phyPort, dev_instant
 	{"eth",		RTL8686_ELAN, 0, CPU_PORT, NULL},//root dev eth0 must be first
-	//{"eth0.2",	RTL8686_ELAN, 0, 0, NULL},
-	//{"eth0.3",	RTL8686_ELAN, 0, 1, NULL},
-	//{"eth0.4",	RTL8686_ELAN, 0, 2, NULL},
-	//{"eth0.5",	RTL8686_ELAN, 0, 3, NULL},
-	//{"nas",		RTL8686_WAN, 0, APOLLO_PON_PORT, NULL},
-	//{"pon",		RTL8686_WAN, 0, APOLLO_PON_PORT, NULL},
+	{"eth",	RTL8686_ELAN, 0, 0, NULL},
+	{"eth",	RTL8686_ELAN, 0, 1, NULL},
+	{"eth",	RTL8686_ELAN, 0, 2, NULL},
+	{"eth",	RTL8686_ELAN, 0, 3, NULL},
+	{"nas",		RTL8686_WAN, 0, APOLLO_PON_PORT, NULL},
+	{"pon",		RTL8686_WAN, 0, APOLLO_PON_PORT, NULL},
 #ifdef CONFIG_DUALBAND_CONCURRENT
 	{"wlan1",	RTL8686_WLAN, 0, CPU_PORT, NULL}, //must modify wlan1_dev_idx
 	{"vwlan",	RTL8686_WLAN, 0, CPU_PORT, NULL}, //must modify vwlan_dev_idx
