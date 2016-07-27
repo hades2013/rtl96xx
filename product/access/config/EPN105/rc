@@ -72,6 +72,7 @@ echo 10 >/proc/sys/net/ipv4/tcp_keepalive_intvl
 echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
 echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
 ulimit -c 4096
+ulimit -n 65536
 
 
 ifconfig eth0 0.0.0.0 up
