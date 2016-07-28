@@ -72,12 +72,16 @@ echo 10 >/proc/sys/net/ipv4/tcp_keepalive_intvl
 echo 8 >/proc/sys/net/ipv4/tcp_keepalive_probes
 echo 10 >/proc/sys/net/ipv4/tcp_keepalive_time
 ulimit -c 4096
+ulimit -n 65536
 
-
+# eth0 include cpu, pon , see /proc/rtl8686gmac/dev_port_mapping
 ifconfig eth0 0.0.0.0 up
 vconfig add eth0 1
-ifconfig eth0.1 192.168.0.100
+ifconfig eth0.1 0.0.0.0
 
+brctl addbr br0
+brctl addif br0 eth0.1
+ifconfig br0 192.168.0.100
 
 
 mkdir -p /etc/snmp
